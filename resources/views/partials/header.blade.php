@@ -3,86 +3,85 @@
 ==============================-->
 <header class="nav-header header-style7">
     <div class="sticky-wrapper">
-        <div class="main-wrapper">
+        <div class="main-wrapper p-0">
             <!-- Ana Menü Alanı -->
-            <div class="menu-area">
+            <div class="menu-area" style="background-color: #fff; ">
                 <div class="row align-items-center justify-content-between">
-                    <div class="col-auto logo">
-                        <div class="header-logo">
-                            <a href="{{ url('/') }}" class="d-flex align-items-center " style="display: flex !important; align-items: center !important;">
-                                <img alt="HBB Logo" src="{{ url('assets/images/logo/hbblogo.png') }}" style="height: 100px; width: auto; max-width: 120px; display: block; background-color: #fff;">
-                                <img alt="İmar Logo" src="{{ url('assets/images/logo/imar-bg.png') }}" style="height: 100px; width: auto; object-fit: contain; display: block; background-color: #fff;">
+                    <div class="col-auto logo" style="border-radius: 0px 0px 15px 15px;">
+                        <div class="header-logo" style="background-color: #fff;">
+                            <a href="{{ url('/') }}" class="d-flex align-items-center justify-content-center" style="display: flex !important; align-items: center !important; background-color: #fff;border-radius: 0px 0px 15px 15px;">
+                                <img alt="HBB Logo" src="{{ url('assets/images/logo/combined-logo.png') }}" style="width:175px; display: block; background-color: #fff;border-radius: 0px 0px 15px 15px;">
                             </a>
                         </div>
                     </div>
-                    <div class="col-auto nav-menu">
-                        <nav class="main-menu d-none d-lg-inline-block lh-1 lh-1">
-                            <ul class="navigation">
-                                <li class="{{ request()->routeIs('home') ? 'active' : '' }}">
-                                    <a href="{{ route('home') }}">Anasayfa</a>
+                    <div class="col-auto nav-menu" style="background-color: #fff;">
+                        <nav class="main-menu d-none d-lg-inline-block lh-1 lh-1" style="background-color: #fff;">
+                            <ul class="navigation" style="background-color: #fff;">
+                                <li class="{{ request()->routeIs('home') ? 'active' : '' }}" style="background-color: #fff;">
+                                    <a href="{{ route('home') }}" style="background-color: #fff; color: {{ request()->routeIs('home') ? '#cf9f38' : '#000000' }};">Anasayfa</a>
                                 </li>
-                                <li class="{{ request()->routeIs('about') ? 'active' : '' }} menu-item-has-children">
-                                    <a href="{{ route('about') }}">Kurumsal</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="{{ route('about') }}">Hakkımızda</a></li>
-                                        <li><a href="{{ route('about') }}">Misyon & Vizyon</a></li>
-                                        <li><a href="{{ route('team') }}">Yönetim Kurulu</a></li>
+                                <li class="{{ request()->routeIs('about') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
+                                    <a href="{{ route('about') }}" style="background-color: #fff; color: {{ request()->routeIs('about') ? '#cf9f38' : '#000000' }};">Kurumsal</a>
+                                    <ul class="sub-menu" style="background-color: #fff;">
+                                        <li style="background-color: #fff;"><a href="{{ route('about') }}" style="background-color: #fff; color: #000000;">Hakkımızda</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('about') }}" style="background-color: #fff; color: #000000;">Misyon & Vizyon</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('team') }}" style="background-color: #fff; color: #000000;">Yönetim Kurulu</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-item-has-children">
-                                    <a href="{{ route('legal') }}">KVKK</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="{{ route('privacy') }}">Gizlilik Politikası</a></li>
-                                        <li><a href="{{ route('terms') }}">İnternet Sitesi Kullanım Sözleşmesi</a></li>
-                                        <li><a href="{{ route('legal') }}">KVKK Başvuru Formu</a></li>
-                                        <li><a href="{{ route('contact') }}">İletişim Bölümü Aydınlatma Metni</a></li>
+                                <li class="menu-item-has-children" style="background-color: #fff;">
+                                    <a href="{{ route('legal') }}" style="background-color: #fff; color: {{ request()->routeIs('legal') ? '#cf9f38' : '#000000' }};">KVKK</a>
+                                    <ul class="sub-menu" style="background-color: #fff;">
+                                        <li style="background-color: #fff;"><a href="{{ route('privacy') }}" style="background-color: #fff; color: #000000;">Gizlilik Politikası</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('terms') }}" style="background-color: #fff; color: #000000;">İnternet Sitesi Kullanım Sözleşmesi</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('legal') }}" style="background-color: #fff; color: #000000;">KVKK Başvuru Formu</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('contact') }}" style="background-color: #fff; color: #000000;">İletişim Bölümü Aydınlatma Metni</a></li>
                                     </ul>
                                 </li>
-                                <li class="{{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? 'active' : '' }} menu-item-has-children">
-                                    <a href="{{ route('projects') }}">Neler Yaptık</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="{{ route('facilities.index') }}">Tesislerimiz</a></li>
-                                        <li><a href="{{ route('projects') }}">Projelerimiz</a></li>
-                                        <li><a href="{{ route('project.details', ['id' => 3]) }}">Habib-i Neccar Sosyal Tesis</a></li>
+                                <li class="{{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
+                                    <a href="{{ route('projects') }}" style="background-color: #fff; color: {{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? '#cf9f38' : '#000000' }};">Neler Yaptık</a>
+                                    <ul class="sub-menu" style="background-color: #fff;">
+                                        <li style="background-color: #fff;"><a href="{{ route('facilities.index') }}" style="background-color: #fff; color: #000000;">Tesislerimiz</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('projects') }}" style="background-color: #fff; color: #000000;">Projelerimiz</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('project.details', ['id' => 3]) }}" style="background-color: #fff; color: #000000;">Habib-i Neccar Sosyal Tesis</a></li>
                                     </ul>
                                 </li>
-                                <li class="{{ request()->routeIs('tenders*') ? 'active' : '' }} menu-item-has-children">
-                                    <a href="{{ route('tenders') }}">İhale Bilgileri ve İlanlar</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="{{ route('tenders') }}">İhale Bilgileri</a></li>
-                                        <li><a href="{{ route('announcements') }}">İlanlar</a></li>
-                                        <li><a href="{{ route('tender.application') }}">İlan Başvuru Formu</a></li>
+                                <li class="{{ request()->routeIs('tenders*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
+                                    <a href="{{ route('tenders') }}" style="background-color: #fff; color: {{ request()->routeIs('tenders*') ? '#cf9f38' : '#000000' }};">İhale Bilgileri ve İlanlar</a>
+                                    <ul class="sub-menu" style="background-color: #fff;">
+                                        <li style="background-color: #fff;"><a href="{{ route('tenders') }}" style="background-color: #fff; color: #000000;">İhale Bilgileri</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('announcements') }}" style="background-color: #fff; color: #000000;">İlanlar</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('tender.application') }}" style="background-color: #fff; color: #000000;">İlan Başvuru Formu</a></li>
                                     </ul>
                                 </li>
-                                <li class="{{ request()->routeIs('hr*') ? 'active' : '' }} menu-item-has-children">
-                                    <a href="{{ route('hr') }}">İnsan Kaynakları</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="{{ route('hr') }}">Kariyer Fırsatları</a></li>
-                                        <li><a href="{{ route('careers') }}">Açık Pozisyonlar</a></li>
+                                <li class="{{ request()->routeIs('hr*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
+                                    <a href="{{ route('hr') }}" style="background-color: #fff; color: {{ request()->routeIs('hr*') ? '#cf9f38' : '#000000' }};">İnsan Kaynakları</a>
+                                    <ul class="sub-menu" style="background-color: #fff;">
+                                        <li style="background-color: #fff;"><a href="{{ route('hr') }}" style="background-color: #fff; color: #000000;">Kariyer Fırsatları</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('careers') }}" style="background-color: #fff; color: #000000;">Açık Pozisyonlar</a></li>
                                     </ul>
                                 </li>
                               
                             </ul>
                         </nav>
-                        <div class="navbar-right d-inline-flex d-lg-none">
-                            <button class="menu-toggle sidebar-btn" type="button">
+                        <div class="navbar-right d-inline-flex d-lg-none" style="background-color: #fff;">
+                            <button class="menu-toggle sidebar-btn" type="button" style="background-color: #fff;">
                                 <span class="line"></span>
                                 <span class="line"></span>
                                 <span class="line"></span>
                             </button>
                         </div>
                     </div>
-                    <div class="col-auto header-right-wrapper">
-                        <div class="header-right">
+                    <div class="col-auto header-right-wrapper"">
+                        <div class="header-right" style="background-color: #fff;">
                           
-                            <a href="{{ route('contact') }}" class="theme-btn bg-theme">
+                            <a href="{{ route('contact') }}" class="theme-btn bg-theme" style="background-color: #fff; ">
                                 <span class="link-effect">
-                                    <span class="effect-1">Bize </span>
-                                    <span class="effect-1">Ulaşın</span>
+                                    <span class="effect-1" ">Bize </span>
+                                    <span class="effect-1" ">Ulaşın</span>
                                 </span><i class="fa-regular fa-arrow-right-long"></i>
                             </a>
-                            <div class="sidebar-icon">
-                                <button class="sidebar-tab open">
+                            <div class="sidebar-icon" style="background-color: #fff;">
+                                <button class="sidebar-tab open" style="background-color: #fff;">
                                     <img src="{{ asset('assets/images/icons/hm6-dot_icon.png') }}" alt="">
                                 </button>
                             </div>
