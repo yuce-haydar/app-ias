@@ -698,7 +698,7 @@ Hatay Şehri Bölümü
 <!--==============================
 Blog Bölümü
 ==============================-->
-<section class="blog-section space">
+<section class="blog-section space bg-dark">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
