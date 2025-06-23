@@ -6,9 +6,7 @@
 
 @section('content')
 
-<!--==============================
-    Breadcrumb Bölümü
-==============================-->
+<!-- Breadcrumb Bölümü -->
 <section class="breadcrumb-section">
     <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
     <div class="container">
@@ -24,151 +22,169 @@
         </div>
     </div>
 </section>
+
 <!--==============================
-    Tesisler Bölümü
+Tesisler Grid Bölümü
 ==============================-->
-<section class="project-section space">
+<section class="blog-section style-grid space bg-theme3">
     <div class="container">
+        <!-- Başlık Bölümü -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="title-area text-center">
+                <div class="title-area text-center mb-60">
                     <div class="sub-title"><span><i class="asterisk"></i></span>Tesislerimiz</div>
-                    <h2 class="sec-title mb-60">Şehrimize <span class="bold">Kazandırdığımız</span><br>Tesisler</h2>
+                    <h2 class="sec-title">Şehrimize <span class="bold">Kazandırdığımız</span><br>Tesisler</h2>
                     <p class="sec-text">Hatay İmar olarak şehrimizin altyapı ve sosyal ihtiyaçlarını karşılamak için çeşitli tesisler işletmekteyiz. Kaliteli hizmet anlayışımızla vatandaşlarımıza hizmet vermeye devam ediyoruz.</p>
                 </div>
             </div>
         </div>
-        
-        <div class="row gy-40">
+
+        <div class="row gy-30">
             <!-- Büz Üretim Tesisi -->
             <div class="col-lg-6 col-md-6">
-                <div class="project-item">
-                    <div class="project-thumb">
+                <article class="blog-single-box">
+                    <div class="blog-thumb">
                         <img src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Büz Üretim Tesisi">
-                        <div class="project-overlay">
-                            <div class="project-content">
-                                <span class="project-category">Üretim Tesisi</span>
-                                <h4 class="project-title"><a href="{{ route('facilities.details', ['id' => 1]) }}">Büz Üretim Tesisi</a></h4>
-                                <p class="project-text">Büz, Beton Boru (künk) gibi isimlerle anılan ürünlerimiz milimetre cinsinden iç çap genişlikleri ile adlandırılan kaliteli üretim tesisimiz. Günlük 500 adet üretim kapasitesi.</p>
-                                <div class="project-stats">
-                                    <span><i class="fa-solid fa-industry"></i> 500 adet/gün</span>
-                                    <span><i class="fa-solid fa-calendar"></i> 2010'dan beri</span>
-                                </div>
-                                <div class="project-buttons mt-20">
-                                    <a href="{{ route('facilities.details', ['id' => 1]) }}" class="theme-btn btn-sm me-2">
-                                        <i class="fa-solid fa-info-circle"></i> Detayları Gör
-                                    </a>
-                                    <a href="https://maps.google.com/?q=Büz+Üretim+Tesisi+Hatay" target="_blank" class="theme-btn bg-success btn-sm">
-                                        <i class="fa-solid fa-location-dot"></i> Tesise Git
-                                    </a>
-                                </div>
-                                <a href="{{ route('facilities.details', ['id' => 1]) }}" class="project-link">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
+                        <div class="date">
+                            <span class="day">500</span>
+                            <span class="month">Adet/Gün</span>
                         </div>
                     </div>
-                </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="author">Kategori: <a href="#">Üretim Tesisi</a></span>
+                            <span class="category">2010'dan beri</span>
+                        </div>
+                        <h4 class="title">
+                            <a href="{{ route('facilities.details', ['id' => 1]) }}">Büz Üretim Tesisi</a>
+                        </h4>
+                        <p class="text">Büz, Beton Boru (künk) gibi isimlerle anılan ürünlerimiz milimetre cinsinden iç çap genişlikleri ile adlandırılan kaliteli üretim tesisimiz. Günlük 500 adet üretim kapasitesi ile hizmet vermekteyiz.</p>
+                        <div class="facility-stats mb-3">
+                            <span class="stat-item"><i class="fa-solid fa-industry"></i> 500 adet/gün</span>
+                            <span class="stat-item"><i class="fa-solid fa-calendar"></i> 2010'dan beri</span>
+                        </div>
+                        <div class="facility-buttons">
+                            <a href="{{ route('facilities.details', ['id' => 1]) }}" class="read-more me-3">
+                                Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
+                            </a>
+                            <a href="https://maps.google.com/?q=Büz+Üretim+Tesisi+Hatay" target="_blank" class="theme-btn btn-sm bg-success">
+                                <i class="fa-solid fa-location-dot"></i> Tesise Git
+                            </a>
+                        </div>
+                    </div>
+                </article>
             </div>
-            
+
             <!-- Katlı Otopark -->
             <div class="col-lg-6 col-md-6">
-                <div class="project-item">
-                    <div class="project-thumb">
+                <article class="blog-single-box">
+                    <div class="blog-thumb">
                         <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Katlı Otopark">
-                        <div class="project-overlay">
-                            <div class="project-content">
-                                <span class="project-category">Otopark Tesisi</span>
-                                <h4 class="project-title"><a href="{{ route('facilities.details', ['id' => 2]) }}">Katlı Otopark</a></h4>
-                                <p class="project-text">2005 yılında şehir merkezinde faaliyete geçen Katlı Otopark, şehrimizde yoğun trafikten araçlarına park yeri bulamayan vatandaşlarımıza güvenli park hizmeti sunmaktadır.</p>
-                                <div class="project-stats">
-                                    <span><i class="fa-solid fa-car"></i> 300 araç kapasitesi</span>
-                                    <span><i class="fa-solid fa-shield-halved"></i> 24/7 güvenlik</span>
-                                </div>
-                                <div class="project-buttons mt-20">
-                                    <a href="{{ route('facilities.details', ['id' => 2]) }}" class="theme-btn btn-sm me-2">
-                                        <i class="fa-solid fa-info-circle"></i> Detayları Gör
-                                    </a>
-                                    <a href="https://maps.google.com/?q=Katlı+Otopark+Antakya+Hatay" target="_blank" class="theme-btn bg-success btn-sm">
-                                        <i class="fa-solid fa-location-dot"></i> Tesise Git
-                                    </a>
-                                </div>
-                                <a href="{{ route('facilities.details', ['id' => 2]) }}" class="project-link">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
+                        <div class="date">
+                            <span class="day">300</span>
+                            <span class="month">Araç</span>
                         </div>
                     </div>
-                </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="author">Kategori: <a href="#">Otopark Tesisi</a></span>
+                            <span class="category">2005'ten beri</span>
+                        </div>
+                        <h4 class="title">
+                            <a href="{{ route('facilities.details', ['id' => 2]) }}">Katlı Otopark</a>
+                        </h4>
+                        <p class="text">2005 yılında şehir merkezinde faaliyete geçen Katlı Otopark, şehrimizde yoğun trafikten araçlarına park yeri bulamayan vatandaşlarımıza güvenli park hizmeti sunmaktadır.</p>
+                        <div class="facility-stats mb-3">
+                            <span class="stat-item"><i class="fa-solid fa-car"></i> 300 araç kapasitesi</span>
+                            <span class="stat-item"><i class="fa-solid fa-shield-halved"></i> 24/7 güvenlik</span>
+                        </div>
+                        <div class="facility-buttons">
+                            <a href="{{ route('facilities.details', ['id' => 2]) }}" class="read-more me-3">
+                                Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
+                            </a>
+                            <a href="https://maps.google.com/?q=Katlı+Otopark+Antakya+Hatay" target="_blank" class="theme-btn btn-sm bg-success">
+                                <i class="fa-solid fa-location-dot"></i> Tesise Git
+                            </a>
+                        </div>
+                    </div>
+                </article>
             </div>
-            
+
             <!-- Habib-i Neccar Sosyal Tesis -->
             <div class="col-lg-6 col-md-6">
-                <div class="project-item">
-                    <div class="project-thumb">
+                <article class="blog-single-box">
+                    <div class="blog-thumb">
                         <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Habib-i Neccar Sosyal Tesis">
-                        <div class="project-overlay">
-                            <div class="project-content">
-                                <span class="project-category">Sosyal Tesis</span>
-                                <h4 class="project-title"><a href="{{ route('facilities.details', ['id' => 3]) }}">Habib-i Neccar Sosyal Tesis</a></h4>
-                                <p class="project-text">2013 yılında faaliyete açılan sosyal tesisimiz, Habib-i Neccar Dağı eteklerinde doğayla iç içe bir ortamda ailece vakit geçirebileceğiniz huzurlu bir mekandır.</p>
-                                <div class="project-stats">
-                                    <span><i class="fa-solid fa-mountain"></i> Doğal ortam</span>
-                                    <span><i class="fa-solid fa-utensils"></i> Restoran hizmeti</span>
-                                </div>
-                                <div class="project-buttons mt-20">
-                                    <a href="{{ route('facilities.details', ['id' => 3]) }}" class="theme-btn btn-sm me-2">
-                                        <i class="fa-solid fa-info-circle"></i> Detayları Gör
-                                    </a>
-                                    <a href="https://maps.google.com/?q=Habib-i+Neccar+Sosyal+Tesis+Antakya+Hatay" target="_blank" class="theme-btn bg-success btn-sm">
-                                        <i class="fa-solid fa-location-dot"></i> Tesise Git
-                                    </a>
-                                </div>
-                                <a href="{{ route('facilities.details', ['id' => 3]) }}" class="project-link">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
+                        <div class="date">
+                            <span class="day">2013</span>
+                            <span class="month">Yılında</span>
                         </div>
                     </div>
-                </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="author">Kategori: <a href="#">Sosyal Tesis</a></span>
+                            <span class="category">Doğal Ortam</span>
+                        </div>
+                        <h4 class="title">
+                            <a href="{{ route('facilities.details', ['id' => 3]) }}">Habib-i Neccar Sosyal Tesis</a>
+                        </h4>
+                        <p class="text">2013 yılında faaliyete açılan sosyal tesisimiz, Habib-i Neccar Dağı eteklerinde doğayla iç içe bir ortamda ailece vakit geçirebileceğiniz huzurlu bir mekandır.</p>
+                        <div class="facility-stats mb-3">
+                            <span class="stat-item"><i class="fa-solid fa-mountain"></i> Doğal ortam</span>
+                            <span class="stat-item"><i class="fa-solid fa-utensils"></i> Restoran hizmeti</span>
+                        </div>
+                        <div class="facility-buttons">
+                            <a href="{{ route('facilities.details', ['id' => 3]) }}" class="read-more me-3">
+                                Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
+                            </a>
+                            <a href="https://maps.google.com/?q=Habib-i+Neccar+Sosyal+Tesis+Antakya+Hatay" target="_blank" class="theme-btn btn-sm bg-success">
+                                <i class="fa-solid fa-location-dot"></i> Tesise Git
+                            </a>
+                        </div>
+                    </div>
+                </article>
             </div>
-            
-            <!-- Parke Taşı Üretim -->
+
+            <!-- Parke Taşı Üretim Tesisi -->
             <div class="col-lg-6 col-md-6">
-                <div class="project-item">
-                    <div class="project-thumb">
+                <article class="blog-single-box">
+                    <div class="blog-thumb">
                         <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Parke Taşı Üretim">
-                        <div class="project-overlay">
-                            <div class="project-content">
-                                <span class="project-category">Üretim Tesisi</span>
-                                <h4 class="project-title"><a href="{{ route('facilities.details', ['id' => 4]) }}">Parke Taşı Üretim Tesisi</a></h4>
-                                <p class="project-text">Kullanımı çok eski çağlara dayanan parke taşı üretimimizde modern teknolojiler kullanarak 50'den fazla çeşitte kaliteli ürünler üretmekteyiz.</p>
-                                <div class="project-stats">
-                                    <span><i class="fa-solid fa-shapes"></i> 50+ çeşit</span>
-                                    <span><i class="fa-solid fa-certificate"></i> TSE belgeli</span>
-                                </div>
-                                <div class="project-buttons mt-20">
-                                    <a href="{{ route('facilities.details', ['id' => 4]) }}" class="theme-btn btn-sm me-2">
-                                        <i class="fa-solid fa-info-circle"></i> Detayları Gör
-                                    </a>
-                                    <a href="https://maps.google.com/?q=Parke+Taşı+Üretim+Tesisi+Hatay" target="_blank" class="theme-btn bg-success btn-sm">
-                                        <i class="fa-solid fa-location-dot"></i> Tesise Git
-                                    </a>
-                                </div>
-                                <a href="{{ route('facilities.details', ['id' => 4]) }}" class="project-link">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
+                        <div class="date">
+                            <span class="day">50+</span>
+                            <span class="month">Çeşit</span>
                         </div>
                     </div>
-                </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="author">Kategori: <a href="#">Üretim Tesisi</a></span>
+                            <span class="category">TSE Belgeli</span>
+                        </div>
+                        <h4 class="title">
+                            <a href="{{ route('facilities.details', ['id' => 4]) }}">Parke Taşı Üretim Tesisi</a>
+                        </h4>
+                        <p class="text">Kullanımı çok eski çağlara dayanan parke taşı üretimimizde modern teknolojiler kullanarak 50'den fazla çeşitte kaliteli ürünler üretmekteyiz.</p>
+                        <div class="facility-stats mb-3">
+                            <span class="stat-item"><i class="fa-solid fa-shapes"></i> 50+ çeşit</span>
+                            <span class="stat-item"><i class="fa-solid fa-certificate"></i> TSE belgeli</span>
+                        </div>
+                        <div class="facility-buttons">
+                            <a href="{{ route('facilities.details', ['id' => 4]) }}" class="read-more me-3">
+                                Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
+                            </a>
+                            <a href="https://maps.google.com/?q=Parke+Taşı+Üretim+Tesisi+Hatay" target="_blank" class="theme-btn btn-sm bg-success">
+                                <i class="fa-solid fa-location-dot"></i> Tesise Git
+                            </a>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
     </div>
 </section>
 
 <!--==============================
-    Tesisler İstatistikleri
+Tesisler İstatistikleri
 ==============================-->
 <section class="counter-section space bg-dark">
     <div class="container">
@@ -199,7 +215,7 @@
                         <i class="fa-solid fa-calendar-days"></i>
                     </div>
                     <div class="counter-content">
-                        <h3 class="counter-number">70+</h3>
+                        <h3 class="counter-number">15</h3>
                         <p class="counter-text">Yıllık Deneyim</p>
                     </div>
                 </div>
@@ -211,7 +227,7 @@
                         <i class="fa-solid fa-users"></i>
                     </div>
                     <div class="counter-content">
-                        <h3 class="counter-number">10000+</h3>
+                        <h3 class="counter-number">50000</h3>
                         <p class="counter-text">Memnun Vatandaş</p>
                     </div>
                 </div>
@@ -220,10 +236,10 @@
             <div class="col-lg-3 col-md-6">
                 <div class="counter-item text-center">
                     <div class="counter-icon">
-                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-award"></i>
                     </div>
                     <div class="counter-content">
-                        <h3 class="counter-number">%100</h3>
+                        <h3 class="counter-number">100</h3>
                         <p class="counter-text">Kalite Garantisi</p>
                     </div>
                 </div>
@@ -233,77 +249,98 @@
 </section>
 
 <!--==============================
-    Hizmet Alanlarımız
+CTA Bölümü
 ==============================-->
-<section class="service-overview-section space bg-theme3">
+<section class="cta-section space bg-theme">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-area text-center">
-                    <div class="sub-title"><span><i class="asterisk"></i></span>Hizmet Alanlarımız</div>
-                    <h2 class="sec-title mb-60">Tesislerimizde Sunduğumuz <span class="bold">Hizmetler</span></h2>
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="cta-content">
+                    <h2 class="title text-white">Tesislerimiz hakkında daha fazla bilgi almak ister misiniz?</h2>
+                    <p class="text text-white">Hatay İmar tesisleri hakkında detaylı bilgi almak, ziyaret planlamak veya hizmetlerimizden yararlanmak için bizimle iletişime geçin.</p>
                 </div>
             </div>
-        </div>
-        
-        <div class="row gy-30">
-            <div class="col-lg-4 col-md-6">
-                <div class="service-overview-item text-center">
-                    <div class="service-icon">
-                        <i class="fa-solid fa-industry"></i>
-                    </div>
-                    <h4 class="service-title">Üretim Hizmetleri</h4>
-                    <p class="service-text">Büz ve parke taşı üretimimizde modern teknolojiler kullanarak kaliteli ürünler üretiyoruz.</p>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="service-overview-item text-center">
-                    <div class="service-icon">
-                        <i class="fa-solid fa-car"></i>
-                    </div>
-                    <h4 class="service-title">Otopark Hizmetleri</h4>
-                    <p class="service-text">Güvenli ve modern otopark hizmetimizle araçlarınız için huzurlu park imkanı sunuyoruz.</p>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="service-overview-item text-center">
-                    <div class="service-icon">
-                        <i class="fa-solid fa-mountain"></i>
-                    </div>
-                    <h4 class="service-title">Sosyal Tesis Hizmetleri</h4>
-                    <p class="service-text">Doğal ortamda ailece vakit geçirebileceğiniz sosyal aktivite alanları sunuyoruz.</p>
-                </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ route('contact') }}" class="theme-btn bg-white text-dark">
+                    <i class="fa-solid fa-phone"></i> İletişime Geç
+                </a>
             </div>
         </div>
     </div>
 </section>
 
-<!--==============================
-    İletişim CTA
-==============================-->
-<section class="cta-section bg-dark">
-    <div class="container">
-        <div class="cta-wrapper">
-            <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <div class="cta-content">
-                        <h3 class="title">Tesislerimiz hakkında daha fazla bilgi almak ister misiniz?</h3>
-                        <p class="text">Tesislerimizin detayları, hizmet saatleri ve fiyat bilgileri için bizimle iletişime geçin.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 text-lg-end">
-                    <a href="{{ route('contact') }}" class="theme-btn bg-white text-dark">
-                        <span class="link-effect">
-                            <span class="effect-1">İletişime Geç</span>
-                            <span class="effect-1">İletişime Geç</span>
-                        </span><i class="fa-regular fa-arrow-right-long"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<style>
+.facility-stats .stat-item {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 13px;
+    color: var(--body-color);
+}
+
+.facility-stats .stat-item i {
+    color: var(--theme-color);
+    margin-right: 5px;
+}
+
+.facility-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.theme-btn.bg-success {
+    background-color: #28a745 !important;
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.theme-btn.bg-success:hover {
+    background-color: #218838 !important;
+}
+
+.counter-section {
+    background-color: var(--dark-color);
+}
+
+.counter-icon i {
+    color: var(--theme-color);
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.counter-number {
+    color: var(--theme-color);
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.counter-text {
+    color: var(--white-color);
+    font-size: 16px;
+}
+
+.cta-section {
+    background-color: var(--theme-color);
+}
+
+.blog-thumb .date {
+    background-color: var(--theme-color);
+}
+
+.blog-thumb .date .day {
+    color: var(--white-color);
+    font-weight: bold;
+}
+
+.blog-thumb .date .month {
+    color: var(--white-color);
+    font-size: 11px;
+}
+</style>
 
 @endsection 

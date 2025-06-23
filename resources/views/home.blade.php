@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+
+
 @section('title', 'Ana Sayfa - Hatay İmar')
 @section('description', 'Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı, Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız.')
 @section('keywords', 'hatay imar, belediye, sosyal tesis, parke taşı, büz üretim, katlı otopark, antakya')
