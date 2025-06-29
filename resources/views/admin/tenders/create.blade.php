@@ -198,6 +198,17 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input @error('featured') is-invalid @enderror" 
+                                           id="featured" name="featured" value="1" {{ old('featured') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="featured">
+                                        Öne Çıkarılsın
+                                    </label>
+                                    @error('featured')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -219,7 +230,46 @@
 @push('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
-ClassicEditor.create(document.querySelector('#description'), { language: 'tr' });
-ClassicEditor.create(document.querySelector('#requirements'), { language: 'tr' });
+let descriptionEditor, requirementsEditor;
+
+// CKEditor'ları başlat
+ClassicEditor.create(document.querySelector('#description'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
+}).then(editor => {
+    descriptionEditor = editor;
+    // Required attribute'unu kaldır çünkü CKEditor ile çakışıyor
+    document.querySelector('#description').removeAttribute('required');
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#requirements'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    requirementsEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+// Form submit öncesinde CKEditor verilerini textarea'lara aktar ve validation yap
+document.querySelector('form').addEventListener('submit', function(e) {
+    // CKEditor verilerini textarea'lara aktar
+    if (descriptionEditor) {
+        document.querySelector('#description').value = descriptionEditor.getData();
+    }
+    if (requirementsEditor) {
+        document.querySelector('#requirements').value = requirementsEditor.getData();
+    }
+    
+    // Description boş kontrolü
+    const descriptionContent = descriptionEditor ? descriptionEditor.getData().trim() : '';
+    if (!descriptionContent || descriptionContent === '<p>&nbsp;</p>' || descriptionContent === '<p></p>') {
+        e.preventDefault();
+        alert('Lütfen açıklama alanını doldurun.');
+        return false;
+    }
+});
 </script>
 @endpush

@@ -67,6 +67,7 @@ class TeamMemberController extends Controller
 
         $data['status'] = $request->has('status');
         $data['sort_order'] = $data['sort_order'] ?? 0;
+        $data['slug'] = \Illuminate\Support\Str::slug($request->name . '-' . time());
 
         TeamMember::create($data);
 
@@ -134,6 +135,11 @@ class TeamMemberController extends Controller
 
         $data['status'] = $request->has('status');
         $data['sort_order'] = $data['sort_order'] ?? 0;
+        
+        // Eğer name değiştiyse slug'ı güncelle
+        if ($request->name !== $teamMember->name) {
+            $data['slug'] = \Illuminate\Support\Str::slug($request->name . '-' . time());
+        }
 
         $teamMember->update($data);
 

@@ -87,4 +87,61 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection
+
+@push('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+let questionEditor, answerEditor;
+
+// CKEditor'ları başlat
+ClassicEditor.create(document.querySelector('#question'), { 
+    language: 'tr',
+    toolbar: ['bold', 'italic', 'link', '|', 'undo', 'redo']
+}).then(editor => {
+    questionEditor = editor;
+    // Required attribute'unu kaldır çünkü CKEditor ile çakışıyor
+    document.querySelector('#question').removeAttribute('required');
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#answer'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    answerEditor = editor;
+    // Required attribute'unu kaldır çünkü CKEditor ile çakışıyor
+    document.querySelector('#answer').removeAttribute('required');
+}).catch(error => {
+    console.error(error);
+});
+
+// Form submit öncesinde CKEditor verilerini textarea'lara aktar ve validation yap
+document.querySelector('form').addEventListener('submit', function(e) {
+    // CKEditor verilerini textarea'lara aktar
+    if (questionEditor) {
+        document.querySelector('#question').value = questionEditor.getData();
+    }
+    if (answerEditor) {
+        document.querySelector('#answer').value = answerEditor.getData();
+    }
+    
+    // Validation kontrolü
+    const questionData = questionEditor ? questionEditor.getData().trim() : '';
+    const answerData = answerEditor ? answerEditor.getData().trim() : '';
+    
+    if (!questionData || questionData === '<p>&nbsp;</p>' || questionData === '<p></p>') {
+        e.preventDefault();
+        alert('Lütfen soru alanını doldurun.');
+        return false;
+    }
+    
+    if (!answerData || answerData === '<p>&nbsp;</p>' || answerData === '<p></p>') {
+        e.preventDefault();
+        alert('Lütfen cevap alanını doldurun.');
+        return false;
+    }
+});
+</script>
+@endpush 

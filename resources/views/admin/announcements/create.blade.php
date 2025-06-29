@@ -66,6 +66,7 @@
                                             id="importance" name="importance" required>
                                         <option value="">Seçiniz</option>
                                         <option value="low" {{ old('importance') == 'low' ? 'selected' : '' }}>Düşük</option>
+                                        <option value="normal" {{ old('importance', 'normal') == 'normal' ? 'selected' : '' }}>Normal</option>
                                         <option value="medium" {{ old('importance') == 'medium' ? 'selected' : '' }}>Orta</option>
                                         <option value="high" {{ old('importance') == 'high' ? 'selected' : '' }}>Yüksek</option>
                                     </select>
@@ -135,12 +136,34 @@
 @push('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
-ClassicEditor
-    .create(document.querySelector('#content'), {
-        language: 'tr'
-    })
-    .catch(error => {
-        console.error(error);
-    });
+let contentEditor;
+
+// CKEditor'ı başlat
+ClassicEditor.create(document.querySelector('#content'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
+}).then(editor => {
+    contentEditor = editor;
+    // Required attribute'unu kaldır çünkü CKEditor ile çakışıyor
+    document.querySelector('#content').removeAttribute('required');
+}).catch(error => {
+    console.error(error);
+});
+
+// Form submit öncesinde CKEditor verilerini textarea'ya aktar ve validation yap
+document.querySelector('form').addEventListener('submit', function(e) {
+    // CKEditor verilerini textarea'ya aktar
+    if (contentEditor) {
+        document.querySelector('#content').value = contentEditor.getData();
+    }
+    
+    // Content boş kontrolü
+    const contentData = contentEditor ? contentEditor.getData().trim() : '';
+    if (!contentData || contentData === '<p>&nbsp;</p>' || contentData === '<p></p>') {
+        e.preventDefault();
+        alert('Lütfen içerik alanını doldurun.');
+        return false;
+    }
+});
 </script>
 @endpush 

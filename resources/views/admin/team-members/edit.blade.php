@@ -215,7 +215,64 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
+let descriptionEditor, bioEditor, educationEditor, specialtiesEditor;
+
+// CKEditor'ları başlat
+ClassicEditor.create(document.querySelector('#description'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    descriptionEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#bio'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    bioEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#education'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    educationEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#specialties'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    specialtiesEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+// Form submit öncesinde CKEditor verilerini textarea'lara aktar
+document.querySelector('form').addEventListener('submit', function(e) {
+    // CKEditor verilerini textarea'lara aktar
+    if (descriptionEditor) {
+        document.querySelector('#description').value = descriptionEditor.getData();
+    }
+    if (bioEditor) {
+        document.querySelector('#bio').value = bioEditor.getData();
+    }
+    if (educationEditor) {
+        document.querySelector('#education').value = educationEditor.getData();
+    }
+    if (specialtiesEditor) {
+        document.querySelector('#specialties').value = specialtiesEditor.getData();
+    }
+});
+
 // Fotoğraf önizleme
 document.getElementById('image').addEventListener('change', function(e) {
     const file = e.target.files[0];

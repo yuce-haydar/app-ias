@@ -34,25 +34,29 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'type' => 'required|string|in:info,warning,success,danger',
-            'status' => 'boolean',
-            'featured' => 'boolean',
-            'published_at' => 'nullable|date',
-            'expires_at' => 'nullable|date|after:published_at',
-            'image' => 'nullable|image|max:2048',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:500'
+            'announcement_type' => 'required|string|in:general,urgent,event,regulation',
+            'importance' => 'required|string|in:low,normal,medium,high',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after:start_date',
+            'status' => 'required|string|in:draft,published',
+            'is_pinned' => 'nullable|boolean',
+            'attachments.*' => 'nullable|file|max:10240'
         ]);
 
         $data = $request->all();
         
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('announcements', 'public');
+        // is_pinned checkbox'ı boolean'a çevir
+        $data['is_pinned'] = $request->has('is_pinned');
+        $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
+        
+        // Attachments dosyalarını işle
+        if ($request->hasFile('attachments')) {
+            $attachments = [];
+            foreach ($request->file('attachments') as $file) {
+                $attachments[] = $file->store('announcements/attachments', 'public');
+            }
+            $data['attachments'] = $attachments;
         }
-
-        $data['published_at'] = $data['published_at'] ?? now();
-        $data['status'] = $request->has('status');
-        $data['featured'] = $request->has('featured');
 
         Announcement::create($data);
 
@@ -84,27 +88,33 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'type' => 'required|string|in:info,warning,success,danger',
-            'status' => 'boolean',
-            'featured' => 'boolean',
-            'published_at' => 'nullable|date',
-            'expires_at' => 'nullable|date|after:published_at',
-            'image' => 'nullable|image|max:2048',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:500'
+            'announcement_type' => 'required|string|in:general,urgent,event,regulation',
+            'importance' => 'required|string|in:low,normal,medium,high',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after:start_date',
+            'status' => 'required|string|in:draft,published',
+            'is_pinned' => 'nullable|boolean',
+            'attachments.*' => 'nullable|file|max:10240'
         ]);
 
         $data = $request->all();
         
-        if ($request->hasFile('image')) {
-            if ($announcement->image) {
-                Storage::disk('public')->delete($announcement->image);
-            }
-            $data['image'] = $request->file('image')->store('announcements', 'public');
+        // is_pinned checkbox'ı boolean'a çevir
+        $data['is_pinned'] = $request->has('is_pinned');
+        
+        // Eğer title değiştiyse slug'ı güncelle
+        if ($request->title !== $announcement->title) {
+            $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
         }
-
-        $data['status'] = $request->has('status');
-        $data['featured'] = $request->has('featured');
+        
+        // Attachments dosyalarını işle
+        if ($request->hasFile('attachments')) {
+            $attachments = [];
+            foreach ($request->file('attachments') as $file) {
+                $attachments[] = $file->store('announcements/attachments', 'public');
+            }
+            $data['attachments'] = $attachments;
+        }
 
         $announcement->update($data);
 

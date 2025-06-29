@@ -11,41 +11,42 @@ class Announcement extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'content',
-        'type',
+        'announcement_type',
+        'importance',
+        'start_date',
+        'end_date',
         'status',
-        'published_at',
-        'expires_at',
-        'featured',
-        'image',
-        'meta_title',
-        'meta_description'
+        'is_pinned',
+        'attachments'
     ];
 
     protected $casts = [
-        'published_at' => 'datetime',
-        'expires_at' => 'datetime',
-        'featured' => 'boolean',
-        'status' => 'boolean'
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'is_pinned' => 'boolean',
+        'attachments' => 'array'
     ];
 
     // Scopes
     public function scopeActive($query)
     {
-        return $query->where('status', true);
+        return $query->where('status', 'published');
     }
 
-    public function scopeFeatured($query)
+    public function scopePinned($query)
     {
-        return $query->where('featured', true);
+        return $query->where('is_pinned', true);
     }
 
     public function scopePublished($query)
     {
-        return $query->where('published_at', '<=', now())
+        return $query->where('status', 'published')
+                    ->where('start_date', '<=', now())
                     ->where(function ($q) {
-                        $q->whereNull('expires_at')
-                          ->orWhere('expires_at', '>', now());
+                        $q->whereNull('end_date')
+                          ->orWhere('end_date', '>', now());
                     });
     }
 }

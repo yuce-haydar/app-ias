@@ -13,7 +13,7 @@ class TenderController extends Controller
      */
     public function index()
     {
-        $tenders = Tender::with('applications')->latest()->paginate(10);
+        $tenders = Tender::withCount('applications')->latest()->paginate(10);
         return view('admin.tenders.index', compact('tenders'));
     }
 
@@ -33,22 +33,31 @@ class TenderController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'tender_no' => 'required|string|unique:tenders,tender_no',
-            'category' => 'required|string',
-            'estimated_value' => 'nullable|numeric|min:0',
-            'currency' => 'required|string|in:TRY,USD,EUR',
-            'application_start_date' => 'required|date',
-            'application_end_date' => 'required|date|after:application_start_date',
-            'tender_date' => 'required|date|after:application_end_date',
+            'tender_number' => 'required|string|unique:tenders,tender_number',
+            'tender_type' => 'required|string|in:goods,services,construction,consulting',
+            'procurement_method' => 'required|string|in:open,restricted,negotiated,direct',
+            'estimated_cost' => 'nullable|numeric|min:0',
+            'announcement_date' => 'required|date',
+            'deadline' => 'required|date|after:announcement_date',
+            'tender_date' => 'nullable|date',
+            'tender_time' => 'nullable',
+            'tender_location' => 'nullable|string',
             'requirements' => 'nullable|string',
-            'contact_info' => 'nullable|string',
-            'status' => 'boolean',
-            'featured' => 'boolean'
+            'contact_person' => 'required|string',
+            'contact_phone' => 'required|string',
+            'contact_email' => 'required|email',
+            'status' => 'required|string|in:draft,published,closed,cancelled,completed',
+            'featured' => 'nullable|boolean'
         ]);
 
         $data = $request->all();
-        $data['status'] = $request->has('status');
         $data['featured'] = $request->has('featured');
+        $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
+        
+        // tender_number form alanından gelen değeri hem tender_number hem tender_no olarak kaydet
+        if (isset($data['tender_number'])) {
+            $data['tender_no'] = $data['tender_number'];
+        }
 
         Tender::create($data);
 
@@ -81,22 +90,35 @@ class TenderController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'tender_no' => 'required|string|unique:tenders,tender_no,' . $tender->id,
-            'category' => 'required|string',
-            'estimated_value' => 'nullable|numeric|min:0',
-            'currency' => 'required|string|in:TRY,USD,EUR',
-            'application_start_date' => 'required|date',
-            'application_end_date' => 'required|date|after:application_start_date',
-            'tender_date' => 'required|date|after:application_end_date',
+            'tender_number' => 'required|string|unique:tenders,tender_number,' . $tender->id,
+            'tender_type' => 'required|string|in:goods,services,construction,consulting',
+            'procurement_method' => 'required|string|in:open,restricted,negotiated,direct',
+            'estimated_cost' => 'nullable|numeric|min:0',
+            'announcement_date' => 'required|date',
+            'deadline' => 'required|date|after:announcement_date',
+            'tender_date' => 'nullable|date',
+            'tender_time' => 'nullable',
+            'tender_location' => 'nullable|string',
             'requirements' => 'nullable|string',
-            'contact_info' => 'nullable|string',
-            'status' => 'boolean',
-            'featured' => 'boolean'
+            'contact_person' => 'required|string',
+            'contact_phone' => 'required|string',
+            'contact_email' => 'required|email',
+            'status' => 'required|string|in:draft,published,closed,cancelled,completed',
+            'featured' => 'nullable|boolean'
         ]);
 
         $data = $request->all();
-        $data['status'] = $request->has('status');
         $data['featured'] = $request->has('featured');
+        
+        // tender_number form alanından gelen değeri hem tender_number hem tender_no olarak kaydet
+        if (isset($data['tender_number'])) {
+            $data['tender_no'] = $data['tender_number'];
+        }
+        
+        // Eğer title değiştiyse slug'ı güncelle
+        if ($request->title !== $tender->title) {
+            $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
+        }
 
         $tender->update($data);
 

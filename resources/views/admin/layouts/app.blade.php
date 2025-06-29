@@ -14,7 +14,7 @@
     <style>
         :root {
             --sidebar-width: 250px;
-            --primary-color: #28a745;
+            --primary-color: #cf9f38;
             --dark-color: #343a40;
         }
         
@@ -37,17 +37,17 @@
         }
         
         .sidebar-header {
-            padding: 20px;
+           
             background: rgba(0,0,0,0.2);
             text-align: center;
         }
         
         .sidebar-header img {
-            height: 40px;
+            height: 80px;
         }
         
         .sidebar-menu {
-            padding: 20px 0;
+          
         }
         
         .sidebar-menu ul {
@@ -130,6 +130,7 @@
             padding: 25px;
             box-shadow: 0 0 20px rgba(0,0,0,0.08);
             transition: transform 0.3s;
+            position: relative;
         }
         
         .stat-card:hover {
@@ -159,7 +160,9 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Hatay İmar">
+            <a href="{{ url('/') }}" class="d-flex align-items-center justify-content-center" style="display: flex !important; align-items: center !important; background-color: #fff;">
+                <img alt="HBB Logo" src="{{ url('assets/images/logo/combined-logo.png') }}" style="width:175px; display: block; background-color: #fff">
+            </a>
         </div>
         
         <div class="sidebar-menu">

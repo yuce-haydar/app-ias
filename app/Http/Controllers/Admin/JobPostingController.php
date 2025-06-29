@@ -32,25 +32,43 @@ class JobPostingController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'job_description' => 'required|string',
             'department' => 'required|string',
-            'position_type' => 'required|string|in:full-time,part-time,contract,internship',
-            'experience_required' => 'required|integer|min:0',
-            'education_required' => 'required|string',
+            'position_type' => 'required|string|in:full_time,part_time,contract,intern',
+            'experience_required' => 'nullable|string',
+            'education_level' => 'required|string',
             'salary_min' => 'nullable|numeric|min:0',
             'salary_max' => 'nullable|numeric|gte:salary_min',
-            'currency' => 'required|string|in:TRY,USD,EUR',
+            'show_salary' => 'nullable|boolean',
             'location' => 'required|string',
-            'requirements' => 'nullable|array',
-            'benefits' => 'nullable|array',
-            'application_deadline' => 'required|date|after:today',
-            'status' => 'boolean',
-            'featured' => 'boolean'
+            'requirements' => 'nullable|string',
+            'responsibilities' => 'nullable|string',
+            'qualifications' => 'nullable|string',
+            'posting_date' => 'required|date',
+            'deadline' => 'required|date|after:posting_date',
+            'number_of_positions' => 'required|integer|min:1',
+            'status' => 'required|string|in:draft,active,closed'
         ]);
 
         $data = $request->all();
-        $data['status'] = $request->has('status');
-        $data['featured'] = $request->has('featured');
+        $data['show_salary'] = $request->has('show_salary');
+        $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
+        
+        // Boş alanları null olarak ayarla
+        if (empty($data['experience_required'])) {
+            $data['experience_required'] = null;
+        }
+        
+        // JSON alanları için dönüştürme
+        if ($request->requirements) {
+            $data['requirements'] = array_filter(explode("\n", trim($request->requirements)));
+        }
+        if ($request->responsibilities) {
+            $data['responsibilities'] = array_filter(explode("\n", trim($request->responsibilities)));
+        }
+        if ($request->qualifications) {
+            $data['qualifications'] = array_filter(explode("\n", trim($request->qualifications)));
+        }
 
         JobPosting::create($data);
 
@@ -82,25 +100,47 @@ class JobPostingController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'job_description' => 'required|string',
             'department' => 'required|string',
-            'position_type' => 'required|string|in:full-time,part-time,contract,internship',
-            'experience_required' => 'required|integer|min:0',
-            'education_required' => 'required|string',
+            'position_type' => 'required|string|in:full_time,part_time,contract,intern',
+            'experience_required' => 'nullable|string',
+            'education_level' => 'required|string',
             'salary_min' => 'nullable|numeric|min:0',
             'salary_max' => 'nullable|numeric|gte:salary_min',
-            'currency' => 'required|string|in:TRY,USD,EUR',
+            'show_salary' => 'nullable|boolean',
             'location' => 'required|string',
-            'requirements' => 'nullable|array',
-            'benefits' => 'nullable|array',
-            'application_deadline' => 'required|date|after:today',
-            'status' => 'boolean',
-            'featured' => 'boolean'
+            'requirements' => 'nullable|string',
+            'responsibilities' => 'nullable|string',
+            'qualifications' => 'nullable|string',
+            'posting_date' => 'required|date',
+            'deadline' => 'required|date|after:posting_date',
+            'number_of_positions' => 'required|integer|min:1',
+            'status' => 'required|string|in:draft,active,closed'
         ]);
 
         $data = $request->all();
-        $data['status'] = $request->has('status');
-        $data['featured'] = $request->has('featured');
+        $data['show_salary'] = $request->has('show_salary');
+        
+        // Boş alanları null olarak ayarla
+        if (empty($data['experience_required'])) {
+            $data['experience_required'] = null;
+        }
+        
+        // Eğer title değiştiyse slug'ı güncelle
+        if ($request->title !== $jobPosting->title) {
+            $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
+        }
+        
+        // JSON alanları için dönüştürme
+        if ($request->requirements) {
+            $data['requirements'] = array_filter(explode("\n", trim($request->requirements)));
+        }
+        if ($request->responsibilities) {
+            $data['responsibilities'] = array_filter(explode("\n", trim($request->responsibilities)));
+        }
+        if ($request->qualifications) {
+            $data['qualifications'] = array_filter(explode("\n", trim($request->qualifications)));
+        }
 
         $jobPosting->update($data);
 

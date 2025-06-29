@@ -208,9 +208,70 @@
 @push('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
-ClassicEditor.create(document.querySelector('#job_description'), { language: 'tr' });
-ClassicEditor.create(document.querySelector('#requirements'), { language: 'tr' });
-ClassicEditor.create(document.querySelector('#responsibilities'), { language: 'tr' });
-ClassicEditor.create(document.querySelector('#qualifications'), { language: 'tr' });
+let jobDescriptionEditor, requirementsEditor, responsibilitiesEditor, qualificationsEditor;
+
+// CKEditor'ları başlat
+ClassicEditor.create(document.querySelector('#job_description'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    jobDescriptionEditor = editor;
+    // Required attribute'unu kaldır çünkü CKEditor ile çakışıyor
+    document.querySelector('#job_description').removeAttribute('required');
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#requirements'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    requirementsEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#responsibilities'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    responsibilitiesEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#qualifications'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    qualificationsEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+// Form submit öncesinde CKEditor verilerini textarea'lara aktar ve validation yap
+document.querySelector('form').addEventListener('submit', function(e) {
+    // CKEditor verilerini textarea'lara aktar
+    if (jobDescriptionEditor) {
+        document.querySelector('#job_description').value = jobDescriptionEditor.getData();
+    }
+    if (requirementsEditor) {
+        document.querySelector('#requirements').value = requirementsEditor.getData();
+    }
+    if (responsibilitiesEditor) {
+        document.querySelector('#responsibilities').value = responsibilitiesEditor.getData();
+    }
+    if (qualificationsEditor) {
+        document.querySelector('#qualifications').value = qualificationsEditor.getData();
+    }
+    
+    // Job description boş kontrolü
+    const jobDescriptionContent = jobDescriptionEditor ? jobDescriptionEditor.getData().trim() : '';
+    if (!jobDescriptionContent || jobDescriptionContent === '<p>&nbsp;</p>' || jobDescriptionContent === '<p></p>') {
+        e.preventDefault();
+        alert('Lütfen iş tanımı alanını doldurun.');
+        return false;
+    }
+});
 </script>
 @endpush 

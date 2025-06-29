@@ -11,28 +11,36 @@ class JobPosting extends Model
 
     protected $fillable = [
         'title',
-        'description',
+        'slug',
         'department',
         'position_type',
+        'education_level',
         'experience_required',
-        'education_required',
+        'job_description',
+        'requirements',
+        'responsibilities',
+        'qualifications',
+        'location',
         'salary_min',
         'salary_max',
-        'currency',
-        'location',
-        'requirements',
-        'benefits',
-        'application_deadline',
+        'show_salary',
+        'posting_date',
+        'deadline',
+        'number_of_positions',
         'status',
-        'featured'
+        'view_count',
+        'application_count'
     ];
 
     protected $casts = [
-        'application_deadline' => 'datetime',
+        'posting_date' => 'date',
+        'deadline' => 'date',
         'requirements' => 'array',
-        'benefits' => 'array',
-        'status' => 'boolean',
-        'featured' => 'boolean'
+        'responsibilities' => 'array',
+        'qualifications' => 'array',
+        'show_salary' => 'boolean',
+        'salary_min' => 'decimal:2',
+        'salary_max' => 'decimal:2'
     ];
 
     // Relations
@@ -44,16 +52,21 @@ class JobPosting extends Model
     // Scopes
     public function scopeActive($query)
     {
-        return $query->where('status', true);
+        return $query->where('status', 'active');
     }
 
-    public function scopeFeatured($query)
+    public function scopeDraft($query)
     {
-        return $query->where('featured', true);
+        return $query->where('status', 'draft');
+    }
+
+    public function scopeClosed($query)
+    {
+        return $query->where('status', 'closed');
     }
 
     public function scopeOpen($query)
     {
-        return $query->where('application_deadline', '>', now());
+        return $query->where('deadline', '>', now());
     }
 }

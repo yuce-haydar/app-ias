@@ -264,8 +264,47 @@
 @push('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
-ClassicEditor.create(document.querySelector('#description'), { language: 'tr' });
-ClassicEditor.create(document.querySelector('#features'), { language: 'tr' });
+let descriptionEditor, featuresEditor;
+
+// CKEditor'ları başlat  
+ClassicEditor.create(document.querySelector('#description'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
+}).then(editor => {
+    descriptionEditor = editor;
+    // Required attribute'unu kaldır çünkü CKEditor ile çakışıyor
+    document.querySelector('#description').removeAttribute('required');
+}).catch(error => {
+    console.error(error);
+});
+
+ClassicEditor.create(document.querySelector('#features'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    featuresEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
+// Form submit öncesinde CKEditor verilerini textarea'lara aktar ve validation yap
+document.querySelector('form').addEventListener('submit', function(e) {
+    // CKEditor verilerini textarea'lara aktar
+    if (descriptionEditor) {
+        document.querySelector('#description').value = descriptionEditor.getData();
+    }
+    if (featuresEditor) {
+        document.querySelector('#features').value = featuresEditor.getData();
+    }
+    
+    // Description boş kontrolü
+    const descriptionContent = descriptionEditor ? descriptionEditor.getData().trim() : '';
+    if (!descriptionContent || descriptionContent === '<p>&nbsp;</p>' || descriptionContent === '<p></p>') {
+        e.preventDefault();
+        alert('Lütfen detaylı açıklama alanını doldurun.');
+        return false;
+    }
+});
 
 // Görsel önizleme
 document.getElementById('image').addEventListener('change', function(e) {

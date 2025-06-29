@@ -1,11 +1,11 @@
 <!--==============================
     Header Alanı
 ==============================-->
-<header class="nav-header header-style7">
+<header class="nav-header header-style7" style="position: fixed; width: 100%; top: 0; z-index: 1000;">
     <div class="sticky-wrapper">
         <div class="main-wrapper p-0">
             <!-- Ana Menü Alanı -->
-            <div class="menu-area" style="background-color: #fff; ">
+            <div class="menu-area" style="background-color: #fff;">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto logo" style="border-radius: 0px 0px 15px 15px;">
                         <div class="header-logo" style="background-color: #fff;">
@@ -145,4 +145,4 @@ Mobil Menü
             </a>
         </div>
     </div>
-</div> 
+</div>

@@ -11,27 +11,34 @@ class Tender extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
+        'tender_number',
         'tender_no',
-        'category',
-        'estimated_value',
-        'currency',
-        'application_start_date',
-        'application_end_date',
+        'tender_type',
+        'procurement_method',
+        'estimated_cost',
+        'announcement_date',
+        'deadline',
         'tender_date',
+        'tender_time',
+        'tender_location',
         'requirements',
         'documents',
-        'contact_info',
+        'contact_person',
+        'contact_phone',
+        'contact_email',
         'status',
         'featured'
     ];
 
     protected $casts = [
-        'application_start_date' => 'datetime',
-        'application_end_date' => 'datetime', 
-        'tender_date' => 'datetime',
+        'announcement_date' => 'date',
+        'deadline' => 'date', 
+        'tender_date' => 'date',
+        'tender_time' => 'string',
         'documents' => 'array',
-        'status' => 'boolean',
+        'requirements' => 'array',
         'featured' => 'boolean'
     ];
 
@@ -44,7 +51,7 @@ class Tender extends Model
     // Scopes
     public function scopeActive($query)
     {
-        return $query->where('status', true);
+        return $query->where('status', 'published');
     }
 
     public function scopeFeatured($query)
@@ -54,7 +61,55 @@ class Tender extends Model
 
     public function scopeOpen($query)
     {
-        return $query->where('application_start_date', '<=', now())
-                    ->where('application_end_date', '>', now());
+        return $query->where('announcement_date', '<=', now())
+                    ->where('deadline', '>', now())
+                    ->where('status', 'published');
+    }
+
+    // Accessor methods
+    public function getStatusColorAttribute()
+    {
+        return match($this->status) {
+            'draft' => 'secondary',
+            'published' => 'success',
+            'closed' => 'warning',
+            'cancelled' => 'danger',
+            'completed' => 'primary',
+            default => 'secondary'
+        };
+    }
+
+    public function getStatusTextAttribute()
+    {
+        return match($this->status) {
+            'draft' => 'Taslak',
+            'published' => 'Yayında',
+            'closed' => 'Kapalı',
+            'cancelled' => 'İptal',
+            'completed' => 'Tamamlandı',
+            default => ucfirst($this->status)
+        };
+    }
+
+    public function getTenderTypeTextAttribute()
+    {
+        return match($this->tender_type) {
+            'goods' => 'Mal Alımı',
+            'services' => 'Hizmet Alımı',
+            'construction' => 'Yapım İşi',
+            'consulting' => 'Danışmanlık',
+            default => ucfirst($this->tender_type)
+        };
+    }
+
+    public function getProcurementMethodTextAttribute()
+    {
+        return match($this->procurement_method) {
+            'open' => 'Açık İhale',
+            'restricted' => 'Belli İstekliler Arası',
+            'negotiated' => 'Pazarlık Usulü',
+            'direct' => 'Doğrudan Temin',
+            default => ucfirst($this->procurement_method)
+        };
     }
 }
