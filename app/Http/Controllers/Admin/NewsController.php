@@ -112,23 +112,44 @@ class NewsController extends Controller
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
+        // Handle featured image removal
+        if ($request->input('remove_featured_image') == '1' && $news->featured_image) {
+            Storage::disk('public')->delete($news->featured_image);
+            $validated['featured_image'] = null;
+        }
+
         // Handle featured image upload
         if ($request->hasFile('featured_image')) {
-            // Delete old image
+            // Delete old image if exists
             if ($news->featured_image) {
                 Storage::disk('public')->delete($news->featured_image);
             }
             $validated['featured_image'] = $request->file('featured_image')->store('news', 'public');
         }
 
-        // Handle gallery upload
+        // Handle gallery image removals
+        $gallery = $news->gallery ?? [];
+        if ($request->input('removed_gallery_images')) {
+            $removedIndices = json_decode($request->input('removed_gallery_images'), true);
+            if (is_array($removedIndices)) {
+                foreach ($removedIndices as $index) {
+                    if (isset($gallery[$index])) {
+                        Storage::disk('public')->delete($gallery[$index]);
+                        unset($gallery[$index]);
+                    }
+                }
+                $gallery = array_values($gallery); // Reindex array
+            }
+        }
+
+        // Handle new gallery uploads
         if ($request->hasFile('gallery')) {
-            $gallery = $news->gallery ?? [];
             foreach ($request->file('gallery') as $file) {
                 $gallery[] = $file->store('news/gallery', 'public');
             }
-            $validated['gallery'] = $gallery;
         }
+        
+        $validated['gallery'] = $gallery;
 
         // Set published_at if status is published
         if ($validated['status'] === 'published' && !$news->published_at) {

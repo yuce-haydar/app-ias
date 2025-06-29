@@ -139,6 +139,7 @@
                                     @error('gallery.*')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <div id="galleryPreview" class="mt-2"></div>
                                 </div>
 
                                 <div class="mb-3">
@@ -288,17 +289,84 @@ document.querySelector('form').addEventListener('submit', function(e) {
     }
 });
 
-// Görsel önizleme
+// Ana görsel önizleme
 document.getElementById('image').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
             document.getElementById('imagePreview').innerHTML = 
-                '<img src="' + e.target.result + '" class="img-thumbnail" style="max-width: 200px;">';
+                '<div class="mt-2 p-2 border rounded bg-light position-relative">' +
+                '<button type="button" class="btn btn-sm btn-danger position-absolute" style="top: 5px; right: 5px; z-index: 10;" onclick="clearImagePreview()">' +
+                '<i class="fas fa-times"></i>' +
+                '</button>' +
+                '<img src="' + e.target.result + '" class="img-thumbnail d-block mb-2" style="max-width: 200px;">' +
+                '<small class="text-success"><i class="fas fa-check"></i> Görsel seçildi: ' + file.name + '</small>' +
+                '</div>';
         }
         reader.readAsDataURL(file);
     }
 });
+
+// Ana görsel önizleme temizleme
+function clearImagePreview() {
+    document.getElementById('imagePreview').innerHTML = '';
+    document.getElementById('image').value = '';
+}
+
+// Galeri önizleme
+document.getElementById('gallery').addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
+    const galleryPreview = document.getElementById('galleryPreview');
+    
+    if (files.length > 0) {
+        galleryPreview.innerHTML = 
+            '<div class="mt-2">' +
+            '<div class="d-flex justify-content-between align-items-center mb-2">' +
+            '<p class="text-success mb-0"><i class="fas fa-check"></i> ' + files.length + ' görsel seçildi:</p>' +
+            '<button type="button" class="btn btn-sm btn-danger" onclick="clearGalleryPreview()">' +
+            '<i class="fas fa-times"></i> Hepsini Kaldır' +
+            '</button>' +
+            '</div>' +
+            '<div class="row g-2" id="galleryPreviews"></div>' +
+            '</div>';
+        
+        files.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('galleryPreviews').innerHTML += 
+                    '<div class="col-md-3" id="gallery-preview-' + index + '">' +
+                    '<div class="p-2 border rounded bg-light position-relative">' +
+                    '<button type="button" class="btn btn-sm btn-danger position-absolute" style="top: 5px; right: 5px; z-index: 10;" onclick="removeGalleryPreview(' + index + ')">' +
+                    '<i class="fas fa-times"></i>' +
+                    '</button>' +
+                    '<img src="' + e.target.result + '" class="img-thumbnail w-100" style="height: 80px; object-fit: cover;">' +
+                    '<small class="d-block text-center text-muted mt-1">' + file.name + '</small>' +
+                    '</div>' +
+                    '</div>';
+            }
+            reader.readAsDataURL(file);
+        });
+    } else {
+        galleryPreview.innerHTML = '';
+    }
+});
+
+// Galeri önizleme temizleme
+function clearGalleryPreview() {
+    document.getElementById('galleryPreview').innerHTML = '';
+    document.getElementById('gallery').value = '';
+}
+
+// Tekil galeri görseli kaldırma
+function removeGalleryPreview(index) {
+    document.getElementById('gallery-preview-' + index).remove();
+    // Dosya inputunu sıfırla (bireysel dosya kaldırma karmaşık olduğu için)
+    const remainingPreviews = document.querySelectorAll('#galleryPreviews > div');
+    if (remainingPreviews.length === 0) {
+        document.getElementById('gallery').value = '';
+        document.getElementById('galleryPreview').innerHTML = '';
+    }
+}
 </script>
 @endpush 

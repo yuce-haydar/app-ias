@@ -126,23 +126,44 @@ class FacilityController extends Controller
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
+        // Handle image removal
+        if ($request->input('remove_image') == '1' && $facility->image) {
+            Storage::disk('public')->delete($facility->image);
+            $validated['image'] = null;
+        }
+
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
+            // Delete old image if exists
             if ($facility->image) {
                 Storage::disk('public')->delete($facility->image);
             }
             $validated['image'] = $request->file('image')->store('facilities', 'public');
         }
 
-        // Handle gallery upload
+        // Handle gallery image removals
+        $gallery = $facility->gallery ?? [];
+        if ($request->input('removed_gallery_images')) {
+            $removedIndices = json_decode($request->input('removed_gallery_images'), true);
+            if (is_array($removedIndices)) {
+                foreach ($removedIndices as $index) {
+                    if (isset($gallery[$index])) {
+                        Storage::disk('public')->delete($gallery[$index]);
+                        unset($gallery[$index]);
+                    }
+                }
+                $gallery = array_values($gallery); // Reindex array
+            }
+        }
+
+        // Handle new gallery uploads
         if ($request->hasFile('gallery')) {
-            $gallery = $facility->gallery ?? [];
             foreach ($request->file('gallery') as $file) {
                 $gallery[] = $file->store('facilities/gallery', 'public');
             }
-            $validated['gallery'] = $gallery;
         }
+        
+        $validated['gallery'] = $gallery;
 
         $facility->update($validated);
 

@@ -1,112 +1,92 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Tesis Düzenle')
+@section('title', 'Proje Düzenle')
 
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Tesis Düzenle: {{ $facility->name }}</h3>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">Proje Düzenle</h3>
+                    <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Listeye Dön
+                    </a>
                 </div>
-                <form action="{{ route('admin.facilities.update', $facility) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.projects.update', $project) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Tesis Adı <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                           id="name" name="name" value="{{ old('name', $facility->name) }}" required>
-                                    @error('name')
+                                    <label for="title" class="form-label">Proje Adı <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('title') is-invalid @enderror" 
+                                           id="title" name="title" value="{{ old('title', $project->title) }}" required>
+                                    @error('title')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="short_description" class="form-label">Kısa Açıklama <span class="text-danger">*</span></label>
-                                    <textarea class="form-control @error('short_description') is-invalid @enderror" 
-                                              id="short_description" name="short_description" rows="3" required>{{ old('short_description', $facility->short_description) }}</textarea>
-                                    @error('short_description')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">Detaylı Açıklama <span class="text-danger">*</span></label>
+                                    <label for="description" class="form-label">Açıklama <span class="text-danger">*</span></label>
                                     <textarea class="form-control @error('description') is-invalid @enderror" 
-                                              id="description" name="description" rows="10" required>{{ old('description', $facility->description) }}</textarea>
+                                              id="description" name="description" rows="8" required>{{ old('description', $project->description) }}</textarea>
                                     @error('description')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="address" class="form-label">Adres</label>
-                                            <textarea class="form-control @error('address') is-invalid @enderror" 
-                                                      id="address" name="address" rows="3">{{ old('address', $facility->address) }}</textarea>
-                                            @error('address')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="google_maps_link" class="form-label">Google Maps Linki</label>
-                                            <input type="url" class="form-control @error('google_maps_link') is-invalid @enderror" 
-                                                   id="google_maps_link" name="google_maps_link" value="{{ old('google_maps_link', $facility->google_maps_link) }}">
-                                            @error('google_maps_link')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="phone" class="form-label">Telefon</label>
-                                            <input type="text" class="form-control @error('phone') is-invalid @enderror" 
-                                                   id="phone" name="phone" value="{{ old('phone', $facility->phone) }}">
-                                            @error('phone')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">E-posta</label>
-                                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                                   id="email" name="email" value="{{ old('email', $facility->email) }}">
-                                            @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="working_hours" class="form-label">Çalışma Saatleri</label>
-                                            <input type="text" class="form-control @error('working_hours') is-invalid @enderror" 
-                                                   id="working_hours" name="working_hours" value="{{ old('working_hours', $facility->working_hours) }}" 
-                                                   placeholder="Örn: 08:00 - 17:00">
-                                            @error('working_hours')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="mb-3">
                                     <label for="features" class="form-label">Özellikler</label>
                                     <textarea class="form-control @error('features') is-invalid @enderror" 
-                                              id="features" name="features" rows="5">{{ old('features', $facility->features) }}</textarea>
+                                              id="features" name="features" rows="5">{{ old('features', $project->features) }}</textarea>
                                     @error('features')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="technical_specs" class="form-label">Teknik Özellikler</label>
+                                    <textarea class="form-control @error('technical_specs') is-invalid @enderror" 
+                                              id="technical_specs" name="technical_specs" rows="4">{{ old('technical_specs', $project->technical_specs) }}</textarea>
+                                    @error('technical_specs')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="location" class="form-label">Konum</label>
+                                    <input type="text" class="form-control @error('location') is-invalid @enderror" 
+                                           id="location" name="location" value="{{ old('location', $project->location) }}">
+                                    @error('location')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="latitude" class="form-label">Enlem</label>
+                                            <input type="number" class="form-control @error('latitude') is-invalid @enderror" 
+                                                   id="latitude" name="latitude" value="{{ old('latitude', $project->latitude) }}" 
+                                                   step="any" min="-90" max="90">
+                                            @error('latitude')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="longitude" class="form-label">Boylam</label>
+                                            <input type="number" class="form-control @error('longitude') is-invalid @enderror" 
+                                                   id="longitude" name="longitude" value="{{ old('longitude', $project->longitude) }}" 
+                                                   step="any" min="-180" max="180">
+                                            @error('longitude')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -114,14 +94,14 @@
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Ana Görsel</label>
                                     
-                                    @if($facility->image)
+                                    @if($project->image)
                                         <div class="current-image mb-3 p-3 border rounded bg-light" id="currentImageContainer">
-                                            <img src="{{ asset('storage/' . $facility->image) }}" class="img-thumbnail d-block mb-2" style="max-width: 200px;">
+                                            <img src="{{ asset('storage/' . $project->image) }}" class="img-thumbnail d-block mb-2" style="max-width: 200px;">
                                             <div class="btn-group btn-group-sm">
                                                 <button type="button" class="btn btn-danger btn-sm" onclick="removeCurrentImage()">
                                                     <i class="fas fa-trash"></i> Görseli Kaldır
                                                 </button>
-                                                <a href="{{ asset('storage/' . $facility->image) }}" target="_blank" class="btn btn-info btn-sm">
+                                                <a href="{{ asset('storage/' . $project->image) }}" target="_blank" class="btn btn-info btn-sm">
                                                     <i class="fas fa-eye"></i> Büyük Görüntüle
                                                 </a>
                                             </div>
@@ -141,11 +121,11 @@
                                 <div class="mb-3">
                                     <label for="gallery" class="form-label">Galeri Görselleri</label>
                                     
-                                    @if($facility->gallery && count($facility->gallery) > 0)
+                                    @if($project->gallery && count($project->gallery) > 0)
                                         <div class="current-gallery mb-3">
-                                            <p class="text-muted mb-2">{{ count($facility->gallery) }} adet mevcut galeri görseli:</p>
+                                            <p class="text-muted mb-2">{{ count($project->gallery) }} adet mevcut galeri görseli:</p>
                                             <div class="row g-2" id="galleryContainer">
-                                                @foreach($facility->gallery as $index => $image)
+                                                @foreach($project->gallery as $index => $image)
                                                     <div class="col-md-4" id="gallery-item-{{ $index }}">
                                                         <div class="gallery-item p-2 border rounded bg-light">
                                                             <img src="{{ asset('storage/' . $image) }}" class="img-thumbnail w-100 mb-2" style="height: 100px; object-fit: cover;">
@@ -175,73 +155,52 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="facility_type" class="form-label">Tesis Tipi <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('facility_type') is-invalid @enderror" 
-                                           id="facility_type" name="facility_type" value="{{ old('facility_type', $facility->facility_type) }}" required>
-                                    @error('facility_type')
+                                    <label for="project_type" class="form-label">Proje Tipi <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('project_type') is-invalid @enderror" 
+                                           id="project_type" name="project_type" value="{{ old('project_type', $project->project_type) }}" 
+                                           placeholder="Örn: Konut, Altyapı, Kentsel Dönüşüm" required>
+                                    @error('project_type')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="category" class="form-label">Kategori <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('category') is-invalid @enderror" 
-                                           id="category" name="category" value="{{ old('category', $facility->category) }}" required>
-                                    @error('category')
+                                    <label for="start_date" class="form-label">Başlangıç Tarihi</label>
+                                    <input type="date" class="form-control @error('start_date') is-invalid @enderror" 
+                                           id="start_date" name="start_date" value="{{ old('start_date', $project->start_date?->format('Y-m-d')) }}">
+                                    @error('start_date')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="capacity" class="form-label">Kapasite</label>
-                                    <input type="number" class="form-control @error('capacity') is-invalid @enderror" 
-                                           id="capacity" name="capacity" value="{{ old('capacity', $facility->capacity) }}" min="0">
-                                    @error('capacity')
+                                    <label for="completion_date" class="form-label">Tamamlanma Tarihi</label>
+                                    <input type="date" class="form-control @error('completion_date') is-invalid @enderror" 
+                                           id="completion_date" name="completion_date" value="{{ old('completion_date', $project->completion_date?->format('Y-m-d')) }}">
+                                    @error('completion_date')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="opening_date" class="form-label">Açılış Tarihi</label>
-                                    <input type="date" class="form-control @error('opening_date') is-invalid @enderror" 
-                                           id="opening_date" name="opening_date" value="{{ old('opening_date', $facility->opening_date?->format('Y-m-d')) }}">
-                                    @error('opening_date')
+                                    <label for="progress_percentage" class="form-label">İlerleme Yüzdesi</label>
+                                    <input type="number" class="form-control @error('progress_percentage') is-invalid @enderror" 
+                                           id="progress_percentage" name="progress_percentage" value="{{ old('progress_percentage', $project->progress_percentage) }}" 
+                                           min="0" max="100">
+                                    <small class="text-muted">0-100 arası bir değer girin</small>
+                                    @error('progress_percentage')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="latitude" class="form-label">Enlem</label>
-                                            <input type="number" class="form-control @error('latitude') is-invalid @enderror" 
-                                                   id="latitude" name="latitude" value="{{ old('latitude', $facility->latitude) }}" 
-                                                   step="any" min="-90" max="90">
-                                            @error('latitude')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="longitude" class="form-label">Boylam</label>
-                                            <input type="number" class="form-control @error('longitude') is-invalid @enderror" 
-                                                   id="longitude" name="longitude" value="{{ old('longitude', $facility->longitude) }}" 
-                                                   step="any" min="-180" max="180">
-                                            @error('longitude')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Durum <span class="text-danger">*</span></label>
                                     <select class="form-select @error('status') is-invalid @enderror" 
                                             id="status" name="status" required>
-                                        <option value="active" {{ old('status', $facility->status) == 'active' ? 'selected' : '' }}>Aktif</option>
-                                        <option value="inactive" {{ old('status', $facility->status) == 'inactive' ? 'selected' : '' }}>Pasif</option>
-                                        <option value="maintenance" {{ old('status', $facility->status) == 'maintenance' ? 'selected' : '' }}>Bakımda</option>
+                                        <option value="planning" {{ old('status', $project->status) == 'planning' ? 'selected' : '' }}>Planlama</option>
+                                        <option value="ongoing" {{ old('status', $project->status) == 'ongoing' ? 'selected' : '' }}>Devam Ediyor</option>
+                                        <option value="completed" {{ old('status', $project->status) == 'completed' ? 'selected' : '' }}>Tamamlandı</option>
+                                        <option value="cancelled" {{ old('status', $project->status) == 'cancelled' ? 'selected' : '' }}>İptal Edildi</option>
                                     </select>
                                     @error('status')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -251,7 +210,8 @@
                                 <div class="mb-3">
                                     <label for="sort_order" class="form-label">Sıralama</label>
                                     <input type="number" class="form-control @error('sort_order') is-invalid @enderror" 
-                                           id="sort_order" name="sort_order" value="{{ old('sort_order', $facility->sort_order) }}" min="0">
+                                           id="sort_order" name="sort_order" value="{{ old('sort_order', $project->sort_order) }}" min="0">
+                                    <small class="text-muted">Küçük sayılar önce gösterilir</small>
                                     @error('sort_order')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -260,18 +220,18 @@
                                 <div class="mb-3">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" 
-                                               value="1" {{ old('is_featured', $facility->is_featured) ? 'checked' : '' }}>
+                                               value="1" {{ old('is_featured', $project->is_featured) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_featured">
-                                            Öne Çıkan Tesis
+                                            Öne Çıkan Proje
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="mt-4">
                                     <small class="text-muted">
-                                        <i class="fas fa-eye"></i> Görüntülenme: {{ $facility->view_count }}<br>
-                                        <i class="fas fa-clock"></i> Oluşturulma: {{ $facility->created_at->format('d.m.Y H:i') }}<br>
-                                        <i class="fas fa-edit"></i> Son Güncelleme: {{ $facility->updated_at->format('d.m.Y H:i') }}
+                                        <i class="fas fa-eye"></i> Görüntülenme: {{ $project->view_count ?? 0 }}<br>
+                                        <i class="fas fa-clock"></i> Oluşturulma: {{ $project->created_at->format('d.m.Y H:i') }}<br>
+                                        <i class="fas fa-edit"></i> Son Güncelleme: {{ $project->updated_at->format('d.m.Y H:i') }}
                                     </small>
                                 </div>
                             </div>
@@ -281,7 +241,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Güncelle
                         </button>
-                        <a href="{{ route('admin.facilities.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">
                             <i class="fas fa-times"></i> İptal
                         </a>
                     </div>
@@ -295,15 +255,13 @@
 @push('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
-let descriptionEditor, featuresEditor;
+let descriptionEditor, featuresEditor, technicalSpecsEditor;
 
-// CKEditor'ları başlat  
 ClassicEditor.create(document.querySelector('#description'), { 
     language: 'tr',
     toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
 }).then(editor => {
     descriptionEditor = editor;
-    // Required attribute'unu kaldır çünkü CKEditor ile çakışıyor
     document.querySelector('#description').removeAttribute('required');
 }).catch(error => {
     console.error(error);
@@ -318,26 +276,34 @@ ClassicEditor.create(document.querySelector('#features'), {
     console.error(error);
 });
 
-// Form submit öncesinde CKEditor verilerini textarea'lara aktar ve validation yap
+ClassicEditor.create(document.querySelector('#technical_specs'), { 
+    language: 'tr',
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
+}).then(editor => {
+    technicalSpecsEditor = editor;
+}).catch(error => {
+    console.error(error);
+});
+
 document.querySelector('form').addEventListener('submit', function(e) {
-    // CKEditor verilerini textarea'lara aktar
     if (descriptionEditor) {
         document.querySelector('#description').value = descriptionEditor.getData();
     }
     if (featuresEditor) {
         document.querySelector('#features').value = featuresEditor.getData();
     }
+    if (technicalSpecsEditor) {
+        document.querySelector('#technical_specs').value = technicalSpecsEditor.getData();
+    }
     
-    // Description boş kontrolü
     const descriptionContent = descriptionEditor ? descriptionEditor.getData().trim() : '';
     if (!descriptionContent || descriptionContent === '<p>&nbsp;</p>' || descriptionContent === '<p></p>') {
         e.preventDefault();
-        alert('Lütfen detaylı açıklama alanını doldurun.');
+        alert('Lütfen açıklama alanını doldurun.');
         return false;
     }
 });
 
-// Mevcut görseli kaldırma fonksiyonu
 function removeCurrentImage() {
     if (confirm('Ana görseli kaldırmak istediğinize emin misiniz?')) {
         document.getElementById('currentImageContainer').style.display = 'none';
@@ -345,7 +311,6 @@ function removeCurrentImage() {
     }
 }
 
-// Galeri görseli kaldırma fonksiyonu
 let removedGalleryImages = [];
 function removeGalleryImage(index) {
     if (confirm('Bu galeri görselini kaldırmak istediğinize emin misiniz?')) {
@@ -355,7 +320,6 @@ function removeGalleryImage(index) {
     }
 }
 
-// Görsel önizleme
 document.getElementById('image').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -371,7 +335,6 @@ document.getElementById('image').addEventListener('change', function(e) {
     }
 });
 
-// Galeri önizleme
 document.getElementById('gallery').addEventListener('change', function(e) {
     const files = Array.from(e.target.files);
     const previewContainer = document.getElementById('galleryPreview');
