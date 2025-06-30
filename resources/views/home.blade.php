@@ -155,7 +155,7 @@ Hero Bölümü
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/4.jpg') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/4.jpg') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@ Hero Bölümü
             </div>
 
             <!-- Kırıkhan Butik Yarı Olimpik Yüzme Havuzu Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/8f716ef6-3ea1-4442-85c9-df8c033a7eee.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+            <div class="swiper-slide lazy-bg" data-bg="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/8f716ef6-3ea1-4442-85c9-df8c033a7eee.jpg') }}" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7">
@@ -187,7 +187,7 @@ Hero Bölümü
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/290e33ae-a63c-4c20-b17a-63936fdf517a.jpg') }}" alt="Kırıkhan Yüzme Havuzu" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/290e33ae-a63c-4c20-b17a-63936fdf517a.jpg') }}" alt="Kırıkhan Yüzme Havuzu" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -219,7 +219,7 @@ Hero Bölümü
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.00.jpeg') }}" alt="Halısaha Kompleksi" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.00.jpeg') }}" alt="Halısaha Kompleksi" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -228,7 +228,7 @@ Hero Bölümü
             </div>
 
             <!-- Kırıkhan Külliye Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/kirkhan-kulliye/K (9).jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+            <div class="swiper-slide lazy-bg" data-bg="{{ asset('assets/images/projeler/kirkhan-kulliye/K (9).jpg') }}" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7">
@@ -251,7 +251,7 @@ Hero Bölümü
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (4).jpg') }}" alt="Kırıkhan Külliye" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (4).jpg') }}" alt="Kırıkhan Külliye" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -260,7 +260,7 @@ Hero Bölümü
             </div>
 
             <!-- Belen Bedesten Meydan Projesi Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.58.jpeg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+            <div class="swiper-slide lazy-bg" data-bg="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.58.jpeg') }}" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7">
@@ -283,7 +283,7 @@ Hero Bölümü
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.58 (1).jpeg') }}" alt="Belen Bedesten Meydan Projesi" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.58 (1).jpeg') }}" alt="Belen Bedesten Meydan Projesi" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -292,7 +292,7 @@ Hero Bölümü
             </div>
 
             <!-- 200 Kişilik Yarı Olimpik Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+            <div class="swiper-slide lazy-bg" data-bg="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7">
@@ -315,7 +315,7 @@ Hero Bölümü
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/dfc99099-3568-430c-af5e-d36439aabf6f.jpg') }}" alt="Yarı Olimpik Havuz" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/dfc99099-3568-430c-af5e-d36439aabf6f.jpg') }}" alt="Yarı Olimpik Havuz" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -342,102 +342,102 @@ Hakkımızda Bölümü
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
-                                    <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/5.jpg') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/5.jpg') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
-                                    <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (9).jpg') }}" alt="Kırıkhan Külliye Projesi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (9).jpg') }}" alt="Kırıkhan Külliye Projesi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali Projesi">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali Projesi" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.05.jpeg') }}" alt="Halısaha Projesi">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.05.jpeg') }}" alt="Halısaha Projesi" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projeleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projeleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projeleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projeleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg') }}" alt="Çok Amaçlı Projeler">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg') }}" alt="Çok Amaçlı Projeler" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Taziye Evi Projeleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Taziye Evi Projeleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay9.jpeg') }}" alt="Hatay Otopark Projeleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay9.jpeg') }}" alt="Hatay Otopark Projeleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay10.jpeg') }}" alt="Hatay İnşaat Projeleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay10.jpeg') }}" alt="Hatay İnşaat Projeleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay11.jpeg') }}" alt="Hatay Gelişim Alanları">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay11.jpeg') }}" alt="Hatay Gelişim Alanları" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay12.jpeg') }}" alt="Hatay Şehir Planlaması">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay12.jpeg') }}" alt="Hatay Şehir Planlaması" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay13.jpeg') }}" alt="Hatay Yeşil Alanlar">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay13.jpeg') }}" alt="Hatay Yeşil Alanlar" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay14.jpeg') }}" alt="Hatay Ulaşım Projeleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay14.jpeg') }}" alt="Hatay Ulaşım Projeleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay15.jpeg') }}" alt="Hatay Kültür Merkezleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay15.jpeg') }}" alt="Hatay Kültür Merkezleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay16.jpeg') }}" alt="Hatay Park Alanları">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay16.jpeg') }}" alt="Hatay Park Alanları" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay17.jpeg') }}" alt="Hatay Spor Tesisleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay17.jpeg') }}" alt="Hatay Spor Tesisleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay18.jpeg') }}" alt="Hatay Eğitim Tesisleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay18.jpeg') }}" alt="Hatay Eğitim Tesisleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay19.jpeg') }}" alt="Hatay Sağlık Tesisleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay19.jpeg') }}" alt="Hatay Sağlık Tesisleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay20.jpeg') }}" alt="Hatay Turizm Alanları">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay20.jpeg') }}" alt="Hatay Turizm Alanları" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">

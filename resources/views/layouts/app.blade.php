@@ -62,6 +62,38 @@
         .logo-loading img {
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
         }
+
+        /* Lazy Loading Styles */
+        .lazy-bg {
+            background-image: none !important;
+            transition: background-image 0.3s ease;
+        }
+        
+        .lazy-bg.loaded {
+            background-image: var(--lazy-bg) !important;
+        }
+        
+        .lazy-img {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            filter: blur(5px);
+        }
+        
+        .lazy-img.loaded {
+            opacity: 1;
+            filter: blur(0);
+        }
+        
+        .lazy-img.loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading-shimmer 1.5s infinite;
+        }
+        
+        @keyframes loading-shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
     </style>
 
     @stack('styles')
@@ -142,6 +174,80 @@
     <script src="{{ asset('assets/js/splite-type.min.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('assets/js/vanilla-tilt.min.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('assets/js/main.js') }}?v={{ time() }}"></script>
+
+    <!-- Lazy Loading Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Intersection Observer API destekleyip desteklemediğini kontrol et
+        if ('IntersectionObserver' in window) {
+            
+            // Lazy loading için observer oluştur
+            const lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const lazyElement = entry.target;
+                        
+                        if (lazyElement.classList.contains('lazy-img')) {
+                            // Resim elementleri için
+                            const src = lazyElement.dataset.src;
+                            if (src) {
+                                lazyElement.src = src;
+                                lazyElement.classList.add('loading');
+                                
+                                lazyElement.onload = function() {
+                                    lazyElement.classList.remove('loading');
+                                    lazyElement.classList.add('loaded');
+                                    lazyElement.removeAttribute('data-src');
+                                };
+                            }
+                        } else if (lazyElement.classList.contains('lazy-bg')) {
+                            // Background image elementleri için
+                            const bgImage = lazyElement.dataset.bg;
+                            if (bgImage) {
+                                lazyElement.style.setProperty('--lazy-bg', `url('${bgImage}')`);
+                                lazyElement.classList.add('loaded');
+                                lazyElement.removeAttribute('data-bg');
+                            }
+                        }
+                        
+                        lazyImageObserver.unobserve(lazyElement);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px', // 50px önceden yükle
+                threshold: 0.01
+            });
+
+            // Lazy loading elementlerini bul ve observe et
+            const lazyImages = document.querySelectorAll('.lazy-img');
+            const lazyBackgrounds = document.querySelectorAll('.lazy-bg');
+            
+            lazyImages.forEach(function(lazyImage) {
+                lazyImageObserver.observe(lazyImage);
+            });
+            
+            lazyBackgrounds.forEach(function(lazyBg) {
+                lazyImageObserver.observe(lazyBg);
+            });
+            
+        } else {
+            // Eski tarayıcılar için fallback
+            const lazyImages = document.querySelectorAll('.lazy-img[data-src]');
+            const lazyBackgrounds = document.querySelectorAll('.lazy-bg[data-bg]');
+            
+            lazyImages.forEach(function(lazyImage) {
+                lazyImage.src = lazyImage.dataset.src;
+                lazyImage.classList.add('loaded');
+            });
+            
+            lazyBackgrounds.forEach(function(lazyBg) {
+                const bgImage = lazyBg.dataset.bg;
+                lazyBg.style.backgroundImage = `url('${bgImage}')`;
+                lazyBg.classList.add('loaded');
+            });
+        }
+    });
+    </script>
 
     @stack('scripts')
 
