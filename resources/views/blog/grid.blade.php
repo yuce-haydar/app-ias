@@ -28,170 +28,44 @@ Blog Grid Bölümü
 <section class="blog-section style-grid space bg-theme3">
     <div class="container">
         <div class="row gy-30">
-            <!-- Haber 1 -->
+            @forelse($news as $article)
             <div class="col-lg-4 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/proje8.jpeg') }}" alt="Yeni Sosyal Tesis Projesi">
+                        <img src="{{ asset($article->featured_image) }}" alt="{{ $article->title }}">
                         <div class="date">
-                            <span class="day">15</span>
-                            <span class="month">Ara</span>
+                            <span class="day">{{ $article->published_at->format('d') }}</span>
+                            <span class="month">{{ $article->published_at->format('M') }}</span>
                         </div>
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Hatay İmar</a></span>
-                            <span class="category">Sosyal Tesisler</span>
+                            <span class="author">Yazar: <a href="#">{{ $article->author }}</a></span>
+                            <span class="category">{{ $article->category }}</span>
                         </div>
                         <h4 class="title">
-                            <a href="{{ route('blog.details', ['id' => 1]) }}">Yeni Sosyal Tesis Projesi Başlıyor</a>
+                            <a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a>
                         </h4>
-                        <p class="text">Hatay İmar olarak şehrimize yeni bir sosyal tesis kazandırma projemiz başlıyor. Vatandaşlarımızın daha kaliteli hizmet alması için...</p>
-                        <a href="{{ route('blog.details', ['id' => 1]) }}" class="read-more">
+                        <p class="text">{{ Str::limit($article->summary, 150) }}</p>
+                        <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="read-more">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
                     </div>
                 </article>
             </div>
-
-            <!-- Haber 2 -->
-            <div class="col-lg-4 col-md-6">
-                <article class="blog-single-box">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/proje9.jpeg') }}" alt="Parke Taşı Üretimi">
-                        <div class="date">
-                            <span class="day">12</span>
-                            <span class="month">Ara</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Hatay İmar</a></span>
-                            <span class="category">Üretim</span>
-                        </div>
-                        <h4 class="title">
-                            <a href="{{ route('blog.details', ['id' => 2]) }}">Parke Taşı Üretiminde Yeni Teknoloji</a>
-                        </h4>
-                        <p class="text">Üretim tesisimizde kullanmaya başladığımız yeni teknoloji ile daha kaliteli ve dayanıklı parke taşları üretiyoruz...</p>
-                        <a href="{{ route('blog.details', ['id' => 2]) }}" class="read-more">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </article>
+            @empty
+            <div class="col-12 text-center">
+                <p class="text-muted">Henüz haber bulunmamaktadır.</p>
             </div>
-
-            <!-- Haber 3 -->
-            <div class="col-lg-4 col-md-6">
-                <article class="blog-single-box">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/proje10.jpeg') }}" alt="Katlı Otopark Yenileme">
-                        <div class="date">
-                            <span class="day">08</span>
-                            <span class="month">Ara</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Hatay İmar</a></span>
-                            <span class="category">Altyapı</span>
-                        </div>
-                        <h4 class="title">
-                            <a href="{{ route('blog.details', ['id' => 3]) }}">Katlı Otopark Yenileme Çalışmaları</a>
-                        </h4>
-                        <p class="text">2005 yılından bu yana hizmet veren Katlı Otopark tesisimizde modernizasyon çalışmaları devam ediyor...</p>
-                        <a href="{{ route('blog.details', ['id' => 3]) }}" class="read-more">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Blog Yazısı 4 -->
-            <div class="col-lg-4 col-md-6">
-                <article class="blog-single-box">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/blog/blog-thumb04.jpg') }}" alt="Blog Yazısı">
-                        <div class="date">
-                            <span class="day">08</span>
-                            <span class="month">Oca</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Fatma Öztürk</a></span>
-                            <span class="category">İnsan Kaynakları</span>
-                        </div>
-                        <h4 class="title">
-                            <a href="{{ route('blog.details', ['id' => 4]) }}">Etkili Takım Yönetimi ve Liderlik</a>
-                        </h4>
-                        <p class="text">Başarılı takım oluşturma ve liderlik becerilerini geliştirme konusunda pratik yaklaşımlar...</p>
-                        <a href="{{ route('blog.details', ['id' => 4]) }}" class="read-more">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Blog Yazısı 5 -->
-            <div class="col-lg-4 col-md-6">
-                <article class="blog-single-box">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/blog/blog-thumb05.jpg') }}" alt="Blog Yazısı">
-                        <div class="date">
-                            <span class="day">05</span>
-                            <span class="month">Oca</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Can Çelik</a></span>
-                            <span class="category">Teknoloji</span>
-                        </div>
-                        <h4 class="title">
-                            <a href="{{ route('blog.details', ['id' => 5]) }}">Yapay Zeka ve İş Dünyası Dönüşümü</a>
-                        </h4>
-                        <p class="text">Yapay zeka teknolojilerinin işletmelere etkisi ve adapte olma stratejileri...</p>
-                        <a href="{{ route('blog.details', ['id' => 5]) }}" class="read-more">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Blog Yazısı 6 -->
-            <div class="col-lg-4 col-md-6">
-                <article class="blog-single-box">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/blog/blog-thumb06.jpg') }}" alt="Blog Yazısı">
-                        <div class="date">
-                            <span class="day">03</span>
-                            <span class="month">Oca</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Zeynep Acar</a></span>
-                            <span class="category">Sürdürülebilirlik</span>
-                        </div>
-                        <h4 class="title">
-                            <a href="{{ route('blog.details', ['id' => 6]) }}">Sürdürülebilir İş Modelleri ve Yeşil Dönüşüm</a>
-                        </h4>
-                        <p class="text">Çevre dostu iş uygulamaları ve sürdürülebilir büyüme stratejileri geliştirme rehberi...</p>
-                        <a href="{{ route('blog.details', ['id' => 6]) }}" class="read-more">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
+            @endforelse
         </div>
 
-        <!-- Sayfalama -->
+        <!-- Sayfalama - Şimdilik statik -->
         <div class="pagination-wrapper text-center mt-50">
             <nav class="page-pagination">
                 <ul class="pagination">
                     <li class="page-item active"><a class="page-link" href="#">1</a></li>
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item">
                         <a class="page-link" href="#" aria-label="Sonraki">
                             <i class="fa-regular fa-arrow-right-long"></i>

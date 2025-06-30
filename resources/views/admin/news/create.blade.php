@@ -179,8 +179,8 @@ ClassicEditor.create(document.querySelector('#summary'), {
     // Required attribute'unu kaldır çünkü CKEditor ile çakışıyor
     document.querySelector('#summary').removeAttribute('required');
 }).catch(error => {
-    console.error(error);
-});
+        console.error(error);
+    });
 
 // Form submit öncesinde CKEditor verilerini textarea'lara aktar ve validation yap
 document.querySelector('form').addEventListener('submit', function(e) {

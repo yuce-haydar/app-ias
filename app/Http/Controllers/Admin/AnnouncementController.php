@@ -112,7 +112,7 @@ class AnnouncementController extends Controller
             $attachments = [];
             foreach ($request->file('attachments') as $file) {
                 $attachments[] = $file->store('announcements/attachments', 'public');
-            }
+        }
             $data['attachments'] = $attachments;
         }
 

@@ -17,9 +17,7 @@ Route::prefix('admin')->group(base_path('routes/admin.php'));
 */
 
 // Ana Sayfa
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Hakkımızda Sayfası
 Route::get('/hakkimizda', function () {
@@ -36,17 +34,11 @@ Route::get('/hizmet/{id}', function ($id) {
 })->name('service.details');
 
 // Blog Rotaları
-Route::get('/blog', function () {
-    return view('blog.grid');
-})->name('blog.grid');
+Route::get('/blog', [App\Http\Controllers\BlogController::class, 'grid'])->name('blog.grid');
 
-Route::get('/blog-liste', function () {
-    return view('blog.list');
-})->name('blog.list');
+Route::get('/blog-liste', [App\Http\Controllers\BlogController::class, 'list'])->name('blog.list');
 
-Route::get('/blog/{id}', function ($id) {
-    return view('blog.details', compact('id'));
-})->name('blog.details');
+Route::get('/blog/{id}', [App\Http\Controllers\BlogController::class, 'details'])->name('blog.details');
 
 // Ekip Rotaları
 Route::get('/ekip', function () {
@@ -58,13 +50,9 @@ Route::get('/ekip/{id}', function ($id) {
 })->name('team.details');
 
 // Projeler Rotaları
-Route::get('/projeler', function () {
-    return view('projects.index');
-})->name('projects');
+Route::get('/projeler', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
 
-Route::get('/proje/{id}', function ($id) {
-    return view('projects.details', compact('id'));
-})->name('project.details');
+Route::get('/proje/{id}', [App\Http\Controllers\ProjectController::class, 'details'])->name('project.details');
 
 // Tesisler Rotaları
 Route::get('/tesisler', function () {

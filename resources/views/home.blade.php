@@ -107,6 +107,11 @@
     line-height: 1.6;
 }
 
+.baslik{
+    color: #cf9f38 !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 </style>
 
 <!--==============================
@@ -126,99 +131,191 @@ Hero Bölümü
     </div>
     <div class="hero-slider-6 swiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/imageshatay/hatay3.jpeg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+            <!-- İSK Kapalı Spor ve Yarı Olimpik Slide -->
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}'); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
-                        <!-- Sol Taraf (Metin İçeriği) -->
                         <div class="col-lg-7">
                             <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Hatay İmar<br><span>Kaliteli</span> Hizmeti<br>Özverili Çalışmayı</h1>
+                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">İskenderun<br><span>Kapalı Spor</span> ve<br>Yarı Olimpik Havuz<br>Kompleksi</h1>
                                 <div class="text">
                                     <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı, Değer Katmayı<br>
-                                        temel prensip edinip, var gücümüzle çalışmaktayız.
+                                    <p>Modern spor tesisleri ile şehrimizin spor altyapısını<br>
+                                        güçlendiriyoruz. Uluslararası standartlarda havuz kompleksi.
                                     </p>
                                 </div>
-                                <a href="{{ route('about') }}" class="theme-btn bg-color10">
+                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
                                     <span class="link-effect">
-                                        <span class="effect-1">Hakkımızda</span>
-                                        <span class="effect-1">Hakkımızda</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
                                     </span><i class="fa-regular fa-arrow-right-long"></i>
                                 </a>
                             </div>
                         </div>
-
-                        <!-- Sağ Taraf (Görsel) -->
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Hatay İmar Projesi" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/2.png') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: auto; border-radius: 10px;">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/imageshatay/hatay4.jpeg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+
+            <!-- Kırıkhan Butik Yarı Olimpik Yüzme Havuzu Slide -->
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/8f716ef6-3ea1-4442-85c9-df8c033a7eee.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
-                        <!-- Sol Taraf (Metin İçeriği) -->
                         <div class="col-lg-7">
                             <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Hatay Şehrimiz<br><span>Tarihi</span> ve<br>Kültürel Mirasımız</h1>
+                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Kırıkhan<br><span>Butik Yarı Olimpik</span><br>Yüzme Havuzu</h1>
                                 <div class="text">
                                     <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>Hatay, Türkiye'nin en eski yerleşim yerlerinden biridir.<br>
-                                        M.Ö. yüzbinli yıllara uzanan köklü tarihimizle hizmet veriyoruz.
+                                    <p>1500 m² alana sahip, 25x12,5 m ölçülerinde 5 kulvarlı<br>
+                                        butik yüzme havuzu ile 200 kişilik kapasiteye sahip modern tesis.
                                     </p>
                                 </div>
                                 <a href="{{ route('projects') }}" class="theme-btn bg-color10">
                                     <span class="link-effect">
-                                        <span class="effect-1">Projelerimiz</span>
-                                        <span class="effect-1">Projelerimiz</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
                                     </span><i class="fa-regular fa-arrow-right-long"></i>
                                 </a>
                             </div>
                         </div>
-
-                        <!-- Sağ Taraf (Görsel) -->
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Hatay Şehir Manzarası" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/290e33ae-a63c-4c20-b17a-63936fdf517a.jpg') }}" alt="Kırıkhan Yüzme Havuzu" style="width: 100%; height: auto; border-radius: 10px;">
                                 </div>
                             </div>
                         </div>
-                                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/imageshatay/hatay6.jpeg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+
+            <!-- Halısaha Render Slide -->
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
-                        <!-- Sol Taraf (Metin İçeriği) -->
                         <div class="col-lg-7">
                             <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Modern Hatay<br><span>Gelişen</span> Şehrimiz<br>Büyüyen Değerlerimiz</h1>
+                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Modern<br><span>Halısaha</span><br>Kompleksi</h1>
                                 <div class="text">
                                     <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>Hatay İmar ile şehrimizin altyapısı ve üstyapısında<br>
-                                        modern çözümler üretiyoruz. Geleceğe hazır projeler.
+                                    <p>Gençlerimizin sporla buluşması için modern halısaha<br>
+                                        tesisleri inşa ediyoruz. Kaliteli spor altyapısı.
                                     </p>
                                 </div>
-                                <a href="{{ route('services') }}" class="theme-btn bg-color10">
+                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
                                     <span class="link-effect">
-                                        <span class="effect-1">Hizmetlerimiz</span>
-                                        <span class="effect-1">Hizmetlerimiz</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
                                     </span><i class="fa-regular fa-arrow-right-long"></i>
                                 </a>
                             </div>
                         </div>
-
-                        <!-- Sağ Taraf (Görsel) -->
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay7.jpeg') }}" alt="Hatay Modern Yapılar" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img src="{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.00.jpeg') }}" alt="Halısaha Kompleksi" style="width: 100%; height: auto; border-radius: 10px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kırıkhan Külliye Slide -->
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/kirkhan-kulliye/K (2).jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7">
+                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Kırıkhan<br><span>Külliye</span><br>Projesi</h1>
+                                <div class="text">
+                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
+                                    <p>Kültürel ve dini değerlerimizi koruyan<br>
+                                        modern külliye kompleksi ile manevi ihtiyaçları karşılıyoruz.
+                                    </p>
+                                </div>
+                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
+                                    <span class="link-effect">
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                    </span><i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="hero-right">
+                                <div class="image-box">
+                                    <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Kırıkhan Külliye" style="width: 100%; height: auto; border-radius: 10px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Belen Bedesten Meydan Projesi Slide -->
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.58.jpeg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7">
+                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Belen<br><span>Bedesten Meydan</span><br>Projesi</h1>
+                                <div class="text">
+                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
+                                    <p>2500 m² alanda 15 bölümlü modern bedesten projesi.<br>
+                                        Fırın, restoran, market, muhtarlık ve sosyal donatılarla hizmet verecek.
+                                    </p>
+                                </div>
+                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
+                                    <span class="link-effect">
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                    </span><i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="hero-right">
+                                <div class="image-box">
+                                    <img src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.58 (1).jpeg') }}" alt="Belen Bedesten Meydan Projesi" style="width: 100%; height: auto; border-radius: 10px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 200 Kişilik Yarı Olimpik Slide -->
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7">
+                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">200 Kişilik<br><span>Yarı Olimpik</span><br>Altınözü Havuzu</h1>
+                                <div class="text">
+                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
+                                    <p>Altınözü ilçemize modern yüzme havuzu kompleksi<br>
+                                        ile spor faaliyetlerini destekliyoruz.
+                                    </p>
+                                </div>
+                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
+                                    <span class="link-effect">
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                        <span class="effect-1">Projelerimizi İncele</span>
+                                    </span><i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="hero-right">
+                                <div class="image-box">
+                                    <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/dfc99099-3568-430c-af5e-d36439aabf6f.jpg') }}" alt="Yarı Olimpik Havuz" style="width: 100%; height: auto; border-radius: 10px;">
                                 </div>
                             </div>
                         </div>
@@ -244,43 +341,43 @@ Hakkımızda Bölümü
                     <div class="about-slider swiper" style="height: 400px; overflow: hidden;">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Hatay İmar Projeleri">
+                                <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
+                                    <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
+                                    <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Kırıkhan Külliye Projesi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Hatay Şehir Manzarası">
+                                    <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali Projesi">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Hatay Tarihi Yapılar">
+                                    <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Projesi">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Hatay Modern Gelişim">
+                                    <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projeleri">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay5.jpeg') }}" alt="Hatay Kültürel Miras">
+                                    <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projeleri">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay6.jpeg') }}" alt="Hatay Altyapı Projeleri">
+                                    <img src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg') }}" alt="Çok Amaçlı Projeler">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay7.jpeg') }}" alt="Hatay Sosyal Tesisler">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay8.jpeg') }}" alt="Hatay Üretim Tesisleri">
+                                    <img src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Taziye Evi Projeleri">
                                 </div>
                             </div>
                             <div class="swiper-slide">
@@ -420,33 +517,35 @@ Hakkımızda Bölümü
             <div class="col-lg-6">
                 <div class="about-content-wrapper">
                     <div class="title-area two">
-                        <div class="sub-title"><span><i class="asterisk"></i></span>Hatay İmar Hakkında</div>
-                        <h2 class="sec-title mb-25">Şehrimizi <span class="bold">Geleceğe</span><br>Taşıyoruz!</h2>
-                        <p class="sec-text text-gray">Hatay İmar olarak şehrimizin gelişimi için kaliteli hizmet<br>
-                            sunmayı ve değer katmayı temel prensip edinmiş bulunuyoruz.</p>
+                        <div class="sub-title"><span><i class="asterisk"></i></span>Hayata Geçirdiğimiz Projeler</div>
+                        <h2 class="sec-title mb-25">Hatay'ın <span class="bold">Geleceğini</span><br>İnşa Ediyoruz!</h2>
+                        <p class="sec-text text-gray">15 ilçede eş zamanlı yürüttüğümüz projelerle<br>
+                            Hatay'ın spor, sosyal ve kültürel altyapısını güçlendiriyoruz.</p>
                     </div>
                     <div class="feature-list">
                         <div class="feature-item">
                             <div class="icon"><i class="flaticon-service"></i></div>
-                            <p>Sosyal Tesis İşletmeciliği</p>
+                            <p>Modern Spor Tesisleri</p>
                         </div>
                         <div class="feature-item">
                             <div class="icon"><i class="flaticon-people"></i></div>
-                            <p>İnşaat ve Üretim Hizmetleri</p>
+                            <p>Sosyal ve Kültürel Projeler</p>
                         </div>
                     </div>
                     <div class="pt-35 pb-25">
                         <div class="border"><span class="bar"></span></div>
                     </div>
                     <ul class="features-list">
-                        <li>Kaliteli hizmet anlayışı ile çalışma</li>
-                        <li>Şehrimize değer katacak projeler</li>
-                        <li>Özverili ve profesyonel yaklaşım</li>
+                        <li>13 farklı projede eş zamanlı çalışma</li>
+                        <li>Yarı olimpik yüzme havuzları</li>
+                        <li>Modern halısaha ve spor kompleksleri</li>
+                        <li>Kreş ve eğitim tesisleri</li>
+                        <li>Taziye evleri ve sosyal tesisler</li>
                     </ul>
-                    <a href="{{ route('about') }}" class="theme-btn bg-dark mt-35">
+                    <a href="{{ route('projects') }}" class="theme-btn bg-dark mt-35">
                         <span class="link-effect">
-                            <span class="effect-1">Daha fazla</span>
-                            <span class="effect-1">Daha fazla</span>
+                            <span class="effect-1">Projelerimizi İncele</span>
+                            <span class="effect-1">Projelerimizi İncele</span>
                         </span><i class="fa-regular fa-arrow-right-long"></i>
                     </a>
                 </div>
@@ -625,24 +724,24 @@ Hatay Şehri Bölümü
             <div class="col-lg-6">
                 <div class="about-content-wrapper">
                     <div class="title-area">
-                        <div class="sub-title"><span><i class="asterisk"></i></span>Hatay Şehrimiz</div>
-                        <h2 class="sec-title mb-25">Türkiye'nin En Eski<br><span class="bold">Yerleşim</span> Yerlerinden</h2>
-                        <p class="sec-text">Hatay, Türkiye'nin en eski yerleşim yerlerinden biridir. Araştırmacılar, eldeki bilgilere göre yörenin iskân tarihinin M.Ö. yüzbinli yıllara rastlayan orta paleolitik döneme kadar uzandığını ifade etmekte, bunun 2,5 milyon yıl öncesine kadar uzanabileceğini belirtmektedirler.</p>
-                        <p class="sec-text">1954-1966 yılları arasında Altınözü, Şenköy, Antakya ve Çevlik'te yapılan araştırmalarda elde edilen ve M.Ö. 100000-40000 yılları arasında tarihlenen bulgular orta paleolitik dönem özellikleri taşımaktadır.</p>
+                        <div class="sub-title"><span><i class="asterisk"></i></span>İnşaat ve Yapı Uzmanlığımız</div>
+                        <h2 class="sec-title mb-25">Modern İnşaat<br><span class="bold">Teknolojileri</span> ile</h2>
+                        <p class="sec-text">Hatay İmar olarak 15 yılı aşkın tecrübemizle, modern inşaat teknolojilerini kullanarak şehrimizin altyapısını güçlendiriyoruz. Çelik konstrüksiyon, betonarme yapılar ve prefabrik sistemler konularında uzmanlaşmış ekibimizle hizmet veriyoruz.</p>
+                        <p class="sec-text">Spor tesisleri, sosyal yapılar, ticaret merkezleri ve konut projelerinde kullandığımız modern yapı teknikleri ile depreme dayanıklı, enerji verimli ve çevre dostu binalar inşa ediyoruz.</p>
                     </div>
                     <div class="about-feature-list">
                         <div class="feature-item">
-                            <div class="icon"><i class="fa-solid fa-calendar-days"></i></div>
+                            <div class="icon"><i class="fa-solid fa-building"></i></div>
                             <div class="content">
-                                <h5>M.Ö. 100.000</h5>
-                                <p>Yıllık Tarihi Miras</p>
+                                <h5>16+ Proje</h5>
+                                <p>Aktif İnşaat Projesi</p>
                             </div>
                         </div>
                         <div class="feature-item">
-                            <div class="icon"><i class="fa-solid fa-landmark"></i></div>
+                            <div class="icon"><i class="fa-solid fa-hard-hat"></i></div>
                             <div class="content">
-                                <h5>Antakya</h5>
-                                <p>Tarihi Şehir Merkezi</p>
+                                <h5>15+ Yıl</h5>
+                                <p>İnşaat Tecrübesi</p>
                             </div>
                         </div>
                     </div>
@@ -657,38 +756,38 @@ Hatay Şehri Bölümü
             <div class="col-lg-6">
                 <div class="about-thumb-area">
                     <div class="about-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay7.jpeg') }}" alt="Hatay Tarihi Yapılar" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" alt="Modern Spor Kompleksi İnşaatı" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
                     </div>
                     <div class="about-thumb-2">
-                        <img src="{{ asset('assets/images/imageshatay/hatay8.jpeg') }}" alt="Antakya Tarihi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali İnşaat Projesi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
                     </div>
                     <div class="experience-box">
-                        <div class="icon"><i class="fa-solid fa-star"></i></div>
+                        <div class="icon"><i class="fa-solid fa-hard-hat"></i></div>
                         <div class="content">
-                            <h4>2500+</h4>
-                            <p>Yıllık Tarihi<br>Miras</p>
+                            <h4>15+</h4>
+                            <p>Yıllık İnşaat<br>Tecrübesi</p>
                         </div>
                     </div>
                     
-                    <!-- Ek Tarihi Resimler Grid -->
-                    <div class="historical-gallery mt-30">
+                    <!-- İnşaat Projeleri Galerisi -->
+                    <div class="construction-gallery mt-30">
                         <div class="row g-2">
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/imageshatay/hatay9.jpeg') }}" alt="Hatay Arkeolojik Kalıntılar" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş İnşaat Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
                             </div>
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/imageshatay/hatay10.jpeg') }}" alt="Antakya Mozaikler" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Yapım Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
                             </div>
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/imageshatay/hatay11.jpeg') }}" alt="Hatay Müzeleri" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Konut Projesi İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
                             </div>
                         </div>
                         <div class="row g-2 mt-2">
                             <div class="col-6">
-                                <img src="{{ asset('assets/images/imageshatay/hatay12.jpeg') }}" alt="Tarihi Antakya" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
                             </div>
                             <div class="col-6">
-                                <img src="{{ asset('assets/images/imageshatay/proje7.jpeg') }}" alt="Hatay Kültür Mirası" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Sosyal Tesis İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
                             </div>
                         </div>
                     </div>
@@ -707,70 +806,39 @@ Blog Bölümü
             <div class="col-lg-12">
                 <div class="title-area text-center">
                     <div class="sub-title"><span><i class="asterisk"></i></span>Haberler & Duyurular</div>
-                    <h2 class="sec-title mb-60">Son <span class="bold">Haberlerimiz</span></h2>
+                    <h2 class="baslik mb-60">Son <span class="bold">Haberlerimiz</span></h2>
                 </div>
             </div>
         </div>
         <div class="row gy-40">
+            @forelse($news as $article)
             <div class="col-lg-4 col-md-6">
                 <div class="blog-item">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/proje8.jpeg') }}" alt="Yeni Sosyal Tesis Projesi" style="width: 100%; height: 250px; object-fit: cover;">
+                        <img src="{{ asset($article->featured_image) }}" alt="{{ $article->title }}" style="width: 100%; height: 250px; object-fit: cover;">
                         <div class="blog-date">
-                            <span class="day">15</span>
-                            <span class="month">Ara</span>
+                            <span class="day">{{ $article->published_at->format('d') }}</span>
+                            <span class="month">{{ $article->published_at->format('M') }}</span>
                         </div>
                     </div>
                     <div class="blog-content">
-                       
-                        <h4 class="blog-title"><a href="{{ route('blog.details', ['id' => 1]) }}">Yeni Sosyal Tesis Projesi Başlıyor</a></h4>
-                        <p class="blog-text">Hatay İmar olarak şehrimize yeni bir sosyal tesis kazandırma projemiz başlıyor. Vatandaşlarımızın daha kaliteli hizmet alması için...</p>
-                        <a href="{{ route('blog.details', ['id' => 1]) }}" class="blog-link">
+                        <div class="blog-meta">
+                            <span class="category">{{ $article->category }}</span>
+                            <span class="author">{{ $article->author }}</span>
+                        </div>
+                        <h4 class="blog-title"><a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a></h4>
+                        <p class="blog-text">{{ Str::limit($article->summary, 120) }}</p>
+                        <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="blog-link">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="blog-item">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/proje9.jpeg') }}" alt="Parke Taşı Üretimi" style="width: 100%; height: 250px; object-fit: cover;">
-                        <div class="blog-date">
-                            <span class="day">12</span>
-                            <span class="month">Ara</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                       
-                        <h4 class="blog-title"><a href="{{ route('blog.details', ['id' => 2]) }}">Parke Taşı Üretiminde Yeni Teknoloji</a></h4>
-                        <p class="blog-text">Üretim tesisimizde kullanmaya başladığımız yeni teknoloji ile daha kaliteli ve dayanıklı parke taşları üretiyoruz...</p>
-                        <a href="{{ route('blog.details', ['id' => 2]) }}" class="blog-link">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </div>
+            @empty
+            <div class="col-12 text-center">
+                <p class="text-muted">Henüz haber bulunmamaktadır.</p>
             </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="blog-item">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/proje10.jpeg') }}" alt="Katlı Otopark Yenileme" style="width: 100%; height: 250px; object-fit: cover;">
-                        <div class="blog-date">
-                            <span class="day">08</span>
-                            <span class="month">Ara</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        
-                        <h4 class="blog-title"><a href="{{ route('blog.details', ['id' => 3]) }}">Katlı Otopark Yenileme Çalışmaları</a></h4>
-                        <p class="blog-text">2005 yılından bu yana hizmet veren Katlı Otopark tesisimizde modernizasyon çalışmaları devam ediyor...</p>
-                        <a href="{{ route('blog.details', ['id' => 3]) }}" class="blog-link">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
         <div class="text-center mt-50">
             <a href="{{ route('blog.grid') }}" class="theme-btn bg-color10">
@@ -792,7 +860,7 @@ Projelerimiz Özet Bölümü
             <div class="col-lg-12">
                 <div class="title-area text-center">
                     <div class="sub-title"><span><i class="asterisk"></i></span>Projelerimiz</div>
-                    <h2 class="sec-title mb-60">Devam Eden ve <span class="bold">Planlanan</span> Projeler</h2>
+                    <h2 class="sec-title mb-60">Devam Eden  Projeler</h2>
                 </div>
             </div>
         </div>
@@ -1048,6 +1116,306 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </section>
+
+<!--==============================
+Öne Çıkan Projelerimiz
+==============================-->
+<section class="project-gallery-section space bg-theme">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-area text-center">
+                    <div class="sub-title"><span><i class="asterisk"></i></span>Öne Çıkan Projelerimiz</div>
+                    <h2 class="sec-title mb-60">Hatay'ın <span class="bold">Gelişimi</span><br>İçin Çalışıyoruz</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row gy-30">
+            <!-- Kırıkhan Yüzme Havuzu -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-gallery-item">
+                    <div class="gallery-thumb">
+                        <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Kırıkhan Yüzme Havuzu">
+                        <div class="gallery-overlay">
+                            <div class="gallery-content">
+                                <h4>Kırıkhan Butik Yarı Olimpik Yüzme Havuzu</h4>
+                                <p>1500 m² alan, 25x12,5 m ölçü, 5 kulvar, 200 kişi kapasiteli modern tesis</p>
+                                <div class="project-status ongoing">
+                                    <i class="fa-solid fa-gear"></i> Devam Ediyor
+                                </div>
+                                <a href="{{ route('projects') }}" class="gallery-btn">
+                                    <i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Belen Bedesten Meydan -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-gallery-item">
+                    <div class="gallery-thumb">
+                        <img src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg') }}" alt="Belen Bedesten Meydan">
+                        <div class="gallery-overlay">
+                            <div class="gallery-content">
+                                <h4>Belen Bedesten Meydan Projesi</h4>
+                                <p>2500 m² alanda 15 bölümlü modern bedesten projesi, fırın, restoran, market</p>
+                                <div class="project-status ongoing">
+                                    <i class="fa-solid fa-gear"></i> Devam Ediyor
+                                </div>
+                                <a href="{{ route('projects') }}" class="gallery-btn">
+                                    <i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kreş Projeleri -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-gallery-item">
+                    <div class="gallery-thumb">
+                        <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projeleri">
+                        <div class="gallery-overlay">
+                            <div class="gallery-content">
+                                <h4>Modern Kreş Kompleksleri</h4>
+                                <p>Kumlu ve Altınözü'nde 600 m² alan, 4 sınıf, yemekhane, oyun alanı</p>
+                                <div class="project-status ongoing">
+                                    <i class="fa-solid fa-gear"></i> Devam Ediyor
+                                </div>
+                                <a href="{{ route('projects') }}" class="gallery-btn">
+                                    <i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sebze Hali -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-gallery-item">
+                    <div class="gallery-thumb">
+                        <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali">
+                        <div class="gallery-overlay">
+                            <div class="gallery-content">
+                                <h4>Modern Sebze Hali Kompleksi</h4>
+                                <p>Şehrimizin ticari hayatını destekleyen modern sebze hali projesi</p>
+                                <div class="project-status completed">
+                                    <i class="fa-solid fa-check-circle"></i> Tamamlandı
+                                </div>
+                                <a href="{{ route('projects') }}" class="gallery-btn">
+                                    <i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Halısaha Projeleri -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-gallery-item">
+                    <div class="gallery-thumb">
+                        <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Projeleri">
+                        <div class="gallery-overlay">
+                            <div class="gallery-content">
+                                <h4>Modern Halısaha Kompleksleri</h4>
+                                <p>Payas, Kumlu, Yayladağı'nda modern halısaha ve kafeterya projeleri</p>
+                                <div class="project-status ongoing">
+                                    <i class="fa-solid fa-gear"></i> Devam Ediyor
+                                </div>
+                                <a href="{{ route('projects') }}" class="gallery-btn">
+                                    <i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Taziye Evleri -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-gallery-item">
+                    <div class="gallery-thumb">
+                        <img src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Taziye Evleri">
+                        <div class="gallery-overlay">
+                            <div class="gallery-content">
+                                <h4>Modern Taziye ve Adakevleri</h4>
+                                <p>Samandağ Mızraklı'da 960 m² alan, 240 kişi kapasiteli 2 katlı yapı</p>
+                                <div class="project-status planning">
+                                    <i class="fa-solid fa-clock"></i> Tasarım
+                                </div>
+                                <a href="{{ route('projects') }}" class="gallery-btn">
+                                    <i class="fa-regular fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12 text-center mt-50">
+                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
+                    <span class="link-effect">
+                        <span class="effect-1">Tüm Projelerimizi İncele</span>
+                        <span class="effect-1">Tüm Projelerimizi İncele</span>
+                    </span><i class="fa-regular fa-arrow-right-long"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* About Slider Image Fix */
+.about-slide_thumb {
+    height: 350px !important;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.about-slide_thumb img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    transition: transform 0.3s ease;
+}
+
+.about-slide_thumb:hover img {
+    transform: scale(1.05);
+}
+
+.project-gallery-item {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.project-gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.gallery-thumb {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-gallery-item:hover .gallery-thumb img {
+    transform: scale(1.05);
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(31, 71, 136, 0.9), rgba(74, 144, 226, 0.9));
+    opacity: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.project-gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-content {
+    text-align: center;
+    color: white;
+}
+
+.gallery-content h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.gallery-content p {
+    font-size: 14px;
+    margin-bottom: 15px;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.project-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.project-status.ongoing {
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
+}
+
+.project-status.completed {
+    background: rgba(25, 135, 84, 0.9);
+    color: white;
+}
+
+.project-status.planning {
+    background: rgba(255, 193, 7, 0.9);
+    color: #333;
+}
+
+.gallery-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: white;
+    color: #1f4788;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.gallery-btn:hover {
+    background: #1f4788;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Haber Başlıkları - Direkt Turuncu */
+.blog-title a {
+    color: #cf9f38 !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.blog-title a:hover {
+    color: #cf9f38 !important;
+}
+</style>
 
 <!--==============================
 Soru ve Görüşleriniz Bölümü
