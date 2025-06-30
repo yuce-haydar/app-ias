@@ -442,67 +442,67 @@ Hakkımızda Bölümü
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay21.jpeg') }}" alt="Hatay Tarih ve Gelecek">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay21.jpeg') }}" alt="Hatay Tarih ve Gelecek" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay22.jpeg') }}" alt="Hatay İmar Çalışmaları">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay22.jpeg') }}" alt="Hatay İmar Çalışmaları" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay23.jpeg') }}" alt="Hatay Belediye Projeleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay23.jpeg') }}" alt="Hatay Belediye Projeleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay24.jpeg') }}" alt="Hatay Gelecek Vizyonu">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay24.jpeg') }}" alt="Hatay Gelecek Vizyonu" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay25.jpeg') }}" alt="Hatay Teknoloji Merkezi">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay25.jpeg') }}" alt="Hatay Teknoloji Merkezi" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay26.jpeg') }}" alt="Hatay Sanayi Bölgesi">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay26.jpeg') }}" alt="Hatay Sanayi Bölgesi" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay27.jpeg') }}" alt="Hatay Ticaret Merkezi">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay27.jpeg') }}" alt="Hatay Ticaret Merkezi" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay28.jpeg') }}" alt="Hatay Çevre Projeleri">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay28.jpeg') }}" alt="Hatay Çevre Projeleri" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay29.jpeg') }}" alt="Hatay Sürdürülebilir Kalkınma">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay29.jpeg') }}" alt="Hatay Sürdürülebilir Kalkınma" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay30.jpeg') }}" alt="Hatay Akıllı Şehir">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay30.jpeg') }}" alt="Hatay Akıllı Şehir" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay31.jpeg') }}" alt="Hatay Kentsel Dönüşüm">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay31.jpeg') }}" alt="Hatay Kentsel Dönüşüm" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay32.jpeg') }}" alt="Hatay Geleceğe Hazırlık">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay32.jpeg') }}" alt="Hatay Geleceğe Hazırlık" loading="lazy">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay33.jpeg') }}" alt="Hatay Toplumsal Projeler">
+                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay33.jpeg') }}" alt="Hatay Toplumsal Projeler" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -614,7 +614,7 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                        <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-factory"></i>
@@ -637,7 +637,7 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Katlı Otopark" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                        <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Katlı Otopark" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-parking"></i>
@@ -660,7 +660,7 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Habib-i Neccar Sosyal Tesis" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                        <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Habib-i Neccar Sosyal Tesis" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-mountain"></i>
@@ -683,7 +683,7 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Parke Taşı Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                        <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Parke Taşı Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-brick"></i>
@@ -756,10 +756,10 @@ Hatay Şehri Bölümü
             <div class="col-lg-6">
                 <div class="about-thumb-area">
                     <div class="about-thumb">
-                        <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" alt="Modern Spor Kompleksi İnşaatı" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" alt="Modern Spor Kompleksi İnşaatı" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="about-thumb-2">
-                        <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali İnşaat Projesi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali İnşaat Projesi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="experience-box">
                         <div class="icon"><i class="fa-solid fa-hard-hat"></i></div>
@@ -773,21 +773,21 @@ Hatay Şehri Bölümü
                     <div class="construction-gallery mt-30">
                         <div class="row g-2">
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş İnşaat Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş İnşaat Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Yapım Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Yapım Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Konut Projesi İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Konut Projesi İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                         </div>
                         <div class="row g-2 mt-2">
                             <div class="col-6">
-                                <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                             <div class="col-6">
-                                <img src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Sosyal Tesis İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;">
+                                <img src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Sosyal Tesis İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                         </div>
                     </div>
