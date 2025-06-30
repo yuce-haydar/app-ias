@@ -20,17 +20,21 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="public, max-age=86400">
+    <meta http-equiv="Expires" content="{{ gmdate('D, d M Y H:i:s', time() + 86400) }} GMT">
+    
     <!-- CSS Dosyaları -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/flaticon.min.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/fontawesome/css/fontawesome.min.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/fancybox.min.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/swiper-bundle.min.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/animate.min.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/select2.min.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/jquery-ui.min.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/odometer.css') }}?v={{ time() }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/style.css') }}?v={{ time() }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/css/flaticon.min.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/fontawesome/css/fontawesome.min.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/css/fancybox.min.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/css/swiper-bundle.min.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/css/animate.min.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/css/select2.min.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/css/jquery-ui.min.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/css/odometer.css') }}?v=1.0" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}?v=1.0" rel="stylesheet">
 
     <style>
         @keyframes fadeInUp {
@@ -157,23 +161,23 @@
     @include('partials.scroll-to-top')
 
     <!-- JavaScript Dosyaları -->
-    <script src="{{ asset('assets/js/vendor/jquery.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/swiper-bundle.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/marquee.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/jquery.fancybox.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/select2.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/jquery-ui.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/jquery.validate.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/jquery.appear.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/jquery.odometer.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/wow.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/imagesloaded.pkgd.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/isotope.pkgd.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/lenis.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/splite-type.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/vanilla-tilt.min.js') }}?v={{ time() }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('assets/js/vendor/jquery.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/swiper-bundle.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/marquee.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/jquery.fancybox.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/select2.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/jquery.validate.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/jquery.appear.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/jquery.odometer.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/wow.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/imagesloaded.pkgd.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/isotope.pkgd.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/lenis.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/splite-type.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/vanilla-tilt.min.js') }}?v=1.0"></script>
+    <script src="{{ asset('assets/js/main.js') }}?v=1.0"></script>
 
     <!-- Lazy Loading Script -->
     <script>
