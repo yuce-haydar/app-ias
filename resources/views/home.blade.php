@@ -132,7 +132,7 @@ Hero Bölümü
     <div class="hero-slider-6 swiper">
         <div class="swiper-wrapper">
             <!-- İSK Kapalı Spor ve Yarı Olimpik Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/5.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7">
@@ -155,7 +155,7 @@ Hero Bölümü
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/2.png') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/4.jpg') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: auto; border-radius: 10px;">
                                 </div>
                             </div>
                         </div>
@@ -196,7 +196,7 @@ Hero Bölümü
             </div>
 
             <!-- Halısaha Render Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.05.jpeg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7">
@@ -228,7 +228,7 @@ Hero Bölümü
             </div>
 
             <!-- Kırıkhan Külliye Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/kirkhan-kulliye/K (2).jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/kirkhan-kulliye/K (9).jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7">
@@ -251,7 +251,7 @@ Hero Bölümü
                         <div class="col-lg-5">
                             <div class="hero-right">
                                 <div class="image-box">
-                                    <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Kırıkhan Külliye" style="width: 100%; height: auto; border-radius: 10px;">
+                                    <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (4).jpg') }}" alt="Kırıkhan Külliye" style="width: 100%; height: auto; border-radius: 10px;">
                                 </div>
                             </div>
                         </div>
@@ -342,12 +342,12 @@ Hakkımızda Bölümü
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
-                                    <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                    <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/5.jpg') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
-                                    <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Kırıkhan Külliye Projesi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                    <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (9).jpg') }}" alt="Kırıkhan Külliye Projesi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
                                 </div>
                             </div>
                             <div class="swiper-slide">
@@ -357,7 +357,7 @@ Hakkımızda Bölümü
                             </div>
                             <div class="swiper-slide">
                                 <div class="about-slide_thumb">
-                                    <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Projesi">
+                                    <img src="{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.05.jpeg') }}" alt="Halısaha Projesi">
                                 </div>
                             </div>
                             <div class="swiper-slide">
