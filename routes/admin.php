@@ -17,7 +17,9 @@ use App\Http\Controllers\Admin\{
     FacilityController,
     NewsController,
     ContactSubmissionController,
-    SettingController
+    SettingController,
+    HomePageController,
+    SettingsController
 };
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -79,4 +81,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Settings
     Route::resource('settings', SettingController::class)->names('admin.settings')
         ->only(['index', 'store']);
+        
+    // Site Settings (Header/Footer Management)
+    Route::get('site-settings', [SettingsController::class, 'index'])->name('admin.site-settings.index');
+    Route::put('site-settings', [SettingsController::class, 'update'])->name('admin.site-settings.update');
+    Route::delete('site-settings/image', [SettingsController::class, 'deleteImage'])->name('admin.site-settings.delete-image');
+    
+    // Homepage Management
+    Route::get('homepage', [HomePageController::class, 'index'])->name('admin.homepage.index');
+    Route::put('homepage', [HomePageController::class, 'update'])->name('admin.homepage.update');
+    Route::delete('homepage/image', [HomePageController::class, 'deleteImage'])->name('admin.homepage.delete-image');
 });

@@ -254,6 +254,22 @@
                 </li>
                 
                 <li class="menu-header text-muted px-3 mt-3 mb-2">
+                    <small>SİTE YÖNETİMİ</small>
+                </li>
+                
+                <li>
+                    <a href="{{ route('admin.homepage.index') }}" class="{{ request()->routeIs('admin.homepage.*') ? 'active' : '' }}">
+                        <i class="fas fa-home"></i> Anasayfa Yönetimi
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="{{ route('admin.site-settings.index') }}" class="{{ request()->routeIs('admin.site-settings.*') ? 'active' : '' }}">
+                        <i class="fas fa-paint-brush"></i> Header/Footer
+                    </a>
+                </li>
+                
+                <li class="menu-header text-muted px-3 mt-3 mb-2">
                     <small>SİSTEM</small>
                 </li>
                 

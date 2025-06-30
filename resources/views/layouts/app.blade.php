@@ -85,15 +85,15 @@
                     <span data-text-preloader="T" class="letters-loading">T</span>
                     <span data-text-preloader="A" class="letters-loading">A</span>
                     <span data-text-preloader="Y" class="letters-loading">Y</span>
-                    <span data-text-preloader=" " class="letters-loading" style="margin: 0 20px;"> </span>
-                    <span data-text-preloader=" " class="letters-loading" style="margin: 0 20px;"> </span>
+                    <span data-text-preloader="-" class="letters-loading" style="margin: 0 20px;">-</span>
+                    <div data-text-preloader=" " class="letters-loading" style="margin: 0 20px;"> </div>
 
                     <span data-text-preloader="İ" class="letters-loading">İ</span>
                     <span data-text-preloader="M" class="letters-loading">M</span>
                     <span data-text-preloader="A" class="letters-loading">A</span>
                     <span data-text-preloader="R" class="letters-loading">R</span>
-                    <span data-text-preloader=" " class="letters-loading" style="margin: 0 20px;"> </span>
-                    <span data-text-preloader=" " class="letters-loading" style="margin: 0 20px;"> </span>
+                    <span data-text-preloader="-" class="letters-loading" style="margin: 0 20px;">-</span>
+                    <div data-text-preloader=" " class="letters-loading" style="margin: 0 20px;"> </div>
 
                     <span data-text-preloader="A" class="letters-loading">A</span>
                     <span data-text-preloader="." class="letters-loading">.</span>
