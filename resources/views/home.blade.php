@@ -475,7 +475,7 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img class="lazy-img" data-src="{{ asset('assets/images/projeler/Büz-Üretim-Tesisi.jpg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                        <img class="lazy-img" data-src="{{ asset('assets/images/projeler/b1.jpg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-factory"></i>
@@ -544,7 +544,7 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/projeler/Parke-Taşı-Üretim-Tesisi.jpg') }}" alt="Parke Taşı Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                        <img src="{{ asset('assets/images/projeler/p1.jpg') }}" alt="Parke Taşı Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-brick"></i>
