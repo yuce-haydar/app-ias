@@ -71,7 +71,7 @@ class ProjectController extends Controller
                 'status' => 'Tasarım',
                 'type' => 'Sosyal Tesis',
                 'area' => '4800 m²',
-                'image' => 'assets/images/projeler/altınözü-gençlik-merkezi/A1.png'
+                'image' => 'assets/images/projeler/altınözü-gençlik-merkezi/GORSELLER/01.jpg'
             ],
             [
                 'id' => 8,
@@ -80,7 +80,7 @@ class ProjectController extends Controller
                 'status' => 'Planlanan',
                 'type' => 'Spor Tesisi', 
                 'area' => '5200 m²',
-                'image' => 'assets/images/projeler/arsuz-gulcihan-spor-tesis/WhatsApp Image 2025-02-18 at 17.04.58.jpeg'
+                'image' => 'assets/images/projeler/arsuz-gulcihan-spor-tesis/1.png'
             ],
             [
                 'id' => 9,
@@ -98,7 +98,7 @@ class ProjectController extends Controller
                 'status' => 'Devam Ediyor',
                 'type' => 'Spor Tesisi',
                 'area' => '9200 m²',
-                'image' => 'assets/images/projeler/dortyol-1500-spor-kompleksi/d1.jpg'
+                'image' => 'assets/images/projeler/dortyol-1500-spor-kompleksi/d1.jpeg'
             ],
             [
                 'id' => 11,
@@ -109,15 +109,7 @@ class ProjectController extends Controller
                 'area' => '1800 m²',
                 'image' => 'assets/images/projeler/fizyoterapi-render/f1.jpg'
             ],
-            [
-                'id' => 12,
-                'title' => 'Gökmeydan Adak ve Taziye Evi',
-                'location' => 'Samandağ',
-                'status' => 'Tamamlandı',
-                'type' => 'Sosyal Tesis',
-                'area' => '800 m²',
-                'image' => 'assets/images/projeler/adak-taziye-evleri/gökmeydan-adak-ve-taziye/RENDER/G_Photo - 1.jpg'
-            ],
+            
             [
                 'id' => 13,
                 'title' => 'Samandağ Mızraklı Adak ve Taziye Evi',
@@ -134,17 +126,9 @@ class ProjectController extends Controller
                 'status' => 'Devam Ediyor',
                 'type' => 'Spor Tesisi',
                 'area' => '1500 m²',
-                'image' => 'assets/images/projeler/kirkhan-kulliye/K (8).jpg'
+                'image' => 'assets/images/projeler/kirkhan-kulliye/K (8)-.jpg'
             ],
-            [
-                'id' => 15,
-                'title' => 'Belen Bedesten Meydan Projesi',
-                'location' => 'Belen',
-                'status' => 'Devam Ediyor',
-                'type' => 'Ticaret Merkezi',
-                'area' => '2500 m²',
-                'image' => 'assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.59.05.jpeg'
-            ],
+           
             [
                 'id' => 16,
                 'title' => 'Yayladağı Halısaha Kompleksi',

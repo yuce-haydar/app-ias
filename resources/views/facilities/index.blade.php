@@ -44,7 +44,7 @@ Tesisler Grid Bölümü
             <div class="col-lg-6 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Büz Üretim Tesisi">
+                        <img src="{{ asset('assets/images/projeler/Büz-Üretim-Tesisi.jpg') }}" alt="Büz Üretim Tesisi">
                         <div class="date">
                             <span class="day">500</span>
                             <span class="month">Adet/Gün</span>
@@ -79,7 +79,7 @@ Tesisler Grid Bölümü
             <div class="col-lg-6 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Katlı Otopark">
+                        <img src="{{ asset('assets/images/projeler/katlı-otopark.jpg') }}" alt="Katlı Otopark">
                         <div class="date">
                             <span class="day">300</span>
                             <span class="month">Araç</span>
@@ -149,7 +149,7 @@ Tesisler Grid Bölümü
             <div class="col-lg-6 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Parke Taşı Üretim">
+                        <img src="{{ asset('assets/images/projeler/Parke-Taşı-Üretim-Tesisi.jpg') }}" alt="Parke Taşı Üretim">
                         <div class="date">
                             <span class="day">50+</span>
                             <span class="month">Çeşit</span>
