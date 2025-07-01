@@ -49,7 +49,7 @@
                                 <div class="mb-3">
                                     <label for="tags" class="form-label">Etiketler</label>
                                     <input type="text" class="form-control @error('tags') is-invalid @enderror" 
-                                           id="tags" name="tags" value="{{ old('tags', $news->tags) }}" 
+                                           id="tags" name="tags" value="{{ old('tags', is_array($news->tags) ? implode(', ', $news->tags) : $news->tags) }}" 
                                            placeholder="Virgülle ayırarak yazın: teknoloji, inovasyon, haber">
                                     @error('tags')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -78,7 +78,7 @@
                                     
                                     <input type="file" class="form-control @error('featured_image') is-invalid @enderror" 
                                            id="featured_image" name="featured_image" accept="image/*">
-                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 5MB</small>
+                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 15MB (Otomatik sıkıştırılır)</small>
                                     @error('featured_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

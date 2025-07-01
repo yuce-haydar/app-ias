@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Blog Liste - Nexta İş Danışmanlığı')
+@section('title', 'Blog Liste - Hatay İmar')
 @section('description', 'İş dünyası hakkında güncel makaleler ve uzman analizleri liste formatında.')
 @section('keywords', 'blog liste, makaleler, iş dünyası, danışmanlık haberleri')
 

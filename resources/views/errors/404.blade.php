@@ -87,7 +87,7 @@ Hızlı Linkler Bölümü
                         <i class="icon-info"></i>
                     </div>
                     <h4 class="title"><a href="{{ route('about') }}">Hakkımızda</a></h4>
-                    <p class="text">Nexta'nın hikayesi, misyonu ve vizyonu</p>
+                                                                <p class="text">Hatay İmar'ın hikayesi, misyonu ve vizyonu</p>
                 </div>
             </div>
             

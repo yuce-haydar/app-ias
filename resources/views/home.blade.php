@@ -131,197 +131,70 @@ Hero Bölümü
     </div>
     <div class="hero-slider-6 swiper">
         <div class="swiper-wrapper">
-            <!-- İSK Kapalı Spor ve Yarı Olimpik Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/5.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7">
-                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">İskenderun<br><span>Kapalı Spor</span> ve<br>Yarı Olimpik Havuz<br>Kompleksi</h1>
-                                <div class="text">
-                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>Modern spor tesisleri ile şehrimizin spor altyapısını<br>
-                                        güçlendiriyoruz. Uluslararası standartlarda havuz kompleksi.
-                                    </p>
-                                </div>
-                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
-                                    <span class="link-effect">
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                    </span><i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="hero-right">
-                                <div class="image-box">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/4.jpg') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
+            @if($homeSettings->hero_slides && count($homeSettings->hero_slides) > 0)
+                @foreach($homeSettings->hero_slides as $index => $slide)
+                <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)){{ isset($slide['image']) && $slide['image'] ? ', url(\'' . asset('storage/' . $slide['image']) . '\')' : ', url(\'' . asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/5.jpg') . '\')' }}; background-size: cover; background-position: center; min-height: 100vh;">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7">
+                                <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                                    <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                                        {!! isset($slide['title']) && $slide['title'] ? nl2br(e($slide['title'])) : 'Modern<br><span>İnşaat</span><br>Çözümleri' !!}
+                                    </h1>
+                                    <div class="text">
+                                        <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
+                                        <p>{{ isset($slide['description']) && $slide['description'] ? $slide['description'] : 'Hatay\'ın geleceğini şekillendiren projelerle şehrimize değer katıyoruz. Kaliteli ve sürdürülebilir inşaat hizmetleri sunuyoruz.' }}</p>
+                                    </div>
+                                    <a href="{{ isset($slide['button_link']) && $slide['button_link'] ? $slide['button_link'] : route('projects') }}" class="theme-btn bg-color10">
+                                        <span class="link-effect">
+                                            <span class="effect-1">{{ isset($slide['button_text']) && $slide['button_text'] ? $slide['button_text'] : 'Projelerimizi İncele' }}</span>
+                                            <span class="effect-1">{{ isset($slide['button_text']) && $slide['button_text'] ? $slide['button_text'] : 'Projelerimizi İncele' }}</span>
+                                        </span><i class="fa-regular fa-arrow-right-long"></i>
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kırıkhan Butik Yarı Olimpik Yüzme Havuzu Slide -->
-            <div class="swiper-slide lazy-bg" data-bg="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/8f716ef6-3ea1-4442-85c9-df8c033a7eee.jpg') }}" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); background-size: cover; background-position: center; min-height: 100vh;">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7">
-                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Kırıkhan<br><span>Butik Yarı Olimpik</span><br>Yüzme Havuzu</h1>
-                                <div class="text">
-                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>1500 m² alana sahip, 25x12,5 m ölçülerinde 5 kulvarlı<br>
-                                        butik yüzme havuzu ile 200 kişilik kapasiteye sahip modern tesis.
-                                    </p>
-                                </div>
-                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
-                                    <span class="link-effect">
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                    </span><i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="hero-right">
-                                <div class="image-box">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/290e33ae-a63c-4c20-b17a-63936fdf517a.jpg') }}" alt="Kırıkhan Yüzme Havuzu" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
+                            <div class="col-lg-5">
+                                <div class="hero-right">
+                                    <div class="image-box">
+                                        <img class="lazy-img" data-src="{{ isset($slide['small_image']) && $slide['small_image'] ? asset('storage/' . $slide['small_image']) : (isset($slide['image']) && $slide['image'] ? asset('storage/' . $slide['image']) : asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/4.jpg')) }}" alt="{{ isset($slide['title']) ? strip_tags($slide['title']) : 'Proje Görseli' }}" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Halısaha Render Slide -->
-            <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.05.jpeg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7">
-                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Modern<br><span>Halısaha</span><br>Kompleksi</h1>
-                                <div class="text">
-                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>Gençlerimizin sporla buluşması için modern halısaha<br>
-                                        tesisleri inşa ediyoruz. Kaliteli spor altyapısı.
-                                    </p>
-                                </div>
-                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
-                                    <span class="link-effect">
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                    </span><i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="hero-right">
-                                <div class="image-box">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.00.jpeg') }}" alt="Halısaha Kompleksi" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
+                @endforeach
+            @else
+                <!-- Fallback slide eğer JSON slider yoksa -->
+                <div class="swiper-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/5.jpg') }}'); background-size: cover; background-position: center; min-height: 100vh;">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7">
+                                <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                                    <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Modern<br><span>İnşaat</span><br>Çözümleri</h1>
+                                    <div class="text">
+                                        <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
+                                        <p>Hatay'ın geleceğini şekillendiren projelerle şehrimize değer katıyoruz. Kaliteli ve sürdürülebilir inşaat hizmetleri sunuyoruz.</p>
+                                    </div>
+                                    <a href="{{ route('projects') }}" class="theme-btn bg-color10">
+                                        <span class="link-effect">
+                                            <span class="effect-1">Projelerimizi İncele</span>
+                                            <span class="effect-1">Projelerimizi İncele</span>
+                                        </span><i class="fa-regular fa-arrow-right-long"></i>
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kırıkhan Külliye Slide -->
-            <div class="swiper-slide lazy-bg" data-bg="{{ asset('assets/images/projeler/kirkhan-kulliye/K (9).jpg') }}" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); background-size: cover; background-position: center; min-height: 100vh;">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7">
-                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Kırıkhan<br><span>Külliye</span><br>Projesi</h1>
-                                <div class="text">
-                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>Kültürel ve dini değerlerimizi koruyan<br>
-                                        modern külliye kompleksi ile manevi ihtiyaçları karşılıyoruz.
-                                    </p>
-                                </div>
-                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
-                                    <span class="link-effect">
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                    </span><i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="hero-right">
-                                <div class="image-box">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (4).jpg') }}" alt="Kırıkhan Külliye" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
+                            <div class="col-lg-5">
+                                <div class="hero-right">
+                                    <div class="image-box">
+                                        <img class="lazy-img" data-src="{{ asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/4.jpg') }}" alt="Modern İnşaat Projesi" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Belen Bedesten Meydan Projesi Slide -->
-            <div class="swiper-slide lazy-bg" data-bg="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.58.jpeg') }}" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); background-size: cover; background-position: center; min-height: 100vh;">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7">
-                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Belen<br><span>Bedesten Meydan</span><br>Projesi</h1>
-                                <div class="text">
-                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>2500 m² alanda 15 bölümlü modern bedesten projesi.<br>
-                                        Fırın, restoran, market, muhtarlık ve sosyal donatılarla hizmet verecek.
-                                    </p>
-                                </div>
-                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
-                                    <span class="link-effect">
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                    </span><i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="hero-right">
-                                <div class="image-box">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.58 (1).jpeg') }}" alt="Belen Bedesten Meydan Projesi" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 200 Kişilik Yarı Olimpik Slide -->
-            <div class="swiper-slide lazy-bg" data-bg="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); background-size: cover; background-position: center; min-height: 100vh;">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7">
-                            <div class="hero-content md-mb-50" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                <h1 class="title" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">200 Kişilik<br><span>Yarı Olimpik</span><br>Altınözü Havuzu</h1>
-                                <div class="text">
-                                    <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                    <p>Altınözü ilçemize modern yüzme havuzu kompleksi<br>
-                                        ile spor faaliyetlerini destekliyoruz.
-                                    </p>
-                                </div>
-                                <a href="{{ route('projects') }}" class="theme-btn bg-color10">
-                                    <span class="link-effect">
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                        <span class="effect-1">Projelerimizi İncele</span>
-                                    </span><i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="hero-right">
-                                <div class="image-box">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/dfc99099-3568-430c-af5e-d36439aabf6f.jpg') }}" alt="Yarı Olimpik Havuz" style="width: 100%; height: auto; border-radius: 10px;" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endif
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
@@ -340,32 +213,31 @@ Hakkımızda Bölümü
                 <div class="about-thumb-area mr-60 xl-mr-0">
                     <div class="about-slider swiper" style="height: 400px; overflow: hidden;">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/5.jpg') }}" alt="İSK Spor Kompleksi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" loading="lazy">
+                            @if($homeSettings->about_images && count($homeSettings->about_images) > 0)
+                                @foreach($homeSettings->about_images as $image)
+                                    @if(isset($image['image']) && $image['image'])
+                                    <div class="swiper-slide">
+                                        <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
+                                            <img class="lazy-img" data-src="{{ asset('storage/' . $image['image']) }}" alt="{{ $image['caption'] ?? 'Hakkımızda Görseli' }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" loading="lazy">
+                                            @if(isset($image['caption']) && $image['caption'])
+                                                <div class="slide-caption" style="position: absolute; bottom: 10px; left: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 8px; border-radius: 5px; font-size: 14px;">
+                                                    {{ $image['caption'] }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <!-- Fallback: Projelerden görseller kullan -->
+                                @foreach($projects as $project)
+                                <div class="swiper-slide">
+                                    <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
+                                        <img class="lazy-img" data-src="{{ $project->image_url ?? \App\Helpers\ImageHelper::getImageUrl($project->image) }}" alt="{{ $project->title }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" loading="lazy">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb" style="height: 350px; overflow: hidden; border-radius: 10px;">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (9).jpg') }}" alt="Kırıkhan Külliye Projesi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali Projesi" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/halısaha-render/WhatsApp Image 2024-11-20 at 10.22.05.jpeg') }}" alt="Halısaha Projesi" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projeleri" loading="lazy">
-                                </div>
-                            </div>
-
+                                @endforeach
+                            @endif
                         </div>
                         <div class="array-button">
                             <button class="array-prev"><i class="fa-light fa-arrow-left-long"></i></button>
@@ -378,10 +250,9 @@ Hakkımızda Bölümü
             <div class="col-lg-6">
                 <div class="about-content-wrapper">
                     <div class="title-area two">
-                        <div class="sub-title"><span><i class="asterisk"></i></span>Hayata Geçirdiğimiz Projeler</div>
-                        <h2 class="sec-title mb-25">Hatay'ın <span class="bold">Geleceğini</span><br>İnşa Ediyoruz!</h2>
-                        <p class="sec-text text-gray">15 ilçede eş zamanlı yürüttüğümüz projelerle<br>
-                            Hatay'ın spor, sosyal ve kültürel altyapısını güçlendiriyoruz.</p>
+                        <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->about_subtitle ?: 'Hayata Geçirdiğimiz Projeler' }}</div>
+                        <h2 class="sec-title mb-25">{!! $homeSettings->about_title ? nl2br(e($homeSettings->about_title)) : 'Hatay\'ın <span class="bold">Geleceğini</span><br>İnşa Ediyoruz!' !!}</h2>
+                        <p class="sec-text text-gray">{{ $homeSettings->about_description ?: '15 ilçede eş zamanlı yürüttüğümüz projelerle Hatay\'ın spor, sosyal ve kültürel altyapısını güçlendiriyoruz.' }}</p>
                     </div>
                     <div class="feature-list">
                         <div class="feature-item">
@@ -466,27 +337,32 @@ Tamamlanan Tesisler Bölümü
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-area text-center">
-                    <div class="sub-title text-white"><span><i class="asterisk"></i></span>Tamamlanan Tesisler</div>
-                    <h2 class="sec-title text-white mb-60">Şehrimize <span class="bold">Kazandırdığımız</span><br>Tesisler</h2>
+                    <div class="sub-title text-white"><span><i class="asterisk"></i></span>{{ $homeSettings->facilities_subtitle ?: 'Tamamlanan Tesisler' }}</div>
+                    <h2 class="sec-title text-white mb-60">{!! $homeSettings->facilities_title ? nl2br(e($homeSettings->facilities_title)) : 'Şehrimize <span class="bold">Kazandırdığımız</span><br>Tesisler' !!}</h2>
                 </div>
             </div>
         </div>
         <div class="row gy-30">
+            @foreach($facilities as $facility)
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img class="lazy-img" data-src="{{ asset('assets/images/projeler/b1.jpg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                        <img src="{{ $facility->image_url ?? \App\Helpers\ImageHelper::getImageUrl($facility->image) }}" alt="{{ $facility->name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
-                        <i class="flaticon-factory"></i>
+                        <i class="{{ $facility->icon_class }}"></i>
                     </div>
                     <div class="service-content">
-                        <h4 class="service-title" style="height: 50px;"><a href="{{ route('facilities.details', ['id' => 1]) }}" style="text-decoration: none; color: #ffc107;">Büz Üretim Tesisi</a></h4>
-                        <p class="service-text">Büz, Beton Boru (künk) gibi isimlerle anılan ürünlerimiz milimetre cinsinden iç çap genişlikleri ile adlandırılan...</p>
-                        <a href="{{ route('facilities.details', ['id' => 1]) }}" class="service-link mb-15">
+                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;">
+                            <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" style="text-decoration: none; color: #ffc107;">
+                                {{ $facility->name }}
+                            </a>
+                        </h4>
+                        <p class="service-text">{{ $facility->short_description }}</p>
+                        <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" class="service-link mb-15">
                             <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
-                        <a href="{{ route('facilities.details', ['id' => 1]) }}" class="theme-btn bg-color10 btn-sm">
+                        <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" class="theme-btn bg-color10 btn-sm">
                             <span class="link-effect">
                                 <span class="effect-1">Devamını Oku</span>
                                 <span class="effect-1">Devamını Oku</span>
@@ -495,78 +371,10 @@ Tamamlanan Tesisler Bölümü
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="service-item style-6">
-                    <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/projeler/katlı-otopark.jpg') }}" alt="Katlı Otopark" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
-                    </div>
-                    <div class="service-icon">
-                        <i class="flaticon-parking"></i>
-                    </div>
-                    <div class="service-content">
-                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('facilities.details', ['id' => 2]) }}" style="text-decoration: none; color: #ffc107;">Katlı Otopark</a></h4>
-                        <p class="service-text">2005 yılında şehir merkezinde faaliyete geçen Katlı Otopark, şehrimizde yoğun trafikten araçlarına park yeri bulamayan...</p>
-                        <a href="{{ route('facilities.details', ['id' => 2]) }}" class="service-link mb-15">
-                            <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                        <a href="{{ route('facilities.details', ['id' => 2]) }}" class="theme-btn bg-color10 btn-sm">
-                            <span class="link-effect">
-                                <span class="effect-1">Devamını Oku</span>
-                                <span class="effect-1">Devamını Oku</span>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="service-item style-6">
-                    <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Habib-i Neccar Sosyal Tesis" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
-                    </div>
-                    <div class="service-icon">
-                        <i class="flaticon-mountain"></i>
-                    </div>
-                    <div class="service-content">
-                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('facilities.details', ['id' => 3]) }}" style="text-decoration: none; color: #ffc107;">Habib-i Neccar<br>Sosyal Tesis</a></h4>
-                        <p class="service-text">2013 yılında faaliyete açıldı. Habib-i Neccar Dağı Eteklerinde İzmir Caddesi'nde, Antakyalıların ailece ziyaret edebilecekleri...</p>
-                        <a href="{{ route('facilities.details', ['id' => 3]) }}" class="service-link mb-15">
-                            <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                        <a href="{{ route('facilities.details', ['id' => 3]) }}" class="theme-btn bg-color10 btn-sm">
-                            <span class="link-effect">
-                                <span class="effect-1">Devamını Oku</span>
-                                <span class="effect-1">Devamını Oku</span>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="service-item style-6">
-                    <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/projeler/p1.jpg') }}" alt="Parke Taşı Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
-                    </div>
-                    <div class="service-icon">
-                        <i class="flaticon-brick"></i>
-                    </div>
-                    <div class="service-content">
-                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('facilities.details', ['id' => 4]) }}" style="text-decoration: none; color: #ffc107;">Parke Taşı Üretim</a></h4>
-                        <p class="service-text">Kullanımı çok eski çağlara dayanan parke taşı: taşın yontulup şekle konulması veya mevcut şekliyle montajının yapılması...</p>
-                        <a href="{{ route('facilities.details', ['id' => 4]) }}" class="service-link mb-15">
-                            <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                        <a href="{{ route('facilities.details', ['id' => 4]) }}" class="theme-btn bg-color10 btn-sm">
-                            <span class="link-effect">
-                                <span class="effect-1">Devamını Oku</span>
-                                <span class="effect-1">Devamını Oku</span>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
         <div class="text-center mt-50">
-                                        <a href="{{ route('facilities.index') }}" class="theme-btn bg-color10">
+            <a href="{{ route('facilities.index') }}" class="theme-btn bg-color10">
                 <span class="link-effect">
                     <span class="effect-1">Tüm Tesisleri Gör</span>
                     <span class="effect-1">Tüm Tesisleri Gör</span>
@@ -585,24 +393,23 @@ Hatay Şehri Bölümü
             <div class="col-lg-6">
                 <div class="about-content-wrapper">
                     <div class="title-area">
-                        <div class="sub-title"><span><i class="asterisk"></i></span>İnşaat ve Yapı Uzmanlığımız</div>
-                        <h2 class="sec-title mb-25">Modern İnşaat<br><span class="bold">Teknolojileri</span> ile</h2>
-                        <p class="sec-text">Hatay İmar olarak 15 yılı aşkın tecrübemizle, modern inşaat teknolojilerini kullanarak şehrimizin altyapısını güçlendiriyoruz. Çelik konstrüksiyon, betonarme yapılar ve prefabrik sistemler konularında uzmanlaşmış ekibimizle hizmet veriyoruz.</p>
-                        <p class="sec-text">Spor tesisleri, sosyal yapılar, ticaret merkezleri ve konut projelerinde kullandığımız modern yapı teknikleri ile depreme dayanıklı, enerji verimli ve çevre dostu binalar inşa ediyoruz.</p>
+                        <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->expertise_subtitle ?: 'İnşaat ve Yapı Uzmanlığımız' }}</div>
+                        <h2 class="sec-title mb-25">{!! $homeSettings->expertise_title ? nl2br(e($homeSettings->expertise_title)) : 'Modern İnşaat<br><span class="bold">Teknolojileri</span> ile' !!}</h2>
+                        <p class="sec-text">{{ $homeSettings->expertise_description ?: 'Hatay İmar olarak 15 yılı aşkın tecrübemizle, modern inşaat teknolojilerini kullanarak şehrimizin altyapısını güçlendiriyoruz. Çelik konstrüksiyon, betonarme yapılar ve prefabrik sistemler konularında uzmanlaşmış ekibimizle hizmet veriyoruz.' }}</p>
                     </div>
                     <div class="about-feature-list">
                         <div class="feature-item">
                             <div class="icon"><i class="fa-solid fa-building"></i></div>
                             <div class="content">
-                                <h5>16+ Proje</h5>
-                                <p>Aktif İnşaat Projesi</p>
+                                <h5>{{ $homeSettings->expertise_stat_1_number ?: '16+ Proje' }}</h5>
+                                <p>{{ $homeSettings->expertise_stat_1_text ?: 'Aktif İnşaat Projesi' }}</p>
                             </div>
                         </div>
                         <div class="feature-item">
                             <div class="icon"><i class="fa-solid fa-hard-hat"></i></div>
                             <div class="content">
-                                <h5>15+ Yıl</h5>
-                                <p>İnşaat Tecrübesi</p>
+                                <h5>{{ $homeSettings->expertise_stat_2_number ?: '15+ Yıl' }}</h5>
+                                <p>{{ $homeSettings->expertise_stat_2_text ?: 'İnşaat Tecrübesi' }}</p>
                             </div>
                         </div>
                     </div>
@@ -617,10 +424,10 @@ Hatay Şehri Bölümü
             <div class="col-lg-6">
                 <div class="about-thumb-area">
                     <div class="about-thumb">
-                        <img src="{{ asset('assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" alt="Modern Spor Kompleksi İnşaatı" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" loading="lazy">
+                        <img src="{{ asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" alt="Modern Spor Kompleksi İnşaatı" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="about-thumb-2">
-                        <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali İnşaat Projesi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" loading="lazy">
+                        <img src="{{ asset('storage/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali İnşaat Projesi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="experience-box">
                         <div class="icon"><i class="fa-solid fa-hard-hat"></i></div>
@@ -634,21 +441,21 @@ Hatay Şehri Bölümü
                     <div class="construction-gallery mt-30">
                         <div class="row g-2">
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş İnşaat Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                                <img src="{{ asset('storage/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş İnşaat Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Yapım Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                                <img src="{{ asset('storage/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Yapım Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                             <div class="col-4">
-                                <img src="{{ asset('assets/images/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Konut Projesi İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                                <img src="{{ asset('storage/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Konut Projesi İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                         </div>
                         <div class="row g-2 mt-2">
                             <div class="col-6">
-                                <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                                <img src="{{ asset('storage/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                             <div class="col-6">
-                                <img src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Sosyal Tesis İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                                <img src="{{ asset('storage/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Sosyal Tesis İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
                         </div>
                     </div>
@@ -666,8 +473,8 @@ Blog Bölümü
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-area text-center">
-                    <div class="sub-title"><span><i class="asterisk"></i></span>Haberler & Duyurular</div>
-                    <h2 class="baslik mb-60">Son <span class="bold">Haberlerimiz</span></h2>
+                    <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->news_subtitle ?: 'Haberler & Duyurular' }}</div>
+                    <h2 class="baslik mb-60">{!! $homeSettings->news_title ? nl2br(e($homeSettings->news_title)) : 'Son <span class="bold">Haberlerimiz</span>' !!}</h2>
                 </div>
             </div>
         </div>
@@ -676,7 +483,7 @@ Blog Bölümü
             <div class="col-lg-4 col-md-6">
                 <div class="blog-item">
                     <div class="blog-thumb">
-                        <img src="{{ asset($article->featured_image) }}" alt="{{ $article->title }}" style="width: 100%; height: 250px; object-fit: cover;">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($article->featured_image) }}" alt="{{ $article->title }}" style="width: 100%; height: 250px; object-fit: cover;">
                         <div class="blog-date">
                             <span class="day">{{ $article->published_at->format('d') }}</span>
                             <span class="month">{{ $article->published_at->format('M') }}</span>
@@ -720,77 +527,30 @@ Projelerimiz Özet Bölümü
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-area text-center">
-                    <div class="sub-title"><span><i class="asterisk"></i></span>Projelerimiz</div>
-                    <h2 class="sec-title mb-60">Devam Eden  Projeler</h2>
+                    <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->projects_subtitle ?: 'Projelerimiz' }}</div>
+                    <h2 class="sec-title mb-60">{!! $homeSettings->projects_title ? nl2br(e($homeSettings->projects_title)) : 'Devam Eden Projeler' !!}</h2>
                 </div>
             </div>
         </div>
         <div class="row gy-30">
+            @foreach($projects->take(6) as $project)
             <div class="col-lg-4 col-md-6">
                 <div class="simple-project-item">
                     <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje1.jpeg') }}" alt="Yeni Sosyal Tesis Projesi" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                        <a href="{{ route('project.details', ['id' => $project->id]) }}">
+                            <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" alt="{{ $project->title }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                        </a>
                     </div>
                     <div class="project-title">
-                        <h4>Yeni Sosyal Tesis Projesi</h4>
+                        <h4>
+                            <a href="{{ route('project.details', ['id' => $project->id]) }}" style="color: inherit; text-decoration: none;">
+                                {{ $project->title }}
+                            </a>
+                        </h4>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="simple-project-item">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje2.jpeg') }}" alt="Halı Saha" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="project-title">
-                        <h4>Halı Saha</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="simple-project-item">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje3.jpeg') }}" alt="Kırkhan Külliyesi" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="project-title">
-                        <h4>Kırkhan Külliyesi</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="simple-project-item">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje4.jpeg') }}" alt="Üretim Tesisi Modernizasyonu" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="project-title">
-                        <h4>Çok Amaçlı Sosyal Tesis</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="simple-project-item">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje5.jpeg') }}" alt="Gençlik Merkezleri" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="project-title">
-                        <h4>Gençlik Merkezleri</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="simple-project-item">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje6.jpeg') }}" alt="Spor Tesisi Projesi" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="project-title">
-                        <h4>Spor Tesisi Projesi</h4>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
         <div class="text-center mt-50">
             <a href="{{ route('projects') }}" class="theme-btn bg-dark">
@@ -986,26 +746,27 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-area text-center">
-                    <div class="sub-title"><span><i class="asterisk"></i></span>Öne Çıkan Projelerimiz</div>
-                    <h2 class="sec-title mb-60">Hatay'ın <span class="bold">Gelişimi</span><br>İçin Çalışıyoruz</h2>
+                    <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->featured_projects_subtitle ?: 'Öne Çıkan Projelerimiz' }}</div>
+                    <h2 class="sec-title mb-60">{!! $homeSettings->featured_projects_title ? nl2br(e($homeSettings->featured_projects_title)) : 'Hatay\'ın <span class="bold">Gelişimi</span><br>İçin Çalışıyoruz' !!}</h2>
                 </div>
             </div>
         </div>
 
         <div class="row gy-30">
-            <!-- Kırıkhan Yüzme Havuzu -->
+            @foreach($featuredProjects as $project)
             <div class="col-lg-4 col-md-6">
                 <div class="project-gallery-item">
                     <div class="gallery-thumb">
-                        <img src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Kırıkhan Yüzme Havuzu">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" alt="{{ $project->title }}">
                         <div class="gallery-overlay">
                             <div class="gallery-content">
-                                <h4>Kırıkhan Butik Yarı Olimpik Yüzme Havuzu</h4>
-                                <p>1500 m² alan, 25x12,5 m ölçü, 5 kulvar, 200 kişi kapasiteli modern tesis</p>
-                                <div class="project-status ongoing">
-                                    <i class="fa-solid fa-gear"></i> Devam Ediyor
+                                <h4>{{ $project->title }}</h4>
+                                <p>{{ Str::limit($project->short_description, 100) }}</p>
+                                <div class="project-status {{ $project->status }}">
+                                    <i class="fa-solid {{ $project->status == 'completed' ? 'fa-check-circle' : ($project->status == 'ongoing' ? 'fa-gear' : 'fa-clock') }}"></i> 
+                                    {{ $project->status == 'completed' ? 'Tamamlandı' : ($project->status == 'ongoing' ? 'Devam Ediyor' : 'Tasarım') }}
                                 </div>
-                                <a href="{{ route('projects') }}" class="gallery-btn">
+                                <a href="{{ route('project.details', ['id' => $project->id]) }}" class="gallery-btn">
                                     <i class="fa-regular fa-arrow-right-long"></i>
                                 </a>
                             </div>
@@ -1013,119 +774,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
             </div>
-
-            <!-- Belen Bedesten Meydan -->
-            <div class="col-lg-4 col-md-6">
-                <div class="project-gallery-item">
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg') }}" alt="Belen Bedesten Meydan">
-                        <div class="gallery-overlay">
-                            <div class="gallery-content">
-                                <h4>Belen Bedesten Meydan Projesi</h4>
-                                <p>2500 m² alanda 15 bölümlü modern bedesten projesi, fırın, restoran, market</p>
-                                <div class="project-status ongoing">
-                                    <i class="fa-solid fa-gear"></i> Devam Ediyor
-                                </div>
-                                <a href="{{ route('projects') }}" class="gallery-btn">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kreş Projeleri -->
-            <div class="col-lg-4 col-md-6">
-                <div class="project-gallery-item">
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projeleri">
-                        <div class="gallery-overlay">
-                            <div class="gallery-content">
-                                <h4>Modern Kreş Kompleksleri</h4>
-                                <p>Kumlu ve Altınözü'nde 600 m² alan, 4 sınıf, yemekhane, oyun alanı</p>
-                                <div class="project-status ongoing">
-                                    <i class="fa-solid fa-gear"></i> Devam Ediyor
-                                </div>
-                                <a href="{{ route('projects') }}" class="gallery-btn">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sebze Hali -->
-            <div class="col-lg-4 col-md-6">
-                <div class="project-gallery-item">
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali">
-                        <div class="gallery-overlay">
-                            <div class="gallery-content">
-                                <h4>Modern Sebze Hali Kompleksi</h4>
-                                <p>Şehrimizin ticari hayatını destekleyen modern sebze hali projesi</p>
-                                <div class="project-status completed">
-                                    <i class="fa-solid fa-check-circle"></i> Tamamlandı
-                                </div>
-                                <a href="{{ route('projects') }}" class="gallery-btn">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Halısaha Projeleri -->
-            <div class="col-lg-4 col-md-6">
-                <div class="project-gallery-item">
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Projeleri">
-                        <div class="gallery-overlay">
-                            <div class="gallery-content">
-                                <h4>Modern Halısaha Kompleksleri</h4>
-                                <p>Payas, Kumlu, Yayladağı'nda modern halısaha ve kafeterya projeleri</p>
-                                <div class="project-status ongoing">
-                                    <i class="fa-solid fa-gear"></i> Devam Ediyor
-                                </div>
-                                <a href="{{ route('projects') }}" class="gallery-btn">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Taziye Evleri -->
-            <div class="col-lg-4 col-md-6">
-                <div class="project-gallery-item">
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Taziye Evleri">
-                        <div class="gallery-overlay">
-                            <div class="gallery-content">
-                                <h4>Modern Taziye ve Adakevleri</h4>
-                                <p>Samandağ Mızraklı'da 960 m² alan, 240 kişi kapasiteli 2 katlı yapı</p>
-                                <div class="project-status planning">
-                                    <i class="fa-solid fa-clock"></i> Tasarım
-                                </div>
-                                <a href="{{ route('projects') }}" class="gallery-btn">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <div class="row">
             <div class="col-lg-12 text-center mt-50">
                 <a href="{{ route('projects') }}" class="theme-btn bg-color10">
                     <span class="link-effect">
-                        <span class="effect-1">Tüm Projelerimizi İncele</span>
-                        <span class="effect-1">Tüm Projelerimizi İncele</span>
+                        <span class="effect-1">{{ $homeSettings->featured_projects_button_text ?: 'Tüm Projelerimizi İncele' }}</span>
+                        <span class="effect-1">{{ $homeSettings->featured_projects_button_text ?: 'Tüm Projelerimizi İncele' }}</span>
                     </span><i class="fa-regular fa-arrow-right-long"></i>
                 </a>
             </div>
@@ -1286,8 +943,8 @@ Soru ve Görüşleriniz Bölümü
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-area text-center">
-                    <div class="sub-title"><span><i class="asterisk"></i></span>Soru ve Görüşleriniz</div>
-                    <h2 class="sec-title mb-60">Bizimle <span class="bold">İletişime</span><br>Geçmek İçin</h2>
+                    <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->contact_subtitle ?: 'Soru ve Görüşleriniz' }}</div>
+                    <h2 class="sec-title mb-60">{!! $homeSettings->contact_title ? nl2br(e($homeSettings->contact_title)) : 'Bizimle <span class="bold">İletişime</span><br>Geçmek İçin' !!}</h2>
                 </div>
             </div>
         </div>

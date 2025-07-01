@@ -29,7 +29,7 @@ class NewsSeeder extends Seeder
 <p>Zemin katta taziye salonu, depolar, aş ikram terası, genel kullanım odası, mutfak, bulaşıkhane, adak/kurbanlık kesimhane ve odunluk gibi alanlar yer alacak. Birinci katta ise namazgah salonu, depolar ve ayakkabılıklar bulunacak.</p>
 
 <p>HİSAŞ yetkilileri, sosyal altyapının güçlendirilmesine ve vatandaşların ihtiyaçlarının karşılanmasına yönelik çalışmaların devam edeceğini iletti.</p>',
-                'featured_image' => 'assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg',
+                'featured_image' => 'storage/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg',
                 'category' => 'Projeler',
                 'tags' => ['Samandağ', 'Taziye Evi', 'Adakevi', 'HİSAŞ'],
                 'author' => 'Hatay İmar',
@@ -51,7 +51,7 @@ class NewsSeeder extends Seeder
 <p>Karamağara Mahallesi\'nde konutların kaba inşaatı tamamlanırken inşaatlarda ince işçilik çalışmaları yürütülüyor. Altyapı ve çevre düzenleme işlemlerine ise eş zamanlı olarak başlanacak.</p>
 
 <p>HİSAŞ yetkilileri; 2. etap ve 3. etap evlerin yapımına en kısa sürede başlayacaklarını belirtti.</p>',
-                'featured_image' => 'assets/images/projeler/kirkhan-kulliye/K (1).jpg',
+                'featured_image' => 'storage/projeler/kirkhan-kulliye/K (1).jpg',
                 'category' => 'Projeler',
                 'tags' => ['Kırıkhan', 'Kırsal Dönüşüm', 'Konut', 'HİSAŞ'],
                 'author' => 'Hatay İmar',
@@ -75,7 +75,7 @@ class NewsSeeder extends Seeder
 
 <h3>Betonarme ve Çelik Birlikte Kullanılıyor</h3>
 <p>Yapının inşasında betonarme ve çelik sistem birlikte kullanıldığını aktaran HİSAŞ yetkilileri, çok amaçlı salonun en kısa sürede tamamlayarak vatandaşların hizmetine sunacaklarını iletti.</p>',
-                'featured_image' => 'assets/images/projeler/altınözü-gençlik-merkezi/GORSELLER/01.jpg',
+                'featured_image' => 'storage/projeler/altınözü-gençlik-merkezi/GORSELLER/01.jpg',
                 'category' => 'Projeler',
                 'tags' => ['Altınözü', 'Çok Amaçlı Salon', 'HİSAŞ'],
                 'author' => 'Hatay İmar',
@@ -96,7 +96,7 @@ class NewsSeeder extends Seeder
 
 <h3>HİSAŞ Yetkilileri: En Kısa Zamanda Tamamlayacağız</h3>
 <p>200 kişilik kapasiteye sahip yüzme havuzunda idari bina, sağlık odası ve tribün bulunduğunu aktaran HİSAŞ yetkilileri, inşaatı en kısa zamanda tamamlayıp yüzme havuzunu vatandaşların kullanımına açacaklarını iletti.</p>',
-                'featured_image' => 'assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg',
+                'featured_image' => 'storage/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg',
                 'category' => 'Projeler',
                 'tags' => ['Kırıkhan', 'Yüzme Havuzu', 'Spor', 'HİSAŞ'],
                 'author' => 'Hatay İmar',
@@ -116,7 +116,7 @@ class NewsSeeder extends Seeder
 
 <h3>Spor\'a Ve Gençliğe Verdiği Desteklerden Dolayı Başkan Öntürk\'e Teşekkür</h3>
 <p>Payas\'ta yapımına başlanan projenin bölge genelindeki genç kesime önemli derecede sosyal alan oluşturacağını belirten Cumhuriyet Mahalle Muhtarı Şenol Urman, gençlerin stres atmaları için yapılan halı saha ve kafeterya projesi için ve spor alanında yapılan hizmetler için Başkan Öntürk ile emek veren personellere teşekkür etti.</p>',
-                'featured_image' => 'assets/images/projeler/halısaha-render/k1.jpg',
+                'featured_image' => 'storage/projeler/halısaha-render/k1.jpg',
                 'category' => 'Projeler',
                 'tags' => ['Payas', 'Halı Saha', 'Spor', 'İMAR AŞ'],
                 'author' => 'Hatay İmar',
@@ -137,7 +137,7 @@ class NewsSeeder extends Seeder
 
 <h3>Başkan Öntürk: En Kısa Zamanda Hizmete Sunacağız</h3>
 <p>Göreve geldiği günden bu yana eş zamanlı olarak pek çok projeyi 15 ilçede hayata geçirdiklerini hatırlatan Başkan Öntürk, çocukların güvenli, sağlıklı ve eğitici bir ortamda büyümesini desteklemek amacıyla kreşin inşaatını en kısa sürede tamamlayarak vatandaşların hizmetine sunacaklarını iletti.</p>',
-                'featured_image' => 'assets/images/projeler/kres/KRES1 (1).jpg',
+                'featured_image' => 'storage/projeler/kres/KRES1 (1).jpg',
                 'category' => 'Projeler',
                 'tags' => ['Kumlu', 'Kreş', 'Eğitim', 'HİSAŞ'],
                 'author' => 'Hatay İmar',
@@ -162,7 +162,7 @@ class NewsSeeder extends Seeder
 <p>İMAR AŞ yetkilileri, şu ana kadar 5 adet dükkânın temelinin atıldığını belirterek çalışmalarını yaz aylarında tamamlayacaklarını belirtti.</p>
 
 <p>Soğukoluk Mahallesi Muhtarı ise projeyi "yüz yılın yatırımı" olarak değerlendirerek Belen gençlerine ilk kez böyle bir hizmetle tanıştığı için de Başkan Mehmet Öntürk\'e teşekkürlerini iletti.</p>',
-                'featured_image' => 'assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg',
+                'featured_image' => 'storage/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg',
                 'category' => 'Projeler',
                 'tags' => ['Belen', 'Bedesten', 'Meydan', 'İMAR AŞ'],
                 'author' => 'Hatay İmar',
@@ -185,7 +185,7 @@ class NewsSeeder extends Seeder
 
 <h3>Muhtardan Başkan Öntürk\'e Teşekkür</h3>
 <p>Çalışmalara dair düşüncelerini aktaran Görentaş Mahallesi Muhtar Abdulberi Aktaran, "Yapımı devam eden halı saha, kafeterya projesi ve diğer hizmetleri gençlerimize sunduğu için HBB Başkanımız Mehmet Öntürk\'e teşekkürlerimim sunarım." diye konuştu.</p>',
-                'featured_image' => 'assets/images/projeler/halısaha-render/k2.jpg',
+                'featured_image' => 'storage/projeler/halısaha-render/k2.jpg',
                 'category' => 'Projeler',
                 'tags' => ['Yayladağı', 'Halı Saha', 'Spor', 'HİSAŞ'],
                 'author' => 'Hatay İmar',

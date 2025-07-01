@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -53,20 +54,40 @@ class ProjectController extends Controller
             'progress_percentage' => 'nullable|integer|min:0|max:100',
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
 
-        // Handle image upload
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('projects', 'public');
+            $imageFile = $request->file('image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
+            $validated['image'] = ImageHelper::compressAndStore($imageFile, 'projeler');
         }
 
-        // Handle gallery upload
+        // Handle gallery upload with compression
         if ($request->hasFile('gallery')) {
             $gallery = [];
             foreach ($request->file('gallery') as $file) {
-                $gallery[] = $file->store('projects/gallery', 'public');
+                // Dosya boyutu ve türü kontrolü
+                if (!ImageHelper::checkFileSize($file, 15)) {
+                    return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
+                }
+                
+                if (!ImageHelper::isValidImageType($file)) {
+                    return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
+                }
+                
+                $gallery[] = ImageHelper::compressAndStore($file, 'projeler/gallery');
             }
             $validated['gallery'] = $gallery;
         }
@@ -120,23 +141,35 @@ class ProjectController extends Controller
             'progress_percentage' => 'nullable|integer|min:0|max:100',
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
 
         // Handle image removal
         if ($request->input('remove_image') == '1' && $project->image) {
-            Storage::disk('public')->delete($project->image);
+            ImageHelper::deleteImage($project->image);
             $validated['image'] = null;
         }
 
-        // Handle image upload
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
             // Delete old image if exists
             if ($project->image) {
-                Storage::disk('public')->delete($project->image);
+                ImageHelper::deleteImage($project->image);
             }
-            $validated['image'] = $request->file('image')->store('projects', 'public');
+            
+            $validated['image'] = ImageHelper::compressAndStore($imageFile, 'projeler');
         }
 
         // Handle gallery image removals
@@ -146,7 +179,7 @@ class ProjectController extends Controller
             if (is_array($removedIndices)) {
                 foreach ($removedIndices as $index) {
                     if (isset($gallery[$index])) {
-                        Storage::disk('public')->delete($gallery[$index]);
+                        ImageHelper::deleteImage($gallery[$index]);
                         unset($gallery[$index]);
                     }
                 }
@@ -154,10 +187,19 @@ class ProjectController extends Controller
             }
         }
 
-        // Handle new gallery uploads
+        // Handle new gallery uploads with compression
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $file) {
-                $gallery[] = $file->store('projects/gallery', 'public');
+                // Dosya boyutu ve türü kontrolü
+                if (!ImageHelper::checkFileSize($file, 15)) {
+                    return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
+                }
+                
+                if (!ImageHelper::isValidImageType($file)) {
+                    return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
+                }
+                
+                $gallery[] = ImageHelper::compressAndStore($file, 'projeler/gallery');
             }
         }
         
@@ -178,13 +220,13 @@ class ProjectController extends Controller
         
         // Delete image
         if ($project->image) {
-            Storage::disk('public')->delete($project->image);
+            ImageHelper::deleteImage($project->image);
         }
         
         // Delete gallery images
         if ($project->gallery) {
             foreach ($project->gallery as $image) {
-                Storage::disk('public')->delete($image);
+                ImageHelper::deleteImage($image);
             }
         }
         

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -44,8 +45,8 @@ class FacilityController extends Controller
             'status' => 'required|in:active,inactive',
             'opening_date' => 'nullable|date',
             'capacity' => 'nullable|string',
-            'features' => 'nullable|array',
-            'working_hours' => 'nullable|array',
+            'features' => 'nullable|string',
+            'working_hours' => 'nullable|string',
             'address' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
@@ -54,20 +55,48 @@ class FacilityController extends Controller
             'longitude' => 'nullable|numeric',
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('facilities', 'public');
+        // Text alanlarını array'e çevir
+        if ($validated['features']) {
+            $validated['features'] = array_filter(array_map('trim', explode("\n", $validated['features'])));
+        }
+        if ($validated['working_hours']) {
+            $validated['working_hours'] = array_filter(array_map('trim', explode(",", $validated['working_hours'])));
         }
 
-        // Handle gallery upload
+        // Handle image upload with compression
+        if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
+            $validated['image'] = ImageHelper::compressAndStore($imageFile, 'tesisler');
+        }
+
+        // Handle gallery upload with compression
         if ($request->hasFile('gallery')) {
             $gallery = [];
             foreach ($request->file('gallery') as $file) {
-                $gallery[] = $file->store('facilities/gallery', 'public');
+                // Dosya boyutu ve türü kontrolü
+                if (!ImageHelper::checkFileSize($file, 15)) {
+                    return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
+                }
+                
+                if (!ImageHelper::isValidImageType($file)) {
+                    return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
+                }
+                
+                $gallery[] = ImageHelper::compressAndStore($file, 'tesisler/gallery');
             }
             $validated['gallery'] = $gallery;
         }
@@ -112,8 +141,8 @@ class FacilityController extends Controller
             'status' => 'required|in:active,inactive',
             'opening_date' => 'nullable|date',
             'capacity' => 'nullable|string',
-            'features' => 'nullable|array',
-            'working_hours' => 'nullable|array',
+            'features' => 'nullable|string',
+            'working_hours' => 'nullable|string',
             'address' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
@@ -122,23 +151,43 @@ class FacilityController extends Controller
             'longitude' => 'nullable|numeric',
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
+
+        // Text alanlarını array'e çevir
+        if ($validated['features']) {
+            $validated['features'] = array_filter(array_map('trim', explode("\n", $validated['features'])));
+        }
+        if ($validated['working_hours']) {
+            $validated['working_hours'] = array_filter(array_map('trim', explode(",", $validated['working_hours'])));
+        }
 
         // Handle image removal
         if ($request->input('remove_image') == '1' && $facility->image) {
-            Storage::disk('public')->delete($facility->image);
+            ImageHelper::deleteImage($facility->image);
             $validated['image'] = null;
         }
 
-        // Handle image upload
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
             // Delete old image if exists
             if ($facility->image) {
-                Storage::disk('public')->delete($facility->image);
+                ImageHelper::deleteImage($facility->image);
             }
-            $validated['image'] = $request->file('image')->store('facilities', 'public');
+            
+            $validated['image'] = ImageHelper::compressAndStore($imageFile, 'tesisler');
         }
 
         // Handle gallery image removals
@@ -148,7 +197,7 @@ class FacilityController extends Controller
             if (is_array($removedIndices)) {
                 foreach ($removedIndices as $index) {
                     if (isset($gallery[$index])) {
-                        Storage::disk('public')->delete($gallery[$index]);
+                        ImageHelper::deleteImage($gallery[$index]);
                         unset($gallery[$index]);
                     }
                 }
@@ -156,10 +205,19 @@ class FacilityController extends Controller
             }
         }
 
-        // Handle new gallery uploads
+        // Handle new gallery uploads with compression
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $file) {
-                $gallery[] = $file->store('facilities/gallery', 'public');
+                // Dosya boyutu ve türü kontrolü
+                if (!ImageHelper::checkFileSize($file, 15)) {
+                    return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
+                }
+                
+                if (!ImageHelper::isValidImageType($file)) {
+                    return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
+                }
+                
+                $gallery[] = ImageHelper::compressAndStore($file, 'tesisler/gallery');
             }
         }
         
@@ -180,13 +238,13 @@ class FacilityController extends Controller
         
         // Delete image
         if ($facility->image) {
-            Storage::disk('public')->delete($facility->image);
+            ImageHelper::deleteImage($facility->image);
         }
         
         // Delete gallery images
         if ($facility->gallery) {
             foreach ($facility->gallery as $image) {
-                Storage::disk('public')->delete($image);
+                ImageHelper::deleteImage($image);
             }
         }
         

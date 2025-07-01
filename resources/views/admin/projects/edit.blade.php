@@ -40,7 +40,7 @@
                                 <div class="mb-3">
                                     <label for="features" class="form-label">Özellikler</label>
                                     <textarea class="form-control @error('features') is-invalid @enderror" 
-                                              id="features" name="features" rows="5">{{ old('features', $project->features) }}</textarea>
+                                              id="features" name="features" rows="5">{{ old('features', is_array($project->features) ? implode("\n", $project->features) : '') }}</textarea>
                                     @error('features')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -49,7 +49,7 @@
                                 <div class="mb-3">
                                     <label for="technical_specs" class="form-label">Teknik Özellikler</label>
                                     <textarea class="form-control @error('technical_specs') is-invalid @enderror" 
-                                              id="technical_specs" name="technical_specs" rows="4">{{ old('technical_specs', $project->technical_specs) }}</textarea>
+                                              id="technical_specs" name="technical_specs" rows="4">{{ old('technical_specs', is_array($project->technical_specs) ? implode("\n", $project->technical_specs) : '') }}</textarea>
                                     @error('technical_specs')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -111,7 +111,7 @@
                                     
                                     <input type="file" class="form-control @error('image') is-invalid @enderror" 
                                            id="image" name="image" accept="image/*">
-                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 5MB</small>
+                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 15MB (Otomatik sıkıştırılır)</small>
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

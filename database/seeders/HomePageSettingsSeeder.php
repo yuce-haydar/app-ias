@@ -14,7 +14,47 @@ class HomePageSettingsSeeder extends Seeder
     public function run(): void
     {
         HomePageSetting::updateOrCreate([], [
-            // Hero Slider Settings
+            // Hero Slides JSON (Yeni sistem)
+            'hero_slides' => [
+                [
+                    'title' => 'Modern İnşaat Çözümleri',
+                    'description' => 'Hatay\'ın geleceğini şekillendiren projelerle şehrimize değer katıyoruz. Kaliteli ve sürdürülebilir inşaat hizmetleri sunuyoruz.',
+                    'button_text' => 'Projelerimizi İncele',
+                    'button_link' => '/projects',
+                    'image' => '',
+                    'small_image' => '',
+                ],
+                [
+                    'title' => 'Kırıkhan Butik Yarı Olimpik Havuz',
+                    'description' => '1500 m² alanda, 25x12,5 m ölçülerinde 5 kulvarlı modern yüzme havuzu projesi. 200 kişi kapasiteli modern tesis.',
+                    'button_text' => 'Projelerimizi İncele',
+                    'button_link' => '/projects',
+                    'image' => '',
+                    'small_image' => '',
+                ],
+                [
+                    'title' => 'Belen Bedesten Meydan Projesi',
+                    'description' => '2500 m² alanda 15 bölümlü modern bedesten kompleksi. Ticaretin kalbi olacak yeni nesil alışveriş merkezi.',
+                    'button_text' => 'Projelerimizi İncele',
+                    'button_link' => '/projects',
+                    'image' => '',
+                    'small_image' => '',
+                ],
+            ],
+            
+            // About Images JSON (Yeni sistem)
+            'about_images' => [
+                [
+                    'image' => '',
+                    'caption' => 'İnşaat projelerimizden görünüm',
+                ],
+                [
+                    'image' => '',
+                    'caption' => 'Modern tasarım örnekleri',
+                ],
+            ],
+
+            // Hero Slider Settings (Legacy - backward compatibility)
             'hero_title_1' => 'Modern İnşaat Çözümleri',
             'hero_description_1' => 'Hatay\'ın geleceğini şekillendiren projelerle şehrimize değer katıyoruz. Kaliteli ve sürdürülebilir inşaat hizmetleri sunuyoruz.',
             'hero_title_2' => 'Kırıkhan Butik Yarı Olimpik Havuz',

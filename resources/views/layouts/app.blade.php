@@ -98,6 +98,28 @@
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
+
+        /* Mobil Logo Düzeltmesi */
+        @media (max-width: 991px) {
+            .header-logo {
+                padding: 0 !important;
+            }
+            .header-logo img[alt="HBB Logo"] {
+                width: 120px !important;
+                height: auto !important;
+                max-width: 120px !important;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .header-logo {
+                padding: 0 !important;
+            }
+            .header-logo img[alt="HBB Logo"] {
+                width: 120px !important;
+                max-width: 120px !important;
+            }
+        }
     </style>
 
     @stack('styles')

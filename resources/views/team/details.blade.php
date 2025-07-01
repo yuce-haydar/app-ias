@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Ekip Detayı - Nexta İş Danışmanlığı')
-@section('description', 'Uzman ekip üyemizin detaylı bilgileri ve deneyimleri.')
+@section('title', $teamMember->name . ' - Hatay İmar')
+@section('description', $teamMember->description ?? $teamMember->bio)
 @section('keywords', 'ekip detayı, uzman, deneyim, biyografi')
 
 @section('content')
@@ -16,7 +16,7 @@
                 <ul class="page-breadcrumb">
                     <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
                     <li><a href="{{ route('team') }}">Ekip</a></li>
-                    <li>Ekip Detayı</li>
+                    <li>{{ $teamMember->name }}</li>
                 </ul>
             </div>
         </div>
@@ -31,52 +31,99 @@ Ekip Detay Bölümü
         <div class="row">
             <div class="col-lg-4">
                 <div class="team-details-thumb">
-                    <img src="{{ asset('assets/images/team/details1.jpg') }}" alt="Ekip Üyesi">
+                    <img src="{{ asset($teamMember->image) }}" alt="{{ $teamMember->name }}">
                 </div>
             </div>
             <div class="col-lg-8">
                 <div class="team-details-content">
-                    <h2 class="name">Ahmet Yılmaz</h2>
-                    <p class="designation">Genel Müdür</p>
+                    <h2 class="name">{{ $teamMember->name }}</h2>
+                    <p class="designation">{{ $teamMember->position }}</p>
                     
                     <div class="team-info">
                         <h4>İletişim Bilgileri</h4>
                         <ul class="team-contact">
-                            <li><strong>E-posta:</strong> ahmet.yilmaz@nexta.com.tr</li>
-                            <li><strong>Telefon:</strong> +90 212 123 45 67</li>
-                            <li><strong>LinkedIn:</strong> /in/ahmet-yilmaz</li>
+                            <li><strong>E-posta:</strong> {{ $teamMember->email }}</li>
+                            <li><strong>Telefon:</strong> {{ $teamMember->phone }}</li>
+                            @if($teamMember->social_linkedin)
+                                <li><strong>LinkedIn:</strong> <a href="{{ $teamMember->social_linkedin }}" target="_blank">{{ parse_url($teamMember->social_linkedin)['path'] ?? 'LinkedIn Profili' }}</a></li>
+                            @endif
                         </ul>
                     </div>
 
                     <div class="team-bio">
                         <h4>Biyografi</h4>
-                        <p>15 yıllık deneyimle stratejik danışmanlık alanında uzman olan Ahmet Yılmaz, çeşitli sektörlerde başarılı projelere imza atmıştır. İş dünyasındaki derin bilgisi ve analitik yaklaşımıyla müşterilerine değer katmaya odaklanmaktadır.</p>
+                        <p>{{ $teamMember->bio }}</p>
                         
-                        <p>Kariyer hayatında uluslararası şirketlerde üst düzey yöneticilik görevlerinde bulunmuş, özellikle dijital dönüşüm ve strateji geliştirme alanlarında uzmanlaşmıştır.</p>
+                        @if($teamMember->experience_years)
+                            <p class="mt-3"><strong>Deneyim:</strong> {{ $teamMember->experience_years }} yıl</p>
+                        @endif
                     </div>
 
-                    <div class="team-skills">
-                        <h4>Uzmanlık Alanları</h4>
-                        <div class="skills-list">
-                            <span class="skill-tag">Stratejik Planlama</span>
-                            <span class="skill-tag">İş Geliştirme</span>
-                            <span class="skill-tag">Dijital Dönüşüm</span>
-                            <span class="skill-tag">Liderlik</span>
-                            <span class="skill-tag">Proje Yönetimi</span>
+                    @if($teamMember->specialties && count($teamMember->specialties) > 0)
+                        <div class="team-skills">
+                            <h4>Uzmanlık Alanları</h4>
+                            <div class="skills-list">
+                                @foreach($teamMember->specialties as $specialty)
+                                    <span class="skill-tag">{{ $specialty }}</span>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
+                    @endif
+
+                    @if($teamMember->education && count($teamMember->education) > 0)
+                        <div class="team-education mt-4">
+                            <h4>Eğitim</h4>
+                            <ul>
+                                @foreach($teamMember->education as $edu)
+                                    <li>{{ $edu }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="team-social">
                         <h4>Sosyal Medya</h4>
                         <div class="social-links">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            @if($teamMember->social_linkedin)
+                                <a href="{{ $teamMember->social_linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            @endif
+                            @if($teamMember->social_twitter)
+                                <a href="{{ $teamMember->social_twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                            @endif
+                            @if($teamMember->social_facebook)
+                                <a href="{{ $teamMember->social_facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            @endif
+                            @if($teamMember->social_instagram)
+                                <a href="{{ $teamMember->social_instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        @if($relatedMembers && $relatedMembers->count() > 0)
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h3 class="mb-4">İlgili Ekip Üyeleri</h3>
+                </div>
+                @foreach($relatedMembers as $related)
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team-single-box">
+                            <div class="team-thumb">
+                                <img src="{{ asset($related->image) }}" alt="{{ $related->name }}" style="width: 100%; height: 200px; object-fit: cover;">
+                            </div>
+                            <div class="team-content">
+                                <h4 class="name">
+                                    <a href="{{ route('team.details', ['id' => $related->id]) }}">{{ $related->name }}</a>
+                                </h4>
+                                <p class="designation">{{ $related->position }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 </section>
 

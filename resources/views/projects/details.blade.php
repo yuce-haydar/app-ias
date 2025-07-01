@@ -1,30 +1,30 @@
 @extends('layouts.app')
 
-@section('title', '{{ $project["title"] ?? "Proje Detayı" }} - Hatay İmar')
-@section('description', '{{ $project["description"] ?? "Hatay İmar projelerinin detaylı bilgileri ve özellikleri." }}')
-@section('keywords', 'hatay imar, proje detayı, {{ $project["type"] ?? "projeler" }}')
+@section('title', $project->title . ' - Hatay İmar')
+@section('description', $project->short_description)
+@section('keywords', 'hatay imar, proje detayı, ' . $project->project_type)
 
 @section('content')
 
 <!-- Breadcrumb Bölümü -->
 <section class="breadcrumb-section">
     @php
-        $breadcrumbBg = 'assets/images/projeler/isk-kapali-spor-ve-yari-olimpik/1.png'; // Default: ISK spor kompleksi resmi
-        if(isset($project['images']) && count($project['images']) > 0) {
-            $breadcrumbBg = $project['images'][0];
-        } elseif(isset($project['image'])) {
-            $breadcrumbBg = $project['image'];
+        $breadcrumbBg = $project->image ?: 'imageshatay/hatay6.jpeg';
+        if($project->gallery_urls && count($project->gallery_urls) > 0) {
+            $breadcrumbBg = $project->gallery_urls[0];
+        } else {
+            $breadcrumbBg = \App\Helpers\ImageHelper::getImageUrl($breadcrumbBg);
         }
     @endphp
-    <div class="bg bg-image" style="background-image: url({{ asset($breadcrumbBg) }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ $breadcrumbBg }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
-                <h2 class="title">{{ $project['title'] ?? 'Proje Detayı' }}</h2>
+                <h2 class="title">{{ $project->title }}</h2>
                 <ul class="page-breadcrumb">
                     <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
                     <li><a href="{{ route('projects') }}">Projeler</a></li>
-                    <li>{{ $project['title'] ?? 'Proje Detayı' }}</li>
+                    <li>{{ $project->title }}</li>
                 </ul>
             </div>
         </div>
@@ -41,46 +41,46 @@ Proje Detay Bölümü
                 <div class="project-details-content">
                     <!-- Ana Resim -->
                     <div class="project-details-thumb">
-                        @if(isset($project['images']) && count($project['images']) > 0)
-                            <img src="{{ asset($project['images'][0]) }}" alt="{{ $project['title'] }}">
+                        @if($project->gallery_urls && count($project->gallery_urls) > 0)
+                            <img src="{{ $project->gallery_urls[0] }}" alt="{{ $project->title }}">
                         @else
-                            <img src="{{ asset($project['image'] ?? 'assets/images/default-project.jpg') }}" alt="{{ $project['title'] }}">
+                                                                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" alt="{{ $project->title }}">
                         @endif
                     </div>
                     
                     <div class="project-details-wrapper">
-                        <h1 class="title">{{ $project['title'] }}</h1>
+                        <h1 class="title">{{ $project->title }}</h1>
                         
                         <!-- Proje Meta Bilgileri -->
                         <div class="project-meta">
                             <div class="meta-item">
                                 <h6>Proje Türü:</h6>
-                                <p>{{ $project['type'] }}</p>
+                                <p>{{ $project->project_type }}</p>
                             </div>
-                            @if(isset($project['category']))
+                            @if($project->category)
                             <div class="meta-item">
                                 <h6>Kategori:</h6>
-                                <p>{{ $project['category'] }}</p>
+                                <p>{{ $project->category }}</p>
                             </div>
                             @endif
                             <div class="meta-item">
                                 <h6>Durum:</h6>
-                                <p><span class="badge badge-{{ strtolower(str_replace(' ', '-', $project['status'])) }}">{{ $project['status'] }}</span></p>
+                                <p><span class="badge badge-{{ strtolower(str_replace(' ', '-', $project->display_status)) }}">{{ $project->display_status }}</span></p>
                             </div>
                             <div class="meta-item">
                                 <h6>Lokasyon:</h6>
-                                <p>{{ $project['location'] }}</p>
+                                <p>{{ $project->location }}</p>
                             </div>
-                            @if(isset($project['area']))
+                            @if($project->area)
                             <div class="meta-item">
                                 <h6>Alan:</h6>
-                                <p>{{ $project['area'] }}</p>
+                                <p>{{ $project->area }}</p>
                             </div>
                             @endif
-                            @if(isset($project['capacity']))
+                            @if($project->capacity)
                             <div class="meta-item">
                                 <h6>Kapasite:</h6>
-                                <p>{{ $project['capacity'] }}</p>
+                                <p>{{ $project->capacity }}</p>
                             </div>
                             @endif
                         </div>
@@ -166,7 +166,7 @@ Proje Detay Bölümü
                         <div class="related-projects">
                             <div class="related-project-item">
                                 <div class="project-thumb">
-                                    <img src="{{ asset('assets/images/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali">
+                                    <img src="{{ asset('storage/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali">
                                 </div>
                                 <div class="project-content">
                                     <h6><a href="{{ route('project.details', 2) }}">Sebze Hali Kompleksi</a></h6>
@@ -176,7 +176,7 @@ Proje Detay Bölümü
                             
                             <div class="related-project-item">
                                 <div class="project-thumb">
-                                    <img src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projesi">
+                                    <img src="{{ asset('storage/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projesi">
                                 </div>
                                 <div class="project-content">
                                     <h6><a href="{{ route('project.details', 5) }}">Kreş Kompleksi</a></h6>
@@ -186,7 +186,7 @@ Proje Detay Bölümü
                             
                             <div class="related-project-item">
                                 <div class="project-thumb">
-                                    <img src="{{ asset('assets/images/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha">
+                                    <img src="{{ asset('storage/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha">
                                 </div>
                                 <div class="project-content">
                                     <h6><a href="{{ route('project.details', 3) }}">Halısaha Kompleksi</a></h6>

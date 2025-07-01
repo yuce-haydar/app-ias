@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\News;
+use App\Models\Project;
+use App\Models\Facility;
+use App\Models\Service;
+use App\Models\HomePageSetting;
 
 class HomeController extends Controller
 {
@@ -11,38 +16,81 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Şimdilik statik haberler - göstermelik
-        $news = collect([
-            (object)[
-                'id' => 1,
-                'title' => 'Samandağ Mızraklı Modern Taziye ve Adakevi Projesi',
-                'summary' => 'Samandağ ilçesi Mızraklı Mahallesi\'nde 960 m² alanda 2 katlı modern taziye ve adakevi projesi başladı.',
-                'featured_image' => 'assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg',
-                'category' => 'Projeler',
-                'author' => 'Hatay İmar',
-                'published_at' => now()->subDays(2)
-            ],
-            (object)[
-                'id' => 2,
-                'title' => 'Kırıkhan Butik Yarı Olimpik Yüzme Havuzu',
-                'summary' => 'Kırıkhan Cumhuriyet Mahallesi\'nde 1500 m² alanda 25x12,5 m ölçülerinde 5 kulvarlı havuz inşaatı başladı.',
-                'featured_image' => 'assets/images/projeler/200-kisilik-yari-olimpik-altinozu/8f716ef6-3ea1-4442-85c9-df8c033a7eee.jpg',
-                'category' => 'Spor Tesisleri',
-                'author' => 'Hatay İmar',
-                'published_at' => now()->subDays(5)
-            ],
-            (object)[
-                'id' => 3,
-                'title' => 'Belen Bedesten Meydan Projesi Devam Ediyor',
-                'summary' => 'Belen Soğukoluk Mahallesi\'nde 2500 m² alanda 15 bölümlü modern bedesten projesi ilerliyor.',
-                'featured_image' => 'assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg',
-                'category' => 'Ticaret Merkezleri',
-                'author' => 'Hatay İmar',
-                'published_at' => now()->subWeek()
-            ]
-        ]);
+        // Haberler veritabanından çek
+        $news = News::where('status', 'published')
+            ->orderBy('published_at', 'desc')
+            ->take(3)
+            ->get();
+            
+        // Projeleri veritabanından çek
+        $projects = Project::orderBy('sort_order', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->take(8)
+            ->get()
+            ->map(function($project) {
+                // Image path'i düzelt
+                $project->image_url = \App\Helpers\ImageHelper::getImageUrl($project->image);
+                return $project;
+            });
+            
+        // Öne çıkan projeleri çek
+        $featuredProjects = Project::where('is_featured', true)
+            ->orderBy('sort_order', 'asc')
+            ->take(3)
+            ->get()
+            ->map(function($project) {
+                // Image path'i düzelt
+                $project->image_url = \App\Helpers\ImageHelper::getImageUrl($project->image);
+                
+                // Area bilgisini ekle
+                if ($project->features && is_array($project->features)) {
+                    foreach ($project->features as $feature) {
+                        if (str_contains(strtolower($feature), 'm²') || str_contains(strtolower($feature), 'alan')) {
+                            $project->area = $feature;
+                            break;
+                        }
+                    }
+                }
+                
+                return $project;
+            });
+            
+        // Öne çıkan tesisleri çek
+        $facilities = Facility::where('status', 'active')
+            ->where('is_featured', true)
+            ->orderBy('sort_order', 'asc')
+            ->take(4)
+            ->get()
+            ->map(function($facility) {
+                // Image path'i düzelt
+                $facility->image_url = \App\Helpers\ImageHelper::getImageUrl($facility->image);
+                
+                // Icon mapping
+                $iconMap = [
+                    'factory' => 'flaticon-factory',
+                    'parking' => 'flaticon-parking',
+                    'mountain' => 'flaticon-mountain',
+                    'brick' => 'flaticon-brick',
+                    'utensils' => 'flaticon-food',
+                    'fish' => 'flaticon-fish'
+                ];
+                
+                $facility->icon_class = $iconMap[$facility->icon] ?? 'flaticon-building';
+                
+                return $facility;
+            });
+            
+        // Öne çıkan hizmetleri çek
+        $services = Service::active()
+            ->featured()
+            ->orderBy('sort_order', 'asc')
+            ->take(4)
+            ->get();
+            
+        // Ana sayfa ayarlarını çek
+        $homeSettings = HomePageSetting::getSettings();
         
-        return view('home', compact('news'));
+        return view('home', compact('news', 'projects', 'featuredProjects', 'facilities', 'services', 'homeSettings'));
     }
 
     /**

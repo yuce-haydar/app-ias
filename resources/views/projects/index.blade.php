@@ -44,30 +44,32 @@ Projeler Grid Bölümü
             <div class="col-lg-6 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset($project['image']) }}" alt="{{ $project['title'] }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" alt="{{ $project->title }}">
                         <div class="date">
                             @php
-                                $year = $project['status'] == 'Tamamlandı' ? '2023' : '2024';
+                                $year = $project->display_status == 'Tamamlandı' ? '2023' : '2024';
                             @endphp
                             <span class="day">{{ $year }}</span>
-                            <span class="month">{{ $project['status'] }}</span>
+                            <span class="month">{{ $project->display_status }}</span>
                         </div>
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <span class="author">Kategori: <a href="#">{{ $project['type'] }}</a></span>
-                            <span class="category">{{ $project['status'] }}</span>
+                            <span class="author">Kategori: <a href="#">{{ $project->project_type }}</a></span>
+                            <span class="category">{{ $project->display_status }}</span>
                         </div>
                         <h4 class="title">
-                            <a href="{{ route('project.details', ['id' => $project['id']]) }}">{{ $project['title'] }}</a>
+                            <a href="{{ route('project.details', ['id' => $project->id]) }}">{{ $project->title }}</a>
                         </h4>
-                        <p class="text">{{ $project['location'] }} - {{ $project['area'] }} alanında modern {{ strtolower($project['type']) }} projemiz.</p>
+                        <p class="text">{{ $project->short_description }}</p>
                         <div class="project-stats mb-3">
-                            <span class="stat-item"><i class="fa-solid fa-map-marker-alt"></i> {{ $project['location'] }}</span>
-                            <span class="stat-item"><i class="fa-solid fa-expand"></i> {{ $project['area'] }}</span>
+                            <span class="stat-item"><i class="fa-solid fa-map-marker-alt"></i> {{ $project->location }}</span>
+                            @if($project->area)
+                            <span class="stat-item"><i class="fa-solid fa-expand"></i> {{ $project->area }}</span>
+                            @endif
                         </div>
                         <div class="project-buttons">
-                            <a href="{{ route('project.details', ['id' => $project['id']]) }}" class="read-more me-3">
+                            <a href="{{ route('project.details', ['id' => $project->id]) }}" class="read-more me-3">
                                 Proje Detayları <i class="fa-regular fa-arrow-right-long"></i>
                             </a>
                         </div>
@@ -91,7 +93,7 @@ Projeler Grid Bölümü
                         <i class="fa-solid fa-building-columns"></i>
                     </div>
                     <div class="counter-content">
-                        <h3 class="counter-number">16</h3>
+                        <h3 class="counter-number">{{ $projects->count() }}</h3>
                         <p class="counter-text">Toplam Proje</p>
                     </div>
                 </div>
@@ -103,7 +105,7 @@ Projeler Grid Bölümü
                         <i class="fa-solid fa-check-circle"></i>
                     </div>
                     <div class="counter-content">
-                        <h3 class="counter-number">4</h3>
+                        <h3 class="counter-number">{{ $projects->where('status', 'completed')->count() }}</h3>
                         <p class="counter-text">Tamamlanan</p>
                     </div>
                 </div>
@@ -115,7 +117,7 @@ Projeler Grid Bölümü
                         <i class="fa-solid fa-hammer"></i>
                     </div>
                     <div class="counter-content">
-                        <h3 class="counter-number">8</h3>
+                        <h3 class="counter-number">{{ $projects->where('status', 'ongoing')->count() }}</h3>
                         <p class="counter-text">Devam Eden</p>
                     </div>
                 </div>
@@ -127,7 +129,7 @@ Projeler Grid Bölümü
                         <i class="fa-solid fa-drafting-compass"></i>
                     </div>
                     <div class="counter-content">
-                        <h3 class="counter-number">4</h3>
+                        <h3 class="counter-number">{{ $projects->where('status', 'planned')->count() }}</h3>
                         <p class="counter-text">Tasarım/Planlama</p>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Tesis Detayı - Hatay İmar')
-@section('description', 'Hatay İmar tesislerinin detaylı bilgileri ve özellikleri.')
+@section('title', $facility->name . ' - Hatay İmar')
+@section('description', $facility->short_description)
 
 @section('content')
 
@@ -13,11 +13,11 @@
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
-                <h2 class="title">Tesis Detayı</h2>
+                <h2 class="title">{{ $facility->name }}</h2>
                 <ul class="page-breadcrumb">
                     <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
                     <li><a href="{{ route('facilities.index') }}">Tesisler</a></li>
-                    <li>Tesis Detayı</li>
+                    <li>{{ $facility->name }}</li>
                 </ul>
             </div>
         </div>
@@ -33,392 +33,126 @@
             <div class="col-lg-8">
                 <div class="project-details-content">
                     
-                    @if($id == 1)
-                        <!-- Büz Üretim Tesisi -->
-                        <div class="project-details-thumb mb-40">
-                            <img src="{{ asset('assets/images/projeler/Büz-Üretim-Tesisi.jpg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
-                        </div>
-                        
-                        <h1 class="project-title mb-30">Büz Üretim Tesisi</h1>
-                        
-                        <div class="project-meta mb-40">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Tesis Türü:</h6>
-                                        <p>Üretim Tesisi</p>
-                                    </div>
+                    <!-- Ana Görsel -->
+                    <div class="project-details-thumb mb-40">
+                        <img src="{{ $facility->image_url }}" alt="{{ $facility->name }}" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
+                    </div>
+                    
+                    <h1 class="project-title mb-30">{{ $facility->name }}</h1>
+                    
+                    <div class="project-meta mb-40">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="meta-item">
+                                    <h6>Tesis Türü:</h6>
+                                    <p>{{ $facility->category }}</p>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Kategori:</h6>
-                                        <p>Beton Ürünleri</p>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="meta-item">
+                                    <h6>Kategori:</h6>
+                                    <p>{{ ucfirst($facility->facility_type) }}</p>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Durum:</h6>
-                                        <p>Aktif</p>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="meta-item">
+                                    <h6>Durum:</h6>
+                                    <p>{{ $facility->status == 'active' ? 'Aktif' : 'Pasif' }}</p>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Açılış:</h6>
-                                        <p>2010</p>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="meta-item">
+                                    <h6>Açılış:</h6>
+                                    <p>{{ $facility->opening_date ? date('Y', strtotime($facility->opening_date)) : '-' }}</p>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <h3>Tesis Hakkında</h3>
-                        <p>Büz, Beton Boru (künk) gibi isimlerle anılan ürünlerimiz milimetre cinsinden iç çap genişlikleri ile adlandırılan beton borulardır. Modern üretim tesisimizde şehrimizin altyapı ihtiyaçlarını karşılayacak kalitede ürünler üretiyoruz.</p>
+                    <h3>Tesis Hakkında</h3>
+                    {!! nl2br(e($facility->description)) !!}
 
-                        <h3>Üretim Kapasitesi</h3>
-                        <ul class="project-objectives">
-                            <li>Günlük 500 adet büz üretim kapasitesi</li>
-                            <li>30-120 cm çap aralığında üretim</li>
-                            <li>TSE standartlarına uygun kalite</li>
-                            <li>Çevre dostu üretim teknolojisi</li>
-                            <li>7/24 üretim imkanı</li>
-                        </ul>
-
-                        <div class="project-results mt-40">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>500+</h4>
-                                        <p>Günlük Üretim</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>14</h4>
-                                        <p>Yıllık Deneyim</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>%100</h4>
-                                        <p>Kalite Garantisi</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tesis Fotoğrafları -->
-                        <div class="facility-gallery mt-50">
-                            <h3 class="mb-30">Tesis Fotoğrafları</h3>
-                            <div class="row gy-20">
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/projeler/Büz-Üretim-Tesisi.jpg') }}" alt="Büz Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
-                               
-                            </div>
-                        </div>
-
-                        <!-- Çalışma Saatleri -->
-                        <div class="working-hours mt-40">
-                            <h3 class="mb-20">Çalışma Saatleri</h3>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="working-hours-list">
-                                        <li><strong>Pazartesi - Cuma:</strong> 08:00 - 17:00</li>
-                                        <li><strong>Cumartesi:</strong> 08:00 - 12:00</li>
-                                        <li><strong>Pazar:</strong> Kapalı</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="contact-info">
-                                        <p><strong>Sipariş Telefonu:</strong> +90 326 214 15 16</p>
-                                        <p><strong>E-posta:</strong> buz@hatayimar.gov.tr</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    @elseif($id == 2)
-                        <!-- Katlı Otopark -->
-                        <div class="project-details-thumb mb-40">
-                            <img src="{{ asset('assets/images/projeler/katlı-otopark.jpg') }}" alt="Katlı Otopark" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
-                        </div>
-                        
-                        <h1 class="project-title mb-30">Katlı Otopark</h1>
-                        
-                        <div class="project-meta mb-40">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Tesis Türü:</h6>
-                                        <p>Otopark</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Kategori:</h6>
-                                        <p>Ulaşım Altyapısı</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Durum:</h6>
-                                        <p>Aktif</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Açılış:</h6>
-                                        <p>2005</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3>Tesis Hakkında</h3>
-                        <p>2005 yılında şehir merkezinde faaliyete geçen Katlı Otopark, şehrimizde yoğun trafikten araçlarına park yeri bulamayan vatandaşlarımızın ihtiyacını karşılamak amacıyla inşa edilmiştir.</p>
-
-                        <h3>Otopark Özellikleri</h3>
-                        <ul class="project-objectives">
-                            <li>4 katlı modern otopark yapısı</li>
-                            <li>300 araç kapasitesi</li>
-                            <li>24 saat güvenlik hizmeti</li>
-                            <li>Modern güvenlik kamera sistemleri</li>
-                            <li>Otomatik giriş-çıkış sistemleri</li>
-                        </ul>
-
-                        <div class="project-results mt-40">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>300</h4>
-                                        <p>Araç Kapasitesi</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>19</h4>
-                                        <p>Yıllık Hizmet</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>24/7</h4>
-                                        <p>Güvenlik</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Otopark Fotoğrafları -->
-                        <div class="facility-gallery mt-50">
-                            <h3 class="mb-30">Otopark Fotoğrafları</h3>
-                            <div class="row gy-20">
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/projeler/katlı-otopark.jpg') }}" alt="Otopark Girişi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
-                               
-                            </div>
-                        </div>
-
-                        <!-- Ücret Tarifesi -->
-                        <div class="pricing-info mt-40">
-                            <h3 class="mb-20">Ücret Tarifesi</h3>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="pricing-list">
-                                      
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="contact-info">
-                                        <p><strong>Bilgi Telefonu:</strong> +90 326 214 15 17</p>
-                                        <p><strong>E-posta:</strong> otopark@hatayimar.gov.tr</p>
-                                        <p><strong>Açık:</strong> 24 Saat Hizmet</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    @elseif($id == 3)
-                        <!-- Habib-i Neccar Sosyal Tesis -->
-                        <div class="project-details-thumb mb-40">
-                            <img src="{{ asset('assets/images/projeler/Habib-i-Neccar-Sosyal-Tesis.jpg') }}" alt="Habib-i Neccar Sosyal Tesis" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
-                        </div>
-                        
-                        <h1 class="project-title mb-30">Habib-i Neccar Sosyal Tesis</h1>
-                        
-                        <div class="project-meta mb-40">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Tesis Türü:</h6>
-                                        <p>Sosyal Tesis</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Kategori:</h6>
-                                        <p>Rekreasyon</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Durum:</h6>
-                                        <p>Aktif</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Açılış:</h6>
-                                        <p>2013</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3>Tesis Hakkında</h3>
-                        <p>2013 yılında faaliyete açıldı. Habib-i Neccar Dağı Eteklerinde İzmir Caddesi'nde, Antakyalıların ailece ziyaret edebilecekleri, doğayla iç içe bir ortamda hizmet veren sosyal tesisimizdir.</p>
-
-                        <h3>Tesis Özellikleri</h3>
-                        <ul class="project-objectives">
-                            <li>Doğal ortamda sosyal aktivite alanları</li>
-                            <li>Aile piknik alanları</li>
-                            <li>Çocuk oyun parkları</li>
-                            <li>Restoran ve kafeterya hizmetleri</li>
-                            <li>Geniş yeşil alanlar</li>
-                        </ul>
-
-                        <div class="project-results mt-40">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>11</h4>
-                                        <p>Yıllık Hizmet</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>1000+</h4>
-                                        <p>Aylık Ziyaretçi</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>%95</h4>
-                                        <p>Memnuniyet</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sosyal Tesis Fotoğrafları -->
-                        <div class="facility-gallery mt-50">
-                            <h3 class="mb-30">Tesis Fotoğrafları</h3>
-                            <div class="row gy-20">
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/projeler/Habib-i-Neccar-Sosyal-Tesis.jpg') }}" alt="Sosyal Alan" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
-                                
-                            </div>
-                        </div>
-
-                        <!-- Hizmet Saatleri ve Menü -->
-                        <div class="service-hours mt-40">
-                            <h3 class="mb-20">Hizmet Saatleri ve Bilgiler</h3>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="service-hours-list">
-                                        <li><strong>Hafta İçi:</strong> 09:00 - 22:00</li>
-                                        <li><strong>Hafta Sonu:</strong> 08:00 - 23:00</li>
-                                        <li><strong>Restoran:</strong> 12:00 - 21:00</li>
-                                        <li><strong>Rezervasyon:</strong> Önerilir</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="contact-info">
-                                        <p><strong>Rezervasyon:</strong> +90 326 214 15 18</p>
-                                        <p><strong>E-posta:</strong> sosyal@hatayimar.gov.tr</p>
-                                        <p><strong>Adres:</strong> Habib-i Neccar Dağı Etekleri</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    @elseif($id == 4)
-                        <!-- Parke Taşı Üretim Tesisi -->
-                        <div class="project-details-thumb mb-40">
-                                <img src="{{ asset('assets/images/projeler/Parke-Taşı-Üretim-Tesisi.jpg') }}" alt="Parke Taşı Üretim Tesisi" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
-                        </div>
-                        
-                        <h1 class="project-title mb-30">Parke Taşı Üretim Tesisi</h1>
-                        
-                        <div class="project-meta mb-40">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Tesis Türü:</h6>
-                                        <p>Üretim Tesisi</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Kategori:</h6>
-                                        <p>Parke Taşı</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Durum:</h6>
-                                        <p>Aktif</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="meta-item">
-                                        <h6>Başlangıç:</h6>
-                                        <p>2008</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3>Tesis Hakkında</h3>
-                        <p>Kullanımı çok eski çağlara dayanan parke taşı: taşın yontulup şekle konulması veya mevcut şekliyle montajının yapılması ile elde edilen döşeme malzemesidir. Modern tesisimizde kaliteli parke taşı üretimi yapılmaktadır.</p>
-
-                        <h3>Üretim Çeşitleri</h3>
-                        <ul class="project-objectives">
-                            <li>Kilitli parke taşı çeşitleri</li>
-                            <li>Renkli parke taşı seçenekleri</li>
-                            <li>Farklı desen ve boyutlarda üretim</li>
-                            <li>Çevre dostu malzemeler</li>
-                            <li>Dayanıklı ve estetik ürünler</li>
-                        </ul>
-
-                        <div class="project-results mt-40">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>16</h4>
-                                        <p>Yıllık Deneyim</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>50+</h4>
-                                        <p>Çeşit Üretim</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="result-item text-center">
-                                        <h4>%100</h4>
-                                        <p>Yerli Üretim</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    @else
-                        <h1 class="project-title mb-30">Hatay İmar Tesisi</h1>
-                        <p>Hatay İmar olarak şehrimizin gelişimi için çalışıyoruz.</p>
+                    @if($facility->features && is_array($facility->features) && count($facility->features) > 0)
+                    <h3 class="mt-4">Tesis Özellikleri</h3>
+                    <ul class="project-objectives">
+                        @foreach($facility->features as $feature)
+                        <li>{{ $feature }}</li>
+                        @endforeach
+                    </ul>
                     @endif
+
+                    <div class="project-results mt-40">
+                        <div class="row">
+                            @if($facility->capacity)
+                            <div class="col-md-4">
+                                <div class="result-item text-center">
+                                    <h4>{{ explode(' ', $facility->capacity)[0] ?? $facility->capacity }}</h4>
+                                    <p>{{ implode(' ', array_slice(explode(' ', $facility->capacity), 1)) ?: 'Kapasite' }}</p>
+                                </div>
+                            </div>
+                            @endif
+                            
+                            @if($facility->opening_date)
+                            <div class="col-md-4">
+                                <div class="result-item text-center">
+                                    <h4>{{ date('Y') - date('Y', strtotime($facility->opening_date)) }}</h4>
+                                    <p>Yıllık Deneyim</p>
+                                </div>
+                            </div>
+                            @endif
+                            
+                            <div class="col-md-4">
+                                <div class="result-item text-center">
+                                    <h4>%100</h4>
+                                    <p>Kalite Garantisi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tesis Fotoğrafları -->
+                    @if($facility->gallery_urls && count($facility->gallery_urls) > 0)
+                    <div class="facility-gallery mt-50">
+                        <h3 class="mb-30">Tesis Fotoğrafları</h3>
+                        <div class="row gy-20">
+                            @foreach($facility->gallery_urls as $image)
+                            <div class="col-md-4">
+                                <img src="{{ $image }}" alt="{{ $facility->name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+                    <!-- Çalışma Saatleri -->
+                    @if($facility->working_hours && is_array($facility->working_hours) && count($facility->working_hours) > 0)
+                    <div class="working-hours mt-40">
+                        <h3 class="mb-20">Çalışma Saatleri</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="working-hours-list">
+                                    @foreach($facility->working_hours as $day => $hours)
+                                    <li><strong>{{ $day }}:</strong> {{ $hours }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="contact-info">
+                                    @if($facility->phone)
+                                    <p><strong>Telefon:</strong> {{ $facility->phone }}</p>
+                                    @endif
+                                    @if($facility->email)
+                                    <p><strong>E-posta:</strong> {{ $facility->email }}</p>
+                                    @endif
+                                    @if($facility->address)
+                                    <p><strong>Adres:</strong> {{ $facility->address }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
                 </div>
             </div>
             
@@ -427,69 +161,32 @@
                     <div class="widget project-info-widget">
                         <h3 class="widget-title">Tesis Bilgileri</h3>
                         <ul class="project-info-list">
-                            @if($id == 1)
-                                <li><strong>Tesis:</strong><span>Büz Üretim</span></li>
-                                <li><strong>Kapasite:</strong><span>500 adet/gün</span></li>
-                                <li><strong>Çap Aralığı:</strong><span>30-120 cm</span></li>
-                                <li><strong>Standart:</strong><span>TSE Uygun</span></li>
-                                <li><strong>Teslimat:</strong><span>48 Saat</span></li>
-                            @elseif($id == 2)
-                                <li><strong>Tesis:</strong><span>Katlı Otopark</span></li>
-                                <li><strong>Kapasite:</strong><span>300 Araç</span></li>
-                                <li><strong>Kat Sayısı:</strong><span>4 Kat</span></li>
-                                <li><strong>Güvenlik:</strong><span>24/7</span></li>
-                                <li><strong>Konum:</strong><span>Şehir Merkezi</span></li>
-                            @elseif($id == 3)
-                                <li><strong>Tesis:</strong><span>Sosyal Tesis</span></li>
-                                <li><strong>Konum:</strong><span>Habib-i Neccar</span></li>
-                                <li><strong>Alan:</strong><span>Geniş Yeşil Alan</span></li>
-                                <li><strong>Hizmet:</strong><span>Aile Rekreasyonu</span></li>
-                                <li><strong>Açık:</strong><span>7 Gün</span></li>
-                            @elseif($id == 4)
-                                <li><strong>Tesis:</strong><span>Parke Üretim</span></li>
-                                <li><strong>Çeşit:</strong><span>50+ Model</span></li>
-                                <li><strong>Kalite:</strong><span>TSE Belgeli</span></li>
-                                <li><strong>Renk:</strong><span>Çok Seçenek</span></li>
-                                <li><strong>Üretim:</strong><span>Yerli</span></li>
-                            @else
-                                <li><strong>Tesis:</strong><span>Genel</span></li>
+                            <li><strong>Tesis:</strong><span>{{ $facility->name }}</span></li>
+                            @if($facility->capacity)
+                            <li><strong>Kapasite:</strong><span>{{ $facility->capacity }}</span></li>
+                            @endif
+                            @if($facility->category)
+                            <li><strong>Kategori:</strong><span>{{ $facility->category }}</span></li>
+                            @endif
+                            <li><strong>Durum:</strong><span>{{ $facility->status == 'active' ? 'Aktif' : 'Pasif' }}</span></li>
+                            @if($facility->opening_date)
+                            <li><strong>Açılış:</strong><span>{{ date('Y', strtotime($facility->opening_date)) }}</span></li>
                             @endif
                         </ul>
                     </div>
 
+                    @if($facility->google_maps_link || ($facility->latitude && $facility->longitude))
                     <div class="widget location-widget">
                         <h3 class="widget-title">Tesise Git</h3>
                         <p>Tesisimizi ziyaret etmek için harita üzerinden konum bilgilerini görüntüleyin.</p>
-                        @if($id == 1)
-                            <a href="https://maps.google.com/?q=Büz+Üretim+Tesisi+Hatay" target="_blank" class="theme-btn bg-success mb-3">
-                                <span class="link-effect">
-                                    <span class="effect-1">Haritada Göster</span>
-                                    <span class="effect-1">Haritada Göster</span>
-                                </span><i class="fa-solid fa-location-dot"></i>
-                            </a>
-                        @elseif($id == 2)
-                            <a href="https://maps.google.com/?q=Katlı+Otopark+Antakya+Hatay" target="_blank" class="theme-btn bg-success mb-3">
-                                <span class="link-effect">
-                                    <span class="effect-1">Haritada Göster</span>
-                                    <span class="effect-1">Haritada Göster</span>
-                                </span><i class="fa-solid fa-location-dot"></i>
-                            </a>
-                        @elseif($id == 3)
-                            <a href="https://maps.google.com/?q=Habib-i+Neccar+Sosyal+Tesis+Antakya+Hatay" target="_blank" class="theme-btn bg-success mb-3">
-                                <span class="link-effect">
-                                    <span class="effect-1">Haritada Göster</span>
-                                    <span class="effect-1">Haritada Göster</span>
-                                </span><i class="fa-solid fa-location-dot"></i>
-                            </a>
-                        @elseif($id == 4)
-                            <a href="https://maps.google.com/?q=Parke+Taşı+Üretim+Tesisi+Hatay" target="_blank" class="theme-btn bg-success mb-3">
-                                <span class="link-effect">
-                                    <span class="effect-1">Haritada Göster</span>
-                                    <span class="effect-1">Haritada Göster</span>
-                                </span><i class="fa-solid fa-location-dot"></i>
-                            </a>
-                        @endif
+                        <a href="{{ $facility->google_maps_link ?: 'https://maps.google.com/?q=' . $facility->latitude . ',' . $facility->longitude }}" target="_blank" class="theme-btn bg-success mb-3">
+                            <span class="link-effect">
+                                <span class="effect-1">Haritada Göster</span>
+                                <span class="effect-1">Haritada Göster</span>
+                            </span><i class="fa-solid fa-location-dot"></i>
+                        </a>
                     </div>
+                    @endif
 
                     <div class="widget contact-widget">
                         <h3 class="widget-title">Bilgi Almak İçin</h3>
@@ -498,41 +195,109 @@
                             <span class="link-effect">
                                 <span class="effect-1">İletişime Geç</span>
                                 <span class="effect-1">İletişime Geç</span>
-                            </span><i class="fa-regular fa-arrow-right-long"></i>
+                            </span><i class="fa-regular fa-phone"></i>
                         </a>
                     </div>
 
+                    @if($relatedFacilities->count() > 0)
                     <div class="widget related-projects-widget">
                         <h3 class="widget-title">Diğer Tesisler</h3>
-                        @if($id != 1)
-                        <div class="related-project-item">
-                            <h6><a href="{{ route('facilities.details', ['id' => 1]) }}">Büz Üretim Tesisi</a></h6>
-                            <span class="category">Üretim</span>
-                        </div>
-                        @endif
-                        @if($id != 2)
-                        <div class="related-project-item">
-                            <h6><a href="{{ route('facilities.details', ['id' => 2]) }}">Katlı Otopark</a></h6>
-                            <span class="category">Altyapı</span>
-                        </div>
-                        @endif
-                        @if($id != 3)
-                        <div class="related-project-item">
-                            <h6><a href="{{ route('facilities.details', ['id' => 3]) }}">Habib-i Neccar Sosyal Tesis</a></h6>
-                            <span class="category">Sosyal</span>
-                        </div>
-                        @endif
-                        @if($id != 4)
-                        <div class="related-project-item">
-                            <h6><a href="{{ route('facilities.details', ['id' => 4]) }}">Parke Taşı Üretim</a></h6>
-                            <span class="category">Üretim</span>
-                        </div>
-                        @endif
+                        <ul class="related-projects-list">
+                            @foreach($relatedFacilities as $related)
+                            <li>
+                                <a href="{{ route('facilities.details', ['id' => $related->id]) }}">
+                                    <img src="{{ $related->image_url }}" alt="{{ $related->name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                    <span>{{ $related->name }}</span>
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!--==============================
+CTA Bölümü
+==============================-->
+<section class="cta-section space bg-theme">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="cta-content">
+                    <h2 class="title text-white">Tesisimiz hakkında daha fazla bilgi almak ister misiniz?</h2>
+                    <p class="text text-white">{{ $facility->name }} hakkında detaylı bilgi almak, ziyaret planlamak veya hizmetlerimizden yararlanmak için bizimle iletişime geçin.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ route('contact') }}" class="theme-btn bg-white text-dark">
+                    <i class="fa-solid fa-phone"></i> İletişime Geç
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.project-results .result-item {
+    background: #f8f9fa;
+    padding: 30px 20px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.project-results .result-item:hover {
+    background: var(--theme-color);
+    color: white;
+}
+
+.project-results .result-item h4 {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--theme-color);
+    margin-bottom: 10px;
+}
+
+.project-results .result-item:hover h4 {
+    color: white;
+}
+
+.working-hours-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+}
+
+.related-projects-list li {
+    margin-bottom: 15px;
+}
+
+.related-projects-list li a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--body-color);
+    text-decoration: none;
+}
+
+.related-projects-list li a:hover {
+    color: var(--theme-color);
+}
+
+.facility-gallery img {
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.facility-gallery img:hover {
+    transform: scale(1.05);
+}
+</style>
 
 @endsection 

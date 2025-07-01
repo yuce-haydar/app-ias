@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TeamMember;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,7 +16,7 @@ class TeamMemberController extends Controller
     public function index()
     {
         $teamMembers = TeamMember::ordered()->paginate(10);
-        return view('admin.team-members.index', compact('teamMembers'));
+        return view('admin.ekip.index', compact('teamMembers'));
     }
 
     /**
@@ -23,7 +24,7 @@ class TeamMemberController extends Controller
      */
     public function create()
     {
-        return view('admin.team-members.create');
+        return view('admin.ekip.create');
     }
 
     /**
@@ -37,7 +38,7 @@ class TeamMemberController extends Controller
             'designation' => 'required|string|max:255',
             'description' => 'nullable|string',
             'bio' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'social_facebook' => 'nullable|url',
@@ -53,8 +54,20 @@ class TeamMemberController extends Controller
 
         $data = $request->all();
         
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('team-members', 'public');
+            $imageFile = $request->file('image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
+            $data['image'] = ImageHelper::compressAndStore($imageFile, 'ekip');
         }
 
         // Education ve specialties'i array'a çevir
@@ -71,7 +84,7 @@ class TeamMemberController extends Controller
 
         TeamMember::create($data);
 
-        return redirect()->route('admin.team-members.index')
+        return redirect()->route('admin.ekip.index')
                         ->with('success', 'Ekip üyesi başarıyla oluşturuldu.');
     }
 
@@ -80,7 +93,7 @@ class TeamMemberController extends Controller
      */
     public function show(TeamMember $teamMember)
     {
-        return view('admin.team-members.show', compact('teamMember'));
+        return view('admin.ekip.show', compact('teamMember'));
     }
 
     /**
@@ -88,7 +101,7 @@ class TeamMemberController extends Controller
      */
     public function edit(TeamMember $teamMember)
     {
-        return view('admin.team-members.edit', compact('teamMember'));
+        return view('admin.ekip.edit', compact('teamMember'));
     }
 
     /**
@@ -102,7 +115,7 @@ class TeamMemberController extends Controller
             'designation' => 'required|string|max:255', 
             'description' => 'nullable|string',
             'bio' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'social_facebook' => 'nullable|url',
@@ -118,11 +131,25 @@ class TeamMemberController extends Controller
 
         $data = $request->all();
         
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
-            if ($teamMember->image) {
-                Storage::disk('public')->delete($teamMember->image);
+            $imageFile = $request->file('image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
             }
-            $data['image'] = $request->file('image')->store('team-members', 'public');
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
+            // Delete old image if exists
+            if ($teamMember->image) {
+                ImageHelper::deleteImage($teamMember->image);
+            }
+            
+            $data['image'] = ImageHelper::compressAndStore($imageFile, 'ekip');
         }
 
         // Education ve specialties'i array'a çevir
@@ -143,7 +170,7 @@ class TeamMemberController extends Controller
 
         $teamMember->update($data);
 
-        return redirect()->route('admin.team-members.index')
+        return redirect()->route('admin.ekip.index')
                         ->with('success', 'Ekip üyesi başarıyla güncellendi.');
     }
 
@@ -153,12 +180,12 @@ class TeamMemberController extends Controller
     public function destroy(TeamMember $teamMember)
     {
         if ($teamMember->image) {
-            Storage::disk('public')->delete($teamMember->image);
+            ImageHelper::deleteImage($teamMember->image);
         }
         
         $teamMember->delete();
 
-        return redirect()->route('admin.team-members.index')
+        return redirect()->route('admin.ekip.index')
                         ->with('success', 'Ekip üyesi başarıyla silindi.');
     }
 }

@@ -58,7 +58,7 @@
                                     <label for="featured_image" class="form-label">Öne Çıkan Görsel</label>
                                     <input type="file" class="form-control @error('featured_image') is-invalid @enderror" 
                                            id="featured_image" name="featured_image" accept="image/*">
-                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 5MB</small>
+                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 15MB (Otomatik sıkıştırılır)</small>
                                     @error('featured_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

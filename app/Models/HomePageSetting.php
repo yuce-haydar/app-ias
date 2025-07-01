@@ -62,6 +62,10 @@ class HomePageSetting extends Model
         'contact_title',
         'contact_subtitle',
         'contact_show',
+        
+        // JSON Sliders
+        'hero_slides',
+        'about_images',
     ];
 
     protected $casts = [
@@ -71,6 +75,8 @@ class HomePageSetting extends Model
         'projects_map_show' => 'boolean',
         'contact_show' => 'boolean',
         'news_count' => 'integer',
+        'hero_slides' => 'array',
+        'about_images' => 'array',
     ];
 
     /**

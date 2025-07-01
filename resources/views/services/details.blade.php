@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Hizmet Detayı - Nexta İş Danışmanlığı')
-@section('description', 'Nexta\'nın sunduğu profesyonel danışmanlık hizmetlerinin detayları.')
-@section('keywords', 'hizmet detayı, iş danışmanlığı, çözüm, strateji')
+@section('title', $service->title . ' - Hatay İmar')
+@section('description', $service->short_description)
+@section('keywords', 'hizmet detayı, inşaat, ' . $service->title)
 
 @section('content')
 
@@ -12,11 +12,11 @@
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
-                <h2 class="title">Hizmet Detayı</h2>
+                <h2 class="title">{{ $service->title }}</h2>
                 <ul class="page-breadcrumb">
                     <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
                     <li><a href="{{ route('services') }}">Hizmetler</a></li>
-                    <li>Hizmet Detayı</li>
+                    <li>{{ $service->title }}</li>
                 </ul>
             </div>
         </div>
@@ -32,46 +32,51 @@ Hizmet Detay Bölümü
             <div class="col-lg-8">
                 <div class="service-details-content">
                     <div class="service-details-thumb">
-                        <img src="{{ asset('assets/images/service/details01.jpg') }}" alt="Hizmet Detayı">
+                        <img src="{{ asset($service->image) }}" alt="{{ $service->title }}">
                     </div>
                     <div class="service-details-wrapper">
-                        <h2 class="title">Profesyonel İş Danışmanlığı Hizmetleri</h2>
-                        <p class="text">İşletmenizin başarıya ulaşması için kapsamlı danışmanlık hizmetleri sunuyoruz. Uzman ekibimizle her aşamada yanınızdayız ve işinizin büyümesine odaklanıyoruz.</p>
+                        <h2 class="title">{{ $service->title }}</h2>
+                        <p class="text">{{ $service->description }}</p>
                         
-                        <h3 class="subtitle">Hizmet Kapsamı</h3>
-                        <ul class="service-list">
-                            <li>Stratejik planlama ve hedef belirleme</li>
-                            <li>Operasyonel verimlilik analizi</li>
-                            <li>Finansal performans değerlendirmesi</li>
-                            <li>Pazar araştırması ve rekabet analizi</li>
-                            <li>Organizasyonel gelişim danışmanlığı</li>
-                        </ul>
+                        @if($service->features && count($service->features) > 0)
+                            <h3 class="subtitle">Hizmet Kapsamı</h3>
+                            <ul class="service-list">
+                                @foreach($service->features as $feature)
+                                    <li>{{ $feature }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
 
-                        <h3 class="subtitle">Neden Bizi Seçmelisiniz?</h3>
-                        <div class="row gy-20 mt-30">
-                            <div class="col-md-6">
-                                <div class="feature-item">
-                                    <div class="icon">
-                                        <i class="flaticon-service"></i>
+                        @if($service->benefits && count($service->benefits) > 0)
+                            <h3 class="subtitle">Neden Bizi Seçmelisiniz?</h3>
+                            <div class="row gy-20 mt-30">
+                                @foreach($service->benefits as $index => $benefit)
+                                    <div class="col-md-6">
+                                        <div class="feature-item">
+                                            <div class="icon">
+                                                <i class="flaticon-service"></i>
+                                            </div>
+                                            <div class="content">
+                                                <h4>{{ $benefit }}</h4>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="content">
-                                        <h4>15+ Yıl Deneyim</h4>
-                                        <p>Sektörde kanıtlanmış başarı geçmişi</p>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
-                            <div class="col-md-6">
-                                <div class="feature-item">
-                                    <div class="icon">
-                                        <i class="flaticon-people"></i>
+                        @endif
+
+                        @if($service->gallery && count($service->gallery) > 0)
+                            <h3 class="subtitle mt-40">Galeri</h3>
+                            <div class="row gy-20 mt-30">
+                                @foreach($service->gallery as $image)
+                                    <div class="col-md-4">
+                                        <a href="{{ asset($image) }}" class="gallery-thumb" data-fancybox="gallery">
+                                            <img src="{{ asset($image) }}" alt="Galeri">
+                                        </a>
                                     </div>
-                                    <div class="content">
-                                        <h4>Uzman Ekip</h4>
-                                        <p>Alanında uzman danışmanlar</p>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -80,11 +85,15 @@ Hizmet Detay Bölümü
                     <div class="widget service-widget">
                         <h3 class="widget-title">Diğer Hizmetlerimiz</h3>
                         <ul class="service-list-widget">
-                            <li><a href="{{ route('service.details', ['id' => 1]) }}">İş Zekası <i class="fa-regular fa-arrow-right-long"></i></a></li>
-                            <li><a href="{{ route('service.details', ['id' => 2]) }}">Risk Yönetimi <i class="fa-regular fa-arrow-right-long"></i></a></li>
-                            <li><a href="{{ route('service.details', ['id' => 3]) }}">Finans Danışmanlığı <i class="fa-regular fa-arrow-right-long"></i></a></li>
-                            <li><a href="{{ route('service.details', ['id' => 4]) }}">Portföy Yönetimi <i class="fa-regular fa-arrow-right-long"></i></a></li>
-                            <li><a href="{{ route('service.details', ['id' => 5]) }}">Danışmanlık Ağı <i class="fa-regular fa-arrow-right-long"></i></a></li>
+                            @foreach($relatedServices as $relatedService)
+                                <li>
+                                    <a href="{{ route('service.details', ['id' => $relatedService->id]) }}" 
+                                       class="{{ $relatedService->id == $service->id ? 'active' : '' }}">
+                                        {{ $relatedService->title }} 
+                                        <i class="fa-regular fa-arrow-right-long"></i>
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     
@@ -96,7 +105,7 @@ Hizmet Detay Bölümü
                                     <i class="fa-light fa-circle-phone"></i>
                                 </div>
                                 <div class="info">
-                                    <a href="tel:+902121234567">+90 212 123 45 67</a>
+                                    <a href="tel:+903267552222">+90 326 755 22 22</a>
                                 </div>
                             </div>
                             <div class="contact-item">
@@ -104,7 +113,7 @@ Hizmet Detay Bölümü
                                     <i class="fa-light fa-envelope"></i>
                                 </div>
                                 <div class="info">
-                                    <a href="mailto:info@nexta.com.tr">info@nexta.com.tr</a>
+                                    <a href="mailto:info@hatayimar.com">info@hatayimar.com</a>
                                 </div>
                             </div>
                         </div>

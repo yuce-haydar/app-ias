@@ -40,144 +40,62 @@ Tesisler Grid Bölümü
         </div>
 
         <div class="row gy-30">
-            <!-- Büz Üretim Tesisi -->
+            @foreach($facilities as $facility)
             <div class="col-lg-6 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/projeler/b1.jpg') }}" alt="Büz Üretim Tesisi">
+                                                        <img src="{{ $facility->image_url }}" alt="{{ $facility->name }}">
                         <div class="date">
-                            <span class="day">500</span>
-                            <span class="month">Adet/Gün</span>
+                            @if($facility->capacity)
+                                @php
+                                    $capacityParts = explode(' ', $facility->capacity);
+                                @endphp
+                                <span class="day">{{ $capacityParts[0] ?? '' }}</span>
+                                <span class="month">{{ $capacityParts[1] ?? '' }}</span>
+                            @else
+                                <span class="day">{{ date('Y', strtotime($facility->opening_date)) }}</span>
+                                <span class="month">Yılında</span>
+                            @endif
                         </div>
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <span class="author">Kategori: <a href="#">Üretim Tesisi</a></span>
-                            <span class="category">2010'dan beri</span>
+                            <span class="author">Kategori: <a href="#">{{ $facility->category }}</a></span>
+                            <span class="category">{{ $facility->opening_date ? date('Y', strtotime($facility->opening_date)) . '\'den beri' : '' }}</span>
                         </div>
                         <h4 class="title">
-                            <a href="{{ route('facilities.details', ['id' => 1]) }}">Büz Üretim Tesisi</a>
+                            <a href="{{ route('facilities.details', ['id' => $facility->id]) }}">{{ $facility->name }}</a>
                         </h4>
-                        <p class="text">Büz, Beton Boru (künk) gibi isimlerle anılan ürünlerimiz milimetre cinsinden iç çap genişlikleri ile adlandırılan kaliteli üretim tesisimiz. Günlük 500 adet üretim kapasitesi ile hizmet vermekteyiz.</p>
+                        <p class="text">{{ Str::limit($facility->description, 200) }}</p>
                         <div class="facility-stats mb-3">
-                            <span class="stat-item"><i class="fa-solid fa-industry"></i> 500 adet/gün</span>
-                            <span class="stat-item"><i class="fa-solid fa-calendar"></i> 2010'dan beri</span>
+                            @if($facility->features && is_array($facility->features))
+                                @foreach(array_slice($facility->features, 0, 2) as $feature)
+                                    <span class="stat-item"><i class="fa-solid fa-check-circle"></i> {{ $feature }}</span>
+                                @endforeach
+                            @endif
                         </div>
                         <div class="facility-buttons">
-                            <a href="{{ route('facilities.details', ['id' => 1]) }}" class="read-more me-3">
+                            <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" class="read-more me-3">
                                 Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
                             </a>
-                            <a href="https://maps.google.com/?q=Büz+Üretim+Tesisi+Hatay" target="_blank" class="theme-btn btn-sm bg-success">
-                                <i class="fa-solid fa-location-dot"></i> Tesise Git
-                            </a>
+                            @if($facility->google_maps_link)
+                                <a href="{{ $facility->google_maps_link }}" target="_blank" class="theme-btn btn-sm bg-success">
+                                    <i class="fa-solid fa-location-dot"></i> Tesise Git
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </article>
             </div>
-
-            <!-- Katlı Otopark -->
-            <div class="col-lg-6 col-md-6">
-                <article class="blog-single-box">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/projeler/katlı-otopark.jpg') }}" alt="Katlı Otopark">
-                        <div class="date">
-                            <span class="day">300</span>
-                            <span class="month">Araç</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Kategori: <a href="#">Otopark Tesisi</a></span>
-                            <span class="category">2005'ten beri</span>
-                        </div>
-                        <h4 class="title">
-                            <a href="{{ route('facilities.details', ['id' => 2]) }}">Katlı Otopark</a>
-                        </h4>
-                        <p class="text">2005 yılında şehir merkezinde faaliyete geçen Katlı Otopark, şehrimizde yoğun trafikten araçlarına park yeri bulamayan vatandaşlarımıza güvenli park hizmeti sunmaktadır.</p>
-                        <div class="facility-stats mb-3">
-                            <span class="stat-item"><i class="fa-solid fa-car"></i> 300 araç kapasitesi</span>
-                            <span class="stat-item"><i class="fa-solid fa-shield-halved"></i> 24/7 güvenlik</span>
-                        </div>
-                        <div class="facility-buttons">
-                            <a href="{{ route('facilities.details', ['id' => 2]) }}" class="read-more me-3">
-                                Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
-                            </a>
-                            <a href="https://maps.google.com/?q=Katlı+Otopark+Antakya+Hatay" target="_blank" class="theme-btn btn-sm bg-success">
-                                <i class="fa-solid fa-location-dot"></i> Tesise Git
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Habib-i Neccar Sosyal Tesis -->
-            <div class="col-lg-6 col-md-6">
-                <article class="blog-single-box">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Habib-i Neccar Sosyal Tesis">
-                        <div class="date">
-                            <span class="day">2013</span>
-                            <span class="month">Yılında</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Kategori: <a href="#">Sosyal Tesis</a></span>
-                            <span class="category">Doğal Ortam</span>
-                        </div>
-                        <h4 class="title">
-                            <a href="{{ route('facilities.details', ['id' => 3]) }}">Habib-i Neccar Sosyal Tesis</a>
-                        </h4>
-                        <p class="text">2013 yılında faaliyete açılan sosyal tesisimiz, Habib-i Neccar Dağı eteklerinde doğayla iç içe bir ortamda ailece vakit geçirebileceğiniz huzurlu bir mekandır.</p>
-                        <div class="facility-stats mb-3">
-                            <span class="stat-item"><i class="fa-solid fa-mountain"></i> Doğal ortam</span>
-                            <span class="stat-item"><i class="fa-solid fa-utensils"></i> Restoran hizmeti</span>
-                        </div>
-                        <div class="facility-buttons">
-                            <a href="{{ route('facilities.details', ['id' => 3]) }}" class="read-more me-3">
-                                Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
-                            </a>
-                            <a href="https://maps.google.com/?q=Habib-i+Neccar+Sosyal+Tesis+Antakya+Hatay" target="_blank" class="theme-btn btn-sm bg-success">
-                                <i class="fa-solid fa-location-dot"></i> Tesise Git
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Parke Taşı Üretim Tesisi -->
-            <div class="col-lg-6 col-md-6">
-                <article class="blog-single-box">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/projeler/p1.jpg') }}" alt="Parke Taşı Üretim">
-                        <div class="date">
-                            <span class="day">50+</span>
-                            <span class="month">Çeşit</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Kategori: <a href="#">Üretim Tesisi</a></span>
-                            <span class="category">TSE Belgeli</span>
-                        </div>
-                        <h4 class="title">
-                            <a href="{{ route('facilities.details', ['id' => 4]) }}">Parke Taşı Üretim Tesisi</a>
-                        </h4>
-                        <p class="text">Kullanımı çok eski çağlara dayanan parke taşı üretimimizde modern teknolojiler kullanarak 50'den fazla çeşitte kaliteli ürünler üretmekteyiz.</p>
-                        <div class="facility-stats mb-3">
-                            <span class="stat-item"><i class="fa-solid fa-shapes"></i> 50+ çeşit</span>
-                            <span class="stat-item"><i class="fa-solid fa-certificate"></i> TSE belgeli</span>
-                        </div>
-                        <div class="facility-buttons">
-                            <a href="{{ route('facilities.details', ['id' => 4]) }}" class="read-more me-3">
-                                Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
-                            </a>
-                            <a href="https://maps.google.com/?q=Parke+Taşı+Üretim+Tesisi+Hatay" target="_blank" class="theme-btn btn-sm bg-success">
-                                <i class="fa-solid fa-location-dot"></i> Tesise Git
-                            </a>
-                        </div>
-                    </div>
-                </article>
+            @endforeach
+        </div>
+        
+        <!-- Sayfalama -->
+        <div class="row mt-5">
+            <div class="col-lg-12">
+                <div class="pagination-wrap">
+                    {{ $facilities->links() }}
+                </div>
             </div>
         </div>
     </div>
@@ -203,8 +121,8 @@ Tesisler İstatistikleri
                         <i class="fa-solid fa-industry"></i>
                     </div>
                     <div class="counter-content">
-                        <h3 class="counter-number">4</h3>
-                        <p class="counter-text">Aktif Tesis</p>
+                                            <h3 class="counter-number">{{ $facilities->total() }}</h3>
+                    <p class="counter-text">Aktif Tesis</p>
                     </div>
                 </div>
             </div>

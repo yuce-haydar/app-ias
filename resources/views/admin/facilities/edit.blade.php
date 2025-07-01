@@ -91,7 +91,7 @@
                                         <div class="mb-3">
                                             <label for="working_hours" class="form-label">Çalışma Saatleri</label>
                                             <input type="text" class="form-control @error('working_hours') is-invalid @enderror" 
-                                                   id="working_hours" name="working_hours" value="{{ old('working_hours', $facility->working_hours) }}" 
+                                                   id="working_hours" name="working_hours" value="{{ old('working_hours', is_array($facility->working_hours) ? implode(', ', $facility->working_hours) : $facility->working_hours) }}" 
                                                    placeholder="Örn: 08:00 - 17:00">
                                             @error('working_hours')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -103,7 +103,7 @@
                                 <div class="mb-3">
                                     <label for="features" class="form-label">Özellikler</label>
                                     <textarea class="form-control @error('features') is-invalid @enderror" 
-                                              id="features" name="features" rows="5">{{ old('features', $facility->features) }}</textarea>
+                                              id="features" name="features" rows="5">{{ old('features', is_array($facility->features) ? implode("\n", $facility->features) : '') }}</textarea>
                                     @error('features')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -131,7 +131,7 @@
                                     
                                     <input type="file" class="form-control @error('image') is-invalid @enderror" 
                                            id="image" name="image" accept="image/*">
-                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 5MB</small>
+                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 15MB (Otomatik sıkıştırılır)</small>
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

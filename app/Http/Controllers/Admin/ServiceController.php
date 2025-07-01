@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -15,11 +16,11 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::orderBy('sort_order', 'asc')
+        $hizmetler = Service::orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
             
-        return view('admin.services.index', compact('services'));
+        return view('admin.services.index', compact('hizmetler'));
     }
 
     /**
@@ -46,20 +47,40 @@ class ServiceController extends Controller
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
             'icon' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
 
-        // Handle image upload
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('services', 'public');
+            $imageFile = $request->file('image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
+            $validated['image'] = ImageHelper::compressAndStore($imageFile, 'hizmetler');
         }
 
-        // Handle gallery upload
+        // Handle gallery upload with compression
         if ($request->hasFile('gallery')) {
             $gallery = [];
             foreach ($request->file('gallery') as $file) {
-                $gallery[] = $file->store('services/gallery', 'public');
+                // Dosya boyutu ve türü kontrolü
+                if (!ImageHelper::checkFileSize($file, 15)) {
+                    return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
+                }
+                
+                if (!ImageHelper::isValidImageType($file)) {
+                    return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
+                }
+                
+                $gallery[] = ImageHelper::compressAndStore($file, 'hizmetler/gallery');
             }
             $validated['gallery'] = $gallery;
         }
@@ -106,24 +127,44 @@ class ServiceController extends Controller
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
             'icon' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
 
-        // Handle image upload
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
             // Delete old image
             if ($service->image) {
-                Storage::disk('public')->delete($service->image);
+                ImageHelper::deleteImage($service->image);
             }
-            $validated['image'] = $request->file('image')->store('services', 'public');
+            $validated['image'] = ImageHelper::compressAndStore($imageFile, 'hizmetler');
         }
 
-        // Handle gallery upload
+        // Handle gallery upload with compression
         if ($request->hasFile('gallery')) {
             $gallery = $service->gallery ?? [];
             foreach ($request->file('gallery') as $file) {
-                $gallery[] = $file->store('services/gallery', 'public');
+                // Dosya boyutu ve türü kontrolü
+                if (!ImageHelper::checkFileSize($file, 15)) {
+                    return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
+                }
+                
+                if (!ImageHelper::isValidImageType($file)) {
+                    return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
+                }
+                
+                $gallery[] = ImageHelper::compressAndStore($file, 'hizmetler/gallery');
             }
             $validated['gallery'] = $gallery;
         }
@@ -143,13 +184,13 @@ class ServiceController extends Controller
         
         // Delete image
         if ($service->image) {
-            Storage::disk('public')->delete($service->image);
+            ImageHelper::deleteImage($service->image);
         }
         
         // Delete gallery images
         if ($service->gallery) {
             foreach ($service->gallery as $image) {
-                Storage::disk('public')->delete($image);
+                ImageHelper::deleteImage($image);
             }
         }
         

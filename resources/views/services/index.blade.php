@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('title', 'Hizmetlerimiz - Hatay İmar')
-@section('description', 'Hatay İmar hizmetleri: Sosyal tesis işletmeciliği, parke taşı üretimi, büz üretimi ve inşaat hizmetleri.')
+@section('description', 'Hatay İmar\'ın sunduğu profesyonel inşaat ve altyapı hizmetleri.')
 
 @section('content')
 
-<div class="breadcrumb-wrapper" data-bg-src="{{ asset('assets/images/logo/a.jpeg') }}">
+<div class="breadcrumb-wrapper" data-bg-src="{{ asset('assets/images/imageshatay/hatay6.jpeg') }}">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumb-content">
-                    <h1 class="breadcrumb-title">'</h1>
+                    <h1 class="breadcrumb-title">Hizmetlerimiz</h1>
                     <div class="breadcrumb-link">
                         <span><a href="{{ route('home') }}">Anasayfa</a></span>
                         <i class="fas fa-chevron-right"></i>
@@ -35,106 +35,44 @@
         </div>
         
         <div class="row gy-40">
-            <!-- Sosyal Tesis İşletmeciliği -->
-            <div class="col-lg-6 col-md-6">
-                <div class="service-item style-modern">
-                    <div class="service-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Sosyal Tesis" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px;">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <i class="fa-solid fa-building"></i>
+            @foreach($services as $service)
+                <div class="col-lg-6 col-md-6">
+                    <div class="service-item style-modern">
+                        <div class="service-thumb">
+                            <img src="{{ asset($service->image) }}" alt="{{ $service->title }}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px;">
                         </div>
-                        <h3 class="service-title">Sosyal Tesis İşletmeciliği</h3>
-                        <p class="service-text">Habib-i Neccar Sosyal Tesisimizde düğün, nişan, sünnet ve özel organizasyonlar için hizmet vermekteyiz. Modern tesisimizde ailenizin özel günlerini unutulmaz kılıyoruz.</p>
-                        <ul class="service-features">
-                            <li>500 kişilik kapalı salon</li>
-                            <li>Açık hava organizasyon alanı</li>
-                            <li>Profesyonel ses sistemi</li>
-                            <li>Geniş otopark alanı</li>
-                        </ul>
-                                                    <a href="{{ route('facilities.index') }}" class="service-link">
-                            Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="{{ $service->icon }}"></i>
+                            </div>
+                            <h3 class="service-title">{{ $service->title }}</h3>
+                            <p class="service-text">{{ $service->short_description }}</p>
+                            @if($service->features && count($service->features) > 0)
+                                <ul class="service-features">
+                                    @foreach(array_slice($service->features, 0, 4) as $feature)
+                                        <li>{{ $feature }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                            <a href="{{ route('service.details', ['id' => $service->id]) }}" class="service-link">
+                                Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Parke Taşı Üretimi -->
-            <div class="col-lg-6 col-md-6">
-                <div class="service-item style-modern">
-                    <div class="service-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Parke Taşı" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px;">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <i class="fa-solid fa-cube"></i>
-                        </div>
-                        <h3 class="service-title">Parke Taşı Üretimi</h3>
-                        <p class="service-text">Yüksek kaliteli parke taşı üretimi ile şehrimizin kaldırım ve yol yapımında kullanılmak üzere dayanıklı ve estetik ürünler sunuyoruz.</p>
-                        <ul class="service-features">
-                            <li>TSE standartlarında üretim</li>
-                            <li>Çeşitli renk seçenekleri</li>
-                            <li>Farklı boyut alternatifleri</li>
-                            <li>Yüksek dayanıklılık</li>
-                        </ul>
-                        <a href="{{ route('project.details', ['id' => 4]) }}" class="service-link">
-                            Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Büz Üretimi -->
-            <div class="col-lg-6 col-md-6">
-                <div class="service-item style-modern">
-                    <div class="service-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Büz Üretimi" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px;">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <i class="fa-solid fa-industry"></i>
-                        </div>
-                        <h3 class="service-title">Büz (Beton Boru) Üretimi</h3>
-                        <p class="service-text">Altyapı projelerinde kullanılan beton borular (büz) üretimi yaparak şehrimizin kanalizasyon ve su altyapısına katkı sağlıyoruz.</p>
-                        <ul class="service-features">
-                            <li>Çeşitli çap seçenekleri</li>
-                            <li>Yüksek basınç dayanımı</li>
-                            <li>Uzun ömürlü malzeme</li>
-                            <li>Çevre dostu üretim</li>
-                        </ul>
-                        <a href="{{ route('project.details', ['id' => 1]) }}" class="service-link">
-                            Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Otopark İşletmeciliği -->
-            <div class="col-lg-6 col-md-6">
-                <div class="service-item style-modern">
-                    <div class="service-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Katlı Otopark" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px;">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <i class="fa-solid fa-car"></i>
-                        </div>
-                        <h3 class="service-title">Katlı Otopark İşletmeciliği</h3>
-                        <p class="service-text">Şehir merkezindeki katlı otoparkımız ile vatandaşlarımıza güvenli ve uygun fiyatlı park hizmeti sunmaktayız.</p>
-                        <ul class="service-features">
-                            <li>200 araçlık kapasite</li>
-                            <li>24 saat güvenlik</li>
-                            <li>Uygun fiyat tarifesi</li>
-                            <li>Merkezi konum</li>
-                        </ul>
-                        <a href="{{ route('project.details', ['id' => 2]) }}" class="service-link">
-                            Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
+
+        <!-- Pagination -->
+        @if($services->hasPages())
+            <div class="row mt-50">
+                <div class="col-12">
+                    <div class="pagination-wrapper text-center">
+                        {{ $services->links() }}
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </section>
 

@@ -21,7 +21,7 @@ Bülten Bölümü
                         </div>
                         <div class="email-details">
                             <p>E-posta Gönder</p>
-                            <a href="mailto:info@nexta.com.tr">info@nexta.com.tr</a>
+                            <a href="mailto:info@hatayimar.com">info@hatayimar.com</a>
                         </div>
                     </div>
                 </div>

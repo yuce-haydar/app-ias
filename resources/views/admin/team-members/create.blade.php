@@ -95,7 +95,7 @@
                                     <label for="image" class="form-label">Fotoğraf</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror" 
                                            id="image" name="image" accept="image/*">
-                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 2MB</small>
+                                    <small class="text-muted">JPG, JPEG, PNG, WEBP formatlarında maksimum 15MB (Otomatik sıkıştırılır)</small>
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

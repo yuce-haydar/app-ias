@@ -132,6 +132,28 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="mb-3">
+                        <label for="working_hours" class="form-label">Çalışma Saatleri</label>
+                        <input type="text" class="form-control @error('working_hours') is-invalid @enderror" 
+                               id="working_hours" name="working_hours" value="{{ old('working_hours') }}" 
+                               placeholder="Örn: 08:00 - 17:00, Pazartesi - Cuma">
+                        <small class="text-muted">Birden fazla saat dilimi için virgül kullanın</small>
+                        @error('working_hours')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="features" class="form-label">Özellikler</label>
+                        <textarea class="form-control @error('features') is-invalid @enderror" 
+                                  id="features" name="features" rows="5" 
+                                  placeholder="Her satıra bir özellik yazın">{{ old('features') }}</textarea>
+                        <small class="text-muted">Her satıra bir özellik yazın</small>
+                        @error('features')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                     
                     <div class="mb-3">
                         <label for="google_maps_link" class="form-label">Google Maps Linki</label>

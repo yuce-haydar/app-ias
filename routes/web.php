@@ -25,13 +25,8 @@ Route::get('/hakkimizda', function () {
 })->name('about');
 
 // Hizmet Rotaları
-Route::get('/hizmetler', function () {
-    return view('services.index');
-})->name('services');
-
-Route::get('/hizmet/{id}', function ($id) {
-    return view('services.details', compact('id'));
-})->name('service.details');
+Route::get('/hizmetler', [App\Http\Controllers\ServiceController::class, 'index'])->name('services');
+Route::get('/hizmet/{id}', [App\Http\Controllers\ServiceController::class, 'details'])->name('service.details');
 
 // Blog Rotaları
 Route::get('/blog', [App\Http\Controllers\BlogController::class, 'grid'])->name('blog.grid');
@@ -41,13 +36,8 @@ Route::get('/blog-liste', [App\Http\Controllers\BlogController::class, 'list'])-
 Route::get('/blog/{id}', [App\Http\Controllers\BlogController::class, 'details'])->name('blog.details');
 
 // Ekip Rotaları
-Route::get('/ekip', function () {
-    return view('team.index');
-})->name('team');
-
-Route::get('/ekip/{id}', function ($id) {
-    return view('team.details', compact('id'));
-})->name('team.details');
+Route::get('/ekip', [App\Http\Controllers\TeamController::class, 'index'])->name('team');
+Route::get('/ekip/{id}', [App\Http\Controllers\TeamController::class, 'details'])->name('team.details');
 
 // Projeler Rotaları
 Route::get('/projeler', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
@@ -55,13 +45,9 @@ Route::get('/projeler', [App\Http\Controllers\ProjectController::class, 'index']
 Route::get('/proje/{id}', [App\Http\Controllers\ProjectController::class, 'details'])->name('project.details');
 
 // Tesisler Rotaları
-Route::get('/tesisler', function () {
-    return view('facilities.index');
-})->name('facilities.index');
+Route::get('/tesisler', [App\Http\Controllers\FacilityController::class, 'index'])->name('facilities.index');
 
-Route::get('/tesis/{id}', function ($id) {
-    return view('facilities.details', compact('id'));
-})->name('facilities.details');
+Route::get('/tesis/{id}', [App\Http\Controllers\FacilityController::class, 'details'])->name('facilities.details');
 
 // İhale Bilgileri Rotaları
 Route::get('/ihale-bilgileri', function () {
@@ -93,15 +79,10 @@ Route::get('/is-ilani/{id}', function ($id) {
     return view('hr.job-details', compact('id'));
 })->name('job.details');
 
-// Hizmetler sayfası
-Route::get('/hizmetler', function () {
-    return view('services.index');
-})->name('services');
+
 
 // SSS Sayfası
-Route::get('/sss', function () {
-    return view('faq.index');
-})->name('faq');
+Route::get('/sss', [App\Http\Controllers\FaqController::class, 'index'])->name('faq');
 
 // İletişim Rotaları
 Route::get('/iletisim', function () {

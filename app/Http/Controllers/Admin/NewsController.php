@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -37,26 +38,51 @@ class NewsController extends Controller
             'summary' => 'required|string',
             'content' => 'required|string',
             'category' => 'required|string',
-            'tags' => 'nullable|array',
+            'tags' => 'nullable|string',
             'author' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
             'is_featured' => 'boolean',
             'allow_comments' => 'boolean',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
 
-        // Handle featured image upload
-        if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')->store('news', 'public');
+        // Tags text'ini array'e çevir
+        if ($validated['tags']) {
+            $validated['tags'] = array_filter(array_map('trim', explode(",", $validated['tags'])));
         }
 
-        // Handle gallery upload
+        // Handle featured image upload with compression
+        if ($request->hasFile('featured_image')) {
+            $imageFile = $request->file('featured_image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['featured_image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['featured_image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
+            $validated['featured_image'] = ImageHelper::compressAndStore($imageFile, 'news');
+        }
+
+        // Handle gallery upload with compression
         if ($request->hasFile('gallery')) {
             $gallery = [];
             foreach ($request->file('gallery') as $file) {
-                $gallery[] = $file->store('news/gallery', 'public');
+                // Dosya boyutu ve türü kontrolü
+                if (!ImageHelper::checkFileSize($file, 15)) {
+                    return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
+                }
+                
+                if (!ImageHelper::isValidImageType($file)) {
+                    return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
+                }
+                
+                $gallery[] = ImageHelper::compressAndStore($file, 'news/gallery');
             }
             $validated['gallery'] = $gallery;
         }
@@ -102,29 +128,45 @@ class NewsController extends Controller
             'summary' => 'required|string',
             'content' => 'required|string',
             'category' => 'required|string',
-            'tags' => 'nullable|array',
+            'tags' => 'nullable|string',
             'author' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
             'is_featured' => 'boolean',
             'allow_comments' => 'boolean',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
+
+        // Tags text'ini array'e çevir
+        if ($validated['tags']) {
+            $validated['tags'] = array_filter(array_map('trim', explode(",", $validated['tags'])));
+        }
 
         // Handle featured image removal
         if ($request->input('remove_featured_image') == '1' && $news->featured_image) {
-            Storage::disk('public')->delete($news->featured_image);
+            ImageHelper::deleteImage($news->featured_image);
             $validated['featured_image'] = null;
         }
 
-        // Handle featured image upload
+        // Handle featured image upload with compression
         if ($request->hasFile('featured_image')) {
+            $imageFile = $request->file('featured_image');
+            
+            // Dosya boyutu ve türü kontrolü
+            if (!ImageHelper::checkFileSize($imageFile, 15)) {
+                return back()->withErrors(['featured_image' => 'Görsel dosyası 15MB\'dan büyük olamaz.']);
+            }
+            
+            if (!ImageHelper::isValidImageType($imageFile)) {
+                return back()->withErrors(['featured_image' => 'Geçersiz görsel formatı. JPG, JPEG, PNG, WEBP, GIF desteklenir.']);
+            }
+            
             // Delete old image if exists
             if ($news->featured_image) {
-                Storage::disk('public')->delete($news->featured_image);
+                ImageHelper::deleteImage($news->featured_image);
             }
-            $validated['featured_image'] = $request->file('featured_image')->store('news', 'public');
+            $validated['featured_image'] = ImageHelper::compressAndStore($imageFile, 'news');
         }
 
         // Handle gallery image removals
@@ -134,7 +176,7 @@ class NewsController extends Controller
             if (is_array($removedIndices)) {
                 foreach ($removedIndices as $index) {
                     if (isset($gallery[$index])) {
-                        Storage::disk('public')->delete($gallery[$index]);
+                        ImageHelper::deleteImage($gallery[$index]);
                         unset($gallery[$index]);
                     }
                 }
@@ -142,10 +184,19 @@ class NewsController extends Controller
             }
         }
 
-        // Handle new gallery uploads
+        // Handle new gallery uploads with compression
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $file) {
-                $gallery[] = $file->store('news/gallery', 'public');
+                // Dosya boyutu ve türü kontrolü
+                if (!ImageHelper::checkFileSize($file, 15)) {
+                    return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
+                }
+                
+                if (!ImageHelper::isValidImageType($file)) {
+                    return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
+                }
+                
+                $gallery[] = ImageHelper::compressAndStore($file, 'news/gallery');
             }
         }
         
@@ -171,13 +222,13 @@ class NewsController extends Controller
         
         // Delete featured image
         if ($news->featured_image) {
-            Storage::disk('public')->delete($news->featured_image);
+            ImageHelper::deleteImage($news->featured_image);
         }
         
         // Delete gallery images
         if ($news->gallery) {
             foreach ($news->gallery as $image) {
-                Storage::disk('public')->delete($image);
+                ImageHelper::deleteImage($image);
             }
         }
         
