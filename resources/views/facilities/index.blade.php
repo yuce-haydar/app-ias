@@ -44,7 +44,7 @@ Tesisler Grid Bölümü
             <div class="col-lg-6 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/projeler/Büz-Üretim-Tesisi.jpg') }}" alt="Büz Üretim Tesisi">
+                        <img src="{{ asset('assets/images/projeler/b1.jpg') }}" alt="Büz Üretim Tesisi">
                         <div class="date">
                             <span class="day">500</span>
                             <span class="month">Adet/Gün</span>
@@ -149,7 +149,7 @@ Tesisler Grid Bölümü
             <div class="col-lg-6 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/projeler/Parke-Taşı-Üretim-Tesisi.jpg') }}" alt="Parke Taşı Üretim">
+                        <img src="{{ asset('assets/images/projeler/p1.jpg') }}" alt="Parke Taşı Üretim">
                         <div class="date">
                             <span class="day">50+</span>
                             <span class="month">Çeşit</span>
