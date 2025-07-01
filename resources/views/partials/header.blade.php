@@ -42,7 +42,6 @@
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('facilities.index') }}" style="background-color: #fff; color: #000000;">Tesislerimiz</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('projects') }}" style="background-color: #fff; color: #000000;">Projelerimiz</a></li>
-                                        <li style="background-color: #fff;"><a href="{{ route('project.details', ['id' => 3]) }}" style="background-color: #fff; color: #000000;">Habib-i Neccar Sosyal Tesis</a></li>
                                     </ul>
                                 </li>
                                 <li class="{{ request()->routeIs('tenders*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
@@ -60,7 +59,7 @@
                                         <li style="background-color: #fff;"><a href="{{ route('careers') }}" style="background-color: #fff; color: #000000;">Açık Pozisyonlar</a></li>
                                     </ul>
                                 </li>
-                              
+
                             </ul>
                         </nav>
                         <div class="navbar-right d-inline-flex d-lg-none" style="background-color: #fff;">
@@ -73,7 +72,7 @@
                     </div>
                     <div class="col-auto header-right-wrapper"">
                         <div class="header-right" style="background-color: #fff;">
-                          
+
                             <a href="{{ route('contact') }}" class="theme-btn bg-theme" style="background-color: #fff; ">
                                 <span class="link-effect">
                                     <span class="effect-1" ">Bize </span>

@@ -41,7 +41,6 @@ Ekip Bölümü
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="team-single-box">
                     <div class="team-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay17.jpeg') }}" alt="Yönetim Kurulu Başkanı" style="width: 100%; height: 250px; object-fit: cover;">
                         <div class="team-overlay">
                             <div class="team-social">
                                 <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -51,14 +50,14 @@ Ekip Bölümü
                         </div>
                     </div>
                     <div class="team-content">
-                        <h4 class="name"><a href="{{ route('team.details', ['id' => 1]) }}">Yönetim Kurulu Başkanı</a></h4>
-                        <p class="designation">Başkan</p>
+                        <h4 class="name"><a href="{{ route('team.details', ['id' => 1]) }}">Kemal Nadir Ünal</a></h4>
+                        <p class="designation">Yönetim Kurulu Başkanı</p>
                         <p class="text">Hatay İmar'ın stratejik yönetimi ve şehir kalkınması alanında uzman.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Yönetim Kurulu Üyesi 2 -->
+            <!-- Yönetim Kurulu Üyesi 2 
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="team-single-box">
                     <div class="team-thumb">
@@ -78,8 +77,8 @@ Ekip Bölümü
                     </div>
                 </div>
             </div>
-
-            <!-- Yönetim Kurulu Üyesi 3 -->
+-->
+            <!-- Yönetim Kurulu Üyesi 3
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="team-single-box">
                     <div class="team-thumb">
@@ -99,8 +98,8 @@ Ekip Bölümü
                     </div>
                 </div>
             </div>
-
-            <!-- Yönetim Kurulu Üyesi 4 -->
+ -->
+            <!-- Yönetim Kurulu Üyesi 4 
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="team-single-box">
                     <div class="team-thumb">
@@ -120,7 +119,7 @@ Ekip Bölümü
                     </div>
                 </div>
             </div>
-
+-->
 
         </div>
     </div>

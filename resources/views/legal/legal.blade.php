@@ -7,7 +7,7 @@
     Breadcrumb Bölümü
 ==============================-->
 <section class="breadcrumb-section">
-    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay18.jpeg') }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">

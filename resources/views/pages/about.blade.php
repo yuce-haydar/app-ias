@@ -38,7 +38,7 @@
                         <p class="sec-text">Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı, Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız. Şehrimizin gelişimi ve kalkınması için sürekli olarak yeni projeler geliştirmekte ve hizmet kalitemizi artırmaktayız.</p>
                         <p class="sec-text">Hatay Büyükşehir Belediyesi'nin bir kuruluşu olarak, şehrimizin sosyal, kültürel ve ekonomik gelişimine katkıda bulunmayı misyon edinmiş bulunuyoruz.</p>
                     </div>
-                    
+
                     <div class="about-feature-list">
                         <div class="feature-item">
                             <div class="icon"><i class="fa-solid fa-building"></i></div>
@@ -55,11 +55,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pt-35 pb-25">
                         <div class="border"><span class="bar"></span></div>
                     </div>
-                    
+
                     <ul class="features-list">
                         <li>Kaliteli hizmet anlayışı ile çalışma</li>
                         <li>Şehrimize değer katacak projeler geliştirme</li>
@@ -76,13 +76,7 @@
                     <div class="about-thumb-2">
                         <img src="{{ asset('assets/images/imageshatay/hatay11.jpeg') }}" alt="Hatay İmar Tesisleri" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
                     </div>
-                    <div class="experience-box">
-                        <div class="icon"><i class="fa-solid fa-star"></i></div>
-                        <div class="content">
-                            <h4>70+</h4>
-                            <p>Yıllık Hizmet<br>Deneyimi</p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -131,58 +125,7 @@
     </div>
 </section>
 
-<!--==============================
-    Hatay Şehri Tarihi Bölümü
-==============================-->
-<section class="history-section space">
-    <div class="container">
-        <div class="row gy-50 align-items-center">
-            <div class="col-lg-6">
-                <div class="history-content">
-                    <div class="title-area">
-                        <div class="sub-title"><span><i class="asterisk"></i></span>Hatay Şehrimiz</div>
-                        <h2 class="sec-title mb-25">Türkiye'nin En Eski<br><span class="bold">Yerleşim</span> Yerlerinden</h2>
-                        <p class="sec-text">Hatay, Türkiye'nin en eski yerleşim yerlerinden biridir. Araştırmacılar, eldeki bilgilere göre yörenin iskân tarihinin M.Ö. yüzbinli yıllara rastlayan orta paleolitik döneme kadar uzandığını ifade etmekte, bunun 2,5 milyon yıl öncesine kadar uzanabileceğini belirtmektedirler.</p>
-                        
-                        <p class="sec-text">1954-1966 yılları arasında Altınözü, Şenköy, Antakya ve Çevlik'te yapılan araştırmalarda elde edilen ve M.Ö. 100000-40000 yılları arasında tarihlenen bulgular orta paleolitik dönem özellikleri taşımaktadır.</p>
-                        
-                        <p class="sec-text">Bu köklü tarihsel mirasa sahip şehrimizde, geçmişin değerlerini koruyarak geleceğe taşımak için çalışmaktayız.</p>
-                    </div>
-                    
-                    <div class="history-stats">
-                        <div class="stat-item">
-                            <h4>M.Ö. 100.000</h4>
-                            <p>Yıllık Tarih</p>
-                        </div>
-                        <div class="stat-item">
-                            <h4>1954-1966</h4>
-                            <p>Araştırma Yılları</p>
-                        </div>
-                        <div class="stat-item">
-                            <h4>2.5 Milyon</h4>
-                            <p>Yıl Öncesine Uzanan Miras</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="history-images">
-                    <div class="image-grid">
-                        <div class="image-item">
-                            <img src="{{ asset('assets/images/imageshatay/hatay13.jpeg') }}" alt="Hatay Tarihi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                        </div>
-                        <div class="image-item">
-                            <img src="{{ asset('assets/images/imageshatay/hatay14.jpeg') }}" alt="Antakya" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                        </div>
-                        <div class="image-item">
-                            <img src="{{ asset('assets/images/imageshatay/hatay15.jpeg') }}" alt="Hatay Kültürü" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <!--==============================
     İletişim Bilgileri Bölümü
@@ -235,4 +178,4 @@
     </div>
 </section>
 
-@endsection 
+@endsection

@@ -36,7 +36,7 @@
                     @if($id == 1)
                         <!-- Büz Üretim Tesisi -->
                         <div class="project-details-thumb mb-40">
-                            <img src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
+                            <img src="{{ asset('assets/images/projeler/Büz-Üretim-Tesisi.jpg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
                         </div>
                         
                         <h1 class="project-title mb-30">Büz Üretim Tesisi</h1>
@@ -110,14 +110,9 @@
                             <h3 class="mb-30">Tesis Fotoğrafları</h3>
                             <div class="row gy-20">
                                 <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay5.jpeg') }}" alt="Büz Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                                    <img src="{{ asset('assets/images/projeler/Büz-Üretim-Tesisi.jpg') }}" alt="Büz Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                                 </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay6.jpeg') }}" alt="Üretim Süreci" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay7.jpeg') }}" alt="Kalite Kontrol" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
+                               
                             </div>
                         </div>
 
@@ -144,7 +139,7 @@
                     @elseif($id == 2)
                         <!-- Katlı Otopark -->
                         <div class="project-details-thumb mb-40">
-                            <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Katlı Otopark" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
+                            <img src="{{ asset('assets/images/projeler/katlı-otopark.jpg') }}" alt="Katlı Otopark" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
                         </div>
                         
                         <h1 class="project-title mb-30">Katlı Otopark</h1>
@@ -218,14 +213,9 @@
                             <h3 class="mb-30">Otopark Fotoğrafları</h3>
                             <div class="row gy-20">
                                 <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay8.jpeg') }}" alt="Otopark Girişi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                                    <img src="{{ asset('assets/images/projeler/katlı-otopark.jpg') }}" alt="Otopark Girişi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                                 </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay9.jpeg') }}" alt="Park Alanları" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay10.jpeg') }}" alt="Güvenlik Sistemi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
+                               
                             </div>
                         </div>
 
@@ -235,10 +225,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <ul class="pricing-list">
-                                        <li><strong>İlk Saat:</strong> 5 TL</li>
-                                        <li><strong>Ek Her Saat:</strong> 3 TL</li>
-                                        <li><strong>Günlük:</strong> 25 TL</li>
-                                        <li><strong>Aylık Abonelik:</strong> 300 TL</li>
+                                      
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
@@ -254,7 +241,7 @@
                     @elseif($id == 3)
                         <!-- Habib-i Neccar Sosyal Tesis -->
                         <div class="project-details-thumb mb-40">
-                            <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Habib-i Neccar Sosyal Tesis" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
+                            <img src="{{ asset('assets/images/projeler/Habib-i-Neccar-Sosyal-Tesis.jpg') }}" alt="Habib-i Neccar Sosyal Tesis" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
                         </div>
                         
                         <h1 class="project-title mb-30">Habib-i Neccar Sosyal Tesis</h1>
@@ -328,14 +315,9 @@
                             <h3 class="mb-30">Tesis Fotoğrafları</h3>
                             <div class="row gy-20">
                                 <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay11.jpeg') }}" alt="Sosyal Alan" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                                    <img src="{{ asset('assets/images/projeler/Habib-i-Neccar-Sosyal-Tesis.jpg') }}" alt="Sosyal Alan" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                                 </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay12.jpeg') }}" alt="Restoran" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/imageshatay/hatay13.jpeg') }}" alt="Doğal Ortam" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-                                </div>
+                                
                             </div>
                         </div>
 
@@ -364,7 +346,7 @@
                     @elseif($id == 4)
                         <!-- Parke Taşı Üretim Tesisi -->
                         <div class="project-details-thumb mb-40">
-                            <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Parke Taşı Üretim Tesisi" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
+                                <img src="{{ asset('assets/images/projeler/Parke-Taşı-Üretim-Tesisi.jpg') }}" alt="Parke Taşı Üretim Tesisi" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
                         </div>
                         
                         <h1 class="project-title mb-30">Parke Taşı Üretim Tesisi</h1>

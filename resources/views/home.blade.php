@@ -326,7 +326,7 @@ Hero Bölümü
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
-   
+
 </section>
 <!--======== / Hero Bölümü ========-->
 
@@ -365,153 +365,14 @@ Hakkımızda Bölümü
                                     <img class="lazy-img" data-src="{{ asset('assets/images/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projeleri" loading="lazy">
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projeleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/cok-amacli-rendet/WhatsApp Image 2025-02-18 at 16.58.59.jpeg') }}" alt="Çok Amaçlı Projeler" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Taziye Evi Projeleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay9.jpeg') }}" alt="Hatay Otopark Projeleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay10.jpeg') }}" alt="Hatay İnşaat Projeleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay11.jpeg') }}" alt="Hatay Gelişim Alanları" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay12.jpeg') }}" alt="Hatay Şehir Planlaması" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay13.jpeg') }}" alt="Hatay Yeşil Alanlar" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay14.jpeg') }}" alt="Hatay Ulaşım Projeleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay15.jpeg') }}" alt="Hatay Kültür Merkezleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay16.jpeg') }}" alt="Hatay Park Alanları" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay17.jpeg') }}" alt="Hatay Spor Tesisleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay18.jpeg') }}" alt="Hatay Eğitim Tesisleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay19.jpeg') }}" alt="Hatay Sağlık Tesisleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay20.jpeg') }}" alt="Hatay Turizm Alanları" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay21.jpeg') }}" alt="Hatay Tarih ve Gelecek" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay22.jpeg') }}" alt="Hatay İmar Çalışmaları" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay23.jpeg') }}" alt="Hatay Belediye Projeleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay24.jpeg') }}" alt="Hatay Gelecek Vizyonu" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay25.jpeg') }}" alt="Hatay Teknoloji Merkezi" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay26.jpeg') }}" alt="Hatay Sanayi Bölgesi" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay27.jpeg') }}" alt="Hatay Ticaret Merkezi" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay28.jpeg') }}" alt="Hatay Çevre Projeleri" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay29.jpeg') }}" alt="Hatay Sürdürülebilir Kalkınma" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay30.jpeg') }}" alt="Hatay Akıllı Şehir" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay31.jpeg') }}" alt="Hatay Kentsel Dönüşüm" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay32.jpeg') }}" alt="Hatay Geleceğe Hazırlık" loading="lazy">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="about-slide_thumb">
-                                    <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay33.jpeg') }}" alt="Hatay Toplumsal Projeler" loading="lazy">
-                                </div>
-                            </div>
+
                         </div>
                         <div class="array-button">
                             <button class="array-prev"><i class="fa-light fa-arrow-left-long"></i></button>
                             <button class="array-next active"><i class="fa-light fa-arrow-right-long"></i></button>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="col-lg-6">
@@ -614,18 +475,18 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img class="lazy-img" data-src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                        <img class="lazy-img" data-src="{{ asset('assets/images/projeler/Büz-Üretim-Tesisi.jpg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-factory"></i>
                     </div>
                     <div class="service-content">
-                        <h4 class="service-title" style="height: 50px;"><a href="{{ route('project.details', ['id' => 1]) }}" style="text-decoration: none; color: #ffc107;">Büz Üretim Tesisi</a></h4>
+                        <h4 class="service-title" style="height: 50px;"><a href="{{ route('facilities.details', ['id' => 1]) }}" style="text-decoration: none; color: #ffc107;">Büz Üretim Tesisi</a></h4>
                         <p class="service-text">Büz, Beton Boru (künk) gibi isimlerle anılan ürünlerimiz milimetre cinsinden iç çap genişlikleri ile adlandırılan...</p>
-                        <a href="{{ route('project.details', ['id' => 1]) }}" class="service-link mb-15">
+                        <a href="{{ route('facilities.details', ['id' => 1]) }}" class="service-link mb-15">
                             <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
-                        <a href="{{ route('project.details', ['id' => 1]) }}" class="theme-btn bg-color10 btn-sm">
+                        <a href="{{ route('facilities.details', ['id' => 1]) }}" class="theme-btn bg-color10 btn-sm">
                             <span class="link-effect">
                                 <span class="effect-1">Devamını Oku</span>
                                 <span class="effect-1">Devamını Oku</span>
@@ -637,18 +498,18 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Katlı Otopark" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                        <img src="{{ asset('assets/images/projeler/katlı-otopark.jpg') }}" alt="Katlı Otopark" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-parking"></i>
                     </div>
                     <div class="service-content">
-                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('project.details', ['id' => 2]) }}" style="text-decoration: none; color: #ffc107;">Katlı Otopark</a></h4>
+                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('facilities.details', ['id' => 2]) }}" style="text-decoration: none; color: #ffc107;">Katlı Otopark</a></h4>
                         <p class="service-text">2005 yılında şehir merkezinde faaliyete geçen Katlı Otopark, şehrimizde yoğun trafikten araçlarına park yeri bulamayan...</p>
-                        <a href="{{ route('project.details', ['id' => 2]) }}" class="service-link mb-15">
+                        <a href="{{ route('facilities.details', ['id' => 2]) }}" class="service-link mb-15">
                             <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
-                        <a href="{{ route('project.details', ['id' => 2]) }}" class="theme-btn bg-color10 btn-sm">
+                        <a href="{{ route('facilities.details', ['id' => 2]) }}" class="theme-btn bg-color10 btn-sm">
                             <span class="link-effect">
                                 <span class="effect-1">Devamını Oku</span>
                                 <span class="effect-1">Devamını Oku</span>
@@ -666,12 +527,12 @@ Tamamlanan Tesisler Bölümü
                         <i class="flaticon-mountain"></i>
                     </div>
                     <div class="service-content">
-                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('project.details', ['id' => 3]) }}" style="text-decoration: none; color: #ffc107;">Habib-i Neccar<br>Sosyal Tesis</a></h4>
+                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('facilities.details', ['id' => 3]) }}" style="text-decoration: none; color: #ffc107;">Habib-i Neccar<br>Sosyal Tesis</a></h4>
                         <p class="service-text">2013 yılında faaliyete açıldı. Habib-i Neccar Dağı Eteklerinde İzmir Caddesi'nde, Antakyalıların ailece ziyaret edebilecekleri...</p>
-                        <a href="{{ route('project.details', ['id' => 3]) }}" class="service-link mb-15">
+                        <a href="{{ route('facilities.details', ['id' => 3]) }}" class="service-link mb-15">
                             <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
-                        <a href="{{ route('project.details', ['id' => 3]) }}" class="theme-btn bg-color10 btn-sm">
+                        <a href="{{ route('facilities.details', ['id' => 3]) }}" class="theme-btn bg-color10 btn-sm">
                             <span class="link-effect">
                                 <span class="effect-1">Devamını Oku</span>
                                 <span class="effect-1">Devamını Oku</span>
@@ -683,18 +544,18 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Parke Taşı Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                        <img src="{{ asset('assets/images/projeler/Parke-Taşı-Üretim-Tesisi.jpg') }}" alt="Parke Taşı Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="flaticon-brick"></i>
                     </div>
                     <div class="service-content">
-                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('project.details', ['id' => 4]) }}" style="text-decoration: none; color: #ffc107;">Parke Taşı Üretim</a></h4>
+                        <h4 class="service-title" style="height: 50px; display: flex; align-items: center;"><a href="{{ route('facilities.details', ['id' => 4]) }}" style="text-decoration: none; color: #ffc107;">Parke Taşı Üretim</a></h4>
                         <p class="service-text">Kullanımı çok eski çağlara dayanan parke taşı: taşın yontulup şekle konulması veya mevcut şekliyle montajının yapılması...</p>
-                        <a href="{{ route('project.details', ['id' => 4]) }}" class="service-link mb-15">
+                        <a href="{{ route('facilities.details', ['id' => 4]) }}" class="service-link mb-15">
                             <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
-                        <a href="{{ route('project.details', ['id' => 4]) }}" class="theme-btn bg-color10 btn-sm">
+                        <a href="{{ route('facilities.details', ['id' => 4]) }}" class="theme-btn bg-color10 btn-sm">
                             <span class="link-effect">
                                 <span class="effect-1">Devamını Oku</span>
                                 <span class="effect-1">Devamını Oku</span>
@@ -768,7 +629,7 @@ Hatay Şehri Bölümü
                             <p>Yıllık İnşaat<br>Tecrübesi</p>
                         </div>
                     </div>
-                    
+
                     <!-- İnşaat Projeleri Galerisi -->
                     <div class="construction-gallery mt-30">
                         <div class="row g-2">
@@ -875,51 +736,51 @@ Projelerimiz Özet Bölümü
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
                 <div class="simple-project-item">
                     <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje2.jpeg') }}" alt="Parke Taşı Yenileme" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ asset('assets/images/imageshatay/proje2.jpeg') }}" alt="Halı Saha" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
                     </div>
                     <div class="project-title">
-                        <h4>Parke Taşı Yenileme</h4>
+                        <h4>Halı Saha</h4>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
                 <div class="simple-project-item">
                     <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje3.jpeg') }}" alt="Yeşil Alan Düzenleme" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ asset('assets/images/imageshatay/proje3.jpeg') }}" alt="Kırkhan Külliyesi" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
                     </div>
                     <div class="project-title">
-                        <h4>Yeşil Alan Düzenleme</h4>
+                        <h4>Kırkhan Külliyesi</h4>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
                 <div class="simple-project-item">
                     <div class="project-image">
                         <img src="{{ asset('assets/images/imageshatay/proje4.jpeg') }}" alt="Üretim Tesisi Modernizasyonu" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
                     </div>
                     <div class="project-title">
-                        <h4>Üretim Tesisi Modernizasyonu</h4>
+                        <h4>Çok Amaçlı Sosyal Tesis</h4>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
                 <div class="simple-project-item">
                     <div class="project-image">
-                        <img src="{{ asset('assets/images/imageshatay/proje5.jpeg') }}" alt="Yeni Katlı Otopark" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ asset('assets/images/imageshatay/proje5.jpeg') }}" alt="Gençlik Merkezleri" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
                     </div>
                     <div class="project-title">
-                        <h4>Yeni Katlı Otopark</h4>
+                        <h4>Gençlik Merkezleri</h4>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
                 <div class="simple-project-item">
                     <div class="project-image">
@@ -955,7 +816,7 @@ Projeler Haritası Bölümü
                 </div>
             </div>
         </div>
-        
+
         <!-- Leaflet Harita -->
         <div class="row">
             <div class="col-lg-12">
@@ -964,7 +825,7 @@ Projeler Haritası Bölümü
                 </div>
             </div>
         </div>
-        
+
         <!-- Harita Açıklaması -->
         <div class="row mt-40">
             <div class="col-lg-12">
@@ -994,13 +855,13 @@ Projeler Haritası Bölümü
 document.addEventListener('DOMContentLoaded', function() {
     // Hatay koordinatları (Antakya merkez)
     var hatayCoords = [36.2027, 36.1621];
-    
+
     // Hatay bölgesi sınırları (güneybatı ve kuzeydoğu köşeler)
     var hatayBounds = [
         [35.8, 35.8], // güneybatı köşe
         [36.6, 36.6]  // kuzeydoğu köşe
     ];
-    
+
     // Harita oluştur - zoom kısıtlamaları ile
     var map = L.map('projectMap', {
         center: hatayCoords,
@@ -1010,17 +871,17 @@ document.addEventListener('DOMContentLoaded', function() {
         maxBounds: hatayBounds, // harita sınırları
         maxBoundsViscosity: 1.0 // sınırlardan çıkamasın
     });
-    
+
     // Satellite görünümü için Esri World Imagery kullan
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '© Esri, Maxar, Earthstar Geographics'
     }).addTo(map);
-    
+
     // İsteğe bağlı: Yol ve yer adları için overlay ekle
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
         attribution: '© Esri'
     }).addTo(map);
-    
+
     // Özel marker iconları
     var ongoingIcon = L.divIcon({
         className: 'custom-marker ongoing',
@@ -1028,14 +889,14 @@ document.addEventListener('DOMContentLoaded', function() {
         iconSize: [30, 30],
         iconAnchor: [15, 15]
     });
-    
+
     var planningIcon = L.divIcon({
         className: 'custom-marker planning',
         html: '<div style="background: #ffc107; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"><i class="fa-solid fa-building-circle-arrow-right" style="color: white; font-size: 14px;"></i></div>',
         iconSize: [30, 30],
         iconAnchor: [15, 15]
     });
-    
+
     // Proje konumları
     var projects = [
         {
@@ -1087,15 +948,15 @@ document.addEventListener('DOMContentLoaded', function() {
             description: "Modern teknoloji parkı inşaatı"
         }
     ];
-    
+
     // Marker'ları haritaya ekle
     projects.forEach(function(project) {
         var icon = project.status === 'ongoing' ? ongoingIcon : planningIcon;
         var statusText = project.status === 'ongoing' ? 'Devam Ediyor' : 'Planlama Aşamasında';
         var statusColor = project.status === 'ongoing' ? '#28a745' : '#ffc107';
-        
+
         var marker = L.marker(project.coords, {icon: icon}).addTo(map);
-        
+
         var popupContent = `
             <div style="text-align: center; min-width: 200px;">
                 <h5 style="margin: 0 0 8px 0; color: #333;">${project.name}</h5>
@@ -1103,9 +964,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px;">${statusText}</span>
             </div>
         `;
-        
+
         marker.bindPopup(popupContent);
-        
+
         // Marker tıklama olayı
         marker.on('click', function() {
             console.log('Clicked project:', project.name);
@@ -1130,7 +991,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         </div>
-        
+
         <div class="row gy-30">
             <!-- Kırıkhan Yüzme Havuzu -->
             <div class="col-lg-4 col-md-6">
@@ -1258,7 +1119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-lg-12 text-center mt-50">
                 <a href="{{ route('projects') }}" class="theme-btn bg-color10">
@@ -1430,7 +1291,7 @@ Soru ve Görüşleriniz Bölümü
                 </div>
             </div>
         </div>
-        
+
         <div class="row justify-content-center gy-30">
             <div class="col-lg-5 col-md-6">
                 <div class="contact-cta-item">
@@ -1449,7 +1310,7 @@ Soru ve Görüşleriniz Bölümü
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-5 col-md-6">
                 <div class="contact-cta-item">
                     <div class="cta-icon">
@@ -1471,4 +1332,4 @@ Soru ve Görüşleriniz Bölümü
     </div>
 </section>
 
-@endsection 
+@endsection
