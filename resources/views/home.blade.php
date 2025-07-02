@@ -112,6 +112,131 @@
     text-decoration: none;
     transition: color 0.3s ease;
 }
+
+/* Hero Slider Mobil Optimizasyonu */
+.hero-section.style-6 {
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y pinch-zoom;
+}
+
+.hero-slider-6 {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
+}
+
+.hero-slider-6 .swiper-slide {
+    overflow: hidden;
+    position: relative;
+    touch-action: manipulation;
+}
+
+/* Mobil için optimizasyon */
+@media (max-width: 991px) {
+    .hero-slider-6 .swiper-slide {
+        min-height: 70vh !important;
+        background-attachment: scroll !important;
+    }
+    
+    .hero-content .title {
+        font-size: 2.5rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    .hero-right .image-box {
+        margin-top: 30px;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    
+    .hero-right .image-box img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-slider-6 .swiper-slide {
+        min-height: 60vh !important;
+        background-size: cover !important;
+        background-position: center center !important;
+        background-attachment: scroll !important;
+    }
+    
+    .hero-content {
+        text-align: center;
+        padding: 20px 0;
+    }
+    
+    .hero-content .title {
+        font-size: 2rem !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .hero-content .text p {
+        font-size: 14px !important;
+        margin-bottom: 25px !important;
+    }
+    
+    .hero-right {
+        margin-top: 20px;
+    }
+    
+    .hero-right .image-box {
+        padding: 0 15px;
+    }
+    
+    .hero-right .image-box img {
+        max-height: 250px !important;
+        object-fit: cover;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-slider-6 .swiper-slide {
+        min-height: 50vh !important;
+    }
+    
+    .hero-content .title {
+        font-size: 1.8rem !important;
+    }
+    
+    .hero-content .text {
+        margin: 15px 0;
+    }
+    
+    .theme-btn {
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* Mobil Zoom Engelleyici */
+@media (max-width: 768px) {
+    body {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        overflow-x: hidden;
+    }
+    
+    .container {
+        overflow-x: hidden;
+    }
+    
+    /* Safari double-tap zoom engelleme */
+    * {
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .hero-slider-6 .swiper-slide * {
+        pointer-events: auto;
+        touch-action: manipulation;
+    }
+}
 </style>
 
 <!--==============================
