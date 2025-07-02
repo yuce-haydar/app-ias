@@ -139,3 +139,51 @@ Projeler Grid Bölümü
 </section>
 
 @endsection 
+
+<style>
+/* Proje Card Düzenleme Stilleri */
+.blog-single-box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-single-box .blog-thumb {
+    height: 320px;
+    overflow: hidden;
+    position: relative;
+}
+
+.blog-single-box .blog-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.blog-single-box .blog-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-single-box .blog-content .text {
+    flex: 1;
+}
+
+.project-stats .stat-item {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 13px;
+    color: var(--body-color);
+}
+
+.project-stats .stat-item i {
+    color: var(--theme-color);
+    margin-right: 5px;
+}
+
+.project-buttons {
+    margin-top: auto;
+}
+</style>
