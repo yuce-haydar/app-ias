@@ -431,12 +431,12 @@ Hatay Şehri Bölümü
                     @endphp
                     
                     <div class="about-thumb">
-                        <img src="{{ $mainImage && isset($mainImage['image']) ? asset('storage/' . $mainImage['image']) : asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" 
+                        <img src="{{ $mainImage && isset($mainImage['image']) ? \App\Helpers\ImageHelper::getImageUrl($mainImage['image']) : asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" 
                              alt="{{ $mainImage['caption'] ?? 'Modern Spor Kompleksi İnşaatı' }}" 
                              style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="about-thumb-2">
-                        <img src="{{ $main2Image && isset($main2Image['image']) ? asset('storage/' . $main2Image['image']) : asset('storage/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" 
+                        <img src="{{ $main2Image && isset($main2Image['image']) ? \App\Helpers\ImageHelper::getImageUrl($main2Image['image']) : asset('storage/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" 
                              alt="{{ $main2Image['caption'] ?? 'Sebze Hali İnşaat Projesi' }}" 
                              style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
@@ -454,7 +454,7 @@ Hatay Şehri Bölümü
                         <div class="row g-2">
                             @foreach($galleryImages->take(3) as $index => $image)
                             <div class="col-4">
-                                <img src="{{ asset('storage/' . $image['image']) }}" 
+                                <img src="{{ \App\Helpers\ImageHelper::getImageUrl($image['image']) }}" 
                                      alt="{{ $image['caption'] ?? 'İnşaat Projesi ' . ($index + 1) }}" 
                                      style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
@@ -464,7 +464,7 @@ Hatay Şehri Bölümü
                         <div class="row g-2 mt-2">
                             @foreach($galleryImages->slice(3, 2) as $index => $image)
                             <div class="col-6">
-                                <img src="{{ asset('storage/' . $image['image']) }}" 
+                                <img src="{{ \App\Helpers\ImageHelper::getImageUrl($image['image']) }}" 
                                      alt="{{ $image['caption'] ?? 'İnşaat Projesi ' . ($index + 4) }}" 
                                      style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
