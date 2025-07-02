@@ -431,13 +431,13 @@ Hatay Şehri Bölümü
                     @endphp
                     
                     <div class="about-thumb">
-                        <img src="{{ $mainImage && isset($mainImage['image']) ? \App\Helpers\ImageHelper::getImageUrl($mainImage['image']) : asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" 
-                             alt="{{ $mainImage['caption'] ?? 'Modern Spor Kompleksi İnşaatı' }}" 
+                        <img src="{{ $mainImage && isset($mainImage['image']) ? \App\Helpers\ImageHelper::getImageUrl($mainImage['image']) : ($projects->count() > 0 ? \App\Helpers\ImageHelper::getImageUrl($projects->shuffle()->first()->image) : asset('assets/images/logo/logo.png')) }}" 
+                             alt="{{ $mainImage['caption'] ?? ($projects->count() > 0 ? $projects->shuffle()->first()->title : 'Modern Spor Kompleksi İnşaatı') }}" 
                              style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="about-thumb-2">
-                        <img src="{{ $main2Image && isset($main2Image['image']) ? \App\Helpers\ImageHelper::getImageUrl($main2Image['image']) : asset('storage/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" 
-                             alt="{{ $main2Image['caption'] ?? 'Sebze Hali İnşaat Projesi' }}" 
+                        <img src="{{ $main2Image && isset($main2Image['image']) ? \App\Helpers\ImageHelper::getImageUrl($main2Image['image']) : ($projects->count() > 1 ? \App\Helpers\ImageHelper::getImageUrl($projects->shuffle()->skip(1)->first()->image) : asset('assets/images/logo/logo.png')) }}" 
+                             alt="{{ $main2Image['caption'] ?? ($projects->count() > 1 ? $projects->shuffle()->skip(1)->first()->title : 'İnşaat Projesi') }}" 
                              style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="experience-box">

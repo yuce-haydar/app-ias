@@ -109,6 +109,32 @@ class ProjectController extends Controller
         // View count'u artır
         $project->incrementViewCount();
         
-        return view('projects.details', compact('project'));
+        // İlgili projeleri getir (aynı türden + rastgele 3 tane)
+        $relatedProjects = Project::where('id', '!=', $id)
+            ->where('project_type', $project->project_type)
+            ->inRandomOrder()
+            ->take(3)
+            ->get()
+            ->map(function($relatedProject) {
+                $relatedProject->image_url = \App\Helpers\ImageHelper::getImageUrl($relatedProject->image);
+                return $relatedProject;
+            });
+        
+        // Eğer aynı türden 3 tane yoksa, diğerlerinden al
+        if ($relatedProjects->count() < 3) {
+            $additionalProjects = Project::where('id', '!=', $id)
+                ->whereNotIn('id', $relatedProjects->pluck('id')->toArray())
+                ->inRandomOrder()
+                ->take(3 - $relatedProjects->count())
+                ->get()
+                ->map(function($additionalProject) {
+                    $additionalProject->image_url = \App\Helpers\ImageHelper::getImageUrl($additionalProject->image);
+                    return $additionalProject;
+                });
+            
+            $relatedProjects = $relatedProjects->merge($additionalProjects);
+        }
+        
+        return view('projects.details', compact('project', 'relatedProjects'));
     }
 } 

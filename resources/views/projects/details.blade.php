@@ -8,15 +8,7 @@
 
 <!-- Breadcrumb Bölümü -->
 <section class="breadcrumb-section">
-    @php
-        $breadcrumbBg = $project->image ?: 'imageshatay/hatay6.jpeg';
-        if($project->gallery_urls && count($project->gallery_urls) > 0) {
-            $breadcrumbBg = $project->gallery_urls[0];
-        } else {
-            $breadcrumbBg = \App\Helpers\ImageHelper::getImageUrl($breadcrumbBg);
-        }
-    @endphp
-    <div class="bg bg-image" style="background-image: url({{ $breadcrumbBg }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ $project->image_url }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
@@ -41,11 +33,7 @@ Proje Detay Bölümü
                 <div class="project-details-content">
                     <!-- Ana Resim -->
                     <div class="project-details-thumb">
-                        @if($project->gallery_urls && count($project->gallery_urls) > 0)
-                            <img src="{{ $project->gallery_urls[0] }}" alt="{{ $project->title }}">
-                        @else
-                                                                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" alt="{{ $project->title }}">
-                        @endif
+                        <img src="{{ $project->image_url }}" alt="{{ $project->title }}" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
                     </div>
                     
                     <div class="project-details-wrapper">
@@ -114,14 +102,14 @@ Proje Detay Bölümü
                         @endif
 
                         <!-- Proje Resimleri Galerisi -->
-                        @if(isset($project['images']) && count($project['images']) > 1)
+                        @if($project->gallery_urls && count($project->gallery_urls) > 0)
                         <h3>Proje Galerisi</h3>
                         <div class="project-gallery">
                             <div class="row g-3">
-                                @foreach(array_slice($project['images'], 1) as $image)
+                                @foreach($project->gallery_urls as $image)
                                 <div class="col-md-6">
                                     <div class="gallery-item">
-                                        <img src="{{ asset($image) }}" alt="{{ $project['title'] }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;">
+                                        <img src="{{ $image }}" alt="{{ $project->title }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;">
                                     </div>
                                 </div>
                                 @endforeach
@@ -161,40 +149,24 @@ Proje Detay Bölümü
                     </div>
 
                     <!-- İlgili Projeler -->
+                    @if($relatedProjects->count() > 0)
                     <div class="widget">
                         <h4 class="widget-title">Diğer Projelerimiz</h4>
                         <div class="related-projects">
+                            @foreach($relatedProjects as $relatedProject)
                             <div class="related-project-item">
                                 <div class="project-thumb">
-                                    <img src="{{ asset('storage/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali">
+                                    <img src="{{ $relatedProject->image_url }}" alt="{{ $relatedProject->title }}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 5px;">
                                 </div>
                                 <div class="project-content">
-                                    <h6><a href="{{ route('project.details', 2) }}">Sebze Hali Kompleksi</a></h6>
-                                    <p>Antakya</p>
+                                    <h6><a href="{{ route('project.details', $relatedProject->id) }}">{{ Str::limit($relatedProject->title, 30) }}</a></h6>
+                                    <p>{{ $relatedProject->location }}</p>
                                 </div>
                             </div>
-                            
-                            <div class="related-project-item">
-                                <div class="project-thumb">
-                                    <img src="{{ asset('storage/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş Projesi">
-                                </div>
-                                <div class="project-content">
-                                    <h6><a href="{{ route('project.details', 5) }}">Kreş Kompleksi</a></h6>
-                                    <p>Kumlu</p>
-                                </div>
-                            </div>
-                            
-                            <div class="related-project-item">
-                                <div class="project-thumb">
-                                    <img src="{{ asset('storage/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha">
-                                </div>
-                                <div class="project-content">
-                                    <h6><a href="{{ route('project.details', 3) }}">Halısaha Kompleksi</a></h6>
-                                    <p>Defne</p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
+                    @endif
 
                     <!-- İletişim -->
                     <div class="widget">
