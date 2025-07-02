@@ -12,7 +12,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teamMembers = TeamMember::where('status', 'active')
+        $teamMembers = TeamMember::where('status', true)
             ->orderBy('sort_order')
             ->orderBy('name')
             ->paginate(12);
@@ -25,11 +25,11 @@ class TeamController extends Controller
      */
     public function details($id)
     {
-        $teamMember = TeamMember::where('status', 'active')
+        $teamMember = TeamMember::where('status', true)
             ->findOrFail($id);
 
         // İlgili ekip üyelerini getir (aynı departmandan)
-        $relatedMembers = TeamMember::where('status', 'active')
+        $relatedMembers = TeamMember::where('status', true)
             ->where('id', '!=', $id)
             ->where('designation', $teamMember->designation)
             ->limit(4)

@@ -40,7 +40,6 @@ Ekip Bölümü
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="team-single-box">
                         <div class="team-thumb">
-                            <img src="{{ asset($member->image) }}" alt="{{ $member->name }}" style="width: 100%; height: 250px; object-fit: cover;">
                             <div class="team-overlay">
                                 <div class="team-social">
                                     @if($member->social_facebook)

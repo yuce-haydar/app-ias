@@ -31,7 +31,6 @@ Ekip Detay Bölümü
         <div class="row">
             <div class="col-lg-4">
                 <div class="team-details-thumb">
-                    <img src="{{ asset($teamMember->image) }}" alt="{{ $teamMember->name }}">
                 </div>
             </div>
             <div class="col-lg-8">
