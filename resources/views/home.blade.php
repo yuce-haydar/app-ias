@@ -448,36 +448,11 @@ Hatay Şehri Bölümü
                         </div>
                     </div>
 
-                    <!-- İnşaat Projeleri Galerisi -->
-                    @if($galleryImages->count() > 0)
-                    <div class="construction-gallery mt-30">
-                        <div class="row g-2">
-                            @foreach($galleryImages->take(3) as $index => $image)
-                            <div class="col-4">
-                                <img src="{{ \App\Helpers\ImageHelper::getImageUrl($image['image']) }}" 
-                                     alt="{{ $image['caption'] ?? 'İnşaat Projesi ' . ($index + 1) }}" 
-                                     style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
-                            </div>
-                            @endforeach
-                        </div>
-                        @if($galleryImages->count() > 3)
-                        <div class="row g-2 mt-2">
-                            @foreach($galleryImages->slice(3, 2) as $index => $image)
-                            <div class="col-6">
-                                <img src="{{ \App\Helpers\ImageHelper::getImageUrl($image['image']) }}" 
-                                     alt="{{ $image['caption'] ?? 'İnşaat Projesi ' . ($index + 4) }}" 
-                                     style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
-                            </div>
-                            @endforeach
-                        </div>
-                        @endif
-                    </div>
-                    @else
-                    <!-- Projelerden dinamik galeri -->
+                    <!-- Projelerden Rastgele Galeri -->
                     @if($projects->count() > 0)
                     <div class="construction-gallery mt-30">
                         <div class="row g-2">
-                            @foreach($projects->take(3) as $project)
+                            @foreach($projects->shuffle()->take(3) as $project)
                             <div class="col-4">
                                 <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" 
                                      alt="{{ $project->title }}" 
@@ -487,7 +462,7 @@ Hatay Şehri Bölümü
                         </div>
                         @if($projects->count() > 3)
                         <div class="row g-2 mt-2">
-                            @foreach($projects->skip(3)->take(2) as $project)
+                            @foreach($projects->shuffle()->take(2) as $project)
                             <div class="col-6">
                                 <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" 
                                      alt="{{ $project->title }}" 
