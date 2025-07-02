@@ -36,6 +36,7 @@ Ekip Bölümü
         </div>
         
         <div class="row gy-30">
+         {{ $teamMembers }}
             @foreach($teamMembers as $member)
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="team-single-box">

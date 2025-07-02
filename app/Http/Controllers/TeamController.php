@@ -12,6 +12,7 @@ class TeamController extends Controller
      */
     public function index()
     {
+        
         $teamMembers = TeamMember::where('status', true)
             ->orderBy('sort_order')
             ->orderBy('name')
