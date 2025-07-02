@@ -473,27 +473,29 @@ Hatay Şehri Bölümü
                         @endif
                     </div>
                     @else
-                    <!-- Fallback galeri resimleri -->
+                    <!-- Projelerden dinamik galeri -->
+                    @if($projects->count() > 0)
                     <div class="construction-gallery mt-30">
                         <div class="row g-2">
+                            @foreach($projects->take(3) as $project)
                             <div class="col-4">
-                                <img src="{{ asset('storage/projeler/kres/KRES1 (1).jpg') }}" alt="Kreş İnşaat Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                                <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" 
+                                     alt="{{ $project->title }}" 
+                                     style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
-                            <div class="col-4">
-                                <img src="{{ asset('storage/projeler/halısaha-render/k1.jpg') }}" alt="Halısaha Yapım Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
-                            </div>
-                            <div class="col-4">
-                                <img src="{{ asset('storage/projeler/kirkhan-kulliye/K (1).jpg') }}" alt="Konut Projesi İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
-                            </div>
+                            @endforeach
                         </div>
+                        @if($projects->count() > 3)
                         <div class="row g-2 mt-2">
+                            @foreach($projects->skip(3)->take(2) as $project)
                             <div class="col-6">
-                                <img src="{{ asset('storage/projeler/200-kisilik-yari-olimpik-altinozu/c7eb5dec-3f13-4dcc-b11e-85daaa985401.jpg') }}" alt="Yüzme Havuzu Projesi" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                                <img src="{{ \App\Helpers\ImageHelper::getImageUrl($project->image) }}" 
+                                     alt="{{ $project->title }}" 
+                                     style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
                             </div>
-                            <div class="col-6">
-                                <img src="{{ asset('storage/projeler/adak-taziye-evleri/mızrakli-adak-ve-taziye/RENDER/M_Photo - 1.jpg') }}" alt="Sosyal Tesis İnşaatı" style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
-                            </div>
+                            @endforeach
                         </div>
+                        @endif
                     </div>
                     @endif
                 </div>
