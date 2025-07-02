@@ -62,7 +62,7 @@ Blog Liste Bölümü
                 <!-- Pagination -->
                 @if($news->hasPages())
                 <div class="pagination-wrapper mt-50">
-                    {{ $news->links() }}
+                    @include('partials.pagination', ['paginator' => $news])
                 </div>
                 @endif
             </div>

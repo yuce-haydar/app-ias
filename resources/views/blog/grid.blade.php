@@ -63,7 +63,7 @@ Blog Grid Bölümü
         <!-- Pagination -->
         @if($news->hasPages())
         <div class="pagination-wrapper text-center mt-50">
-            {{ $news->links() }}
+            @include('partials.pagination', ['paginator' => $news])
         </div>
         @endif
     </div>
