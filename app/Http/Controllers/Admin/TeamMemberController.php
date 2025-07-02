@@ -16,7 +16,7 @@ class TeamMemberController extends Controller
     public function index()
     {
         $teamMembers = TeamMember::ordered()->paginate(10);
-        return view('admin.ekip.index', compact('teamMembers'));
+        return view('admin.team-members.index', compact('teamMembers'));
     }
 
     /**
@@ -24,7 +24,7 @@ class TeamMemberController extends Controller
      */
     public function create()
     {
-        return view('admin.ekip.create');
+        return view('admin.team-members.create');
     }
 
     /**
@@ -84,7 +84,7 @@ class TeamMemberController extends Controller
 
         TeamMember::create($data);
 
-        return redirect()->route('admin.ekip.index')
+        return redirect()->route('admin.team-members.index')
                         ->with('success', 'Ekip üyesi başarıyla oluşturuldu.');
     }
 
@@ -93,7 +93,7 @@ class TeamMemberController extends Controller
      */
     public function show(TeamMember $teamMember)
     {
-        return view('admin.ekip.show', compact('teamMember'));
+        return view('admin.team-members.show', compact('teamMember'));
     }
 
     /**
@@ -101,7 +101,7 @@ class TeamMemberController extends Controller
      */
     public function edit(TeamMember $teamMember)
     {
-        return view('admin.ekip.edit', compact('teamMember'));
+        return view('admin.team-members.edit', compact('teamMember'));
     }
 
     /**
@@ -170,7 +170,7 @@ class TeamMemberController extends Controller
 
         $teamMember->update($data);
 
-        return redirect()->route('admin.ekip.index')
+        return redirect()->route('admin.team-members.index')
                         ->with('success', 'Ekip üyesi başarıyla güncellendi.');
     }
 
@@ -185,7 +185,7 @@ class TeamMemberController extends Controller
         
         $teamMember->delete();
 
-        return redirect()->route('admin.ekip.index')
+        return redirect()->route('admin.team-members.index')
                         ->with('success', 'Ekip üyesi başarıyla silindi.');
     }
 }

@@ -28,11 +28,11 @@ Blog Grid Bölümü
 <section class="blog-section style-grid space bg-theme3">
     <div class="container">
         <div class="row gy-30">
-            @forelse($paginator as $article)
+            @forelse($news as $article)
             <div class="col-lg-4 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
-                        <img src="{{ asset($article->featured_image) }}" alt="{{ $article->title }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($article->featured_image) }}" alt="{{ $article->title }}">
                         <div class="date">
                             <span class="day">{{ $article->published_at->format('d') }}</span>
                             <span class="month">{{ $article->published_at->format('M') }}</span>
@@ -61,9 +61,9 @@ Blog Grid Bölümü
         </div>
 
         <!-- Pagination -->
-        @if($paginator->hasPages())
+        @if($news->hasPages())
         <div class="pagination-wrapper text-center mt-50">
-            {{ $paginator->links() }}
+            {{ $news->links() }}
         </div>
         @endif
     </div>

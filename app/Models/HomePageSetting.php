@@ -66,6 +66,7 @@ class HomePageSetting extends Model
         // JSON Sliders
         'hero_slides',
         'about_images',
+        'expertise_images',
     ];
 
     protected $casts = [
@@ -77,6 +78,7 @@ class HomePageSetting extends Model
         'news_count' => 'integer',
         'hero_slides' => 'array',
         'about_images' => 'array',
+        'expertise_images' => 'array',
     ];
 
     /**

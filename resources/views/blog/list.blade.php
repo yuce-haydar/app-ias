@@ -30,93 +30,41 @@ Blog Liste Bölümü
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <!-- Blog Yazısı 1 -->
+                @forelse($news as $article)
                 <article class="blog-list-item">
                     <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/blog/blog-thumb01.jpg') }}" alt="Blog Yazısı">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($article->featured_image) }}" alt="{{ $article->title }}">
                         <div class="date">
-                            <span class="day">15</span>
-                            <span class="month">Oca</span>
+                            <span class="day">{{ $article->published_at->format('d') }}</span>
+                            <span class="month">{{ $article->published_at->format('M') }}</span>
                         </div>
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Ahmet Yılmaz</a></span>
-                            <span class="category">İş Stratejisi</span>
+                            <span class="author">Yazar: <a href="#">{{ $article->author ?? 'Hatay İmar' }}</a></span>
+                            <span class="category">{{ $article->category }}</span>
                         </div>
                         <h3 class="title">
-                            <a href="{{ route('blog.details', ['id' => 1]) }}">Başarılı İş Stratejisi Geliştirme Yöntemleri</a>
+                            <a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a>
                         </h3>
-                        <p class="text">İşletmenizin uzun vadeli başarısı için etkili strateji geliştirme teknikleri ve uygulamaları. Günümüz rekabet ortamında öne çıkmak için doğru stratejileri belirlemek ve uygulamak kritik önem taşıyor.</p>
-                        <a href="{{ route('blog.details', ['id' => 1]) }}" class="read-more">
+                        <p class="text">{{ Str::limit($article->summary, 200) }}</p>
+                        <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="read-more">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
                     </div>
                 </article>
-
-                <!-- Blog Yazısı 2 -->
-                <article class="blog-list-item">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/blog/blog-thumb02.jpg') }}" alt="Blog Yazısı">
-                        <div class="date">
-                            <span class="day">12</span>
-                            <span class="month">Oca</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Ayşe Demir</a></span>
-                            <span class="category">Finans</span>
-                        </div>
-                        <h3 class="title">
-                            <a href="{{ route('blog.details', ['id' => 2]) }}">Finansal Risk Yönetimi ve Değerlendirme</a>
-                        </h3>
-                        <p class="text">Şirketlerin karşılaştığı finansal riskleri analiz etme ve yönetme konusunda uzman önerileri. Risk yönetimi stratejileri ile şirketinizi finansal dalgalanmalardan koruyun.</p>
-                        <a href="{{ route('blog.details', ['id' => 2]) }}" class="read-more">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- Blog Yazısı 3 -->
-                <article class="blog-list-item">
-                    <div class="blog-thumb">
-                        <img src="{{ asset('assets/images/blog/blog-thumb03.jpg') }}" alt="Blog Yazısı">
-                        <div class="date">
-                            <span class="day">10</span>
-                            <span class="month">Oca</span>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">Mehmet Kaya</a></span>
-                            <span class="category">Pazarlama</span>
-                        </div>
-                        <h3 class="title">
-                            <a href="{{ route('blog.details', ['id' => 3]) }}">Dijital Pazarlama Trendleri ve Geleceği</a>
-                        </h3>
-                        <p class="text">2025 yılında dikkat edilmesi gereken dijital pazarlama stratejileri ve yeni teknolojiler. Yapay zeka, sosyal medya ve e-ticaret alanındaki son gelişmeler.</p>
-                        <a href="{{ route('blog.details', ['id' => 3]) }}" class="read-more">
-                            Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- Sayfalama -->
-                <div class="pagination-wrapper mt-50">
-                    <nav class="page-pagination">
-                        <ul class="pagination">
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Sonraki">
-                                    <i class="fa-regular fa-arrow-right-long"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                @empty
+                <div class="col-12 text-center">
+                    <p class="text-muted">Henüz haber bulunmamaktadır.</p>
                 </div>
+                @endforelse
+
+                <!-- Pagination -->
+                @if($news->hasPages())
+                <div class="pagination-wrapper mt-50">
+                    {{ $news->links() }}
+                </div>
+                @endif
             </div>
 
             <div class="col-lg-4">

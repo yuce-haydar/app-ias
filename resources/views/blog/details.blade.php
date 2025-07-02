@@ -32,7 +32,7 @@ Haber Detay Bölümü
             <div class="col-lg-8">
                 <article class="blog-details-content">
                     <div class="blog-details-thumb">
-                        <img src="{{ asset($article->featured_image) }}" alt="{{ $article->title }}">
+                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($article->featured_image) }}" alt="{{ $article->title }}">
                         <div class="date">
                             <span class="day">{{ $article->published_at->format('d') }}</span>
                             <span class="month">{{ $article->published_at->format('M') }}</span>
@@ -77,7 +77,7 @@ Haber Detay Bölümü
                         @forelse($relatedNews as $relatedArticle)
                         <div class="recent-post-item">
                             <div class="post-thumb">
-                                <img src="{{ asset($relatedArticle->featured_image) }}" alt="{{ $relatedArticle->title }}">
+                                <img src="{{ \App\Helpers\ImageHelper::getImageUrl($relatedArticle->featured_image) }}" alt="{{ $relatedArticle->title }}">
                             </div>
                             <div class="post-content">
                                 <h6><a href="{{ route('blog.details', ['id' => $relatedArticle->id]) }}">{{ Str::limit($relatedArticle->title, 50) }}</a></h6>

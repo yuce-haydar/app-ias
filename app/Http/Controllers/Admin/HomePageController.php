@@ -37,6 +37,13 @@ class HomePageController extends Controller
                 'about_images.*.caption' => 'nullable|string|max:255',
                 'about_images.*.existing_image' => 'nullable|string',
                 
+                // Expertise Images JSON
+                'expertise_images' => 'nullable|array',
+                'expertise_images.*.image' => 'nullable|image|max:15360',
+                'expertise_images.*.caption' => 'nullable|string|max:255',
+                'expertise_images.*.type' => 'nullable|string|max:50', // main, gallery
+                'expertise_images.*.existing_image' => 'nullable|string',
+                
                 // Legacy hero fields (for backward compatibility)
                 'hero_title_1' => 'nullable|string|max:255',
                 'hero_description_1' => 'nullable|string',
@@ -168,6 +175,36 @@ class HomePageController extends Controller
                 $validatedData['about_images'] = $aboutImages;
             }
 
+            // Process Expertise Images JSON
+            if (isset($validatedData['expertise_images'])) {
+                $expertiseImages = [];
+                foreach ($validatedData['expertise_images'] as $index => $image) {
+                    $imageData = [
+                        'caption' => $image['caption'] ?? '',
+                        'type' => $image['type'] ?? 'gallery',
+                    ];
+                    
+                    if (isset($image['image']) && $image['image']) {
+                        // Delete old image if exists
+                        if (isset($image['existing_image']) && $image['existing_image']) {
+                            ImageHelper::deleteImage($image['existing_image']);
+                        }
+                        
+                        $imageData['image'] = ImageHelper::compressAndStore(
+                            $image['image'],
+                            'homepage/expertise'
+                        );
+                    } else {
+                        $imageData['image'] = $image['existing_image'] ?? '';
+                    }
+                    
+                    if ($imageData['image']) { // Only add if image exists
+                        $expertiseImages[] = $imageData;
+                    }
+                }
+                $validatedData['expertise_images'] = $expertiseImages;
+            }
+
             // Handle legacy image uploads (for backward compatibility)
             foreach (['hero_image_1', 'hero_image_2', 'hero_image_3', 'about_image_1', 'about_image_2'] as $imageField) {
                 if ($request->hasFile($imageField)) {
@@ -227,6 +264,14 @@ class HomePageController extends Controller
                         unset($aboutImages[$index]); // About images için tüm öğeyi sil
                         $aboutImages = array_values($aboutImages); // Array'i yeniden indexle
                         $settings->update(['about_images' => $aboutImages]);
+                    }
+                } elseif ($type === 'expertise_images') {
+                    $expertiseImages = $settings->expertise_images ?? [];
+                    if (isset($expertiseImages[$index]['image']) && $expertiseImages[$index]['image']) {
+                        ImageHelper::deleteImage($expertiseImages[$index]['image']);
+                        unset($expertiseImages[$index]); // Expertise images için tüm öğeyi sil
+                        $expertiseImages = array_values($expertiseImages); // Array'i yeniden indexle
+                        $settings->update(['expertise_images' => $expertiseImages]);
                     }
                 }
             } else {

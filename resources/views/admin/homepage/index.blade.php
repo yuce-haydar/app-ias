@@ -302,6 +302,127 @@
             </div>
         </div>
 
+        <!-- İnşaat Uzmanlığı Görselleri -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-tools me-2"></i>
+                    İnşaat Uzmanlığı Bölümü Görselleri
+                </h5>
+                <button type="button" class="btn btn-success btn-sm" onclick="addExpertiseImage()">
+                    <i class="fas fa-plus me-1"></i> Görsel Ekle
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Görsel Türleri:</strong><br>
+                    • <strong>Ana Görsel:</strong> Büyük ana resim (800x600px önerilir)<br>
+                    • <strong>İkinci Ana Görsel:</strong> Orta boyut resim (600x400px önerilir)<br>
+                    • <strong>Galeri Görseli:</strong> Küçük galeri resimleri (400x300px önerilir)
+                </div>
+                
+                <div id="expertise-images-container">
+                    @if($settings->expertise_images && count($settings->expertise_images) > 0)
+                        @foreach($settings->expertise_images as $index => $image)
+                        <div class="expertise-image-item card mb-3" data-index="{{ $index }}">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">{{ $index + 1 }}. Görsel - {{ ucfirst($image['type'] ?? 'gallery') }}</h6>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeExpertiseImage(this)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Görsel Dosyası</label>
+                                            <input type="file" name="expertise_images[{{ $index }}][image]" class="form-control" accept="image/*">
+                                            <small class="text-muted">Maksimum 15MB - Otomatik sıkıştırılır</small>
+                                            
+                                            @if(isset($image['image']) && $image['image'])
+                                                <div class="mt-2 position-relative d-inline-block">
+                                                    <img src="{{ asset('storage/' . $image['image']) }}" 
+                                                         alt="Expertise Image {{ $index + 1 }}" 
+                                                         class="img-thumbnail" style="max-width: 150px;">
+                                                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle" 
+                                                            onclick="deleteSlideImage('expertise_images', {{ $index }}, this)">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                                <input type="hidden" name="expertise_images[{{ $index }}][existing_image]" value="{{ $image['image'] }}">
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Görsel Türü</label>
+                                            <select name="expertise_images[{{ $index }}][type]" class="form-control" onchange="updateExpertiseImageTitle(this)">
+                                                <option value="main" {{ (isset($image['type']) && $image['type'] === 'main') ? 'selected' : '' }}>Ana Görsel</option>
+                                                <option value="main2" {{ (isset($image['type']) && $image['type'] === 'main2') ? 'selected' : '' }}>İkinci Ana Görsel</option>
+                                                <option value="gallery" {{ (isset($image['type']) && $image['type'] === 'gallery') || !isset($image['type']) ? 'selected' : '' }}>Galeri Görseli</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Görsel Açıklaması</label>
+                                            <input type="text" name="expertise_images[{{ $index }}][caption]" class="form-control" 
+                                                   value="{{ old('expertise_images.' . $index . '.caption', $image['caption'] ?? '') }}"
+                                                   placeholder="Görsel açıklaması (opsiyonel)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    @else
+                        <!-- Varsayılan ilk görsel -->
+                        <div class="expertise-image-item card mb-3" data-index="0">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">1. Görsel - Ana Görsel</h6>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeExpertiseImage(this)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Görsel Dosyası</label>
+                                            <input type="file" name="expertise_images[0][image]" class="form-control" accept="image/*">
+                                            <small class="text-muted">Maksimum 15MB - Otomatik sıkıştırılır</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Görsel Türü</label>
+                                            <select name="expertise_images[0][type]" class="form-control">
+                                                <option value="main" selected>Ana Görsel</option>
+                                                <option value="main2">İkinci Ana Görsel</option>
+                                                <option value="gallery">Galeri Görseli</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Görsel Açıklaması</label>
+                                            <input type="text" name="expertise_images[0][caption]" class="form-control" 
+                                                   placeholder="Görsel açıklaması (opsiyonel)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
         <!-- Bölüm Ayarları -->
         <div class="card mb-4">
             <div class="card-header">
@@ -542,6 +663,7 @@
 <script>
 let heroSlideIndex = {{ $settings->hero_slides ? count($settings->hero_slides) : 1 }};
 let aboutImageIndex = {{ $settings->about_images ? count($settings->about_images) : 1 }};
+let expertiseImageIndex = {{ $settings->expertise_images ? count($settings->expertise_images) : 1 }};
 
 // Hero Slide ekleme
 function addHeroSlide() {
@@ -652,6 +774,81 @@ function removeAboutImage(button) {
     
     const imageItem = button.closest('.about-image-item');
     imageItem.remove();
+}
+
+// Expertise Image ekleme
+function addExpertiseImage() {
+    const container = document.getElementById('expertise-images-container');
+    const newImage = `
+        <div class="expertise-image-item card mb-3" data-index="${expertiseImageIndex}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">${expertiseImageIndex + 1}. Görsel - Galeri</h6>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeExpertiseImage(this)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Görsel Dosyası</label>
+                            <input type="file" name="expertise_images[${expertiseImageIndex}][image]" class="form-control" accept="image/*">
+                            <small class="text-muted">Maksimum 15MB - Otomatik sıkıştırılır</small>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Görsel Türü</label>
+                            <select name="expertise_images[${expertiseImageIndex}][type]" class="form-control" onchange="updateExpertiseImageTitle(this)">
+                                <option value="main">Ana Görsel</option>
+                                <option value="main2">İkinci Ana Görsel</option>
+                                <option value="gallery" selected>Galeri Görseli</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Görsel Açıklaması</label>
+                            <input type="text" name="expertise_images[${expertiseImageIndex}][caption]" class="form-control" 
+                                   placeholder="Görsel açıklaması (opsiyonel)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML('beforeend', newImage);
+    expertiseImageIndex++;
+}
+
+// Expertise Image silme
+function removeExpertiseImage(button) {
+    if (!confirm('Bu görseli silmek istediğinizden emin misiniz?')) {
+        return;
+    }
+    
+    const imageItem = button.closest('.expertise-image-item');
+    imageItem.remove();
+}
+
+// Expertise Image başlığını güncelle
+function updateExpertiseImageTitle(selectElement) {
+    const card = selectElement.closest('.expertise-image-item');
+    const header = card.querySelector('h6');
+    const index = card.getAttribute('data-index');
+    const type = selectElement.value;
+    
+    let typeText = '';
+    switch(type) {
+        case 'main': typeText = 'Ana Görsel'; break;
+        case 'main2': typeText = 'İkinci Ana Görsel'; break;
+        case 'gallery': typeText = 'Galeri Görseli'; break;
+        default: typeText = 'Galeri Görseli';
+    }
+    
+    header.textContent = `${parseInt(index) + 1}. Görsel - ${typeText}`;
 }
 
 // Slide numaralarını güncelle

@@ -423,11 +423,22 @@ Hatay Şehri Bölümü
             </div>
             <div class="col-lg-6">
                 <div class="about-thumb-area">
+                    @php
+                        $expertiseImages = $homeSettings->expertise_images ?? [];
+                        $mainImage = collect($expertiseImages)->firstWhere('type', 'main');
+                        $main2Image = collect($expertiseImages)->firstWhere('type', 'main2');
+                        $galleryImages = collect($expertiseImages)->where('type', 'gallery')->take(5);
+                    @endphp
+                    
                     <div class="about-thumb">
-                        <img src="{{ asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" alt="Modern Spor Kompleksi İnşaatı" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" loading="lazy">
+                        <img src="{{ $mainImage && isset($mainImage['image']) ? asset('storage/' . $mainImage['image']) : asset('storage/projeler/isk-kapali-spor-ve-yari-olimpik/1.png') }}" 
+                             alt="{{ $mainImage['caption'] ?? 'Modern Spor Kompleksi İnşaatı' }}" 
+                             style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="about-thumb-2">
-                        <img src="{{ asset('storage/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" alt="Sebze Hali İnşaat Projesi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" loading="lazy">
+                        <img src="{{ $main2Image && isset($main2Image['image']) ? asset('storage/' . $main2Image['image']) : asset('storage/projeler/sebze-hali/WhatsApp Image 2023-05-24 at 10.39.51 (1).jpeg') }}" 
+                             alt="{{ $main2Image['caption'] ?? 'Sebze Hali İnşaat Projesi' }}" 
+                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
                     <div class="experience-box">
                         <div class="icon"><i class="fa-solid fa-hard-hat"></i></div>
@@ -438,6 +449,31 @@ Hatay Şehri Bölümü
                     </div>
 
                     <!-- İnşaat Projeleri Galerisi -->
+                    @if($galleryImages->count() > 0)
+                    <div class="construction-gallery mt-30">
+                        <div class="row g-2">
+                            @foreach($galleryImages->take(3) as $index => $image)
+                            <div class="col-4">
+                                <img src="{{ asset('storage/' . $image['image']) }}" 
+                                     alt="{{ $image['caption'] ?? 'İnşaat Projesi ' . ($index + 1) }}" 
+                                     style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                            </div>
+                            @endforeach
+                        </div>
+                        @if($galleryImages->count() > 3)
+                        <div class="row g-2 mt-2">
+                            @foreach($galleryImages->slice(3, 2) as $index => $image)
+                            <div class="col-6">
+                                <img src="{{ asset('storage/' . $image['image']) }}" 
+                                     alt="{{ $image['caption'] ?? 'İnşaat Projesi ' . ($index + 4) }}" 
+                                     style="width: 100%; height: 80px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
+                    </div>
+                    @else
+                    <!-- Fallback galeri resimleri -->
                     <div class="construction-gallery mt-30">
                         <div class="row g-2">
                             <div class="col-4">
@@ -459,6 +495,7 @@ Hatay Şehri Bölümü
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

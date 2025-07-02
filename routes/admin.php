@@ -54,6 +54,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Team Members Management
     Route::resource('team-members', TeamMemberController::class)->names('admin.team-members');
     
+    // Ekip alias (Team Members için Türkçe route)
+    Route::get('ekip', [TeamMemberController::class, 'index'])->name('admin.ekip.index');
+    Route::get('ekip/create', [TeamMemberController::class, 'create'])->name('admin.ekip.create');
+    Route::post('ekip', [TeamMemberController::class, 'store'])->name('admin.ekip.store');
+    Route::get('ekip/{team_member}', [TeamMemberController::class, 'show'])->name('admin.ekip.show');
+    Route::get('ekip/{team_member}/edit', [TeamMemberController::class, 'edit'])->name('admin.ekip.edit');
+    Route::put('ekip/{team_member}', [TeamMemberController::class, 'update'])->name('admin.ekip.update');
+    Route::delete('ekip/{team_member}', [TeamMemberController::class, 'destroy'])->name('admin.ekip.destroy');
+    
     // FAQ Management
     Route::resource('faqs', FaqController::class)->names('admin.faqs');
     
