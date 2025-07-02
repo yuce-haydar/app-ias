@@ -49,35 +49,21 @@ Route::get('/tesisler', [App\Http\Controllers\FacilityController::class, 'index'
 
 Route::get('/tesis/{id}', [App\Http\Controllers\FacilityController::class, 'details'])->name('facilities.details');
 
+// Duyuru Rotaları
+Route::get('/duyurular', [App\Http\Controllers\AnnouncementController::class, 'index'])->name('announcements');
+Route::get('/duyuru/{id}', [App\Http\Controllers\AnnouncementController::class, 'details'])->name('announcement.details');
+
 // İhale Bilgileri Rotaları
-Route::get('/ihale-bilgileri', function () {
-    return view('tenders.index');
-})->name('tenders');
-
-Route::get('/ihale/{id}', function ($id) {
-    return view('tenders.details', compact('id'));
-})->name('tender.details');
-
-Route::get('/ilanlar', function () {
-    return view('tenders.announcements');
-})->name('announcements');
-
-Route::get('/ilan-basvuru', function () {
-    return view('tenders.application');
-})->name('tender.application');
+Route::get('/ihale-bilgileri', [App\Http\Controllers\TenderController::class, 'index'])->name('tenders');
+Route::get('/ihale/{id}', [App\Http\Controllers\TenderController::class, 'details'])->name('tender.details');
+Route::get('/ihale/{id}/basvuru', [App\Http\Controllers\TenderController::class, 'application'])->name('tender.application');
+Route::post('/ihale/{id}/basvuru', [App\Http\Controllers\TenderController::class, 'storeApplication'])->name('tender.application.store');
 
 // İnsan Kaynakları Rotaları
-Route::get('/insan-kaynaklari', function () {
-    return view('hr.index');
-})->name('hr');
-
-Route::get('/kariyer', function () {
-    return view('hr.careers');
-})->name('careers');
-
-Route::get('/is-ilani/{id}', function ($id) {
-    return view('hr.job-details', compact('id'));
-})->name('job.details');
+Route::get('/insan-kaynaklari', [App\Http\Controllers\JobController::class, 'hrIndex'])->name('hr');
+Route::get('/kariyer', [App\Http\Controllers\JobController::class, 'index'])->name('careers');
+Route::get('/is-ilani/{id}', [App\Http\Controllers\JobController::class, 'details'])->name('job.details');
+Route::post('/is-ilani/{id}/basvuru', [App\Http\Controllers\JobController::class, 'apply'])->name('job.apply');
 
 
 

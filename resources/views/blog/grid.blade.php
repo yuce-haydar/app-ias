@@ -28,7 +28,7 @@ Blog Grid Bölümü
 <section class="blog-section style-grid space bg-theme3">
     <div class="container">
         <div class="row gy-30">
-            @forelse($news as $article)
+            @forelse($paginator as $article)
             <div class="col-lg-4 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
@@ -60,20 +60,12 @@ Blog Grid Bölümü
             @endforelse
         </div>
 
-        <!-- Sayfalama - Şimdilik statik -->
+        <!-- Pagination -->
+        @if($paginator->hasPages())
         <div class="pagination-wrapper text-center mt-50">
-            <nav class="page-pagination">
-                <ul class="pagination">
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Sonraki">
-                            <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            {{ $paginator->links() }}
         </div>
+        @endif
     </div>
 </section>
 

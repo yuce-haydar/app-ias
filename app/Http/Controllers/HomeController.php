@@ -7,7 +7,7 @@ use App\Models\News;
 use App\Models\Project;
 use App\Models\Facility;
 use App\Models\Service;
-use App\Models\HomePageSetting;
+use App\Models\HomePageSettings;
 
 class HomeController extends Controller
 {
@@ -22,16 +22,17 @@ class HomeController extends Controller
             ->take(3)
             ->get();
             
-        // Projeleri veritabanından çek
-        $projects = Project::orderBy('sort_order', 'asc')
+        // Projeleri veritabanından çek (harita için tüm projeler, görüntü için 8 tane)
+        $allProjects = Project::orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
-            ->take(8)
             ->get()
             ->map(function($project) {
                 // Image path'i düzelt
                 $project->image_url = \App\Helpers\ImageHelper::getImageUrl($project->image);
                 return $project;
             });
+            
+        $projects = $allProjects->take(8);
             
         // Öne çıkan projeleri çek
         $featuredProjects = Project::where('is_featured', true)
@@ -88,9 +89,9 @@ class HomeController extends Controller
             ->get();
             
         // Ana sayfa ayarlarını çek
-        $homeSettings = HomePageSetting::getSettings();
+        $homeSettings = HomePageSettings::getSettings();
         
-        return view('home', compact('news', 'projects', 'featuredProjects', 'facilities', 'services', 'homeSettings'));
+        return view('home', compact('news', 'projects', 'allProjects', 'featuredProjects', 'facilities', 'services', 'homeSettings'));
     }
 
     /**

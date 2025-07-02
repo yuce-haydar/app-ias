@@ -48,8 +48,8 @@
                                     <a href="{{ route('tenders') }}" style="background-color: #fff; color: {{ request()->routeIs('tenders*') ? '#cf9f38' : '#000000' }};">İhale Bilgileri ve İlanlar</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('tenders') }}" style="background-color: #fff; color: #000000;">İhale Bilgileri</a></li>
-                                        <li style="background-color: #fff;"><a href="{{ route('announcements') }}" style="background-color: #fff; color: #000000;">İlanlar</a></li>
-                                        <li style="background-color: #fff;"><a href="{{ route('tender.application') }}" style="background-color: #fff; color: #000000;">İlan Başvuru Formu</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('announcements') }}" style="background-color: #fff; color: #000000;">Duyurular</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('tenders') }}" style="background-color: #fff; color: #000000;">İlan Başvuru Formu</a></li>
                                     </ul>
                                 </li>
                                 <li class="{{ request()->routeIs('hr*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">

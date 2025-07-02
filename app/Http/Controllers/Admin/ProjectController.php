@@ -46,8 +46,8 @@ class ProjectController extends Controller
             'completion_date' => 'nullable|date',
             'budget' => 'nullable|numeric',
             'contractor' => 'nullable|string',
-            'features' => 'nullable|array',
-            'technical_specs' => 'nullable|array',
+            'features' => 'nullable|string',
+            'technical_specs' => 'nullable|string',
             'location' => 'nullable|string',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
@@ -57,6 +57,21 @@ class ProjectController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
+
+        // Convert features and technical_specs from string to array
+        if ($request->has('features') && $request->features) {
+            $features = array_filter(array_map('trim', explode("\n", $request->features)));
+            $validated['features'] = $features;
+        } else {
+            $validated['features'] = [];
+        }
+
+        if ($request->has('technical_specs') && $request->technical_specs) {
+            $technical_specs = array_filter(array_map('trim', explode("\n", $request->technical_specs)));
+            $validated['technical_specs'] = $technical_specs;
+        } else {
+            $validated['technical_specs'] = [];
+        }
 
         // Handle image upload with compression
         if ($request->hasFile('image')) {
@@ -133,8 +148,8 @@ class ProjectController extends Controller
             'completion_date' => 'nullable|date',
             'budget' => 'nullable|numeric',
             'contractor' => 'nullable|string',
-            'features' => 'nullable|array',
-            'technical_specs' => 'nullable|array',
+            'features' => 'nullable|string',
+            'technical_specs' => 'nullable|string',
             'location' => 'nullable|string',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
@@ -144,6 +159,21 @@ class ProjectController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
         ]);
+
+        // Convert features and technical_specs from string to array
+        if ($request->has('features') && $request->features) {
+            $features = array_filter(array_map('trim', explode("\n", $request->features)));
+            $validated['features'] = $features;
+        } else {
+            $validated['features'] = [];
+        }
+
+        if ($request->has('technical_specs') && $request->technical_specs) {
+            $technical_specs = array_filter(array_map('trim', explode("\n", $request->technical_specs)));
+            $validated['technical_specs'] = $technical_specs;
+        } else {
+            $validated['technical_specs'] = [];
+        }
 
         // Handle image removal
         if ($request->input('remove_image') == '1' && $project->image) {

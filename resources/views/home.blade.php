@@ -495,7 +495,7 @@ Blog Bölümü
                             <span class="author">{{ $article->author }}</span>
                         </div>
                         <h4 class="blog-title"><a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a></h4>
-                        <p class="blog-text">{{ Str::limit($article->summary, 120) }}</p>
+                        <p class="blog-text">{{ strip_tags(Str::limit($article->summary, 120)) }}</p>
                         <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="blog-link">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
@@ -657,8 +657,21 @@ document.addEventListener('DOMContentLoaded', function() {
         iconAnchor: [15, 15]
     });
 
-    // Proje konumları
+    // Proje konumları - Veritabanından dinamik olarak
     var projects = [
+        @foreach($allProjects as $project)
+            @if($project->latitude && $project->longitude)
+            {
+                name: "{{ $project->title }}",
+                coords: [{{ $project->latitude }}, {{ $project->longitude }}],
+                status: "{{ $project->status }}",
+                description: "{{ Str::limit($project->short_description, 100) }}",
+                url: "{{ route('project.details', ['id' => $project->id]) }}"
+            },
+            @endif
+        @endforeach
+        // Fallback projeler (eğer koordinatlı proje yoksa)
+        @if($allProjects->whereNotNull('latitude')->whereNotNull('longitude')->count() == 0)
         {
             name: "Yeni Sosyal Tesis Projesi",
             coords: [36.220, 36.150],
@@ -707,6 +720,7 @@ document.addEventListener('DOMContentLoaded', function() {
             status: "ongoing",
             description: "Modern teknoloji parkı inşaatı"
         }
+        @endif
     ];
 
     // Marker'ları haritaya ekle
@@ -722,6 +736,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h5 style="margin: 0 0 8px 0; color: #333;">${project.name}</h5>
                 <p style="margin: 0 0 10px 0; color: #666; font-size: 13px;">${project.description}</p>
                 <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px;">${statusText}</span>
+                ${project.url ? '<div style="margin-top: 10px;"><a href="' + project.url + '" style="color: #007bff; text-decoration: none; font-size: 12px;">Proje Detayları →</a></div>' : ''}
             </div>
         `;
 
@@ -730,8 +745,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Marker tıklama olayı
         marker.on('click', function() {
             console.log('Clicked project:', project.name);
-            // Proje detay sayfasına yönlendirme
-            // window.location.href = '/projects/' + project.name.toLowerCase().replace(/\s+/g, '-');
+            // Eğer proje URL'si varsa detay sayfasına yönlendir
+            if (project.url) {
+                // Popup'ı açalım, link tıklanabilir olsun
+                marker.openPopup();
+            }
         });
     });
 });

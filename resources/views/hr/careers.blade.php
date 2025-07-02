@@ -31,61 +31,54 @@
             </div>
         </div>
         
-        <div class="row gy-40">
-            <!-- İş İlanı 1 -->
-            <div class="col-lg-6">
-                <div class="job-item">
-                    <div class="job-header">
-                        <div class="job-title">
-                            <h4><a href="{{ route('job.details', ['id' => 1]) }}">İnşaat Mühendisi</a></h4>
-                            <span class="job-type">Tam Zamanlı</span>
+        @if($jobs->count() > 0)
+            <div class="row gy-40">
+                @foreach($jobs as $job)
+                <div class="col-lg-6">
+                    <div class="job-item">
+                        <div class="job-header">
+                            <div class="job-title">
+                                <h4><a href="{{ route('job.details', $job->id) }}">{{ $job->title }}</a></h4>
+                                <span class="job-type">{{ $job->employment_type ?? 'Tam Zamanlı' }}</span>
+                            </div>
+                            <div class="job-meta">
+                                <span><i class="fa-solid fa-location-dot"></i> {{ $job->location ?? 'Antakya' }}</span>
+                                <span><i class="fa-solid fa-calendar"></i> 
+                                    Son Başvuru: {{ $job->deadline ? $job->deadline->format('d.m.Y') : 'Belirtilmemiş' }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="job-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Antakya</span>
-                            <span><i class="fa-solid fa-calendar"></i> Son Başvuru: 31.12.2024</span>
+                        <div class="job-content">
+                            <p>{{ Str::limit($job->description, 120) }}</p>
+                            @if($job->requirements)
+                            <div class="job-requirements">
+                                @foreach(array_slice(explode(',', $job->requirements), 0, 3) as $requirement)
+                                <span class="requirement">{{ trim($requirement) }}</span>
+                                @endforeach
+                            </div>
+                            @endif
+                            <a href="{{ route('job.details', $job->id) }}" class="job-apply-btn">
+                                Başvur <i class="fa-regular fa-arrow-right-long"></i>
+                            </a>
                         </div>
-                    </div>
-                    <div class="job-content">
-                        <p>Üretim tesislerimizde ve inşaat projelerinde görev alacak deneyimli inşaat mühendisi aranmaktadır.</p>
-                        <div class="job-requirements">
-                            <span class="requirement">3+ yıl deneyim</span>
-                            <span class="requirement">İnşaat Mühendisliği</span>
-                            <span class="requirement">AutoCAD</span>
-                        </div>
-                        <a href="{{ route('job.details', ['id' => 1]) }}" class="job-apply-btn">
-                            Başvur <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
                     </div>
                 </div>
+                @endforeach
             </div>
-            
-            <!-- İş İlanı 2 -->
-            <div class="col-lg-6">
-                <div class="job-item">
-                    <div class="job-header">
-                        <div class="job-title">
-                            <h4><a href="{{ route('job.details', ['id' => 2]) }}">Muhasebe Uzmanı</a></h4>
-                            <span class="job-type">Tam Zamanlı</span>
-                        </div>
-                        <div class="job-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Antakya</span>
-                            <span><i class="fa-solid fa-calendar"></i> Son Başvuru: 25.12.2024</span>
-                        </div>
-                    </div>
-                    <div class="job-content">
-                        <p>Mali işler departmanımızda çalışacak muhasebe uzmanı pozisyonu için başvurular alınmaktadır.</p>
-                        <div class="job-requirements">
-                            <span class="requirement">2+ yıl deneyim</span>
-                            <span class="requirement">İşletme/İktisat</span>
-                            <span class="requirement">Logo/SAP</span>
-                        </div>
-                        <a href="{{ route('job.details', ['id' => 2]) }}" class="job-apply-btn">
-                            Başvur <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
+
+            <!-- Pagination -->
+            <div class="pagination-wrapper mt-50">
+                {{ $jobs->links() }}
+            </div>
+        @else
+            <div class="text-center py-5">
+                <div class="empty-state">
+                    <i class="fa-solid fa-briefcase fa-4x text-muted mb-3"></i>
+                    <h4>Şu Anda Açık Pozisyon Bulunmuyor</h4>
+                    <p class="text-muted">Yakında yeni iş fırsatları duyurulacaktır. Güncel ilanlar için sayfamızı takip edin.</p>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 </section>
 

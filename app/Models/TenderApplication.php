@@ -12,31 +12,25 @@ class TenderApplication extends Model
     protected $fillable = [
         'tender_id',
         'company_name',
-        'company_type',
-        'tax_number',
         'contact_person',
         'email',
         'phone',
         'address',
-        'experience_years',
-        'previous_works',
-        'financial_capacity',
-        'technical_capacity',
+        'tax_number',
         'documents',
-        'bid_amount',
-        'currency',
-        'status',
-        'notes',
-        'applied_at'
+        'message',
+        'application_date',
+        'status'
     ];
 
     protected $casts = [
-        'applied_at' => 'datetime',
-        'previous_works' => 'array',
-        'documents' => 'array'
+        'documents' => 'array',
+        'application_date' => 'datetime'
     ];
 
-    // Relations
+    /**
+     * İhale ile ilişki
+     */
     public function tender()
     {
         return $this->belongsTo(Tender::class);

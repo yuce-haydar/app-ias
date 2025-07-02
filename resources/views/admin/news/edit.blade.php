@@ -153,9 +153,8 @@
                                     <label for="status" class="form-label">Durum <span class="text-danger">*</span></label>
                                     <select class="form-select @error('status') is-invalid @enderror" 
                                             id="status" name="status" required>
-                                        <option value="draft" {{ old('status', $news->status) == 'draft' ? 'selected' : '' }}>Taslak</option>
+                                        <option value="draft" {{ old('status', $news->status) == 'draft' ? 'selected' : '' }}>Yayında Değil</option>
                                         <option value="published" {{ old('status', $news->status) == 'published' ? 'selected' : '' }}>Yayında</option>
-                                        <option value="archived" {{ old('status', $news->status) == 'archived' ? 'selected' : '' }}>Arşivlenmiş</option>
                                     </select>
                                     @error('status')
                                         <div class="invalid-feedback">{{ $message }}</div>

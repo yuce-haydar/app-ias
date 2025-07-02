@@ -189,11 +189,7 @@
                     </a>
                 </li>
                 
-                <li>
-                    <a href="{{ route('admin.services.index') }}" class="{{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
-                        <i class="fas fa-concierge-bell"></i> Hizmetler
-                    </a>
-                </li>
+              
                 
                 <li>
                     <a href="{{ route('admin.news.index') }}" class="{{ request()->routeIs('admin.news.*') ? 'active' : '' }}">

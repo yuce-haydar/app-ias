@@ -33,115 +33,55 @@
             </div>
         </div>
         
-        <div class="row gy-40">
-            <!-- İş İlanı 1 -->
-            <div class="col-lg-6 col-md-6">
-                <div class="job-item">
-                    <div class="job-header">
-                        <div class="job-title">
-                            <h4><a href="{{ route('job.details', ['id' => 1]) }}">İnşaat Mühendisi</a></h4>
-                            <span class="job-type">Tam Zamanlı</span>
+        @if($activeJobs->count() > 0)
+            <div class="row gy-40">
+                @foreach($activeJobs as $job)
+                <div class="col-lg-6 col-md-6">
+                    <div class="job-item">
+                        <div class="job-header">
+                            <div class="job-title">
+                                <h4><a href="{{ route('job.details', $job->id) }}">{{ $job->title }}</a></h4>
+                                <span class="job-type">{{ $job->employment_type ?? 'Tam Zamanlı' }}</span>
+                            </div>
+                            <div class="job-meta">
+                                <span><i class="fa-solid fa-location-dot"></i> {{ $job->location ?? 'Antakya' }}</span>
+                                <span><i class="fa-solid fa-calendar"></i> 
+                                    Son Başvuru: {{ $job->deadline ? $job->deadline->format('d.m.Y') : 'Belirtilmemiş' }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="job-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Antakya</span>
-                            <span><i class="fa-solid fa-calendar"></i> Son Başvuru: 31.12.2024</span>
+                        <div class="job-content">
+                            <p>{{ Str::limit($job->description, 120) }}</p>
+                            @if($job->requirements)
+                            <div class="job-requirements">
+                                @foreach(array_slice(explode(',', $job->requirements), 0, 3) as $requirement)
+                                <span class="requirement">{{ trim($requirement) }}</span>
+                                @endforeach
+                            </div>
+                            @endif
+                            <a href="{{ route('job.details', $job->id) }}" class="job-apply-btn">
+                                Başvur <i class="fa-regular fa-arrow-right-long"></i>
+                            </a>
                         </div>
-                    </div>
-                    <div class="job-content">
-                        <p>Üretim tesislerimizde ve inşaat projelerinde görev alacak deneyimli inşaat mühendisi aranmaktadır.</p>
-                        <div class="job-requirements">
-                            <span class="requirement">3+ yıl deneyim</span>
-                            <span class="requirement">İnşaat Mühendisliği</span>
-                            <span class="requirement">AutoCAD</span>
-                        </div>
-                        <a href="{{ route('job.details', ['id' => 1]) }}" class="job-apply-btn">
-                            Başvur <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
                     </div>
                 </div>
+                @endforeach
             </div>
             
-            <!-- İş İlanı 2 -->
-            <div class="col-lg-6 col-md-6">
-                <div class="job-item">
-                    <div class="job-header">
-                        <div class="job-title">
-                            <h4><a href="{{ route('job.details', ['id' => 2]) }}">Muhasebe Uzmanı</a></h4>
-                            <span class="job-type">Tam Zamanlı</span>
-                        </div>
-                        <div class="job-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Antakya</span>
-                            <span><i class="fa-solid fa-calendar"></i> Son Başvuru: 25.12.2024</span>
-                        </div>
-                    </div>
-                    <div class="job-content">
-                        <p>Mali işler departmanımızda çalışacak muhasebe uzmanı pozisyonu için başvurular alınmaktadır.</p>
-                        <div class="job-requirements">
-                            <span class="requirement">2+ yıl deneyim</span>
-                            <span class="requirement">İşletme/İktisat</span>
-                            <span class="requirement">Logo/SAP</span>
-                        </div>
-                        <a href="{{ route('job.details', ['id' => 2]) }}" class="job-apply-btn">
-                            Başvur <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
+            <div class="text-center mt-50">
+                <a href="{{ route('careers') }}" class="theme-btn">
+                    Tüm İş İlanlarını Gör <i class="fa-regular fa-arrow-right-long"></i>
+                </a>
+            </div>
+        @else
+            <div class="text-center py-5">
+                <div class="empty-state">
+                    <i class="fa-solid fa-briefcase fa-4x text-muted mb-3"></i>
+                    <h4>Şu Anda Açık Pozisyon Bulunmuyor</h4>
+                    <p class="text-muted">Yakında yeni kariyer fırsatları duyurulacaktır.</p>
                 </div>
             </div>
-            
-            <!-- İş İlanı 3 -->
-            <div class="col-lg-6 col-md-6">
-                <div class="job-item">
-                    <div class="job-header">
-                        <div class="job-title">
-                            <h4><a href="{{ route('job.details', ['id' => 3]) }}">Üretim Operatörü</a></h4>
-                            <span class="job-type">Vardiyalı</span>
-                        </div>
-                        <div class="job-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Antakya</span>
-                            <span><i class="fa-solid fa-calendar"></i> Son Başvuru: 20.12.2024</span>
-                        </div>
-                    </div>
-                    <div class="job-content">
-                        <p>Parke taşı ve büz üretim tesislerimizde çalışacak üretim operatörü aranmaktadır.</p>
-                        <div class="job-requirements">
-                            <span class="requirement">Lise mezunu</span>
-                            <span class="requirement">Vardiyalı çalışma</span>
-                            <span class="requirement">Fiziksel güç</span>
-                        </div>
-                        <a href="{{ route('job.details', ['id' => 3]) }}" class="job-apply-btn">
-                            Başvur <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- İş İlanı 4 -->
-            <div class="col-lg-6 col-md-6">
-                <div class="job-item">
-                    <div class="job-header">
-                        <div class="job-title">
-                            <h4><a href="{{ route('job.details', ['id' => 4]) }}">Güvenlik Görevlisi</a></h4>
-                            <span class="job-type">24 Saat</span>
-                        </div>
-                        <div class="job-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Antakya</span>
-                            <span><i class="fa-solid fa-calendar"></i> Son Başvuru: 15.12.2024</span>
-                        </div>
-                    </div>
-                    <div class="job-content">
-                        <p>Katlı otopark ve sosyal tesislerimizde görev yapacak güvenlik görevlisi aranmaktadır.</p>
-                        <div class="job-requirements">
-                            <span class="requirement">Güvenlik sertifikası</span>
-                            <span class="requirement">24 saat vardiya</span>
-                            <span class="requirement">Askerlik tamamlanmış</span>
-                        </div>
-                        <a href="{{ route('job.details', ['id' => 4]) }}" class="job-apply-btn">
-                            Başvur <i class="fa-regular fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
 </section>
 

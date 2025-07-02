@@ -17,6 +17,28 @@
                     @csrf
                     @method('PUT')
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <h6><i class="fas fa-exclamation-triangle"></i> Lütfen aşağıdaki hataları düzeltin:</h6>
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle"></i> {{ session('success') }}
+                            </div>
+                        @endif
+                        
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle"></i> {{ session('error') }}
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="mb-3">
@@ -24,6 +46,15 @@
                                     <input type="text" class="form-control @error('title') is-invalid @enderror" 
                                            id="title" name="title" value="{{ old('title', $project->title) }}" required>
                                     @error('title')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="short_description" class="form-label">Kısa Açıklama <span class="text-danger">*</span></label>
+                                    <textarea class="form-control @error('short_description') is-invalid @enderror" 
+                                              id="short_description" name="short_description" rows="3" required>{{ old('short_description', $project->short_description) }}</textarea>
+                                    @error('short_description')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -40,7 +71,9 @@
                                 <div class="mb-3">
                                     <label for="features" class="form-label">Özellikler</label>
                                     <textarea class="form-control @error('features') is-invalid @enderror" 
-                                              id="features" name="features" rows="5">{{ old('features', is_array($project->features) ? implode("\n", $project->features) : '') }}</textarea>
+                                              id="features" name="features" rows="5" 
+                                              placeholder="Her satıra bir özellik yazın&#10;Örnek:&#10;960 m² toplam alan&#10;240 kişi kapasiteli&#10;Taziye salonu">{{ old('features', is_array($project->features) ? implode("\n", $project->features) : '') }}</textarea>
+                                    <small class="text-muted">Her satıra bir özellik yazın</small>
                                     @error('features')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -49,7 +82,9 @@
                                 <div class="mb-3">
                                     <label for="technical_specs" class="form-label">Teknik Özellikler</label>
                                     <textarea class="form-control @error('technical_specs') is-invalid @enderror" 
-                                              id="technical_specs" name="technical_specs" rows="4">{{ old('technical_specs', is_array($project->technical_specs) ? implode("\n", $project->technical_specs) : '') }}</textarea>
+                                              id="technical_specs" name="technical_specs" rows="4"
+                                              placeholder="Her satıra bir teknik özellik yazın&#10;Örnek:&#10;Çelik konstrüksiyon&#10;Betonarme temel&#10;İzolasyon sistemi">{{ old('technical_specs', is_array($project->technical_specs) ? implode("\n", $project->technical_specs) : '') }}</textarea>
+                                    <small class="text-muted">Her satıra bir teknik özellik yazın</small>
                                     @error('technical_specs')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -183,6 +218,26 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="budget" class="form-label">Bütçe</label>
+                                    <input type="number" class="form-control @error('budget') is-invalid @enderror" 
+                                           id="budget" name="budget" value="{{ old('budget', $project->budget) }}" 
+                                           step="0.01" min="0">
+                                    <small class="text-muted">TL cinsinden</small>
+                                    @error('budget')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="contractor" class="form-label">Müteahhit</label>
+                                    <input type="text" class="form-control @error('contractor') is-invalid @enderror" 
+                                           id="contractor" name="contractor" value="{{ old('contractor', $project->contractor) }}">
+                                    @error('contractor')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="progress_percentage" class="form-label">İlerleme Yüzdesi</label>
                                     <input type="number" class="form-control @error('progress_percentage') is-invalid @enderror" 
                                            id="progress_percentage" name="progress_percentage" value="{{ old('progress_percentage', $project->progress_percentage) }}" 
@@ -267,33 +322,11 @@ ClassicEditor.create(document.querySelector('#description'), {
     console.error(error);
 });
 
-ClassicEditor.create(document.querySelector('#features'), { 
-    language: 'tr',
-    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
-}).then(editor => {
-    featuresEditor = editor;
-}).catch(error => {
-    console.error(error);
-});
-
-ClassicEditor.create(document.querySelector('#technical_specs'), { 
-    language: 'tr',
-    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'undo', 'redo']
-}).then(editor => {
-    technicalSpecsEditor = editor;
-}).catch(error => {
-    console.error(error);
-});
+// Features ve technical_specs alanları basit textarea olarak kalacak
 
 document.querySelector('form').addEventListener('submit', function(e) {
     if (descriptionEditor) {
         document.querySelector('#description').value = descriptionEditor.getData();
-    }
-    if (featuresEditor) {
-        document.querySelector('#features').value = featuresEditor.getData();
-    }
-    if (technicalSpecsEditor) {
-        document.querySelector('#technical_specs').value = technicalSpecsEditor.getData();
     }
     
     const descriptionContent = descriptionEditor ? descriptionEditor.getData().trim() : '';
