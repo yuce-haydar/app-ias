@@ -34,14 +34,16 @@ Duyurular Bölümü
                         @foreach($announcements as $announcement)
                         <div class="col-12">
                             <div class="blog-item style-2">
+                                @if($announcement->image)
                                 <div class="blog-thumb">
-                                    <img src="{{ $announcement->image ? asset('storage/' . $announcement->image) : asset('assets/images/blog/blog-thumb01.jpg') }}" 
+                                    <img src="{{ asset('storage/' . $announcement->image) }}" 
                                          alt="{{ $announcement->title }}" style="width: 100%; height: 250px; object-fit: cover;">
                                     <div class="blog-date">
                                         <span class="day">{{ $announcement->published_at->format('d') }}</span>
                                         <span class="month">{{ $announcement->published_at->format('M') }}</span>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="blog-content">
                                     <div class="blog-meta">
                                         <span class="category">{{ $announcement->category }}</span>
@@ -89,12 +91,14 @@ Duyurular Bölümü
                         @if($announcements->count() > 0)
                             @foreach($announcements->take(5) as $recent)
                             <div class="recent-post">
+                                @if($recent->image)
                                 <div class="media-img">
                                     <a href="{{ route('announcement.details', $recent->id) }}">
-                                        <img src="{{ $recent->image ? asset('storage/' . $recent->image) : asset('assets/images/blog/blog-thumb01.jpg') }}" 
+                                        <img src="{{ asset('storage/' . $recent->image) }}" 
                                              alt="{{ $recent->title }}" style="width: 80px; height: 80px; object-fit: cover;">
                                     </a>
                                 </div>
+                                @endif
                                 <div class="media-body">
                                     <h4 class="post-title">
                                         <a href="{{ route('announcement.details', $recent->id) }}">{{ Str::limit($recent->title, 60) }}</a>

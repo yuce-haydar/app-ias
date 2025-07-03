@@ -25,10 +25,29 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="summary" class="form-label">Özet</label>
+                                    <textarea class="form-control @error('summary') is-invalid @enderror" 
+                                              id="summary" name="summary" rows="3" placeholder="Duyuru özeti...">{{ old('summary') }}</textarea>
+                                    @error('summary')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="content" class="form-label">İçerik <span class="text-danger">*</span></label>
                                     <textarea class="form-control @error('content') is-invalid @enderror" 
                                               id="content" name="content" rows="10" required>{{ old('content') }}</textarea>
                                     @error('content')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Kapak Resmi</label>
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror" 
+                                           id="image" name="image" accept="image/*">
+                                    <small class="text-muted">JPEG, PNG, JPG, GIF formatlarında maksimum 2MB</small>
+                                    @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -45,6 +64,34 @@
                             </div>
 
                             <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Kategori</label>
+                                    <input type="text" class="form-control @error('category') is-invalid @enderror" 
+                                           id="category" name="category" value="{{ old('category', 'Genel') }}" placeholder="Kategori">
+                                    @error('category')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="author" class="form-label">Yazar</label>
+                                    <input type="text" class="form-control @error('author') is-invalid @enderror" 
+                                           id="author" name="author" value="{{ old('author', 'Hatay İmar') }}" placeholder="Yazar">
+                                    @error('author')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tags" class="form-label">Etiketler</label>
+                                    <input type="text" class="form-control @error('tags') is-invalid @enderror" 
+                                           id="tags" name="tags" value="{{ old('tags') }}" placeholder="Etiketler (virgülle ayırın)">
+                                    <small class="text-muted">Etiketleri virgülle ayırın (örn: duyuru, önemli, genel)</small>
+                                    @error('tags')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="announcement_type" class="form-label">Duyuru Tipi <span class="text-danger">*</span></label>
                                     <select class="form-select @error('announcement_type') is-invalid @enderror" 

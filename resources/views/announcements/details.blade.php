@@ -31,10 +31,12 @@ Duyuru Detay
         <div class="row">
             <div class="col-lg-8">
                 <div class="blog-single">
+                    @if($announcement->image)
                     <div class="blog-thumb">
-                        <img src="{{ $announcement->image ? asset('storage/' . $announcement->image) : asset('assets/images/blog/blog-thumb01.jpg') }}" 
+                        <img src="{{ asset('storage/' . $announcement->image) }}" 
                              alt="{{ $announcement->title }}" style="width: 100%; height: 400px; object-fit: cover;">
                     </div>
+                    @endif
                     <div class="blog-content">
                         <div class="blog-meta">
                             <span class="category">{{ $announcement->category }}</span>
@@ -87,14 +89,16 @@ Duyuru Detay
                         @foreach($relatedAnnouncements as $related)
                         <div class="col-md-4">
                             <div class="blog-item">
+                                @if($related->image)
                                 <div class="blog-thumb">
-                                    <img src="{{ $related->image ? asset('storage/' . $related->image) : asset('assets/images/blog/blog-thumb01.jpg') }}" 
+                                    <img src="{{ asset('storage/' . $related->image) }}" 
                                          alt="{{ $related->title }}" style="width: 100%; height: 200px; object-fit: cover;">
                                     <div class="blog-date">
                                         <span class="day">{{ $related->published_at->format('d') }}</span>
                                         <span class="month">{{ $related->published_at->format('M') }}</span>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="blog-content">
                                     <h4 class="blog-title">
                                         <a href="{{ route('announcement.details', $related->id) }}">{{ Str::limit($related->title, 50) }}</a>
@@ -121,12 +125,14 @@ Duyuru Detay
                         @if($relatedAnnouncements->count() > 0)
                             @foreach($relatedAnnouncements->take(5) as $recent)
                             <div class="recent-post">
+                                @if($recent->image)
                                 <div class="media-img">
                                     <a href="{{ route('announcement.details', $recent->id) }}">
-                                        <img src="{{ $recent->image ? asset('storage/' . $recent->image) : asset('assets/images/blog/blog-thumb01.jpg') }}" 
+                                        <img src="{{ asset('storage/' . $recent->image) }}" 
                                              alt="{{ $recent->title }}" style="width: 80px; height: 80px; object-fit: cover;">
                                     </a>
                                 </div>
+                                @endif
                                 <div class="media-body">
                                     <h4 class="post-title">
                                         <a href="{{ route('announcement.details', $recent->id) }}">{{ Str::limit($recent->title, 60) }}</a>

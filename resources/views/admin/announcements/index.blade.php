@@ -29,13 +29,15 @@
                                 <tr>
                                     <th width="50">ID</th>
                                     <th>Başlık</th>
-                                    <th width="120">Tip</th>
-                                    <th width="100">Önem</th>
-                                    <th width="120">Başlangıç</th>
-                                    <th width="120">Bitiş</th>
+                                    <th width="80">Resim</th>
+                                    <th width="100">Kategori</th>
+                                    <th width="100">Tip</th>
+                                    <th width="80">Önem</th>
+                                    <th width="100">Başlangıç</th>
+                                    <th width="100">Bitiş</th>
                                     <th width="120">Yayın Tarihi</th>
-                                    <th width="100">Durum</th>
-                                    <th width="80">Sabitli</th>
+                                    <th width="80">Durum</th>
+                                    <th width="60">Sabitli</th>
                                     <th width="120">İşlemler</th>
                                 </tr>
                             </thead>
@@ -49,6 +51,14 @@
                                             <i class="fas fa-paperclip text-muted ms-2" title="{{ count($announcement->attachments) }} dosya"></i>
                                         @endif
                                     </td>
+                                    <td class="text-center">
+                                        @if($announcement->image)
+                                            <img src="{{ asset('storage/' . $announcement->image) }}" alt="Resim" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $announcement->category ?? 'Genel' }}</td>
                                     <td>
                                         <span class="badge bg-{{ $announcement->type_color }}">
                                             {{ match($announcement->announcement_type) {

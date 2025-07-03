@@ -34,6 +34,11 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'summary' => 'nullable|string|max:1000',
+            'author' => 'nullable|string|max:255',
+            'tags' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:255',
             'announcement_type' => 'required|string|in:general,urgent,event,regulation',
             'importance' => 'required|string|in:low,normal,medium,high',
             'start_date' => 'required|date',
@@ -50,9 +55,18 @@ class AnnouncementController extends Controller
         $data['is_pinned'] = $request->has('is_pinned');
         $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
         
+        // Default değerler
+        $data['author'] = $data['author'] ?: 'Hatay İmar';
+        $data['category'] = $data['category'] ?: 'Genel';
+        
         // Status published ise ve published_at belirtilmemişse şu anki zamanı set et
         if ($data['status'] === 'published' && !$data['published_at']) {
             $data['published_at'] = now();
+        }
+        
+        // Resim yükleme
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('announcements/images', 'public');
         }
         
         // Attachments dosyalarını işle
@@ -94,6 +108,11 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'summary' => 'nullable|string|max:1000',
+            'author' => 'nullable|string|max:255',
+            'tags' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:255',
             'announcement_type' => 'required|string|in:general,urgent,event,regulation',
             'importance' => 'required|string|in:low,normal,medium,high',
             'start_date' => 'required|date',
@@ -114,9 +133,22 @@ class AnnouncementController extends Controller
             $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
         }
         
+        // Default değerler
+        $data['author'] = $data['author'] ?: 'Hatay İmar';
+        $data['category'] = $data['category'] ?: 'Genel';
+        
         // Status published ise ve published_at belirtilmemişse şu anki zamanı set et
         if ($data['status'] === 'published' && !$announcement->published_at) {
             $data['published_at'] = now();
+        }
+        
+        // Resim yükleme
+        if ($request->hasFile('image')) {
+            // Eski resmi sil
+            if ($announcement->image) {
+                Storage::disk('public')->delete($announcement->image);
+            }
+            $data['image'] = $request->file('image')->store('announcements/images', 'public');
         }
         
         // Attachments dosyalarını işle
@@ -139,6 +171,11 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
+        // Resmi sil
+        if ($announcement->image) {
+            Storage::disk('public')->delete($announcement->image);
+        }
+        
         // Dosyaları sil
         if ($announcement->attachments) {
             foreach ($announcement->attachments as $attachment) {

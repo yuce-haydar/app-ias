@@ -35,7 +35,9 @@ class AnnouncementController extends Controller
         // İlgili duyurular
         $relatedAnnouncements = Announcement::where('status', 'published')
             ->where('id', '!=', $id)
-            ->where('category', $announcement->category)
+            ->when($announcement->category, function($query) use ($announcement) {
+                return $query->where('category', $announcement->category);
+            })
             ->orderBy('published_at', 'desc')
             ->take(3)
             ->get();
