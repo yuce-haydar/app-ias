@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebP Resim Optimizasyon Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .feature-badge {
+            background: #007bff;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+        .test-info {
+            background: #e7f3ff;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .webp-support {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .webp-support.supported {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .webp-support.not-supported {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="text-center mb-5">
+            <h1 class="display-4">
+                <i class="fas fa-compress-alt text-primary"></i>
+                WebP Resim Optimizasyon Test
+            </h1>
+            <p class="lead text-muted">
+                Kaliteli, küçük boyutlu WebP formatında resim optimizasyonu
+            </p>
+        </div>
+
+        <!-- Browser Support Info -->
+        <div class="test-info">
+            <h5><i class="fas fa-info-circle text-info"></i> Tarayıcı Desteği</h5>
+            <p class="mb-2">
+                <strong>WebP Desteği:</strong> 
+                <span id="webp-support" class="webp-support">Kontrol ediliyor...</span>
+            </p>
+            <p class="mb-0">
+                <small class="text-muted">
+                    WebP desteklenmiyorsa otomatik olarak yüksek kaliteli JPEG formatına dönüştürülür.
+                </small>
+            </p>
+        </div>
+
+        <div class="test-section">
+            <h3 class="mb-4">
+                <i class="fas fa-upload text-success"></i> 
+                Resim Yükleme ve Optimizasyon Testi
+                <span class="feature-badge">AUTO-OPTIMIZE</span>
+            </h3>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="test-image" class="form-label">
+                            <i class="fas fa-image"></i> Resim Seçin
+                        </label>
+                        <input type="file" 
+                               class="form-control" 
+                               id="test-image" 
+                               accept="image/*"
+                               multiple>
+                        <div class="form-text">
+                            <i class="fas fa-magic text-primary"></i>
+                            Resim seçtiğinizde otomatik olarak optimize edilecek
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-cogs"></i> Optimizasyon Ayarları
+                        </label>
+                        <div class="small text-muted">
+                            <div><strong>Maksimum Boyut:</strong> 1920x1080</div>
+                            <div><strong>WebP Kalitesi:</strong> 85%</div>
+                            <div><strong>JPEG Kalitesi:</strong> 88%</div>
+                            <div><strong>Maksimum Dosya:</strong> 800KB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div id="optimization-results" class="d-none">
+                        <h5><i class="fas fa-chart-line text-success"></i> Optimizasyon Sonuçları</h5>
+                        <div id="results-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3 class="mb-4">
+                <i class="fas fa-list-check text-info"></i> 
+                Sistem Özellikleri
+            </h3>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            <strong>WebP Formatı:</strong> Modern ve kompakt
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            <strong>Geri Dönüş:</strong> JPEG desteği
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            <strong>Kalite Korunması:</strong> 85-88% kalite
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            <strong>Boyut Optimizasyonu:</strong> Otomatik resize
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-6">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            <strong>Progress Bar:</strong> Anlık ilerleme
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            <strong>İstatistikler:</strong> Boyut karşılaştırması
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            <strong>Çoklu Dosya:</strong> Toplu optimizasyon
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            <strong>Otomatik Ekleme:</strong> Tüm image input'lar
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3 class="mb-3">
+                <i class="fas fa-terminal text-warning"></i> 
+                Konsol Çıktıları
+            </h3>
+            <div class="bg-dark text-light p-3 rounded" style="font-family: monospace; font-size: 12px;">
+                <div id="console-output">
+                    <span class="text-success">[INFO]</span> Image Optimizer başlatıldı<br>
+                    <span class="text-info">[DEBUG]</span> WebP desteği kontrol ediliyor...<br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/image-optimizer.js"></script>
+    <script>
+        // WebP desteği göster
+        document.addEventListener('DOMContentLoaded', function() {
+            const supportEl = document.getElementById('webp-support');
+            const isSupported = window.imageOptimizer.webpSupported;
+            
+            if (isSupported) {
+                supportEl.textContent = 'Destekleniyor ✓';
+                supportEl.className = 'webp-support supported';
+            } else {
+                supportEl.textContent = 'Desteklenmiyor (JPEG kullanılacak)';
+                supportEl.className = 'webp-support not-supported';
+            }
+            
+            // Konsol çıktısını güncelle
+            const consoleOutput = document.getElementById('console-output');
+            consoleOutput.innerHTML += `<span class="text-info">[DEBUG]</span> WebP Desteği: ${isSupported ? 'Var' : 'Yok'}<br>`;
+        });
+
+        // Image Optimizer'dan gelen events'i dinle
+        const originalAttachToInput = window.imageOptimizer.attachToInput;
+        window.imageOptimizer.attachToInput = function(input) {
+            if (input.id === 'test-image') {
+                // Test input'u için özel davranış
+                this.attachToTestInput(input);
+            } else {
+                // Diğer input'lar için normal davranış
+                originalAttachToInput.call(this, input);
+            }
+        };
+        
+        // Test input'u için özel method
+        window.imageOptimizer.attachToTestInput = function(input) {
+            const self = this;
+            
+            if (input.dataset.optimizerAttached) return;
+            
+            const consoleOutput = document.getElementById('console-output');
+            const resultsContainer = document.getElementById('results-container');
+            const optimizationResults = document.getElementById('optimization-results');
+            
+            input.addEventListener('change', (e) => {
+                if (input.dataset.optimizationInProgress === 'true') return;
+                
+                const files = Array.from(e.target.files);
+                if (files.length === 0) return;
+                
+                input.dataset.optimizationInProgress = 'true';
+                resultsContainer.innerHTML = '';
+                optimizationResults.classList.remove('d-none');
+                
+                consoleOutput.innerHTML += `<span class="text-warning">[PROCESS]</span> ${files.length} dosya optimize ediliyor...<br>`;
+                
+                let completedCount = 0;
+                
+                files.forEach((file, index) => {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'alert alert-info';
+                    resultDiv.innerHTML = `
+                        <h6><i class="fas fa-image"></i> ${file.name}</h6>
+                        <div class="progress mb-2">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 50%"></div>
+                        </div>
+                        <small class="text-muted">İşleniyor...</small>
+                    `;
+                    resultsContainer.appendChild(resultDiv);
+                    
+                    // Gerçek optimizasyon çağrısı
+                    self.optimizeImage(file, (optimizedFile) => {
+                        const progressBar = resultDiv.querySelector('.progress-bar');
+                        const statusText = resultDiv.querySelector('small');
+                        
+                        progressBar.style.width = '100%';
+                        progressBar.classList.remove('progress-bar-striped', 'progress-bar-animated');
+                        statusText.innerHTML = `
+                            <span class="text-success">
+                                <i class="fas fa-check-circle"></i> 
+                                Optimize edildi - Format: ${optimizedFile.type.includes('webp') ? 'WebP' : 'JPEG'}
+                                <br><small class="text-muted">${self.formatFileSize(optimizedFile.size)}</small>
+                            </span>
+                        `;
+                        resultDiv.className = 'alert alert-success';
+                        
+                        consoleOutput.innerHTML += `<span class="text-success">[SUCCESS]</span> ${file.name} optimize edildi - ${optimizedFile.type}<br>`;
+                        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+                        
+                        completedCount++;
+                        if (completedCount === files.length) {
+                            setTimeout(() => {
+                                input.dataset.optimizationInProgress = 'false';
+                            }, 500);
+                        }
+                    }, null); // progress container null - test sayfasında kendi progress'imiz var
+                });
+            });
+            
+            input.dataset.optimizerAttached = 'true';
+        };
+        
+        // Test input'unu manuel olarak başlat
+        const testInput = document.getElementById('test-image');
+        if (testInput) {
+            window.imageOptimizer.attachToTestInput(testInput);
+        }
+    </script>
+</body>
+</html> 

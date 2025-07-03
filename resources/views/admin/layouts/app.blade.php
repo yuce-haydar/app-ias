@@ -340,6 +340,9 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     
+    <!-- Image Optimizer -->
+    <script src="{{ asset('assets/js/image-optimizer.js') }}"></script>
+    
     <script>
         // Sidebar Toggle
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
