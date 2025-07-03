@@ -8,20 +8,21 @@
 <!--==============================
 Breadcrumb
 ==============================-->
-<div class="breadcrumb-wrapper bg-theme" data-bg-src="{{ asset('assets/images/bg-img/breadcrumb.jpg') }}">
+<section class="breadcrumb-section">
+    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
     <div class="container">
-        <div class="page-title">
-            <h1 class="title text-white">{{ $announcement->title }}</h1>
-        </div>
-        <div class="breadcrumb-menu">
-            <ul>
-                <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
-                <li><a href="{{ route('announcements') }}">Duyurular</a></li>
-                <li>{{ Str::limit($announcement->title, 30) }}</li>
-            </ul>
+        <div class="title-outer">
+            <div class="page-title">
+                <h2 class="title">Duyuru Detayı</h2>
+                <ul class="page-breadcrumb">
+                    <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
+                    <li><a href="{{ route('announcements') }}">Duyurular</a></li>
+                    <li>{{ Str::limit($announcement->title, 30) }}</li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <!--==============================
 Duyuru Detay

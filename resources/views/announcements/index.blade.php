@@ -8,19 +8,20 @@
 <!--==============================
 Breadcrumb
 ==============================-->
-<div class="breadcrumb-wrapper bg-theme" data-bg-src="{{ asset('assets/images/bg-img/breadcrumb.jpg') }}">
+<section class="breadcrumb-section">
+    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
     <div class="container">
-        <div class="page-title">
-            <h1 class="title text-white">Duyurular</h1>
-        </div>
-        <div class="breadcrumb-menu">
-            <ul>
-                <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
-                <li>Duyurular</li>
-            </ul>
+        <div class="title-outer">
+            <div class="page-title">
+                <h2 class="title">Duyurular</h2>
+                <ul class="page-breadcrumb">
+                    <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
+                    <li>Duyurular</li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <!--==============================
 Duyurular Bölümü
