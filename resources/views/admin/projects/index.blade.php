@@ -96,10 +96,7 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('admin.projects.show', $project->id) }}" 
-                                           class="btn btn-sm btn-info" title="Görüntüle">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
+                                      
                                         <a href="{{ route('admin.projects.edit', $project->id) }}" 
                                            class="btn btn-sm btn-warning" title="Düzenle">
                                             <i class="fas fa-edit"></i>
