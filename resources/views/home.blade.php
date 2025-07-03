@@ -864,9 +864,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Marker'ları haritaya ekle
     projects.forEach(function(project) {
-        var icon = project.status === 'ongoing' ? ongoingIcon : planningIcon;
-        var statusText = project.status === 'ongoing' ? 'Devam Ediyor' : 'Planlama Aşamasında';
-        var statusColor = project.status === 'ongoing' ? '#28a745' : '#ffc107';
+        var icon;
+        var statusText;
+        var statusColor;
+        
+        if (project.status === 'ongoing') {
+            icon = ongoingIcon;
+            statusText = 'Devam Ediyor';
+            statusColor = '#28a745';
+        } else if (project.status === 'completed') {
+            icon = completedIcon;
+            statusText = 'Tamamlandı';
+            statusColor = '#007bff';
+        } else {
+            icon = planningIcon;
+            statusText = 'Planlama Aşamasında';
+            statusColor = '#ffc107';
+        }
 
         var marker = L.marker(project.coords, {icon: icon}).addTo(map);
 

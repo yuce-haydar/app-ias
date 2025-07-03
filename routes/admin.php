@@ -22,14 +22,17 @@ use App\Http\Controllers\Admin\{
     SettingsController
 };
 
-Route::middleware(['auth', 'admin'])->group(function () {
+// Authentication routes (middleware group dışında)
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
+
+// Admin routes (middleware group içinde)
+Route::middleware(['admin'])->group(function () {
     
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     
-    // Authentication
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login')->withoutMiddleware(['auth', 'admin']);
-    Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit')->withoutMiddleware(['auth', 'admin']);
+    // Authentication (sadece logout)
     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
     
     // Tenders Management (İhaleler)

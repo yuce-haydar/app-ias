@@ -15,16 +15,39 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->is_admin) {
+        // Kimlik doğrulama kontrolü
+        if (!auth()->check()) {
+            // Session'da intended URL'yi sakla
+            session(['url.intended' => $request->url()]);
+            
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Unauthorized'], 401);
+            }
+            
+            return redirect()->route('admin.login')->with('error', 'Lütfen giriş yapın.');
+        }
+
+        $user = auth()->user();
+        
+        // Admin yetkisi kontrolü
+        if (!$user->is_admin) {
+            auth()->logout();
+            
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Forbidden'], 403);
             }
             
             return redirect()->route('admin.login')->with('error', 'Bu sayfaya erişim yetkiniz yok.');
         }
 
-        if (!auth()->user()->is_active) {
+        // Hesap aktiflik kontrolü
+        if (!$user->is_active) {
             auth()->logout();
+            
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Account disabled'], 403);
+            }
+            
             return redirect()->route('admin.login')->with('error', 'Hesabınız devre dışı bırakılmıştır.');
         }
 
