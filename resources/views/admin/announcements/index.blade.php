@@ -30,9 +30,8 @@
                                     <th width="50">ID</th>
                                     <th>Başlık</th>
                                     <th width="80">Resim</th>
-                                    <th width="100">Kategori</th>
-                                    <th width="100">Tip</th>
-                                    <th width="80">Önem</th>
+                                   
+                                   
                                     <th width="100">Başlangıç</th>
                                     <th width="100">Bitiş</th>
                                     <th width="120">Yayın Tarihi</th>
@@ -58,28 +57,9 @@
                                             <span class="text-muted">-</span>
                                         @endif
                                     </td>
-                                    <td>{{ $announcement->category ?? 'Genel' }}</td>
-                                    <td>
-                                        <span class="badge bg-{{ $announcement->type_color }}">
-                                            {{ match($announcement->announcement_type) {
-                                                'general' => 'Genel',
-                                                'urgent' => 'Acil',
-                                                'event' => 'Etkinlik',
-                                                'regulation' => 'Yönetmelik',
-                                                default => $announcement->announcement_type
-                                            } }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-{{ $announcement->importance_color }}">
-                                            {{ match($announcement->importance) {
-                                                'high' => 'Yüksek',
-                                                'medium' => 'Orta',
-                                                'low' => 'Düşük',
-                                                default => $announcement->importance
-                                            } }}
-                                        </span>
-                                    </td>
+                                  
+                                  
+                                   
                                     <td>{{ $announcement->start_date->format('d.m.Y') }}</td>
                                     <td>{{ $announcement->end_date ? $announcement->end_date->format('d.m.Y') : '-' }}</td>
                                     <td>{{ $announcement->published_at ? $announcement->published_at->format('d.m.Y H:i') : '-' }}</td>

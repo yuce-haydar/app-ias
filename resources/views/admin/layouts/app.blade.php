@@ -196,16 +196,20 @@
                         <i class="fas fa-newspaper"></i> Haberler
                     </a>
                 </li>
-                
-                <li>
-                    <a href="{{ route('admin.tenders.index') }}" class="{{ request()->routeIs('admin.tenders.*') ? 'active' : '' }}">
-                        <i class="fas fa-gavel"></i> İhaleler
+                 <li>
+                    <a href="{{ route('admin.announcements.index') }}" class="{{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
+                        <i class="fas fa-bullhorn"></i> Duyurular
+                    </a>
+                </li>
+                 <li>
+                    <a href="{{ route('admin.team-members.index') }}" class="{{ request()->routeIs('admin.team-members.*') ? 'active' : '' }}">
+                        <i class="fas fa-users"></i> Yönetim Kurulu
                     </a>
                 </li>
                 
                 <li>
-                    <a href="{{ route('admin.announcements.index') }}" class="{{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
-                        <i class="fas fa-bullhorn"></i> Duyurular
+                    <a href="{{ route('admin.tenders.index') }}" class="{{ request()->routeIs('admin.tenders.*') ? 'active' : '' }}">
+                        <i class="fas fa-gavel"></i> İhaleler
                     </a>
                 </li>
                 
@@ -215,11 +219,7 @@
                     </a>
                 </li>
                 
-                <li>
-                    <a href="{{ route('admin.team-members.index') }}" class="{{ request()->routeIs('admin.team-members.*') ? 'active' : '' }}">
-                        <i class="fas fa-users"></i> Yönetim Kurulu
-                    </a>
-                </li>
+               
                 
                 <li>
                     <a href="{{ route('admin.faqs.index') }}" class="{{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}">
@@ -269,12 +269,7 @@
                     <small>SİSTEM</small>
                 </li>
                 
-                <li>
-                    <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                        <i class="fas fa-user-shield"></i> Kullanıcılar
-                    </a>
-                </li>
-                
+              
                 <li>
                     <a href="{{ route('admin.settings.index') }}" class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                         <i class="fas fa-cog"></i> Ayarlar
