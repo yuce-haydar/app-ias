@@ -118,6 +118,16 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="published_at" class="form-label">Yayın Tarihi</label>
+                                    <input type="datetime-local" class="form-control @error('published_at') is-invalid @enderror" 
+                                           id="published_at" name="published_at" value="{{ old('published_at', $announcement->published_at?->format('Y-m-d\TH:i')) }}">
+                                    <small class="text-muted">Status yayında ise ve bu alan boşsa otomatik olarak şu anki tarih set edilir</small>
+                                    @error('published_at')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="is_pinned" name="is_pinned" 
                                                value="1" {{ old('is_pinned', $announcement->is_pinned) ? 'checked' : '' }}>

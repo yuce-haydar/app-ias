@@ -18,6 +18,7 @@ class Announcement extends Model
         'start_date',
         'end_date',
         'status',
+        'published_at',
         'is_pinned',
         'attachments'
     ];
@@ -25,6 +26,7 @@ class Announcement extends Model
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'published_at' => 'datetime',
         'is_pinned' => 'boolean',
         'attachments' => 'array'
     ];
@@ -43,6 +45,8 @@ class Announcement extends Model
     public function scopePublished($query)
     {
         return $query->where('status', 'published')
+                    ->whereNotNull('published_at')
+                    ->where('published_at', '<=', now())
                     ->where('start_date', '<=', now())
                     ->where(function ($q) {
                         $q->whereNull('end_date')

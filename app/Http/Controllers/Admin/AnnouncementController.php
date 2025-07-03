@@ -39,6 +39,7 @@ class AnnouncementController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after:start_date',
             'status' => 'required|string|in:draft,published',
+            'published_at' => 'nullable|date',
             'is_pinned' => 'nullable|boolean',
             'attachments.*' => 'nullable|file|max:10240'
         ]);
@@ -48,6 +49,11 @@ class AnnouncementController extends Controller
         // is_pinned checkbox'ı boolean'a çevir
         $data['is_pinned'] = $request->has('is_pinned');
         $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
+        
+        // Status published ise ve published_at belirtilmemişse şu anki zamanı set et
+        if ($data['status'] === 'published' && !$data['published_at']) {
+            $data['published_at'] = now();
+        }
         
         // Attachments dosyalarını işle
         if ($request->hasFile('attachments')) {
@@ -93,6 +99,7 @@ class AnnouncementController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after:start_date',
             'status' => 'required|string|in:draft,published',
+            'published_at' => 'nullable|date',
             'is_pinned' => 'nullable|boolean',
             'attachments.*' => 'nullable|file|max:10240'
         ]);
@@ -105,6 +112,11 @@ class AnnouncementController extends Controller
         // Eğer title değiştiyse slug'ı güncelle
         if ($request->title !== $announcement->title) {
             $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
+        }
+        
+        // Status published ise ve published_at belirtilmemişse şu anki zamanı set et
+        if ($data['status'] === 'published' && !$announcement->published_at) {
+            $data['published_at'] = now();
         }
         
         // Attachments dosyalarını işle
@@ -127,10 +139,13 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
-        if ($announcement->image) {
-            Storage::disk('public')->delete($announcement->image);
+        // Dosyaları sil
+        if ($announcement->attachments) {
+            foreach ($announcement->attachments as $attachment) {
+                Storage::disk('public')->delete($attachment);
+            }
         }
-        
+
         $announcement->delete();
 
         return redirect()->route('admin.announcements.index')

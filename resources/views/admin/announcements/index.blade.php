@@ -33,6 +33,7 @@
                                     <th width="100">Önem</th>
                                     <th width="120">Başlangıç</th>
                                     <th width="120">Bitiş</th>
+                                    <th width="120">Yayın Tarihi</th>
                                     <th width="100">Durum</th>
                                     <th width="80">Sabitli</th>
                                     <th width="120">İşlemler</th>
@@ -71,6 +72,7 @@
                                     </td>
                                     <td>{{ $announcement->start_date->format('d.m.Y') }}</td>
                                     <td>{{ $announcement->end_date ? $announcement->end_date->format('d.m.Y') : '-' }}</td>
+                                    <td>{{ $announcement->published_at ? $announcement->published_at->format('d.m.Y H:i') : '-' }}</td>
                                     <td>
                                         <span class="badge bg-{{ $announcement->status == 'published' ? 'success' : 'secondary' }}">
                                             {{ $announcement->status == 'published' ? 'Yayında' : 'Taslak' }}
