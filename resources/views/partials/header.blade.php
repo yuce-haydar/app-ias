@@ -38,10 +38,16 @@
                                     </ul>
                                 </li>
                                 <li class="{{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
-                                    <a href="{{ route('projects') }}" style="background-color: #fff; color: {{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? '#cf9f38' : '#000000' }};">Neler Yaptık</a>
+                                    <a href="{{ route('projects') }}" style="background-color: #fff; color: {{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? '#cf9f38' : '#000000' }};">Tesisler/Projeler</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('facilities.index') }}" style="background-color: #fff; color: #000000;">Tesislerimiz</a></li>
-                                        <li style="background-color: #fff;"><a href="{{ route('projects') }}" style="background-color: #fff; color: #000000;">Projelerimiz</a></li>
+                                        <li class="menu-item-has-children" style="background-color: #fff;">
+                                            <a href="{{ route('projects') }}" style="background-color: #fff; color: #000000;">Projelerimiz</a>
+                                            <ul class="sub-menu" style="background-color: #fff;">
+                                                <li style="background-color: #fff;"><a href="{{ route('projects', ['status' => 'ongoing']) }}" style="background-color: #fff; color: #000000;">Devam Eden Projeler</a></li>
+                                                <li style="background-color: #fff;"><a href="{{ route('projects', ['status' => 'completed']) }}" style="background-color: #fff; color: #000000;">Tamamlanan Projeler</a></li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="{{ request()->routeIs('tenders*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">

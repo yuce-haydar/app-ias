@@ -76,9 +76,17 @@
         @else
             <div class="text-center py-5">
                 <div class="empty-state">
-                    <i class="fa-solid fa-briefcase fa-4x text-muted mb-3"></i>
-                    <h4>Şu Anda Açık Pozisyon Bulunmuyor</h4>
-                    <p class="text-muted">Yakında yeni kariyer fırsatları duyurulacaktır.</p>
+                  
+                    
+                   <a href="https://hakim.hatay.bel.tr/" target="_blank">
+                       <img src="{{ asset('assets/images/logo/hakimlogo.png') }}" alt="Hakim Logo" style="width: 250px; height: 100%; object-fit: cover;">
+                   </a>
+                    <div class="text-center mt-4">
+                       
+                        <a href="https://hakim.hatay.bel.tr/" class="theme-btn text-white" target="_blank">
+                            <i class="fa-solid fa-external-link me-2"></i> Hatay Kariyer İstihdam Merkezi Portalını Ziyaret Et
+                        </a>
+                    </div>
                 </div>
             </div>
         @endif

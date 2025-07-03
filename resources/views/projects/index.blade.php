@@ -40,7 +40,13 @@ Projeler Grid Bölümü
         </div>
 
         <div class="row gy-30">
-            @foreach($projects as $project)
+            @php
+                $filteredProjects = $projects;
+                if(request()->has('status')) {
+                    $filteredProjects = $projects->where('status', request()->get('status'));
+                }
+            @endphp
+            @foreach($filteredProjects as $project)
             <div class="col-lg-6 col-md-6">
                 <article class="blog-single-box">
                     <div class="blog-thumb">
