@@ -33,8 +33,8 @@ class InformationServiceController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'value' => 'required|string',
-            'document' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:2048',
+            'value' => 'nullable|string',
+            'document' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:5120',
             'order' => 'integer|min:0',
             'is_active' => 'boolean'
         ]);
@@ -74,8 +74,8 @@ class InformationServiceController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'value' => 'required|string',
-            'document' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:2048',
+            'value' => 'nullable|string',
+            'document' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:5120',
             'order' => 'integer|min:0',
             'is_active' => 'boolean'
         ]);

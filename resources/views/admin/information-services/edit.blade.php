@@ -43,9 +43,10 @@
                         </div>
                         
                         <div class="form-group mb-3">
-                            <label for="value" class="form-label">Değer *</label>
+                            <label for="value" class="form-label">Değer</label>
                             <textarea class="form-control @error('value') is-invalid @enderror" 
-                                      id="value" name="value" rows="3" required>{{ old('value', $informationService->value) }}</textarea>
+                                      id="value" name="value" rows="3">{{ old('value', $informationService->value) }}</textarea>
+                            <small class="form-text text-muted">Eğer değer yoksa bu sadece belge olarak görünür</small>
                             @error('value')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -63,7 +64,7 @@
                             <input type="file" class="form-control @error('document') is-invalid @enderror" 
                                    id="document" name="document" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
                             <small class="form-text text-muted">
-                                Desteklenen formatlar: PDF, DOC, DOCX, JPG, JPEG, PNG (Maksimum 2MB)
+                                Desteklenen formatlar: PDF, DOC, DOCX, JPG, JPEG, PNG (Maksimum 5MB)
                                 @if($informationService->document)
                                     <br>Yeni belge seçerseniz mevcut belge değiştirilecektir.
                                 @endif

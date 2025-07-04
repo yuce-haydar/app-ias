@@ -33,7 +33,9 @@
                     <h2 class="text-center mb-4">Firma Bilgileri</h2>
                     <table class="table table-bordered">
                         <tbody>
-                            @foreach($informationServices as $service)
+                            @foreach($informationServices->filter(function($service) {
+                                return !empty($service->value);
+                            }) as $service)
                                 <tr>
                                     <td><strong>{{ $service->title }}</strong></td>
                                     <td>{!! $service->value !!}</td>
