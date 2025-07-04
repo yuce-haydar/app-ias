@@ -170,6 +170,106 @@
                                 </div>
                             </div>
                             @endif
+                            
+                            <!-- QR Menü Yönetimi -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5 class="text-primary mb-3">QR Menü Yönetimi</h5>
+                                    @if($facility->qrMenu)
+                                        <div class="card border-success">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <h6 class="text-success">
+                                                            <i class="fas fa-qrcode"></i> QR Menü Aktif
+                                                        </h6>
+                                                        <table class="table table-sm table-borderless">
+                                                            <tr>
+                                                                <td><strong>Menü Adı:</strong></td>
+                                                                <td>{{ $facility->qrMenu->name }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>URL:</strong></td>
+                                                                <td>
+                                                                    <a href="{{ url('/qr-menu/' . $facility->qrMenu->url_slug) }}" 
+                                                                       target="_blank" 
+                                                                       class="text-decoration-none">
+                                                                        {{ url('/qr-menu/' . $facility->qrMenu->url_slug) }}
+                                                                        <i class="fas fa-external-link-alt ms-1"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Yönetici Girişi:</strong></td>
+                                                                <td>
+                                                                    <a href="{{ url('/qr-menu/' . $facility->qrMenu->url_slug . '/yonetici') }}" 
+                                                                       target="_blank" 
+                                                                       class="text-decoration-none">
+                                                                        Yönetim Paneli
+                                                                        <i class="fas fa-external-link-alt ms-1"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Oluşturma:</strong></td>
+                                                                <td>{{ $facility->qrMenu->created_at->format('d.m.Y H:i') }}</td>
+                                                            </tr>
+                                                        </table>
+                                                        
+                                                        <div class="mt-3">
+                                                            <div class="btn-group" role="group">
+                                                                <a href="{{ route('admin.facilities.qr-menu.edit', $facility) }}" 
+                                                                   class="btn btn-sm btn-warning">
+                                                                    <i class="fas fa-edit"></i> Düzenle
+                                                                </a>
+                                                                <form method="POST" action="{{ route('admin.facilities.qr-menu.regenerate', $facility) }}" style="display: inline;">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-sm btn-info">
+                                                                        <i class="fas fa-sync"></i> QR Yenile
+                                                                    </button>
+                                                                </form>
+                                                                <a href="{{ route('admin.facilities.qr-menu.download', $facility) }}" 
+                                                                   class="btn btn-sm btn-primary">
+                                                                    <i class="fas fa-download"></i> QR İndir
+                                                                </a>
+                                                                <button type="button" 
+                                                                        class="btn btn-sm btn-danger" 
+                                                                        onclick="confirmDelete()">
+                                                                    <i class="fas fa-trash"></i> Sil
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 text-center">
+                                                        @if($facility->qrMenu->qr_code_path)
+                                                            <div class="mb-2">
+                                                                <strong>QR Kod:</strong>
+                                                            </div>
+                                                            <div class="qr-code-container">
+                                                                <img src="{{ asset('storage/' . $facility->qrMenu->qr_code_path) }}" 
+                                                                     class="img-fluid border rounded" 
+                                                                     style="max-width: 150px; background: white; padding: 10px;">
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="card border-warning">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-info-circle fa-3x text-warning mb-3"></i>
+                                                <h6>QR Menü Oluşturulmamış</h6>
+                                                <p class="text-muted">Bu tesis için henüz QR menü oluşturulmamış.</p>
+                                                <a href="{{ route('admin.facilities.qr-menu.create', $facility) }}" 
+                                                   class="btn btn-success">
+                                                    <i class="fas fa-plus"></i> QR Menü Oluştur
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- Görseller -->
@@ -288,5 +388,41 @@
     .badge {
         font-size: 0.75em;
     }
+    
+    .qr-code-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+    function confirmDelete() {
+        if (confirm('QR menüyü silmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve tüm menü verileri silinecek.')) {
+            // Form ile DELETE isteği gönder
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route("admin.facilities.qr-menu.destroy", $facility) }}';
+            
+            // CSRF token
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+            form.appendChild(csrfToken);
+            
+            // Method spoofing
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'DELETE';
+            form.appendChild(methodInput);
+            
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
 @endpush 

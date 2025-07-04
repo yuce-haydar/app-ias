@@ -62,23 +62,78 @@
                         @php $hasDocuments = $informationServices->where('document', '!=', null)->count() > 0; @endphp
                         
                         @if($hasDocuments)
-                            <div class="row">
-                                @foreach($informationServices->where('document', '!=', null) as $service)
-                                    <div class="col-md-6 col-lg-4 mb-3">
-                                        <div class="document-card">
-                                            <div class="document-icon">
-                                                <i class="fas fa-file-alt"></i>
-                                            </div>
-                                            <div class="document-info">
-                                                <h5>{{ $service->title }}</h5>
-                                                <a href="{{ $service->document_url }}" target="_blank" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-download"></i> İndir
-                                                </a>
-                                            </div>
+                            @foreach($informationServices->where('document', '!=', null) as $index => $service)
+                                <div class="document-viewer-section mb-5">
+                                    <div class="document-header">
+                                        <h4 class="document-title">{{ $service->title }}</h4>
+                                        <div class="document-actions">
+                                            <a href="{{ $service->document_url }}" target="_blank" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-download"></i> İndir
+                                            </a>
+                                            <a href="{{ $service->document_url }}" target="_blank" class="btn btn-info btn-sm">
+                                                <i class="fas fa-external-link-alt"></i> Yeni Sekmede Aç
+                                            </a>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
+                                    
+                                    <div class="document-viewer">
+                                        @php
+                                            $fileExtension = pathinfo($service->document_url, PATHINFO_EXTENSION);
+                                            $fileName = pathinfo($service->document_url, PATHINFO_FILENAME);
+                                        @endphp
+                                        
+                                        @if(in_array(strtolower($fileExtension), ['pdf']))
+                                            <!-- PDF Viewer -->
+                                            <div class="pdf-viewer-container">
+                                                <iframe src="{{ $service->document_url }}" 
+                                                        class="document-iframe" 
+                                                        title="{{ $service->title }}"
+                                                        loading="lazy">
+                                                    <p>PDF görüntülenemiyor. <a href="{{ $service->document_url }}" target="_blank">Buraya tıklayarak açabilirsiniz.</a></p>
+                                                </iframe>
+                                            </div>
+                                        @elseif(in_array(strtolower($fileExtension), ['xlsx', 'xls', 'csv']))
+                                            <!-- Excel/CSV Viewer -->
+                                            <div class="excel-viewer-container">
+                                                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($service->document_url) }}" 
+                                                        class="document-iframe" 
+                                                        title="{{ $service->title }}"
+                                                        loading="lazy">
+                                                    <p>Excel dosyası görüntülenemiyor. <a href="{{ $service->document_url }}" target="_blank">Buraya tıklayarak açabilirsiniz.</a></p>
+                                                </iframe>
+                                            </div>
+                                        @elseif(in_array(strtolower($fileExtension), ['docx', 'doc']))
+                                            <!-- Word Viewer -->
+                                            <div class="word-viewer-container">
+                                                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($service->document_url) }}" 
+                                                        class="document-iframe" 
+                                                        title="{{ $service->title }}"
+                                                        loading="lazy">
+                                                    <p>Word dosyası görüntülenemiyor. <a href="{{ $service->document_url }}" target="_blank">Buraya tıklayarak açabilirsiniz.</a></p>
+                                                </iframe>
+                                            </div>
+                                        @else
+                                            <!-- Genel Dosya Görüntüleyici -->
+                                            <div class="generic-file-viewer">
+                                                <div class="file-preview">
+                                                    <div class="file-icon">
+                                                        <i class="fas fa-file-alt"></i>
+                                                    </div>
+                                                    <div class="file-info">
+                                                        <h5>{{ $service->title }}</h5>
+                                                        <p class="file-type">{{ strtoupper($fileExtension) }} Dosyası</p>
+                                                        <p class="text-muted">Bu dosya türü direkt görüntülenemiyor.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                
+                                @if(!$loop->last)
+                                    <hr class="document-separator">
+                                @endif
+                            @endforeach
                         @else
                             <p class="text-center text-muted">Henüz belge eklenmemiş.</p>
                         @endif
@@ -153,44 +208,241 @@
     background-color: #f8f9fa !important;
 }
 
-.document-card {
+.document-viewer-section {
     background: #fff;
     border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.document-header {
+    background: linear-gradient(135deg, #cf9f38, #b8902f);
+    color: white;
     padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.document-title {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.document-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.document-actions .btn {
+    min-width: 100px;
     transition: all 0.3s ease;
-    height: 100%;
+}
+
+.document-actions .btn-primary {
+    background-color: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.3);
+    color: white;
+}
+
+.document-actions .btn-primary:hover {
+    background-color: rgba(255,255,255,0.3);
+    border-color: rgba(255,255,255,0.5);
+    color: white;
+}
+
+.document-actions .btn-info {
+    background-color: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.document-actions .btn-info:hover {
+    background-color: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.4);
+    color: white;
+}
+
+.document-viewer {
+    padding: 0;
+    background: #f8f9fa;
+}
+
+.document-iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    display: block;
+}
+
+.pdf-viewer-container,
+.excel-viewer-container,
+.word-viewer-container {
+    position: relative;
+    background: #fff;
+}
+
+.generic-file-viewer {
+    padding: 40px;
+    text-align: center;
+}
+
+.file-preview {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
-.document-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-}
-
-.document-icon {
-    font-size: 3rem;
+.file-icon {
+    font-size: 4rem;
     color: #cf9f38;
-    margin-bottom: 15px;
 }
 
-.document-info h5 {
-    margin-bottom: 15px;
+.file-info h5 {
+    margin: 0 0 10px 0;
     color: #333;
-    font-size: 1.1rem;
 }
 
-.document-info .btn {
-    background-color: #cf9f38;
-    border-color: #cf9f38;
+.file-type {
+    font-weight: 600;
+    color: #cf9f38;
+    margin-bottom: 5px;
 }
 
-.document-info .btn:hover {
-    background-color: #b8902f;
-    border-color: #b8902f;
+.document-separator {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #cf9f38, transparent);
+    margin: 3rem 0;
+}
+
+/* Loading State */
+.document-iframe[loading="lazy"] {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="%23cf9f38" stroke-width="2" stroke-dasharray="31.416" stroke-dashoffset="31.416"><animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/><animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/></circle></svg>') center center no-repeat;
+    background-size: 50px 50px;
+}
+
+@media (max-width: 768px) {
+    .document-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .document-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .document-actions .btn {
+        min-width: 120px;
+    }
+    
+    .document-iframe {
+        height: 400px;
+    }
+    
+    .file-icon {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .document-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .document-actions .btn {
+        width: 100%;
+    }
+    
+    .document-iframe {
+        height: 300px;
+    }
 }
 </style>
+
+<script>
+// Document loading feedback
+document.addEventListener('DOMContentLoaded', function() {
+    const iframes = document.querySelectorAll('.document-iframe');
+    
+    iframes.forEach(function(iframe) {
+        const container = iframe.closest('.document-viewer');
+        
+        // Loading başlangıcı
+        iframe.addEventListener('load', function() {
+            // İframe yüklendiğinde loading state'i kaldır
+            iframe.style.background = 'none';
+            
+            // Başarılı yükleme bildirimi (isteğe bağlı)
+            console.log('Belge yüklendi:', iframe.title);
+        });
+        
+        // Hata durumu
+        iframe.addEventListener('error', function() {
+            // Iframe yüklenemediğinde hata mesajı göster
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'document-error';
+            errorDiv.innerHTML = `
+                <div class="text-center p-5">
+                    <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                    <h5 class="mt-3">Belge yüklenemedi</h5>
+                    <p class="text-muted">Belge görüntülenemiyor. Lütfen indirme seçeneğini kullanın.</p>
+                </div>
+            `;
+            
+            // Iframe'i gizle ve hata mesajını göster
+            iframe.style.display = 'none';
+            container.appendChild(errorDiv);
+        });
+    });
+    
+    // Lazy loading için intersection observer
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    const iframe = entry.target;
+                    if (iframe.dataset.src) {
+                        iframe.src = iframe.dataset.src;
+                        iframe.removeAttribute('data-src');
+                        observer.unobserve(iframe);
+                    }
+                }
+            });
+        });
+        
+        // Lazy loading için hazırla
+        document.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
+            imageObserver.observe(iframe);
+        });
+    }
+});
+
+// Smooth scroll to document sections
+function scrollToDocument(documentId) {
+    const element = document.getElementById(documentId);
+    if (element) {
+        element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+
+// Print specific document
+function printDocument(documentUrl) {
+    const printWindow = window.open(documentUrl, '_blank');
+    printWindow.addEventListener('load', function() {
+        printWindow.print();
+    });
+}
+</script>
 @endsection 

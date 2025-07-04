@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 // Admin Routes
 Route::prefix('admin')->group(base_path('routes/admin.php'));
 
+// QR Menu Routes
+require base_path('routes/qr-menu.php');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

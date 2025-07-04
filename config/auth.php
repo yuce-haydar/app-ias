@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'qr_menu' => [
+            'driver' => 'session',
+            'provider' => 'qr_menu_users',
+        ],
     ],
 
     /*
@@ -63,6 +67,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'qr_menu_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\QrMenuUser::class,
         ],
 
         // 'users' => [

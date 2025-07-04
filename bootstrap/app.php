@@ -13,6 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'qr-menu-auth' => \App\Http\Middleware\QrMenuAuthMiddleware::class,
+            'qr-menu-owner' => \App\Http\Middleware\QrMenuOwnerMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

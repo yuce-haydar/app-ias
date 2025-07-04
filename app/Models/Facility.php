@@ -86,4 +86,12 @@ class Facility extends Model
     {
         $this->increment('view_count');
     }
+
+    /**
+     * QR Menu ilişkisi
+     */
+    public function qrMenu()
+    {
+        return $this->hasOne(QrMenu::class);
+    }
 }

@@ -79,6 +79,15 @@ Route::middleware(['admin'])->group(function () {
     // Facilities Management
     Route::resource('facilities', FacilityController::class)->names('admin.facilities');
     
+    // QR Menu Management for Facilities
+    Route::get('facilities/{facility}/qr-menu/create', [FacilityController::class, 'createQrMenu'])->name('admin.facilities.qr-menu.create');
+    Route::post('facilities/{facility}/qr-menu', [FacilityController::class, 'storeQrMenu'])->name('admin.facilities.qr-menu.store');
+    Route::get('facilities/{facility}/qr-menu/edit', [FacilityController::class, 'editQrMenu'])->name('admin.facilities.qr-menu.edit');
+    Route::put('facilities/{facility}/qr-menu', [FacilityController::class, 'updateQrMenu'])->name('admin.facilities.qr-menu.update');
+    Route::delete('facilities/{facility}/qr-menu', [FacilityController::class, 'destroyQrMenu'])->name('admin.facilities.qr-menu.destroy');
+    Route::post('facilities/{facility}/qr-menu/regenerate', [FacilityController::class, 'regenerateQrCode'])->name('admin.facilities.qr-menu.regenerate');
+    Route::get('facilities/{facility}/qr-menu/download', [FacilityController::class, 'downloadQrCode'])->name('admin.facilities.qr-menu.download');
+    
     // News Management
     Route::resource('news', NewsController::class)->names('admin.news');
     
