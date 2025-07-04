@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('information_services', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('value');
+            $table->text('value')->nullable();
             $table->string('document')->nullable();
             $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);

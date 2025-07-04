@@ -85,6 +85,25 @@ class InformationServiceSeeder extends Seeder
                 'value' => '<a href="mailto:info@hatayimar.com.tr">info@hatayimar.com.tr</a>',
                 'order' => 12,
                 'is_active' => true
+            ],
+            // Belge örnekleri (değer olmadan)
+            [
+                'title' => 'Faaliyet Belgesi',
+                'value' => null,
+                'order' => 13,
+                'is_active' => true
+            ],
+            [
+                'title' => 'Yeterlilik Belgesi',
+                'value' => null,
+                'order' => 14,
+                'is_active' => true
+            ],
+            [
+                'title' => 'Sigorta Belgesi',
+                'value' => null,
+                'order' => 15,
+                'is_active' => true
             ]
         ];
 
