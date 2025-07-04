@@ -21,7 +21,7 @@
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="servicesTable">
                             <thead>
                                 <tr>
                                     <th>Sıra</th>
@@ -80,11 +80,21 @@
                             </tbody>
                         </table>
                     </div>
-
-                    {{ $services->links() }}
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection 
+@endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $('#servicesTable').DataTable({
+        "paging": false,
+        "info": false,
+        "order": [[0, "asc"]]
+    });
+});
+</script>
+@endpush 
