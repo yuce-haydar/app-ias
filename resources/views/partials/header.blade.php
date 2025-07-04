@@ -26,6 +26,7 @@
                                         <li style="background-color: #fff;"><a href="{{ route('about') }}" style="background-color: #fff; color: #000000;">Hakkımızda</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('about') }}" style="background-color: #fff; color: #000000;">Misyon & Vizyon</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('team') }}" style="background-color: #fff; color: #000000;">Yönetim Kurulu</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('bilgi-toplumu-hizmetleri') }}" style="background-color: #fff; color: #000000;">Bilgi Toplumu Hizmetleri</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-item-has-children" style="background-color: #fff;">

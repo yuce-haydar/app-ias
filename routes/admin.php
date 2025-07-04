@@ -19,7 +19,8 @@ use App\Http\Controllers\Admin\{
     ContactSubmissionController,
     SettingController,
     HomePageController,
-    SettingsController
+    SettingsController,
+    InformationServiceController
 };
 
 // Authentication routes (middleware group dışında)
@@ -80,6 +81,9 @@ Route::middleware(['admin'])->group(function () {
     
     // News Management
     Route::resource('news', NewsController::class)->names('admin.news');
+    
+    // Information Services Management (Bilgi Toplumu Hizmetleri)
+    Route::resource('information-services', InformationServiceController::class)->names('admin.information-services');
     
     // Contact Submissions
     Route::resource('contact-submissions', ContactSubmissionController::class)->names('admin.contact-submissions')

@@ -227,6 +227,12 @@
                     </a>
                 </li>
                 
+                <li>
+                    <a href="{{ route('admin.information-services.index') }}" class="{{ request()->routeIs('admin.information-services.*') ? 'active' : '' }}">
+                        <i class="fas fa-info-circle"></i> Bilgi Toplumu Hizmetleri
+                    </a>
+                </li>
+                
                 <li class="menu-header text-muted px-3 mt-3 mb-2">
                     <small>BAŞVURULAR</small>
                 </li>

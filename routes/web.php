@@ -24,6 +24,12 @@ Route::get('/hakkimizda', function () {
     return view('pages.about');
 })->name('about');
 
+// Bilgi Toplumu Hizmetleri
+Route::get('/bilgi-toplumu-hizmetleri', function () {
+    $informationServices = App\Models\InformationService::active()->ordered()->get();
+    return view('pages.bilgi-toplumu-hizmetleri', compact('informationServices'));
+})->name('bilgi-toplumu-hizmetleri');
+
 // Hizmet Rotaları
 Route::get('/hizmetler', [App\Http\Controllers\ServiceController::class, 'index'])->name('services');
 Route::get('/hizmet/{id}', [App\Http\Controllers\ServiceController::class, 'details'])->name('service.details');
