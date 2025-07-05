@@ -111,6 +111,146 @@
             transform: translateY(-2px);
         }
 
+        /* Floating Category Menu */
+        .floating-menu-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .floating-menu-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+        }
+
+        .floating-menu-btn.active {
+            background: var(--secondary-color);
+            transform: rotate(45deg);
+        }
+
+        /* Side Menu */
+        .side-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .side-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 320px;
+            height: 100%;
+            background: white;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .side-menu-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .side-menu-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .side-menu-categories {
+            padding: 1rem 0;
+        }
+
+        .side-menu-category {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .side-menu-category:hover {
+            background: var(--light-gray);
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .side-menu-category-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .side-menu-category-count {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .side-menu-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .side-menu-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
         /* Recommended Section */
         .recommended-section {
             background: var(--light-gray);
@@ -318,71 +458,94 @@
 
         /* Modal Styles */
         .modal {
+            display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
             justify-content: center;
+            align-items: center;
             padding: 1rem;
         }
 
         .modal-content {
             background: white;
+            padding: 0;
             border-radius: 15px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
+            max-width: 90%;
+            max-height: 90%;
             overflow-y: auto;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: modalOpen 0.3s ease;
+        }
+
+        @keyframes modalOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .close {
             position: absolute;
             top: 10px;
             right: 15px;
-            font-size: 1.5rem;
+            font-size: 28px;
             font-weight: bold;
-            color: #333;
+            color: white;
             cursor: pointer;
-            z-index: 1001;
-            background: rgba(255,255,255,0.9);
+            z-index: 10;
+            background: rgba(0,0,0,0.5);
             border-radius: 50%;
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            background: rgba(0,0,0,0.8);
         }
 
         .modal-body {
-            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
         }
 
         .modal-image-container {
+            position: relative;
             width: 100%;
-            margin-bottom: 1.5rem;
+            height: 300px; /* Sabit yükseklik */
+            overflow: hidden;
+            border-radius: 15px 15px 0 0;
         }
 
         .modal-image-container img {
             width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
         }
 
         .modal-info {
-            text-align: center;
+            padding: 1.5rem;
         }
 
         .modal-info h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: var(--secondary-color);
+            font-size: 1.4rem;
         }
 
         .modal-info p {
@@ -392,44 +555,48 @@
         }
 
         .modal-gallery {
-            padding: 0 1.5rem 1.5rem;
             display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0 1.5rem 1.5rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .modal-gallery::-webkit-scrollbar {
+            display: none;
         }
 
         .modal-gallery img {
             width: 60px;
-            height: 60px;
+            height: 60px; /* Sabit yükseklik */
             object-fit: cover;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            flex-shrink: 0;
         }
 
         .modal-gallery img:hover {
-            transform: scale(1.1);
+            border-color: var(--primary-color);
+            transform: scale(1.05);
         }
 
         .modal-gallery img.active {
             border-color: var(--primary-color);
+            transform: scale(1.1);
         }
 
-        /* Mobile Optimizations */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .header {
                 padding: 1rem 0.5rem;
-                position: relative;
+                position: relative; /* Sticky kaldır */
             }
-            
+
             .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .header p {
-                font-size: 0.9rem;
+                font-size: 1.4rem;
             }
 
             .categories-nav {
@@ -448,79 +615,76 @@
                 font-size: 0.85rem;
             }
 
-            .container {
-                padding: 0 0.25rem;
+            .floating-menu-btn {
+                bottom: 15px;
+                right: 15px;
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+
+            .side-menu {
+                width: 280px;
+                right: -300px;
+            }
+
+            .side-menu-category {
+                padding: 0.8rem 1rem;
             }
 
             .recommended-section {
-                margin: 1rem 0;
                 padding: 1.5rem 0;
+                margin: 1rem 0;
             }
 
             .recommended-title {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
                 margin-bottom: 1rem;
-            }
-
-            .recommended-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
                 padding: 0 0.5rem;
             }
 
-            .category-section {
-                margin: 1.5rem 0;
-            }
-
-            .category-title {
-                font-size: 1.4rem;
-                padding: 0 0.5rem;
-            }
-
+            .recommended-grid,
             .items-grid {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: 0.8rem;
                 padding: 0 0.5rem;
             }
 
             .item-card {
-                padding: 1rem;
+                padding: 0.8rem;
             }
 
             .item-image {
-                height: 200px;
-            }
-
-            .item-header {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: flex-start;
+                height: 160px;
             }
 
             .item-name {
-                font-size: 1.1rem;
-            }
-
-            .item-price {
                 font-size: 1rem;
-                align-self: flex-end;
             }
 
             .item-description {
                 font-size: 0.85rem;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
             }
 
-            .meta-tag {
-                font-size: 0.7rem;
-                padding: 0.2rem 0.6rem;
+            .item-price {
+                font-size: 1rem;
             }
 
             .modal-content {
+                max-width: 95%;
+                max-height: 95%;
                 margin: 0.5rem;
-                max-height: 95vh;
             }
 
-            .modal-body {
+            .modal-image-container {
+                height: 250px; /* Mobilde daha düşük */
+            }
+
+            .modal-info {
                 padding: 1rem;
             }
 
@@ -530,54 +694,104 @@
 
             .modal-gallery {
                 padding: 0 1rem 1rem;
+                gap: 0.3rem;
             }
 
             .modal-gallery img {
                 width: 50px;
                 height: 50px;
             }
+
+            .close {
+                top: 5px;
+                right: 10px;
+                width: 35px;
+                height: 35px;
+                font-size: 20px;
+            }
+
+            .meta-tag {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.5rem;
+            }
+
+            .category-title {
+                font-size: 1.4rem;
+                padding: 0 0.5rem;
+            }
         }
 
-        /* Extra Small Devices */
+        /* Very Small Mobile */
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
-            
+
             .category-btn {
                 padding: 0.5rem 0.75rem;
                 font-size: 0.8rem;
             }
-            
-            .recommended-title,
-            .category-title {
+
+            .floating-menu-btn {
+                width: 50px;
+                height: 50px;
                 font-size: 1.2rem;
+                bottom: 10px;
+                right: 10px;
             }
-            
-            .item-card {
-                padding: 0.75rem;
+
+            .side-menu {
+                width: 260px;
+                right: -280px;
             }
-            
+
             .item-image {
-                height: 160px;
+                height: 140px;
             }
-            
-            .item-name {
-                font-size: 1rem;
+
+            .modal-image-container {
+                height: 200px; /* Çok küçük ekranlarda daha düşük */
             }
-            
-            .item-price {
-                font-size: 0.9rem;
-            }
-            
-            .item-description {
-                font-size: 0.8rem;
-            }
-            
+
             .modal-gallery img {
                 width: 45px;
                 height: 45px;
             }
+
+            .category-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Desktop görünümde kategoriler nav'i göster */
+        @media (min-width: 769px) {
+            .categories-nav {
+                display: block !important;
+            }
+
+            .floating-menu-btn {
+                display: none; /* Desktop'ta floating button gizle */
+            }
+
+            .category-section {
+                margin: 2rem 0;
+            }
+
+            .category-title {
+                font-size: 1.6rem;
+                font-weight: 600;
+                color: var(--secondary-color);
+                margin-bottom: 1.5rem;
+                padding: 0 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Mobilde desktop categories gizle */
+        @media (max-width: 768px) {
+            
         }
 
         /* Touch Improvements */
@@ -770,6 +984,40 @@
             <p>Şu anda menümüz güncelleniyor. Lütfen daha sonra tekrar kontrol edin.</p>
         </div>
         @endif
+    </div>
+
+    <!-- Floating Category Menu Button -->
+    <button class="floating-menu-btn" onclick="toggleSideMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Side Menu Overlay -->
+    <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeSideMenu()"></div>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <button class="side-menu-close" onclick="closeSideMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>
+                <i class="fas fa-utensils"></i>
+                Kategoriler
+            </h3>
+        </div>
+        <div class="side-menu-categories">
+            @foreach($categories as $category)
+                <a href="#category-{{ $category->id }}" class="side-menu-category" onclick="scrollToCategory('category-{{ $category->id }}')">
+                    <div class="side-menu-category-info">
+                        @if($category->icon)
+                            <i class="{{ $category->icon }}"></i>
+                        @endif
+                        <span>{{ $category->name }}</span>
+                    </div>
+                    <span class="side-menu-category-count">{{ $category->menuItems->count() }}</span>
+                </a>
+            @endforeach
+        </div>
     </div>
 
     <div class="footer">
@@ -971,6 +1219,69 @@
             }
             lastTouchEnd = now;
         }, false);
+
+        // Scroll to category
+        function scrollToCategory(categoryId) {
+            const targetElement = document.getElementById(categoryId);
+            if (targetElement) {
+                const offset = window.innerWidth <= 768 ? 150 : 200;
+                const elementPosition = targetElement.offsetTop;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+
+                // Update active button in navbar
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                const targetBtn = document.querySelector(`a[href="#${categoryId}"]`);
+                if (targetBtn) {
+                    targetBtn.classList.add('active');
+                }
+
+                // Close side menu after scroll
+                setTimeout(() => {
+                    closeSideMenu();
+                }, 300);
+            }
+        }
+
+        // Auto-hide floating button when side menu is open
+        function updateFloatingButton() {
+            const floatingBtn = document.querySelector('.floating-menu-btn');
+            const sideMenu = document.getElementById('sideMenu');
+            
+            if (sideMenu.classList.contains('active')) {
+                floatingBtn.classList.add('active');
+            } else {
+                floatingBtn.classList.remove('active');
+            }
+        }
+
+        // Update floating button on side menu toggle
+        function toggleSideMenu() {
+            const sideMenuOverlay = document.getElementById('sideMenuOverlay');
+            const sideMenu = document.getElementById('sideMenu');
+            
+            if (sideMenuOverlay.classList.contains('active')) {
+                sideMenuOverlay.classList.remove('active');
+                sideMenu.classList.remove('active');
+            } else {
+                sideMenuOverlay.classList.add('active');
+                sideMenu.classList.add('active');
+            }
+            updateFloatingButton();
+        }
+
+        // Close side menu
+        function closeSideMenu() {
+            const sideMenuOverlay = document.getElementById('sideMenuOverlay');
+            const sideMenu = document.getElementById('sideMenu');
+            sideMenuOverlay.classList.remove('active');
+            sideMenu.classList.remove('active');
+            updateFloatingButton();
+        }
     </script>
 </body>
 </html> 
