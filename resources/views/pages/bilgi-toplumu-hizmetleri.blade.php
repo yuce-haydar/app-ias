@@ -6,11 +6,11 @@
 <!--==============================
     Breadcrumb
 ============================== -->
-<div class="breadcrumb-section" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }});">
-    <div class="container">
+<div class="breadcrumb-section" style="background-image: url({{ asset('assets/images/hh.png') }});">
+    <div class="container" style="margin-top: 100px; position: relative;">
         <div class="row">
             <div class="col-lg-12">
-                <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-content text-center" style="margin-top: 100px; position: relative;">
                     <h2 class="breadcrumb-title">Bilgi Toplumu Hizmetleri</h2>
                     <ul class="breadcrumb-link">
                         <li><a href="{{ route('home') }}">Anasayfa</a></li>
@@ -33,12 +33,20 @@
                     <h2 class="text-center mb-4">Firma Bilgileri</h2>
                     <table class="table table-bordered">
                         <tbody>
-                            @foreach($informationServices->filter(function($service) {
-                                return !empty($service->value);
-                            }) as $service)
+                            @foreach($informationServices as $service)
                                 <tr>
                                     <td><strong>{{ $service->title }}</strong></td>
-                                    <td>{!! $service->value !!}</td>
+                                    <td>
+                                        @if(!empty($service->value))
+                                            {!! $service->value !!}
+                                        @elseif($service->document)
+                                            <button type="button" class="btn btn-info btn-sm table-view-btn" onclick="scrollToDocument('document-{{ $service->id }}')">
+                                                <i class="fas fa-eye"></i> Görüntüle
+                                            </button>
+                                        @else
+                                            <span class="text-muted">Bilgi girilmemiş</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -52,18 +60,21 @@
 <!--==============================
     Belgeler Alanı
 ============================== -->
-<section class="section-padding bg-light">
+<section class="section-padding bg-light" id="documents-section" style="display: none;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="documents-section">
                     <h2 class="text-center mb-4">Belgeler</h2>
                     <div class="documents-content">
-                        @php $hasDocuments = $informationServices->where('document', '!=', null)->count() > 0; @endphp
+                        @php 
+                            $documentsWithFiles = $informationServices->where('document', '!=', null);
+                            $hasDocuments = $documentsWithFiles->count() > 0; 
+                        @endphp
                         
                         @if($hasDocuments)
-                            @foreach($informationServices->where('document', '!=', null) as $index => $service)
-                                <div class="document-viewer-section mb-5">
+                            @foreach($documentsWithFiles as $index => $service)
+                                <div class="document-viewer-section mb-5" id="document-{{ $service->id }}">
                                     <div class="document-header">
                                         <h4 class="document-title">{{ $service->title }}</h4>
                                         <div class="document-actions">
@@ -166,9 +177,10 @@
 }
 
 .table td {
-    padding: 15px;
+    padding: 18px;
     vertical-align: middle;
     border: 1px solid #dee2e6;
+    line-height: 1.6;
 }
 
 .table td:first-child {
@@ -181,6 +193,11 @@
 .table td:last-child {
     background-color: #fff;
     color: #333;
+    width: 70%;
+}
+
+.table td:last-child .table-view-btn {
+    margin-top: 2px;
 }
 
 .table a {
@@ -190,6 +207,44 @@
 
 .table a:hover {
     text-decoration: underline;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.table-view-btn {
+    background-color: #cf9f38 !important;
+    border-color: #cf9f38 !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 5px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+    border: none !important;
+    box-shadow: 0 2px 4px rgba(207, 159, 56, 0.2) !important;
+}
+
+.table-view-btn:hover {
+    background-color: #b8902f !important;
+    border-color: #b8902f !important;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(207, 159, 56, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+.table-view-btn:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(207, 159, 56, 0.2) !important;
+}
+
+.table-view-btn i {
+    font-size: 12px !important;
 }
 
 .documents-section {
@@ -208,12 +263,17 @@
     background-color: #f8f9fa !important;
 }
 
+#documents-section {
+    transition: all 0.3s ease-in-out;
+}
+
 .document-viewer-section {
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     overflow: hidden;
     margin-bottom: 2rem;
+    scroll-margin-top: 120px; /* Scroll offset için */
 }
 
 .document-header {
@@ -350,6 +410,14 @@
     .file-icon {
         font-size: 3rem;
     }
+    
+    .table td:first-child {
+        width: 40%;
+    }
+    
+    .table td:last-child {
+        width: 60%;
+    }
 }
 
 @media (max-width: 576px) {
@@ -364,6 +432,12 @@
     
     .document-iframe {
         height: 300px;
+    }
+    
+    .table td {
+        display: block;
+        width: 100% !important;
+        text-align: left !important;
     }
 }
 </style>
@@ -428,13 +502,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Smooth scroll to document sections
 function scrollToDocument(documentId) {
-    const element = document.getElementById(documentId);
-    if (element) {
-        element.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
+    // Önce belgeler bölümünü göster
+    const documentsSection = document.getElementById('documents-section');
+    if (documentsSection) {
+        documentsSection.style.display = 'block';
     }
+    
+    // Kısa bir gecikme ile scroll yap (DOM güncellemesi için)
+    setTimeout(function() {
+        const element = document.getElementById(documentId);
+        if (element) {
+            element.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }, 100);
 }
 
 // Print specific document
