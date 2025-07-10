@@ -21,7 +21,8 @@ use App\Http\Controllers\Admin\{
     HomePageController,
     SettingsController,
     InformationServiceController,
-    AboutPageController
+    AboutPageController,
+    GeneralJobApplicationController
 };
 
 // Authentication routes (middleware group dışında)
@@ -122,4 +123,11 @@ Route::middleware(['admin'])->group(function () {
     Route::get('about-page', [AboutPageController::class, 'index'])->name('admin.about-page.index');
     Route::put('about-page', [AboutPageController::class, 'update'])->name('admin.about-page.update');
     Route::delete('about-page/image', [AboutPageController::class, 'deleteImage'])->name('admin.about-page.delete-image');
+    
+    // General Job Applications Management
+    Route::get('general-job-applications', [GeneralJobApplicationController::class, 'index'])->name('admin.general-job-applications.index');
+    Route::get('general-job-applications/{application}', [GeneralJobApplicationController::class, 'show'])->name('admin.general-job-applications.show');
+    Route::put('general-job-applications/{application}/status', [GeneralJobApplicationController::class, 'updateStatus'])->name('admin.general-job-applications.update-status');
+    Route::delete('general-job-applications/{application}', [GeneralJobApplicationController::class, 'destroy'])->name('admin.general-job-applications.destroy');
+    Route::get('general-job-applications/{application}/document/{index}', [GeneralJobApplicationController::class, 'downloadDocument'])->name('admin.general-job-applications.download-document');
 });

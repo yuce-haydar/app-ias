@@ -129,3 +129,7 @@ Route::get('/iletisim-aydinlatma-metni', function () {
 Route::get('/test-logo', function () {
     return view('test-logo');
 })->name('test-logo');
+
+// Genel iş başvuru rotası
+Route::post('/general-job-application', [App\Http\Controllers\GeneralJobApplicationController::class, 'store'])
+    ->name('general-job-application.store');

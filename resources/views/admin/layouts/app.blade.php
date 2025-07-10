@@ -255,6 +255,12 @@
                     </a>
                 </li>
                 
+                <li>
+                    <a href="{{ route('admin.general-job-applications.index') }}" class="{{ request()->routeIs('admin.general-job-applications.*') ? 'active' : '' }}">
+                        <i class="fas fa-users"></i> Genel Başvurular
+                    </a>
+                </li>
+                
                 <li class="menu-header text-muted px-3 mt-3 mb-2">
                     <small>SİTE YÖNETİMİ</small>
                 </li>
