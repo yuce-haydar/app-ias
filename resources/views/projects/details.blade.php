@@ -142,7 +142,7 @@ Proje Detay Bölümü
                             @if(isset($project['area']))
                             <div class="summary-item">
                                 <span class="label">Alan:</span>
-                                <span class="value">{{ $project['area'] }}</span>
+                                <span class="value">{!! $project['area'] !!}</span>
                             </div>
                             @endif
                         </div>
