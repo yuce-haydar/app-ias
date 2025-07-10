@@ -82,7 +82,7 @@ Proje Detay Bölümü
                         <h3>Tesis Özellikleri</h3>
                         <ul class="project-objectives">
                             @foreach($project['features'] as $feature)
-                            <li>{{ $feature }}</li>
+                            <li>{!! $feature !!}</li>
                             @endforeach
                         </ul>
                         @endif
@@ -94,7 +94,7 @@ Proje Detay Bölümü
                             @foreach($project['timeline'] as $timeline)
                             <div class="timeline-item">
                                 <div class="timeline-content">
-                                    <p>{{ $timeline }}</p>
+                                    <p>{!! $timeline !!}</p>
                                 </div>
                             </div>
                             @endforeach

@@ -53,7 +53,7 @@ Duyurular Bölümü
                                     <h3 class="blog-title">
                                         <a href="{{ route('announcement.details', $announcement->id) }}">{{ $announcement->title }}</a>
                                     </h3>
-                                    <p class="blog-text">{{ Str::limit($announcement->summary, 200) }}</p>
+                                    <p class="blog-text">{!! Str::limit($announcement->summary, 200) !!}</p>
                                     <div class="blog-bottom">
                                         <a href="{{ route('announcement.details', $announcement->id) }}" class="link-btn">
                                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>

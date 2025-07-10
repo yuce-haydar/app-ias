@@ -268,7 +268,7 @@ Hero Bölümü
                                     </h1>
                                     <div class="text">
                                         <div class="icon spin"><img src="{{ asset('assets/images/shapes/star3.png') }}" alt=""></div>
-                                        <p>{{ isset($slide['description']) && $slide['description'] ? $slide['description'] : 'Hatay\'ın geleceğini şekillendiren projelerle şehrimize değer katıyoruz. Kaliteli ve sürdürülebilir inşaat hizmetleri sunuyoruz.' }}</p>
+                                        <p>{!! isset($slide['description']) && $slide['description'] ? $slide['description'] : 'Hatay\'ın geleceğini şekillendiren projelerle şehrimize değer katıyoruz. Kaliteli ve sürdürülebilir inşaat hizmetleri sunuyoruz.' !!}</p>
                                     </div>
                                     <a href="{{ isset($slide['button_link']) && $slide['button_link'] ? $slide['button_link'] : route('projects') }}" class="theme-btn bg-color10">
                                         <span class="link-effect">
@@ -377,7 +377,7 @@ Hakkımızda Bölümü
                     <div class="title-area two">
                         <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->about_subtitle ?: 'Hayata Geçirdiğimiz Projeler' }}</div>
                         <h2 class="sec-title mb-25">{!! $homeSettings->about_title ? nl2br(e($homeSettings->about_title)) : 'Hatay\'ın <span class="bold">Geleceğini</span><br>İnşa Ediyoruz!' !!}</h2>
-                        <p class="sec-text text-gray">{{ $homeSettings->about_description ?: '15 ilçede eş zamanlı yürüttüğümüz projelerle Hatay\'ın spor, sosyal ve kültürel altyapısını güçlendiriyoruz.' }}</p>
+                                                    <p class="sec-text text-gray">{!! $homeSettings->about_description ?: '15 ilçede eş zamanlı yürüttüğümüz projelerle Hatay\'ın spor, sosyal ve kültürel altyapısını güçlendiriyoruz.' !!}</p>
                     </div>
                     <div class="feature-list">
                         <div class="feature-item">
@@ -483,7 +483,7 @@ Tamamlanan Tesisler Bölümü
                                 {{ $facility->name }}
                             </a>
                         </h4>
-                        <p class="service-text">{{ $facility->short_description }}</p>
+                                                        <p class="service-text">{!! $facility->short_description !!}</p>
                         <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" class="service-link mb-15">
                             <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
@@ -520,7 +520,7 @@ Hatay Şehri Bölümü
                     <div class="title-area">
                         <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->expertise_subtitle ?: 'İnşaat ve Yapı Uzmanlığımız' }}</div>
                         <h2 class="sec-title mb-25">{!! $homeSettings->expertise_title ? nl2br(e($homeSettings->expertise_title)) : 'Modern İnşaat<br><span class="bold">Teknolojileri</span> ile' !!}</h2>
-                        <p class="sec-text">{{ $homeSettings->expertise_description ?: 'Hatay İmar olarak 15 yılı aşkın tecrübemizle, modern inşaat teknolojilerini kullanarak şehrimizin altyapısını güçlendiriyoruz. Çelik konstrüksiyon, betonarme yapılar ve prefabrik sistemler konularında uzmanlaşmış ekibimizle hizmet veriyoruz.' }}</p>
+                        <p class="sec-text">{!! $homeSettings->expertise_description ?: 'Hatay İmar olarak 15 yılı aşkın tecrübemizle, modern inşaat teknolojilerini kullanarak şehrimizin altyapısını güçlendiriyoruz. Çelik konstrüksiyon, betonarme yapılar ve prefabrik sistemler konularında uzmanlaşmış ekibimizle hizmet veriyoruz.' !!}</p>
                     </div>
                     <div class="about-feature-list">
                         <div class="feature-item">
@@ -634,7 +634,7 @@ Blog Bölümü
                             <span class="author">{{ $article->author }}</span>
                         </div>
                         <h4 class="blog-title"><a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a></h4>
-                        <p class="blog-text">{{ strip_tags(Str::limit($article->summary, 120)) }}</p>
+                                                            <p class="blog-text">{!! Str::limit($article->summary, 120) !!}</p>
                         <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="blog-link">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
@@ -804,7 +804,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: "{{ $project->title }}",
                 coords: [{{ $project->latitude }}, {{ $project->longitude }}],
                 status: "{{ $project->status }}",
-                description: "{{ Str::limit($project->short_description, 100) }}",
+                description: "{!! Str::limit($project->short_description, 100) !!}",
                 url: "{{ route('project.details', ['id' => $project->id]) }}"
             },
             @endif
@@ -932,7 +932,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="gallery-overlay">
                             <div class="gallery-content">
                                 <h4>{{ $project->title }}</h4>
-                                <p>{{ Str::limit($project->short_description, 100) }}</p>
+                                <p>{!! Str::limit($project->short_description, 100) !!}</p>
                                 <div class="project-status {{ $project->status }}">
                                     <i class="fa-solid {{ $project->status == 'completed' ? 'fa-check-circle' : ($project->status == 'ongoing' ? 'fa-gear' : 'fa-clock') }}"></i> 
                                     {{ $project->status == 'completed' ? 'Tamamlandı' : ($project->status == 'ongoing' ? 'Devam Ediyor' : 'Tasarım') }}

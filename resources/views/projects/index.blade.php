@@ -67,7 +67,7 @@ Projeler Grid Bölümü
                         <h4 class="title">
                             <a href="{{ route('project.details', ['id' => $project->id]) }}">{{ $project->title }}</a>
                         </h4>
-                        <p class="text">{{ $project->short_description }}</p>
+                        <p class="text">{!! $project->short_description !!}</p>
                         <div class="project-stats mb-3">
                             <span class="stat-item"><i class="fa-solid fa-map-marker-alt"></i> {{ $project->location }}</span>
                             @if($project->area)

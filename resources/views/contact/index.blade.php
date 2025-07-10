@@ -33,7 +33,7 @@
                     <div class="title-area">
                         <div class="sub-title"><span><i class="asterisk"></i></span>{{ $contactSettings->subtitle }}</div>
                         <h2 class="sec-title">{{ $contactSettings->title }}</h2>
-                        <p class="sec-text">{{ $contactSettings->description }}</p>
+                        <p class="sec-text">{!! $contactSettings->description !!}</p>
                     </div>
                     <div class="contact-info">
                         <div class="contact-item">
@@ -235,7 +235,7 @@ Tesislerimiz Bölümü
                         </div>
                         <div class="facility-content" style="padding: 20px; text-align: center;">
                             <h4 style="color: #333; margin-bottom: 10px;">{{ $facility->name }}</h4>
-                            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">{{ $facility->short_description ?: 'Tesisimiz hakkında detaylı bilgi için tıklayın.' }}</p>
+                                                            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">{!! $facility->short_description ?: 'Tesisimiz hakkında detaylı bilgi için tıklayın.' !!}</p>
                             <a href="{{ route('facilities.details', $facility->id) }}" class="theme-btn btn-sm">Detayları Gör</a>
                         </div>
                     </div>
@@ -275,7 +275,7 @@ Projelerimiz Bölümü
                         </div>
                         <div class="project-content" style="padding: 20px; text-align: center;">
                             <h4 style="color: #333; margin-bottom: 10px;">{{ $project->title }}</h4>
-                            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">{{ $project->short_description ?: 'Projemiz hakkında detaylı bilgi için tıklayın.' }}</p>
+                                                            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">{!! $project->short_description ?: 'Projemiz hakkında detaylı bilgi için tıklayın.' !!}</p>
                             <a href="{{ route('project.details', $project->id) }}" class="theme-btn btn-sm">Detayları Gör</a>
                         </div>
                     </div>

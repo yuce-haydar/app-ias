@@ -453,7 +453,7 @@
                         </div>
                         <h3 class="category-title">{{ $category->name }}</h3>
                         @if($category->description)
-                            <p class="category-description">{{ $category->description }}</p>
+                            <p class="category-description">{!! $category->description !!}</p>
                         @endif
                         <div class="category-stats">
                             <div class="stat-item">

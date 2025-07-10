@@ -61,7 +61,7 @@ Ekip Bölümü
                         <div class="team-content">
                             <h4 class="name"><a href="{{ route('team.details', ['id' => $member->id]) }}">{{ $member->name }}</a></h4>
                             <p class="designation">{{ $member->position }}</p>
-                            <p class="text">{{ $member->description ?? Str::limit($member->bio, 80) }}</p>
+                            <p class="text">{!! $member->description ?? Str::limit($member->bio, 80) !!}</p>
                         </div>
                     </div>
                 </div>

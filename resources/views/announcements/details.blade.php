@@ -104,7 +104,7 @@ Duyuru Detay
                                     <h4 class="blog-title">
                                         <a href="{{ route('announcement.details', $related->id) }}">{{ Str::limit($related->title, 50) }}</a>
                                     </h4>
-                                    <p class="blog-text">{{ Str::limit($related->summary, 100) }}</p>
+                                    <p class="blog-text">{!! Str::limit($related->summary, 100) !!}</p>
                                     <a href="{{ route('announcement.details', $related->id) }}" class="link-btn">
                                         Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                                     </a>

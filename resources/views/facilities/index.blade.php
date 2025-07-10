@@ -66,7 +66,7 @@ Tesisler Grid Bölümü
                         <h4 class="title">
                             <a href="{{ route('facilities.details', ['id' => $facility->id]) }}">{{ $facility->name }}</a>
                         </h4>
-                        <p class="text">{!! strip_tags(Str::limit($facility->description, 200)) !!}</p>
+                        <p class="text">{!! Str::limit($facility->description, 200) !!}</p>
                         <div class="facility-stats mb-3">
                             @if($facility->features && is_array($facility->features))
                                 @foreach(array_slice($facility->features, 0, 2) as $feature)

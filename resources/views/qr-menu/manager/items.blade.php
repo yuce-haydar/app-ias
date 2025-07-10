@@ -663,7 +663,7 @@
                             <div>
                                 <h3 class="item-title">{{ $item->name }}</h3>
                                 @if($item->description)
-                                    <p class="item-description">{{ $item->description }}</p>
+                                    <p class="item-description">{!! $item->description !!}</p>
                                 @endif
                             </div>
                             @if($item->price)

@@ -44,8 +44,8 @@
                             @endphp
                             {{ $firstPart }} @if($secondPart)<span class="bold">{{ $secondPart }}</span>@endif
                         </h2>
-                        <p class="sec-text">{{ $aboutSettings->main_description_1 ?? 'Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı, Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız. Şehrimizin gelişimi ve kalkınması için sürekli olarak yeni projeler geliştirmekte ve hizmet kalitemizi artırmaktayız.' }}</p>
-                        <p class="sec-text">{{ $aboutSettings->main_description_2 ?? 'Hatay Büyükşehir Belediyesi\'nin bir kuruluşu olarak, şehrimizin sosyal, kültürel ve ekonomik gelişimine katkıda bulunmayı misyon edinmiş bulunuyoruz.' }}</p>
+                        <p class="sec-text">{!! $aboutSettings->main_description_1 ?? 'Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı, Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız. Şehrimizin gelişimi ve kalkınması için sürekli olarak yeni projeler geliştirmekte ve hizmet kalitemizi artırmaktayız.' !!}</p>
+                        <p class="sec-text">{!! $aboutSettings->main_description_2 ?? 'Hatay Büyükşehir Belediyesi\'nin bir kuruluşu olarak, şehrimizin sosyal, kültürel ve ekonomik gelişimine katkıda bulunmayı misyon edinmiş bulunuyoruz.' !!}</p>
                     </div>
 
                     <div class="about-feature-list">

@@ -62,7 +62,7 @@
                             <h4 class="blog-title">
                                 <a href="{{ route('tender.details', $tender->id) }}">{{ $tender->title }}</a>
                             </h4>
-                            <p class="blog-text">{{ Str::limit($tender->description, 120) }}</p>
+                                                            <p class="blog-text">{!! Str::limit($tender->description, 120) !!}</p>
                             @if($tender->estimated_cost)
                             <div class="tender-info">
                                 <span class="tender-price">Yaklaşık Maliyet: {{ number_format($tender->estimated_cost) }} TL</span>

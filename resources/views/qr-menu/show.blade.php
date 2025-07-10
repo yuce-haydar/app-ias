@@ -826,7 +826,7 @@
     <div class="header">
         <h1>{{ $qrMenu->name }}</h1>
         @if($qrMenu->description)
-            <p>{{ $qrMenu->description }}</p>
+                                <p>{!! $qrMenu->description !!}</p>
         @endif
     </div>
 
@@ -874,7 +874,7 @@
                             <div>
                                 <h3 class="item-name">{{ $item->name }}</h3>
                                 @if($item->description)
-                                    <p class="item-description">{{ $item->description }}</p>
+                                    <p class="item-description">{!! $item->description !!}</p>
                                 @endif
                             </div>
                             @if($item->price)
@@ -936,7 +936,7 @@
                                 <div>
                                     <h3 class="item-name">{{ $item->name }}</h3>
                                     @if($item->description)
-                                        <p class="item-description">{{ $item->description }}</p>
+                                        <p class="item-description">{!! $item->description !!}</p>
                                     @endif
                                 </div>
                                 @if($item->price)

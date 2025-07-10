@@ -76,7 +76,7 @@
                     <h3 class="mt-4">Tesis Özellikleri</h3>
                     <ul class="project-objectives">
                         @foreach($facility->features as $feature)
-                        <li>{{ $feature }}</li>
+                        <li>{!! $feature !!}</li>
                         @endforeach
                     </ul>
                     @endif

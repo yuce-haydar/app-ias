@@ -36,7 +36,7 @@ Hizmet Detay Bölümü
                     </div>
                     <div class="service-details-wrapper">
                         <h2 class="title">{{ $service->title }}</h2>
-                        <p class="text">{{ $service->description }}</p>
+                        <p class="text">{!! $service->description !!}</p>
                         
                         @if($service->features && count($service->features) > 0)
                             <h3 class="subtitle">Hizmet Kapsamı</h3>

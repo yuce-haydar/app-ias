@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="job-content">
-                            <p>{{ Str::limit($job->description, 120) }}</p>
+                                                            <p>{!! Str::limit($job->description, 120) !!}</p>
                             @if($job->requirements)
                             <div class="job-requirements">
                                 @foreach(array_slice(explode(',', $job->requirements), 0, 3) as $requirement)

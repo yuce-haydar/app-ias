@@ -46,7 +46,7 @@
                                 <i class="{{ $service->icon }}"></i>
                             </div>
                             <h3 class="service-title">{{ $service->title }}</h3>
-                            <p class="service-text">{{ $service->short_description }}</p>
+                                                            <p class="service-text">{!! $service->short_description !!}</p>
                             @if($service->features && count($service->features) > 0)
                                 <ul class="service-features">
                                     @foreach(array_slice($service->features, 0, 4) as $feature)
