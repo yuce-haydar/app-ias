@@ -62,7 +62,7 @@ Proje Detay Bölümü
                             @if($project->area)
                             <div class="meta-item">
                                 <h6>Alan:</h6>
-                                <p>{{ $project->area }}</p>
+                                <p>{!! $project->area !!}</p>
                             </div>
                             @endif
                             @if($project->capacity)
@@ -143,12 +143,7 @@ Proje Detay Bölümü
                             <div class="summary-item">
                                 <span class="label">Alan:</span>
                                 <span class="value">
-                                    @php
-                                        $alanMetni = $project['area'];
-                                        $alanMetni = str_replace(['<p>', '</p>', '&nbsp;'], ['', ', ', ' '], $alanMetni);
-                                        $alanMetni = trim($alanMetni, ', ');
-                                        echo $alanMetni;
-                                    @endphp
+                                    {!! $project['area'] !!}
                                 </span>
                             </div>
                             @endif
