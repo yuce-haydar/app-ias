@@ -80,14 +80,8 @@ Route::post('/is-ilani/{id}/basvuru', [App\Http\Controllers\JobController::class
 Route::get('/sss', [App\Http\Controllers\FaqController::class, 'index'])->name('faq');
 
 // İletişim Rotaları
-Route::get('/iletisim', function () {
-    return view('contact.index');
-})->name('contact');
-
-Route::post('/iletisim', function () {
-    // İletişim formu işleme mantığı burada olacak
-    return redirect()->back()->with('success', 'Mesajınız başarıyla gönderildi!');
-})->name('contact.store');
+Route::get('/iletisim', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+Route::post('/iletisim', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 // Bülten Aboneliği
 Route::post('/bulten-aboneligi', function () {

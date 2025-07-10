@@ -99,6 +99,26 @@
             100% { background-position: 200% 0; }
         }
 
+        /* Loading Ekranı Yazı Rengi Düzeltmesi - Güçlü Override */
+        .loading-screen .animation-preloader .txt-loading,
+        .loading-screen .animation-preloader .txt-loading .letters-loading {
+            color: #cf9f38 !important;
+        }
+        
+        .loading-screen .animation-preloader .txt-loading .letters-loading::before,
+        .loading-screen .animation-preloader .txt-loading .letters-loading::after {
+            color: #cf9f38 !important;
+        }
+        
+        .animation-preloader .txt-loading .letters-loading {
+            color: #cf9f38 !important;
+        }
+        
+        .txt-loading,
+        .txt-loading .letters-loading {
+            color: #cf9f38 !important;
+        }
+
         /* Mobil Logo Düzeltmesi */
         @media (max-width: 991px) {
             .header-logo {
@@ -120,6 +140,76 @@
                 max-width: 120px !important;
             }
         }
+
+        /* BUTON STİLLERİ DÜZELTMESİ - TÜM BUTONLAR SARI OLSUN */
+        .theme-btn {
+            background-color: var(--theme-color) !important; /* Altın sarısı */
+            color: var(--white-color) !important; /* Beyaz yazı */
+        }
+        
+        .theme-btn:hover {
+            background-color: var(--dark-color) !important; /* Hover'da koyu */
+            color: var(--white-color) !important; /* Beyaz yazı */
+        }
+        
+        /* Tüm buton varyantlarını override et */
+        .theme-btn.bg-dark,
+        .theme-btn.bg-dark3,
+        .theme-btn.bg-color10,
+        .theme-btn.bg-color5,
+        .theme-btn.bg-theme,
+        .theme-btn.bg-theme3,
+        .theme-btn.bg-border,
+        .theme-btn.bg-white {
+            background-color: var(--theme-color) !important;
+            color: var(--white-color) !important;
+            border-color: var(--theme-color) !important;
+        }
+        
+        .theme-btn.bg-dark:hover,
+        .theme-btn.bg-dark3:hover,
+        .theme-btn.bg-color10:hover,
+        .theme-btn.bg-color5:hover,
+        .theme-btn.bg-theme:hover,
+        .theme-btn.bg-theme3:hover,
+        .theme-btn.bg-border:hover,
+        .theme-btn.bg-white:hover {
+            background-color: var(--dark-color) !important;
+            color: var(--white-color) !important;
+            border-color: var(--dark-color) !important;
+        }
+        
+        /* Bootstrap butonları da sarı yap */
+        .btn-primary {
+            background-color: var(--theme-color) !important;
+            border-color: var(--theme-color) !important;
+            color: var(--white-color) !important;
+        }
+        
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: var(--dark-color) !important;
+            border-color: var(--dark-color) !important;
+            color: var(--white-color) !important;
+        }
+        
+        /* Form butonları */
+        button[type="submit"],
+        input[type="submit"],
+        .btn-submit {
+            background-color: var(--theme-color) !important;
+            color: var(--white-color) !important;
+            border-color: var(--theme-color) !important;
+        }
+        
+        button[type="submit"]:hover,
+        input[type="submit"]:hover,
+        .btn-submit:hover {
+            background-color: var(--dark-color) !important;
+            color: var(--white-color) !important;
+            border-color: var(--dark-color) !important;
+        }
     </style>
 
     @stack('styles')
@@ -137,25 +227,21 @@
                     <img alt="HBB Logo" src="{{ asset('assets/images/logo/hbblogo.png') }}" style="height: 120px; width: auto; max-width: 200px; animation: bounceIn 1.5s ease-in-out;">
                     <img alt="İmar Logo" src="{{ asset('assets/images/logo/imar-bg.png') }}" style="height: 120px; width: auto; max-width: 150px; animation: bounceIn 1.5s ease-in-out 0.3s both;">
                 </div>
-                <div class="txt-loading mt-4">
-                    <span data-text-preloader="H" class="letters-loading">H</span>
-                    <span data-text-preloader="A" class="letters-loading">A</span>
-                    <span data-text-preloader="T" class="letters-loading">T</span>
-                    <span data-text-preloader="A" class="letters-loading">A</span>
-                    <span data-text-preloader="Y" class="letters-loading">Y</span>
-                    <span data-text-preloader="-" class="letters-loading" style="margin: 0 20px;">-</span>
-                    <div data-text-preloader=" " class="letters-loading" style="margin: 0 20px;"> </div>
-
-                    <span data-text-preloader="İ" class="letters-loading">İ</span>
-                    <span data-text-preloader="M" class="letters-loading">M</span>
-                    <span data-text-preloader="A" class="letters-loading">A</span>
-                    <span data-text-preloader="R" class="letters-loading">R</span>
-                    <span data-text-preloader="-" class="letters-loading" style="margin: 0 20px;">-</span>
-                    <div data-text-preloader=" " class="letters-loading" style="margin: 0 20px;"> </div>
-
-                    <span data-text-preloader="A" class="letters-loading">A</span>
-                    <span data-text-preloader="." class="letters-loading">.</span>
-                    <span data-text-preloader="Ş" class="letters-loading">Ş</span>
+                <div class="txt-loading mt-4" style="color: #cf9f38 !important;">
+                    <span data-text-preloader="H" class="letters-loading" style="color: #cf9f38 !important;">H</span>
+                    <span data-text-preloader="A" class="letters-loading" style="color: #cf9f38 !important;">A</span>
+                    <span data-text-preloader="T" class="letters-loading" style="color: #cf9f38 !important;">T</span>
+                    <span data-text-preloader="A" class="letters-loading" style="color: #cf9f38 !important;">A</span>
+                    <span data-text-preloader="Y" class="letters-loading" style="color: #cf9f38 !important;">Y</span>
+                    <span data-text-preloader=" " class="letters-loading" style="margin: 0 20px; color: #cf9f38 !important;">-</span>
+                    <span data-text-preloader="İ" class="letters-loading" style="color: #cf9f38 !important;">İ</span>
+                    <span data-text-preloader="M" class="letters-loading" style="color: #cf9f38 !important;">M</span>
+                    <span data-text-preloader="A" class="letters-loading" style="color: #cf9f38 !important;">A</span>
+                    <span data-text-preloader="R" class="letters-loading" style="color: #cf9f38 !important;">R</span>
+                    <span data-text-preloader=" " class="letters-loading" style="margin: 0 20px; color: #cf9f38 !important;">-</span>
+                    <span data-text-preloader="A" class="letters-loading" style="color: #cf9f38 !important;">A</span>
+                    <span data-text-preloader="." class="letters-loading" style="color: #cf9f38 !important;">.</span>
+                    <span data-text-preloader="Ş" class="letters-loading" style="color: #cf9f38 !important;">Ş</span>
                 </div>
             </div>
         </div>
@@ -201,8 +287,42 @@
     <script src="{{ asset('assets/js/vanilla-tilt.min.js') }}?v=1.0"></script>
     <script src="{{ asset('assets/js/main.js') }}?v=1.0"></script>
 
-    <!-- Lazy Loading Script -->
+    <!-- Loading Ekranı Renk Düzeltmesi -->
     <script>
+    // Loading ekranı yazılarını anında altın sarısı yapmak için
+    (function() {
+        // Hemen renkleri ayarla
+        function setLoadingColors() {
+            const loadingLetters = document.querySelectorAll('.letters-loading');
+            const txtLoading = document.querySelector('.txt-loading');
+            
+            loadingLetters.forEach(function(letter) {
+                letter.style.color = '#cf9f38';
+                letter.style.setProperty('color', '#cf9f38', 'important');
+            });
+            
+            if (txtLoading) {
+                txtLoading.style.color = '#cf9f38';
+                txtLoading.style.setProperty('color', '#cf9f38', 'important');
+            }
+        }
+        
+        // Anında çalıştır
+        setLoadingColors();
+        
+        // Kısa aralıklarla kontrol et
+        setTimeout(setLoadingColors, 100);
+        setTimeout(setLoadingColors, 300);
+        setTimeout(setLoadingColors, 500);
+        
+        // DOM yüklendiğinde
+        document.addEventListener('DOMContentLoaded', setLoadingColors);
+        
+        // Sayfa yüklendiğinde
+        window.addEventListener('load', setLoadingColors);
+    })();
+    
+    // Lazy Loading Script
     document.addEventListener('DOMContentLoaded', function() {
         // Intersection Observer API destekleyip desteklemediğini kontrol et
         if ('IntersectionObserver' in window) {

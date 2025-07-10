@@ -46,7 +46,7 @@ Blog Grid Bölümü
                         <h4 class="title">
                             <a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a>
                         </h4>
-                        <p class="text">{{ Str::limit($article->summary, 150) }}</p>
+                        <p class="text">{!! Str::limit($article->summary, 150) !!}</p>
                         <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="read-more">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>

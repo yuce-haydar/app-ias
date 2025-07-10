@@ -12,6 +12,23 @@
         </div>
     @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('admin.about-page.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -90,8 +107,8 @@
                         <!-- Ana Resim 1 -->
                         <div class="mb-3">
                             <label class="form-label">Ana Resim 1 (Büyük)</label>
-                            <input type="file" name="main_image_1" class="form-control" accept="image/*">
-                            <small class="text-muted">Önerilen boyut: 600x400px (maksimum 15MB)</small>
+                            <input type="file" name="main_image_1" class="form-control" accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml,image/webp">
+                            <small class="text-muted">Önerilen boyut: 600x400px | Desteklenen formatlar: JPEG, PNG, GIF, SVG, WebP (maksimum 10MB)</small>
                             
                             @if($settings->main_image_1)
                                 <div class="mt-2 position-relative d-inline-block">
@@ -109,8 +126,8 @@
                         <!-- Ana Resim 2 -->
                         <div class="mb-3">
                             <label class="form-label">Ana Resim 2 (Küçük)</label>
-                            <input type="file" name="main_image_2" class="form-control" accept="image/*">
-                            <small class="text-muted">Önerilen boyut: 400x300px (maksimum 15MB)</small>
+                            <input type="file" name="main_image_2" class="form-control" accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml,image/webp">
+                            <small class="text-muted">Önerilen boyut: 400x300px | Desteklenen formatlar: JPEG, PNG, GIF, SVG, WebP (maksimum 10MB)</small>
                             
                             @if($settings->main_image_2)
                                 <div class="mt-2 position-relative d-inline-block">

@@ -22,7 +22,8 @@ use App\Http\Controllers\Admin\{
     SettingsController,
     InformationServiceController,
     AboutPageController,
-    GeneralJobApplicationController
+    GeneralJobApplicationController,
+    ContactSettingsController
 };
 
 // Authentication routes (middleware group dışında)
@@ -130,4 +131,8 @@ Route::middleware(['admin'])->group(function () {
     Route::put('general-job-applications/{application}/status', [GeneralJobApplicationController::class, 'updateStatus'])->name('admin.general-job-applications.update-status');
     Route::delete('general-job-applications/{application}', [GeneralJobApplicationController::class, 'destroy'])->name('admin.general-job-applications.destroy');
     Route::get('general-job-applications/{application}/document/{index}', [GeneralJobApplicationController::class, 'downloadDocument'])->name('admin.general-job-applications.download-document');
+    
+    // Contact Settings Management
+    Route::get('contact-settings', [ContactSettingsController::class, 'edit'])->name('admin.contact-settings.edit');
+    Route::put('contact-settings', [ContactSettingsController::class, 'update'])->name('admin.contact-settings.update');
 });

@@ -41,13 +41,13 @@ Blog Liste Bölümü
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <span class="author">Yazar: <a href="#">{{ $article->author ?? 'Hatay İmar' }}</a></span>
+                            <span class="author">Yazar: <a href="#">{{ $article->author ?? 'Hatay İmar A.Ş.' }}</a></span>
                             <span class="category">{{ $article->category }}</span>
                         </div>
                         <h3 class="title">
                             <a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a>
                         </h3>
-                        <p class="text">{{ Str::limit($article->summary, 200) }}</p>
+                        <p class="text">{!! Str::limit($article->summary, 200) !!}</p>
                         <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="read-more">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>

@@ -101,6 +101,16 @@
                         </div>
                         
                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="profession">Meslek *</label>
+                                    <input type="text" id="profession" name="profession" class="form-control" required value="{{ old('profession') }}">
+                                    @error('profession')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            
                             <div class="col-md-6" id="military-status-wrapper" style="display: none;">
                                 <div class="form-group">
                                     <label for="military_status">Askerlik Durumu</label>
@@ -111,16 +121,6 @@
                                         <option value="deferred" {{ old('military_status') == 'deferred' ? 'selected' : '' }}>Tecilli</option>
                                     </select>
                                     @error('military_status')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="profession">Meslek *</label>
-                                    <input type="text" id="profession" name="profession" class="form-control" required value="{{ old('profession') }}">
-                                    @error('profession')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -154,7 +154,7 @@
                         
                         <div class="row">
                             <div class="col-12">
-                                <button type="submit" class="theme-btn w-100">
+                                <button type="submit" class="btn btn-white w-100" style="background-color: #cf9f38; color: #fff; padding: 12px 20px; font-weight: 500; border: none; border-radius: 5px; transition: all 0.3s ease;">
                                     <i class="fa-solid fa-paper-plane me-2"></i>
                                     Başvuru Gönder
                                 </button>
@@ -454,6 +454,13 @@
     margin-top: 30px;
 }
 
+/* Buton Hover Efekti */
+.btn-white:hover {
+    background-color: #b8871f !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(207, 159, 56, 0.3) !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .application-form-wrapper,
@@ -476,8 +483,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleMilitaryStatus() {
         if (genderSelect.value === 'male') {
             militaryStatusWrapper.style.display = 'block';
-            militaryStatusWrapper.parentElement.classList.remove('col-md-6');
-            militaryStatusWrapper.parentElement.classList.add('col-md-6');
         } else {
             militaryStatusWrapper.style.display = 'none';
             militaryStatusSelect.value = '';

@@ -31,9 +31,9 @@
             <div class="col-lg-5">
                 <div class="contact-content-wrap">
                     <div class="title-area">
-                        <div class="sub-title"><span><i class="asterisk"></i></span>BİZİMLE İLETİŞİME GEÇİN</div>
-                        <h2 class="sec-title">Hatay İmar ile iletişime geçin <span class="bold">iletişim bilgilerimiz</span></h2>
-                        <p class="sec-text">Sorularınız, önerileriniz ve talepleriniz için bizimle iletişim kurabilirsiniz. Size en kısa sürede dönüş yapacağız.</p>
+                        <div class="sub-title"><span><i class="asterisk"></i></span>{{ $contactSettings->subtitle }}</div>
+                        <h2 class="sec-title">{{ $contactSettings->title }}</h2>
+                        <p class="sec-text">{{ $contactSettings->description }}</p>
                     </div>
                     <div class="contact-info">
                         <div class="contact-item">
@@ -41,8 +41,8 @@
                                 <i class="fa-solid fa-location-dot"></i>
                             </div>
                             <div class="info">
-                                <h4 class="title">Merkez Ofisimiz</h4>
-                                <p>Antakya Belediye Binası, <br> Kurtuluş Mahallesi, Atatürk Caddesi <br> Antakya/HATAY - TÜRKİYE</p>
+                                <h4 class="title">{{ $contactSettings->office_title }}</h4>
+                                <p>{!! nl2br(e($contactSettings->office_address)) !!}</p>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -50,10 +50,12 @@
                                 <i class="fa-solid fa-phone"></i>
                             </div>
                             <div class="info">
-                                <h4 class="title">Telefon Numaralarımız</h4>
+                                <h4 class="title">{{ $contactSettings->phone_title }}</h4>
                                 <div class="content">
-                                    Genel: <a href="tel:+903262141234">+90 326 214 12 34</a><br>
-                                    Faks: <a href="tel:+903262141235">+90 326 214 12 35</a>
+                                    Genel: <a href="tel:{{ str_replace([' ', '-', '(', ')'], '', $contactSettings->phone_general) }}">{{ $contactSettings->phone_general }}</a><br>
+                                    @if($contactSettings->phone_fax)
+                                    Faks: <a href="tel:{{ str_replace([' ', '-', '(', ')'], '', $contactSettings->phone_fax) }}">{{ $contactSettings->phone_fax }}</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -62,10 +64,12 @@
                                 <i class="fa-solid fa-envelope"></i>
                             </div>
                             <div class="info">
-                                <h4 class="title">E-posta Adreslerimiz</h4>
+                                <h4 class="title">{{ $contactSettings->email_title }}</h4>
                                 <div class="content">
-                                    <a href="mailto:info@hatayimar.gov.tr">info@hatayimar.gov.tr</a><br>
-                                    <a href="mailto:iletisim@hatayimar.gov.tr">iletisim@hatayimar.gov.tr</a>
+                                    <a href="mailto:{{ $contactSettings->email_info }}">{{ $contactSettings->email_info }}</a><br>
+                                    @if($contactSettings->email_contact)
+                                    <a href="mailto:{{ $contactSettings->email_contact }}">{{ $contactSettings->email_contact }}</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -74,39 +78,47 @@
                                 <i class="fa-solid fa-clock"></i>
                             </div>
                             <div class="info">
-                                <h4 class="title">Çalışma Saatlerimiz</h4>
+                                <h4 class="title">{{ $contactSettings->working_hours_title }}</h4>
                                 <div class="content">
-                                    Pazartesi - Cuma: 08:30 - 17:30<br>
-                                    Cumartesi - Pazar: Kapalı
+                                    {{ $contactSettings->working_hours_weekday }}<br>
+                                    {{ $contactSettings->working_hours_weekend }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="social-links">
-                        <a href="#">
+                        @if($contactSettings->facebook_url)
+                        <a href="{{ $contactSettings->facebook_url }}" target="_blank" rel="noopener">
                             <span class="link-effect">
                                 <span class="effect-1">Facebook</span>
                                 <span class="effect-1">Facebook</span>
                             </span>
                         </a>
-                        <a href="#">
+                        @endif
+                        @if($contactSettings->twitter_url)
+                        <a href="{{ $contactSettings->twitter_url }}" target="_blank" rel="noopener">
                             <span class="link-effect">
                                 <span class="effect-1">Twitter</span>
                                 <span class="effect-1">Twitter</span>
                             </span>
                         </a>
-                        <a href="#">
+                        @endif
+                        @if($contactSettings->instagram_url)
+                        <a href="{{ $contactSettings->instagram_url }}" target="_blank" rel="noopener">
                             <span class="link-effect">
                                 <span class="effect-1">Instagram</span>
                                 <span class="effect-1">Instagram</span>
                             </span>
                         </a>
-                        <a href="#">
+                        @endif
+                        @if($contactSettings->youtube_url)
+                        <a href="{{ $contactSettings->youtube_url }}" target="_blank" rel="noopener">
                             <span class="link-effect">
                                 <span class="effect-1">YouTube</span>
                                 <span class="effect-1">YouTube</span>
                             </span>
                         </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -158,7 +170,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <span class="icon"><i class="fa-solid fa-tag"></i></span>
+                           
                             <input type="text" id="subject" name="subject" placeholder="Konu *" required autocomplete="off" value="{{ old('subject') }}">
                             @error('subject')
                                 <span class="text-danger">{{ $message }}</span>
@@ -194,7 +206,11 @@
         <div class="row">
             <!--Harita-->
             <div class="map-box">
-                <iframe class="map-canvas" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.5!2d36.1611!3d36.2019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152f7b6b8b1c2345%3A0x1234567890abcdef!2sAntakya%2C%20Hatay%2C%20Turkey!5e0!3m2!1str!2str!4v1737096357024!5m2!1str!2str" allowfullscreen="" loading="lazy"></iframe>
+                @if($contactSettings->map_embed_code)
+                    {!! $contactSettings->map_embed_code !!}
+                @else
+                    <iframe class="map-canvas" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.5!2d36.1611!3d36.2019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152f7b6b8b1c2345%3A0x1234567890abcdef!2sAntakya%2C%20Hatay%2C%20Turkey!5e0!3m2!1str!2str!4v1737096357024!5m2!1str!2str" allowfullscreen="" loading="lazy"></iframe>
+                @endif
             </div>
         </div>
     </div>
@@ -211,59 +227,69 @@ Tesislerimiz Bölümü
             <p class="sec-text text-gray">Şehrimize hizmet eden modern tesislerimiz ile kaliteli hizmet sunuyoruz. <br> Sosyal tesislerden üretim tesislerine kadar geniş bir yelpazede faaliyet gösteriyoruz.</p>
         </div>
         <div class="row gy-30">
-            <div class="col-lg-3 col-md-6">
-                <div class="facility-card">
-                    <div class="facility-image">
-                        <img src="{{ asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="Büz Üretim Tesisi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="facility-content" style="padding: 20px; text-align: center;">
-                        <h4 style="color: #333; margin-bottom: 10px;">Büz Üretim Tesisi</h4>
-                        <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Modern teknoloji ile büz üretimi yapan tesisimiz</p>
-                        <a href="{{ route('facilities.details', 1) }}" class="theme-btn btn-sm">Detayları Gör</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="facility-card">
-                    <div class="facility-image">
-                        <img src="{{ asset('assets/images/imageshatay/hatay2.jpeg') }}" alt="Katlı Otopark" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="facility-content" style="padding: 20px; text-align: center;">
-                        <h4 style="color: #333; margin-bottom: 10px;">Katlı Otopark</h4>
-                        <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Şehir merkezindeki modern otopark tesisimiz</p>
-                        <a href="{{ route('facilities.details', 2) }}" class="theme-btn btn-sm">Detayları Gör</a>
+            @forelse($facilities as $facility)
+                <div class="col-lg-3 col-md-6">
+                    <div class="facility-card">
+                        <div class="facility-image">
+                            <img src="{{ $facility->image ? asset('storage/' . $facility->image) : asset('assets/images/imageshatay/hatay1.jpeg') }}" alt="{{ $facility->name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                        </div>
+                        <div class="facility-content" style="padding: 20px; text-align: center;">
+                            <h4 style="color: #333; margin-bottom: 10px;">{{ $facility->name }}</h4>
+                            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">{{ $facility->short_description ?: 'Tesisimiz hakkında detaylı bilgi için tıklayın.' }}</p>
+                            <a href="{{ route('facilities.details', $facility->id) }}" class="theme-btn btn-sm">Detayları Gör</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="facility-card">
-                    <div class="facility-image">
-                        <img src="{{ asset('assets/images/imageshatay/hatay3.jpeg') }}" alt="Habib-i Neccar Sosyal Tesis" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="facility-content" style="padding: 20px; text-align: center;">
-                        <h4 style="color: #333; margin-bottom: 10px;">Habib-i Neccar Sosyal Tesis</h4>
-                        <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Sosyal etkinlikler için modern tesis</p>
-                        <a href="{{ route('facilities.details', 3) }}" class="theme-btn btn-sm">Detayları Gör</a>
-                    </div>
+            @empty
+                <div class="col-12">
+                    <p class="text-center text-muted">Henüz öne çıkan tesis bulunmamaktadır.</p>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="facility-card">
-                    <div class="facility-image">
-                        <img src="{{ asset('assets/images/imageshatay/hatay4.jpeg') }}" alt="Parke Taşı Üretim" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-                    </div>
-                    <div class="facility-content" style="padding: 20px; text-align: center;">
-                        <h4 style="color: #333; margin-bottom: 10px;">Parke Taşı Üretim</h4>
-                        <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Kaliteli parke taşı üretim tesisimiz</p>
-                        <a href="{{ route('facilities.details', 4) }}" class="theme-btn btn-sm">Detayları Gör</a>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
         <div class="text-center mt-40">
             <a href="{{ route('facilities.index') }}" class="theme-btn">
                 <span class="link-effect">
                     <span class="btn-title">Tüm Tesisleri Gör</span>
+                </span><i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+Projelerimiz Bölümü
+==============================-->
+<section class="projects-section space bg-light">
+    <div class="container">
+        <div class="title-area three text-center">
+            <div class="sub-title"><span><i class="asterisk"></i></span>PROJELERİMİZ</div>
+            <h2 class="sec-title">Hatay İmar <span class="bold">projelerini</span> keşfedin</h2>
+            <p class="sec-text text-gray">Şehrimizin gelişimi için yürüttüğümüz projeler ile modern yaşam alanları oluşturuyoruz. <br> Planlama aşamasından tamamlanan projelere kadar geniş bir yelpazede hizmet veriyoruz.</p>
+        </div>
+        <div class="row gy-30">
+            @forelse($projects as $project)
+                <div class="col-lg-3 col-md-6">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="{{ $project->image ? asset('storage/' . $project->image) : asset('assets/images/imageshatay/hatay5.jpeg') }}" alt="{{ $project->title }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                        </div>
+                        <div class="project-content" style="padding: 20px; text-align: center;">
+                            <h4 style="color: #333; margin-bottom: 10px;">{{ $project->title }}</h4>
+                            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">{{ $project->short_description ?: 'Projemiz hakkında detaylı bilgi için tıklayın.' }}</p>
+                            <a href="{{ route('project.details', $project->id) }}" class="theme-btn btn-sm">Detayları Gör</a>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12">
+                    <p class="text-center text-muted">Henüz öne çıkan proje bulunmamaktadır.</p>
+                </div>
+            @endforelse
+        </div>
+        <div class="text-center mt-40">
+            <a href="{{ route('projects') }}" class="theme-btn">
+                <span class="link-effect">
+                    <span class="btn-title">Tüm Projeleri Gör</span>
                 </span><i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>

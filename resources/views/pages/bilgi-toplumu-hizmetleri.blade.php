@@ -6,21 +6,22 @@
 <!--==============================
     Breadcrumb
 ============================== -->
-<div class="breadcrumb-section" style="background-image: url({{ $getBreadcrumbImage() }});">
-    <div class="container" style="margin-top: 100px; position: relative;">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb-content text-center">
-                    <h2 class="breadcrumb-title">Bilgi Toplumu Hizmetleri</h2>
-                    <ul class="breadcrumb-link">
-                        <li><a href="{{ route('home') }}">Anasayfa</a></li>
-                        <li class="active">Bilgi Toplumu Hizmetleri</li>
-                    </ul>
-                </div>
+<section class="breadcrumb-section">
+    <div class="bg bg-image" style="background-image: url({{ $getBreadcrumbImage() }})"></div>
+    <div class="container">
+        <div class="title-outer">
+            <div class="page-title">
+                <h2 class="title">Bilgi Toplumu Hizmetleri</h2>
+                <ul class="page-breadcrumb">
+                    <li><a href="{{ route('home') }}">Ana Sayfa</a></li>
+                    <li><a href="{{ route('bilgi-toplumu-hizmetleri') }}">Bilgi Toplumu Hizmetleri</a></li>
+                    <li>Bilgi Toplumu Hizmetleri</li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
+</section>
+
 
 <!--==============================
     Firma Bilgileri Tablosu

@@ -278,6 +278,12 @@
                 </li>
                 
                 <li>
+                    <a href="{{ route('admin.contact-settings.edit') }}" class="{{ request()->routeIs('admin.contact-settings.*') ? 'active' : '' }}">
+                        <i class="fas fa-phone"></i> İletişim Ayarları
+                    </a>
+                </li>
+                
+                <li>
                     <a href="{{ route('admin.site-settings.index') }}" class="{{ request()->routeIs('admin.site-settings.*') ? 'active' : '' }}">
                         <i class="fas fa-paint-brush"></i> Header/Footer
                     </a>

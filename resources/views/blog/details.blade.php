@@ -50,7 +50,7 @@ Haber Detay Bölümü
                         <h1 class="title">{{ $article->title }}</h1>
                         
                         <div class="blog-summary">
-                            <p><strong>{{ $article->summary }}</strong></p>
+                            <p><strong>{!! $article->summary !!}</strong></p>
                         </div>
                         
                         <div class="blog-content">

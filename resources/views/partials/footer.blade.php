@@ -26,7 +26,6 @@
                                     <li><a href="{{ route('team') }}">Yönetim Kurulu</a></li>
                                     <li><a href="{{ route('privacy') }}">KVKK</a></li>
                                     <li><a href="{{ route('contact') }}">İletişim</a></li>
-                                    <li><a href="{{ route('projects') }}">Tüm Projeler</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -34,16 +33,16 @@
                             <div class="footer-widget">
                                 <h4 class="title">Tesislerimiz</h4>
                                 <ul class="list-unstyled">
-                                    <li><a href="{{ route('facilities.details', ['id' => 1]) }}">Büz Üretim Tesisi</a></li>
-                                    <li><a href="{{ route('facilities.details', ['id' => 2]) }}">Katlı Otopark</a></li>
-                                    <li><a href="{{ route('facilities.details', ['id' => 3]) }}">Habib-i Neccar Sosyal Tesis</a></li>
-                                    <li><a href="{{ route('facilities.details', ['id' => 4]) }}">Parke Taşı Üretim</a></li>
+                                    @foreach($footerFacilities as $facility)
+                                        <li><a href="{{ route('facilities.details', $facility->id) }}">{{ $facility->name }}</a></li>
+                                    @endforeach
                                     <li><a href="{{ route('facilities.index') }}">Tüm Tesisler</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+               
                 <div class="col-lg-1 md-d-none"></div>
                 <div class="col-lg-3 col-md-6">
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/T-F_GtcXw6U?si=g5niksZcD0xvZhHQ&amp;start=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

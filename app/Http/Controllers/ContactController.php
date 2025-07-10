@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Facility;
+use App\Models\Project;
+use App\Models\ContactSettings;
 
 class ContactController extends Controller
 {
@@ -11,7 +14,25 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return view('contact.index');
+        // İletişim sayfasında gösterilecek tesisler (öne çıkan 4 tane)
+        $facilities = Facility::where('status', 'active')
+                            ->where('is_featured', true)
+                            ->take(4)
+                            ->get();
+        
+        // İletişim sayfasında gösterilecek projeler (öne çıkan 4 tane)  
+        $projects = Project::where('is_featured', true)
+                          ->take(4)
+                          ->get();
+        
+        // İletişim ayarlarını al
+        $contactSettings = ContactSettings::getSettings();
+        
+        return view('contact.index', [
+            'facilities' => $facilities,
+            'projects' => $projects,
+            'contactSettings' => $contactSettings
+        ]);
     }
 
     /**
