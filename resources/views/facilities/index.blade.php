@@ -70,7 +70,7 @@ Tesisler Grid Bölümü
                         <div class="facility-stats mb-3">
                             @if($facility->features && is_array($facility->features))
                                 @foreach(array_slice($facility->features, 0, 2) as $feature)
-                                    <span class="stat-item"><i class="fa-solid fa-check-circle"></i> {{ $feature }}</span>
+                                    <span class="stat-item"><i class="fa-solid fa-check-circle"></i> {!! $feature !!}</span>
                                 @endforeach
                             @endif
                         </div>

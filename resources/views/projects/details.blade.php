@@ -75,7 +75,7 @@ Proje Detay Bölümü
 
                         <!-- Proje Açıklaması -->
                         <h3>Proje Hakkında</h3>
-                        <p>{{ $project['description'] ?? 'Bu proje hakkında detaylı bilgi yakında eklenecektir.' }}</p>
+                        <p>{!! $project['description'] ?? 'Bu proje hakkında detaylı bilgi yakında eklenecektir.' !!}</p>
 
                         <!-- Proje Özellikleri -->
                         @if(isset($project['features']) && count($project['features']) > 0)
