@@ -21,7 +21,7 @@
                                     <a href="{{ route('home') }}" style="background-color: #fff; color: {{ request()->routeIs('home') ? '#cf9f38' : '#000000' }};">Anasayfa</a>
                                 </li>
                                 <li class="{{ request()->routeIs('about') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
-                                    <span style="background-color: #fff; color: {{ request()->routeIs('about') ? '#cf9f38' : '#000000' }}; cursor: pointer;">Kurumsal</span>
+                                    <a href="javascript:void(0)" style="background-color: #fff; color: {{ request()->routeIs('about') ? '#cf9f38' : '#000000' }};">Kurumsal</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('about') }}" style="background-color: #fff; color: #000000;">Hakkımızda</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('about') }}" style="background-color: #fff; color: #000000;">Misyon & Vizyon</a></li>
@@ -31,11 +31,11 @@
                                 </li>
                                
                                 <li class="{{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
-                                    <span style="background-color: #fff; color: {{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? '#cf9f38' : '#000000' }}; cursor: pointer;">Tesisler/Projeler</span>
+                                    <a href="javascript:void(0)" style="background-color: #fff; color: {{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? '#cf9f38' : '#000000' }};">Tesisler/Projeler</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('facilities.index') }}" style="background-color: #fff; color: #000000;">Tesislerimiz</a></li>
                                         <li class="menu-item-has-children" style="background-color: #fff;">
-                                            <span style="background-color: #fff; color: #000000; cursor: pointer;">Projelerimiz</span>
+                                            <a href="javascript:void(0)" style="background-color: #fff; color: #000000;">Projelerimiz</a>
                                             <ul class="sub-menu" style="background-color: #fff;">
                                                 <li style="background-color: #fff;"><a href="{{ route('projects', ['status' => 'ongoing']) }}" style="background-color: #fff; color: #000000;">Devam Eden Projeler</a></li>
                                                 <li style="background-color: #fff;"><a href="{{ route('projects', ['status' => 'completed']) }}" style="background-color: #fff; color: #000000;">Tamamlanan Projeler</a></li>
@@ -44,7 +44,7 @@
                                     </ul>
                                 </li>
                                 <li class="{{ request()->routeIs('tenders*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
-                                    <span style="background-color: #fff; color: {{ request()->routeIs('tenders*') ? '#cf9f38' : '#000000' }}; cursor: pointer;">İhale Bilgileri ve İlanlar</span>
+                                    <a href="javascript:void(0)" style="background-color: #fff; color: {{ request()->routeIs('tenders*') ? '#cf9f38' : '#000000' }};">İhale Bilgileri ve İlanlar</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('tenders') }}" style="background-color: #fff; color: #000000;">İhale Bilgileri</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('announcements') }}" style="background-color: #fff; color: #000000;">Duyurular</a></li>
@@ -52,14 +52,14 @@
                                     </ul>
                                 </li>
                                 <li class="{{ request()->routeIs('hr*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
-                                    <span style="background-color: #fff; color: {{ request()->routeIs('hr*') ? '#cf9f38' : '#000000' }}; cursor: pointer;">İnsan Kaynakları</span>
+                                    <a href="javascript:void(0)" style="background-color: #fff; color: {{ request()->routeIs('hr*') ? '#cf9f38' : '#000000' }};">İnsan Kaynakları</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('hr') }}" style="background-color: #fff; color: #000000;">Kariyer Fırsatları</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('careers') }}" style="background-color: #fff; color: #000000;">Açık Pozisyonlar</a></li>
                                     </ul>
                                 </li>
                                  <li class="menu-item-has-children" style="background-color: #fff;">
-                                    <span style="background-color: #fff; color: {{ request()->routeIs('legal') ? '#cf9f38' : '#000000' }}; cursor: pointer;">KVKK</span>
+                                    <a href="javascript:void(0)" style="background-color: #fff; color: {{ request()->routeIs('legal') ? '#cf9f38' : '#000000' }};">KVKK</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('legal') }}" style="background-color: #fff; color: #000000;">KVKK Başvuru Formu</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('contact-notice') }}" style="background-color: #fff; color: #000000;">İletişim Bölümü Aydınlatma Metni</a></li>
