@@ -6,11 +6,11 @@
 <!--==============================
     Breadcrumb
 ============================== -->
-<div class="breadcrumb-section" style="background-image: url({{ asset('assets/images/hh.png') }});">
+<div class="breadcrumb-section" style="background-image: url({{ $getBreadcrumbImage() }});">
     <div class="container" style="margin-top: 100px; position: relative;">
         <div class="row">
             <div class="col-lg-12">
-                <div class="breadcrumb-content text-center" style="margin-top: 100px; position: relative;">
+                <div class="breadcrumb-content text-center">
                     <h2 class="breadcrumb-title">Bilgi Toplumu Hizmetleri</h2>
                     <ul class="breadcrumb-link">
                         <li><a href="{{ route('home') }}">Anasayfa</a></li>

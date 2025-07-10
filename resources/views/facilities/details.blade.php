@@ -9,7 +9,7 @@
     Breadcrumb Bölümü
 ==============================-->
 <section class="breadcrumb-section">
-    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ $getBreadcrumbImage() }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
@@ -70,7 +70,7 @@
                     </div>
 
                     <h3>Tesis Hakkında</h3>
-                    {!! nl2br(e($facility->description)) !!}
+                    {!! $facility->description !!}
 
                     @if($facility->features && is_array($facility->features) && count($facility->features) > 0)
                     <h3 class="mt-4">Tesis Özellikleri</h3>

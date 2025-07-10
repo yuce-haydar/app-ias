@@ -20,7 +20,8 @@ use App\Http\Controllers\Admin\{
     SettingController,
     HomePageController,
     SettingsController,
-    InformationServiceController
+    InformationServiceController,
+    AboutPageController
 };
 
 // Authentication routes (middleware group dışında)
@@ -116,4 +117,9 @@ Route::middleware(['admin'])->group(function () {
     Route::get('homepage', [HomePageController::class, 'index'])->name('admin.homepage.index');
     Route::put('homepage', [HomePageController::class, 'update'])->name('admin.homepage.update');
     Route::delete('homepage/image', [HomePageController::class, 'deleteImage'])->name('admin.homepage.delete-image');
+    
+    // About Page Management
+    Route::get('about-page', [AboutPageController::class, 'index'])->name('admin.about-page.index');
+    Route::put('about-page', [AboutPageController::class, 'update'])->name('admin.about-page.update');
+    Route::delete('about-page/image', [AboutPageController::class, 'deleteImage'])->name('admin.about-page.delete-image');
 });

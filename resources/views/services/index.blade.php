@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="breadcrumb-wrapper" data-bg-src="{{ asset('assets/images/imageshatay/hatay6.jpeg') }}">
+<div class="breadcrumb-wrapper" data-bg-src="{{ $getBreadcrumbImage() }}">
     <div class="container">
         <div class="row">
             <div class="col-12">

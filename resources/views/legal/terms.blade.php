@@ -7,7 +7,7 @@
     Breadcrumb Bölümü
 ==============================-->
 <section class="breadcrumb-section">
-    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ $getBreadcrumbImage() }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
@@ -117,6 +117,20 @@
                     <div class="content-section">
                         <h3>GÜNCELLENME TARİHİ</h3>
                         <p>İşbu Sözleşme, 20 Aralık 2021 tarihinde güncellenmiştir.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>İlgili Sayfalar</h2>
+                        <div class="related-pages">
+                            <ul>
+                                <li><a href="{{ route('legal') }}">KVKK Başvuru Formu</a></li>
+                                <li><a href="{{ route('contact-notice') }}">İletişim Bölümü Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('cookies-notice') }}">Çerez Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('cookies-policy') }}">Çerez Politikası</a></li>
+                                <li><a href="{{ route('job-application-notice') }}">İlan Başvuru Formu Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('privacy') }}">Gizlilik Politikası</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

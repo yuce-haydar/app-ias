@@ -9,7 +9,7 @@
 Breadcrumb
 ==============================-->
 <section class="breadcrumb-section">
-    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ $getBreadcrumbImage() }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
@@ -121,7 +121,7 @@ Duyurular Bölümü
                             <div class="banner-content">
                                 <h4 class="title">Bizimle İletişime Geçin</h4>
                                 <p>Sorularınız için bize ulaşabilirsiniz.</p>
-                                <a href="{{ route('contact') }}" class="theme-btn">İletişim</a>
+                                <a href="{{ route('contact') }}" class="btn  btn-white" style="background-color: #cf9f38; color: #fff;">İletişim</a>
                             </div>
                         </div>
                     </div>

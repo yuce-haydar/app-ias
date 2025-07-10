@@ -9,7 +9,7 @@
     Breadcrumb Bölümü
 ==============================-->
 <section class="breadcrumb-section">
-    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ $getBreadcrumbImage() }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
@@ -34,12 +34,28 @@
                 <div class="about-content-wrapper">
                     <div class="title-area">
                         <div class="sub-title"><span><i class="asterisk"></i></span>Hatay İmar Hakkında</div>
-                        <h2 class="sec-title mb-25">Şehrimize <span class="bold">Değer Katmak</span><br>İçin Çalışıyoruz</h2>
-                        <p class="sec-text">Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı, Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız. Şehrimizin gelişimi ve kalkınması için sürekli olarak yeni projeler geliştirmekte ve hizmet kalitemizi artırmaktayız.</p>
-                        <p class="sec-text">Hatay Büyükşehir Belediyesi'nin bir kuruluşu olarak, şehrimizin sosyal, kültürel ve ekonomik gelişimine katkıda bulunmayı misyon edinmiş bulunuyoruz.</p>
+                        <h2 class="sec-title mb-25">
+                            @php
+                                $aboutSettings = $getAboutPageSettings();
+                                $title = $aboutSettings->main_title ?? 'Şehrimize Değer Katmak İçin Çalışıyoruz';
+                                $titleParts = explode(' ', $title);
+                                $firstPart = implode(' ', array_slice($titleParts, 0, ceil(count($titleParts) / 2)));
+                                $secondPart = implode(' ', array_slice($titleParts, ceil(count($titleParts) / 2)));
+                            @endphp
+                            {{ $firstPart }} @if($secondPart)<span class="bold">{{ $secondPart }}</span>@endif
+                        </h2>
+                        <p class="sec-text">{{ $aboutSettings->main_description_1 ?? 'Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı, Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız. Şehrimizin gelişimi ve kalkınması için sürekli olarak yeni projeler geliştirmekte ve hizmet kalitemizi artırmaktayız.' }}</p>
+                        <p class="sec-text">{{ $aboutSettings->main_description_2 ?? 'Hatay Büyükşehir Belediyesi\'nin bir kuruluşu olarak, şehrimizin sosyal, kültürel ve ekonomik gelişimine katkıda bulunmayı misyon edinmiş bulunuyoruz.' }}</p>
                     </div>
 
                     <div class="about-feature-list">
+                    <div class="feature-item">
+                            <div class="icon"><i class="fa-solid fa-building"></i></div>
+                            <div class="content">
+                                <h5>Kamu ve Özel İnşaat İşletmeciliği</h5>
+                                <p>Kamu ve Özel İnşaat İşletmeciliği</p>
+                            </div>
+                        </div>
                         <div class="feature-item">
                             <div class="icon"><i class="fa-solid fa-building"></i></div>
                             <div class="content">
@@ -61,20 +77,26 @@
                     </div>
 
                     <ul class="features-list">
-                        <li>Kaliteli hizmet anlayışı ile çalışma</li>
-                        <li>Şehrimize değer katacak projeler geliştirme</li>
-                        <li>Özverili ve profesyonel yaklaşım sergileme</li>
-                        <li>Sürdürülebilir kalkınma ilkelerine bağlılık</li>
+                        @if($aboutSettings->features && count($aboutSettings->features) > 0)
+                            @foreach($aboutSettings->features as $feature)
+                                <li>{{ $feature }}</li>
+                            @endforeach
+                        @else
+                            <li>Kaliteli hizmet anlayışı ile çalışma</li>
+                            <li>Şehrimize değer katacak projeler geliştirme</li>
+                            <li>Özverili ve profesyonel yaklaşım sergileme</li>
+                            <li>Sürdürülebilir kalkınma ilkelerine bağlılık</li>
+                        @endif
                     </ul>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="about-thumb-area">
                     <div class="about-thumb">
-                        <img src="{{ asset('assets/images/imageshatay/hatay10.jpeg') }}" alt="Hatay İmar" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ $aboutSettings->main_image_1 ? asset('storage/' . $aboutSettings->main_image_1) : asset('assets/images/imageshatay/hatay10.jpeg') }}" alt="Hatay İmar" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
                     </div>
                     <div class="about-thumb-2">
-                        <img src="{{ asset('assets/images/imageshatay/hatay11.jpeg') }}" alt="Hatay İmar Tesisleri" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ $aboutSettings->main_image_2 ? asset('storage/' . $aboutSettings->main_image_2) : asset('assets/images/imageshatay/hatay11.jpeg') }}" alt="Hatay İmar Tesisleri" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
                     </div>
 
                 </div>
@@ -104,8 +126,16 @@
                     </div>
                     <div class="content">
                         <h4>Misyonumuz</h4>
-                        <p>Hatay İmar olarak, şehrimizin sosyal, kültürel ve ekonomik gelişimine katkıda bulunmak, kaliteli hizmet sunarak vatandaşlarımızın yaşam kalitesini artırmak ve sürdürülebilir kalkınma ilkelerine uygun projeler geliştirmektir.</p>
-                        <p>Özverili çalışma anlayışımızla, şehrimize değer katacak tesisler inşa etmek ve işletmek, üretim faaliyetlerimizle yerel ekonomiye katkı sağlamaktır.</p>
+                        @if($aboutSettings->mission_text)
+                            @foreach(explode("\n", $aboutSettings->mission_text) as $paragraph)
+                                @if(trim($paragraph))
+                                    <p>{{ trim($paragraph) }}</p>
+                                @endif
+                            @endforeach
+                        @else
+                            <p>Hatay İmar olarak, şehrimizin sosyal, kültürel ve ekonomik gelişimine katkıda bulunmak, kaliteli hizmet sunarak vatandaşlarımızın yaşam kalitesini artırmak ve sürdürülebilir kalkınma ilkelerine uygun projeler geliştirmektir.</p>
+                            <p>Özverili çalışma anlayışımızla, şehrimize değer katacak tesisler inşa etmek ve işletmek, üretim faaliyetlerimizle yerel ekonomiye katkı sağlamaktır.</p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -116,8 +146,16 @@
                     </div>
                     <div class="content">
                         <h4>Vizyonumuz</h4>
-                        <p>Hatay'ın tarihi ve kültürel mirasını koruyarak, modern yaşam standartlarını şehrimize kazandıran, örnek bir belediye kuruluşu olmaktır.</p>
-                        <p>Teknolojik gelişmeleri takip ederek, çevre dostu ve sürdürülebilir projelerle Hatay'ı geleceğe taşıyan, bölgede lider konumda bir kuruluş olmayı hedefliyoruz.</p>
+                        @if($aboutSettings->vision_text)
+                            @foreach(explode("\n", $aboutSettings->vision_text) as $paragraph)
+                                @if(trim($paragraph))
+                                    <p>{{ trim($paragraph) }}</p>
+                                @endif
+                            @endforeach
+                        @else
+                            <p>Hatay'ın tarihi ve kültürel mirasını koruyarak, modern yaşam standartlarını şehrimize kazandıran, örnek bir belediye kuruluşu olmaktır.</p>
+                            <p>Teknolojik gelişmeleri takip ederek, çevre dostu ve sürdürülebilir projelerle Hatay'ı geleceğe taşıyan, bölgede lider konumda bir kuruluş olmayı hedefliyoruz.</p>
+                        @endif
                     </div>
                 </div>
             </div>

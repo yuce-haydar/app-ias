@@ -7,7 +7,7 @@
     Breadcrumb Bölümü
 ==============================-->
 <section class="breadcrumb-section">
-    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ $getBreadcrumbImage() }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
@@ -168,6 +168,20 @@
                     <div class="content-section">
                         <h3>Sözleşme Bütünlüğü</h3>
                         <p>Site kullanıcıları, işbu Gizlilik Politikası'nın herhangi bir hükmünün yetkili bir mahkeme tarafından geçersiz addedilmesi halinde, bahsi geçen hükümde yer alan düzenlemeye en uygun ve tarafların gerçek niyetine en yakın etkiyi yaratan yürürlükteki hükmün geçerli olacağını ve bu durumun işbu Gizlilik Politikası kapsamındaki diğer hükümlerin yürürlüğünü ve etkisinin bertaraf etmeyeceğini kabul ve taahhüt etmişlerdir.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>İlgili Sayfalar</h2>
+                        <div class="related-pages">
+                            <ul>
+                                <li><a href="{{ route('legal') }}">KVKK Başvuru Formu</a></li>
+                                <li><a href="{{ route('contact-notice') }}">İletişim Bölümü Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('cookies-notice') }}">Çerez Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('cookies-policy') }}">Çerez Politikası</a></li>
+                                <li><a href="{{ route('job-application-notice') }}">İlan Başvuru Formu Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('terms') }}">Şartlar ve Koşullar</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

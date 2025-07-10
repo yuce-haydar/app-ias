@@ -67,6 +67,9 @@ class HomePageSetting extends Model
         'hero_slides',
         'about_images',
         'expertise_images',
+        
+        // Breadcrumb Image
+        'breadcrumb_image',
     ];
 
     protected $casts = [

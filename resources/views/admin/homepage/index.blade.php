@@ -608,6 +608,54 @@
             </div>
         </div>
 
+        <!-- Breadcrumb Resim Yönetimi -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-image me-2"></i>
+                    Breadcrumb Arkaplan Resmi
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Breadcrumb Arkaplan Görseli</label>
+                            <input type="file" name="breadcrumb_image" class="form-control" accept="image/*">
+                            <small class="text-muted">Tüm sayfaların breadcrumb bölümünde kullanılacak arkaplan resmi. Önerilen boyut: 1920x400px (maksimum 15MB - Otomatik sıkıştırılır)</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        @if($settings->breadcrumb_image)
+                            <div class="mb-3">
+                                <label class="form-label">Mevcut Görsel</label>
+                                <div class="position-relative d-inline-block">
+                                    <img src="{{ asset('storage/' . $settings->breadcrumb_image) }}" 
+                                         alt="Breadcrumb Background" 
+                                         class="img-thumbnail" style="max-width: 300px; max-height: 150px;">
+                                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle" 
+                                            onclick="deleteImage('breadcrumb_image', this)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        @else
+                            <div class="text-center p-4 border rounded bg-light">
+                                <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                                <p class="text-muted mt-2 mb-0">Henüz breadcrumb arkaplan görseli yüklenmemiş</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Bilgi:</strong> Bu görsel tüm sayfaların üst kısmındaki breadcrumb (sayfa yolu) bölümünde arkaplan olarak kullanılacaktır. 
+                    Görsel yüklenmezse varsayılan arkaplan kullanılır.
+                </div>
+            </div>
+        </div>
+
         <!-- Kaydet Butonu -->
         <div class="text-end">
             <button type="submit" class="btn btn-primary btn-lg">

@@ -31,79 +31,66 @@
             <div class="col-lg-12">
                 <div class="page-content">
                     <div class="content-section">
-                        <h2>KVKK Başvuru Formu</h2>
-                        <p>Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında haklarınızı kullanmak için aşağıdaki formu doldurabilirsiniz.</p>
+                        <h2>HATAY İMAR SANAYİ A.Ş. KİŞİSEL VERİ BAŞVURU FORMU</h2>
                         
-                        <form class="contact-form mt-4">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">Ad Soyad *</label>
-                                        <input type="text" id="name" name="name" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="tc">T.C. Kimlik No *</label>
-                                        <input type="text" id="tc" name="tc" class="form-control" required>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="kvkk-info mb-4">
+                            <h4>GENEL AÇIKLAMALAR</h4>
+                            <p>6698 Sayılı Kişisel Verilerin Korunması Kanunu'nun ("Kanun") 11. Maddesinde, ilgili kişi olarak tanımlanan kişisel veri sahiplerine (bundan sonra "Başvuru Sahibi" olarak anılacaktır), kendisiyle ilgili kişisel verilerin işlenip işlenmediğini öğrenme (KVKK 11.1.a), işlenen kişisel veriler varsa bunlar hakkında bilgi talep etme (KVKK 11.1.b), kişisel verilerin işlenme amacını ve bu amaçlar doğrultusunda kullanılıp kullanılmadığını öğrenme (KVKK 11.1.c), yurt içinde veya yurt dışında kişisel verilerin aktarıldığı üçüncü kişileri bilme (KVKK 11.1.ç), kişisel verilerin eksik veya yanlış işlenmiş olması halinde bunların düzeltilmesini isteme (KVKK 11.1.d), Kanun'un 7. Maddesinde öngörülen şartlar çerçevesinde kişisel verilerin silinmesini veya yok edilmesini isteme (KVKK 11.1.e), yukarıda (d) ve (e) bentlerinde uyarınca yapılan işlemlerin, kişisel verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme (KVKK 11.1.f), işlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle kişinin kendisi aleyhine bir sonucun ortaya çıkmasına itiraz etme (KVKK 11.1.g), kişisel verilerin kanuna aykırı olarak işlenmesi sebebiyle zarara uğraması hâlinde zararın giderilmesini talep etme (KVKK 11.1.ğ) gibi bir takım haklar tanınmıştır.</p>
                             
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="email">E-posta *</label>
-                                        <input type="email" id="email" name="email" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phone">Telefon</label>
-                                        <input type="tel" id="phone" name="phone" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
+                            <p>İşbu kapsamdaki taleplerinizi Hatay İmar Sanayi A.Ş.'ye aşağıda detaylı olarak açıklanan usul ve yöntemlerle iletebilirsiniz. Taleplerinize daha hızlı ve doğru bilgiler verebilmemiz ve talepleriniz doğrultusunda daha etkin bir aksiyon alabilmemiz için sizin için hazırlamış olduğumuz hazır Başvuru Formu'nu doldurarak bize iletebilirsiniz.</p>
                             
-                            <div class="form-group">
-                                <label for="address">Adres</label>
-                                <textarea id="address" name="address" class="form-control" rows="3"></textarea>
-                            </div>
+                            <p>Kanunu'nun 13'üncü maddesi ile Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ'in 5'inci maddesi uyarınca; bu haklara ilişkin olarak yapılacak başvuruların Türkçe yazılı olarak veya Kişisel Verilerin Korunması Kurulu ("Kurul") tarafından belirlenen diğer yöntemlerle tarafımıza iletilmesi gerekmektedir.</p>
+                        </div>
+                        
+                        <div class="kvkk-basvuru-kanallari mb-4">
+                            <h4>Başvuru Kanalları</h4>
+                            <p>Aşağıda, yazılı başvuruların ne şekilde tarafımıza ulaştırılabileceğine ilişkin bilgiler verilmektedir.</p>
                             
-                            <div class="form-group">
-                                <label for="request_type">Başvuru Türü *</label>
-                                <select id="request_type" name="request_type" class="form-control" required>
-                                    <option value="">Seçiniz</option>
-                                    <option value="bilgi">Kişisel verilerimin işlenip işlenmediğini öğrenme</option>
-                                    <option value="erisim">Kişisel verilerime erişim talep etme</option>
-                                    <option value="duzeltme">Kişisel verilerimin düzeltilmesini talep etme</option>
-                                    <option value="silme">Kişisel verilerimin silinmesini talep etme</option>
-                                    <option value="itiraz">Kişisel verilerimin işlenmesine itiraz etme</option>
-                                    <option value="zarar">Uğranılan zararın giderilmesini talep etme</option>
-                                </select>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>BAŞVURU YÖNTEMİ</th>
+                                            <th>BAŞVURUNUN YAPILACAĞI ADRES</th>
+                                            <th>BAŞVURU GÖNDERİMİNDE BELİRTİLECEK BİLGİ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Yazılı Başvuru<br>(Başvuru sahibinin kimliğini tevsik edici belge ile şahsen başvurusu)</td>
+                                            <td>Haraparası Mah. 2. Küçük Sanayi Cad. Katlı Otopark Sitesi No: 2 K-2 Antakya</td>
+                                            <td>Zarfın üzerine "KVKK Bilgi Talebi" yazılacaktır.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Noter Kanalıyla</td>
+                                            <td>Haraparası Mah. 2. Küçük Sanayi Cad. Katlı Otopark Sitesi No: 2 K-2 Antakya</td>
+                                            <td>Tebligatın konu kısmına "KVKK Bilgi Talebi" yazılacaktır.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kayıtlı Elektronik Posta (KEP) Yoluyla</td>
+                                            <td>-</td>
+                                            <td>E-posta'nın konu kısmına "KVKK Bilgi Talebi" yazılacaktır</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Güvenli elektronik imza, Mobil İmza ya da Sistemimizde kayıtlı E-posta adresi yoluyla</td>
+                                            <td>kvkk@hatayimar.com</td>
+                                            <td>E-posta'nın konu kısmına "KVKK Bilgi Talebi" yazılacaktır.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
+                        
+                        <div class="kvkk-basvuru-usulu mb-4">
+                            <h4>Başvuru Usulü</h4>
+                            <p>Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ(10/03/2018 tarih ve 30356 sayılı R.G.) uyarınca başvurularınızda (a) adınızın, soyadınızın ve imzanızın, (b) Türkiye Cumhuriyeti vatandaşları için T.C. kimlik numarası, yabancılar için uyruğu, pasaport numarası veya varsa kimlik numarasının, (c) tebligata esas yerleşim yerinizin veya iş yeri adresinizin, (ç) varsa bildirime esas elektronik posta adresinizin, telefonunuzun ve faks numarasının, (d) talep konusunun ve ayrıca konuya ilişkin bilgi ve belgelerinizin başvuruya eklenmesi gerekmektedir.</p>
                             
-                            <div class="form-group">
-                                <label for="description">Açıklama *</label>
-                                <textarea id="description" name="description" class="form-control" rows="5" placeholder="Başvurunuzla ilgili detaylı açıklama yapınız..." required></textarea>
-                            </div>
+                            <p>Başkası adına başvuruda bulunmaktaysanız, yetkili makamlar tarafından düzenlenmiş veya onaylanmış ve Kanun kapsamında başvuru yapmaya yetkili olduğunuzu gösteren belgeleri (kişisel veri sahibinin velisi /vasisi olduğunu gösterir belge, kişisel verileriniz kapsamında talepte bulunma yetkisini açıkça içerir vekaletname gibi) başvurunun ekinde gönderiniz.</p>
                             
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <input type="checkbox" id="agreement" name="agreement" class="form-check-input" required>
-                                    <label for="agreement" class="form-check-label">
-                                        Verdiğim bilgilerin doğru olduğunu ve KVKK kapsamında başvuru yaptığımı beyan ederim.
-                                    </label>
-                                </div>
-                            </div>
+                            <p>Kişisel verilerinizle ilgili olarak aşağıdaki Başvuru Formu'nu kullanabilirsiniz. Hukuka aykırı ve haksız bir şekilde veri paylaşımından kaynaklanabilecek hukuki risklerin bertaraf edilmesi ve özellikle kişisel verilerinizin güvenliğinin sağlanması amacıyla, kimlik ve yetki tespiti için Şirketimiz ek evrak ve malumat (nüfus cüzdanı veya sürücü belgesi sureti vb.) talep etme hakkını saklı tutar. Form kapsamında iletmekte olduğunuz taleplerinize ilişkin bilgilerin doğru ve güncel olmaması ya da yetkisiz bir başvuru yapılması halinde Şirketimiz, söz konusu yanlış bilgi ya da yetkisiz başvuru kaynaklı taleplerden dolayı mesuliyet kabul etmemektedir.</p>
                             
-                            <button type="submit" class="theme-btn bg-dark">
-                                <span class="link-effect">
-                                    <span class="effect-1">Başvuru Gönder</span>
-                                    <span class="effect-1">Başvuru Gönder</span>
-                                </span><i class="fa-regular fa-arrow-right-long"></i>
-                            </button>
-                        </form>
+                            <p>Tarafımıza iletilmiş olan başvurularınız Kanunu'nun 13'üncü maddesinin 2'inci fıkrası gereğince, talebin niteliğine göre talebinizin bizlere ulaştığı tarihten itibaren en geç otuz gün içinde yazılı olarak ücretsiz yanıtlandırılacaktır. Ancak, yazılı cevap verilecek durumlarda on sayfaya kadar ücret alınmayacak, on sayfayı geçen her bir sayfa için Kurulca belirlenen işlem ücreti (1 TL) alınacaktır.</p>
+                        </div>
                     </div>
                     
                     <div class="content-section">
@@ -114,6 +101,20 @@
                             <li>Başvuru sonucu size e-posta veya posta yoluyla bildirilecektir.</li>
                             <li>Başvurunuzla ilgili herhangi bir ücret talep edilmeyecektir.</li>
                         </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>İlgili Sayfalar</h2>
+                        <div class="related-pages">
+                            <ul>
+                                <li><a href="{{ route('cookies-notice') }}">Çerez Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('cookies-policy') }}">Çerez Politikası</a></li>
+                                <li><a href="{{ route('job-application-notice') }}">İlan Başvuru Formu Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('contact-notice') }}">İletişim Bölümü Aydınlatma Metni</a></li>
+                                <li><a href="{{ route('terms') }}">Şartlar ve Koşullar</a></li>
+                                <li><a href="{{ route('privacy') }}">Gizlilik Politikası</a></li>
+                            </ul>
+                        </div>
                     </div>
                     
                     <div class="content-section">

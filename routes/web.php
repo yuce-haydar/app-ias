@@ -108,6 +108,23 @@ Route::get('/yasal', function () {
     return view('legal.legal');
 })->name('legal');
 
+// KVKK sayfalar
+Route::get('/cerez-aydinlatma-metni', function () {
+    return view('legal.cookies-notice');
+})->name('cookies-notice');
+
+Route::get('/cerez-politikasi', function () {
+    return view('legal.cookies-policy');
+})->name('cookies-policy');
+
+Route::get('/ilan-basvuru-aydinlatma-metni', function () {
+    return view('legal.job-application-notice');
+})->name('job-application-notice');
+
+Route::get('/iletisim-aydinlatma-metni', function () {
+    return view('legal.contact-notice');
+})->name('contact-notice');
+
 // Logo test rotası
 Route::get('/test-logo', function () {
     return view('test-logo');

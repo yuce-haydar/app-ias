@@ -266,6 +266,12 @@
                 </li>
                 
                 <li>
+                    <a href="{{ route('admin.about-page.index') }}" class="{{ request()->routeIs('admin.about-page.*') ? 'active' : '' }}">
+                        <i class="fas fa-info-circle"></i> Hakkımızda Sayfası
+                    </a>
+                </li>
+                
+                <li>
                     <a href="{{ route('admin.site-settings.index') }}" class="{{ request()->routeIs('admin.site-settings.*') ? 'active' : '' }}">
                         <i class="fas fa-paint-brush"></i> Header/Footer
                     </a>

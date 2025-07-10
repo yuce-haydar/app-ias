@@ -96,6 +96,9 @@ class HomePageController extends Controller
                 'contact_title' => 'nullable|string|max:255',
                 'contact_subtitle' => 'nullable|string|max:255',
                 'contact_show' => 'boolean',
+                
+                // Breadcrumb Image
+                'breadcrumb_image' => 'nullable|image|max:15360',
             ]);
 
             $settings = HomePageSetting::getSettings();
@@ -206,7 +209,7 @@ class HomePageController extends Controller
             }
 
             // Handle legacy image uploads (for backward compatibility)
-            foreach (['hero_image_1', 'hero_image_2', 'hero_image_3', 'about_image_1', 'about_image_2'] as $imageField) {
+            foreach (['hero_image_1', 'hero_image_2', 'hero_image_3', 'about_image_1', 'about_image_2', 'breadcrumb_image'] as $imageField) {
                 if ($request->hasFile($imageField)) {
                     // Delete old image if exists
                     if ($settings->$imageField) {
@@ -277,7 +280,7 @@ class HomePageController extends Controller
             } else {
                 // Legacy field silme
                 $request->validate([
-                    'field' => 'required|string|in:hero_image_1,hero_image_2,hero_image_3,about_image_1,about_image_2'
+                    'field' => 'required|string|in:hero_image_1,hero_image_2,hero_image_3,about_image_1,about_image_2,breadcrumb_image'
                 ]);
 
                 $field = $request->field;

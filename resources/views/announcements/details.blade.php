@@ -9,7 +9,7 @@
 Breadcrumb
 ==============================-->
 <section class="breadcrumb-section">
-    <div class="bg bg-image" style="background-image: url({{ asset('assets/images/imageshatay/hatay6.jpeg') }})"></div>
+    <div class="bg bg-image" style="background-image: url({{ $getBreadcrumbImage() }})"></div>
     <div class="container">
         <div class="title-outer">
             <div class="page-title">
@@ -47,7 +47,7 @@ Duyuru Detay
                         </div>
                         <h2 class="blog-title">{{ $announcement->title }}</h2>
                         <div class="blog-text">
-                            {!! nl2br(e($announcement->content)) !!}
+                            {!! $announcement->content !!}
                         </div>
 
                         @if($announcement->tags)
@@ -65,16 +65,16 @@ Duyuru Detay
                         <div class="blog-share mt-4">
                             <h6>Paylaş:</h6>
                             <div class="social-links">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" target="_blank" class="facebook">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" target="_blank" class="facebook d-flex align-items-center justify-content-center">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
-                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($announcement->title) }}" target="_blank" class="twitter">
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($announcement->title) }}" target="_blank" class="twitter d-flex align-items-center justify-content-center">
                                     <i class="fab fa-twitter"></i>
                                 </a>
-                                <a href="https://wa.me/?text={{ urlencode($announcement->title . ' - ' . request()->fullUrl()) }}" target="_blank" class="whatsapp">
+                                <a href="https://wa.me/?text={{ urlencode($announcement->title . ' - ' . request()->fullUrl()) }}" target="_blank" class="whatsapp d-flex align-items-center justify-content-center">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
-                                <a href="mailto:?subject={{ urlencode($announcement->title) }}&body={{ urlencode(request()->fullUrl()) }}" class="email">
+                                <a href="mailto:?subject={{ urlencode($announcement->title) }}&body={{ urlencode(request()->fullUrl()) }}" class="email d-flex align-items-center justify-content-center">
                                     <i class="fa-regular fa-envelope"></i>
                                 </a>
                             </div>
@@ -155,7 +155,7 @@ Duyuru Detay
                             <div class="banner-content">
                                 <h4 class="title">Bizimle İletişime Geçin</h4>
                                 <p>Sorularınız için bize ulaşabilirsiniz.</p>
-                                <a href="{{ route('contact') }}" class="theme-btn">İletişim</a>
+                                <a href="{{ route('contact') }}" class="btn  btn-white" style="background-color: #cf9f38; color: #fff;">İletişim</a>
                             </div>
                         </div>
                     </div>

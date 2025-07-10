@@ -29,15 +29,7 @@
                                         <li style="background-color: #fff;"><a href="{{ route('bilgi-toplumu-hizmetleri') }}" style="background-color: #fff; color: #000000;">Bilgi Toplumu Hizmetleri</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-item-has-children" style="background-color: #fff;">
-                                    <a href="{{ route('legal') }}" style="background-color: #fff; color: {{ request()->routeIs('legal') ? '#cf9f38' : '#000000' }};">KVKK</a>
-                                    <ul class="sub-menu" style="background-color: #fff;">
-                                        <li style="background-color: #fff;"><a href="{{ route('privacy') }}" style="background-color: #fff; color: #000000;">Gizlilik Politikası</a></li>
-                                        <li style="background-color: #fff;"><a href="{{ route('terms') }}" style="background-color: #fff; color: #000000;">İnternet Sitesi Kullanım Sözleşmesi</a></li>
-                                        <li style="background-color: #fff;"><a href="{{ route('legal') }}" style="background-color: #fff; color: #000000;">KVKK Başvuru Formu</a></li>
-                                        <li style="background-color: #fff;"><a href="{{ route('contact') }}" style="background-color: #fff; color: #000000;">İletişim Bölümü Aydınlatma Metni</a></li>
-                                    </ul>
-                                </li>
+                               
                                 <li class="{{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
                                     <a href="{{ route('projects') }}" style="background-color: #fff; color: {{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? '#cf9f38' : '#000000' }};">Tesisler/Projeler</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
@@ -64,6 +56,18 @@
                                     <ul class="sub-menu" style="background-color: #fff;">
                                         <li style="background-color: #fff;"><a href="{{ route('hr') }}" style="background-color: #fff; color: #000000;">Kariyer Fırsatları</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('careers') }}" style="background-color: #fff; color: #000000;">Açık Pozisyonlar</a></li>
+                                    </ul>
+                                </li>
+                                 <li class="menu-item-has-children" style="background-color: #fff;">
+                                    <a href="{{ route('legal') }}" style="background-color: #fff; color: {{ request()->routeIs('legal') ? '#cf9f38' : '#000000' }};">KVKK</a>
+                                    <ul class="sub-menu" style="background-color: #fff;">
+                                        <li style="background-color: #fff;"><a href="{{ route('legal') }}" style="background-color: #fff; color: #000000;">KVKK Başvuru Formu</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('contact-notice') }}" style="background-color: #fff; color: #000000;">İletişim Bölümü Aydınlatma Metni</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('cookies-notice') }}" style="background-color: #fff; color: #000000;">Çerez Aydınlatma Metni</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('cookies-policy') }}" style="background-color: #fff; color: #000000;">Çerez Politikası</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('job-application-notice') }}" style="background-color: #fff; color: #000000;">İlan Başvuru Formu Aydınlatma Metni</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('privacy') }}" style="background-color: #fff; color: #000000;">Gizlilik Politikası</a></li>
+                                        <li style="background-color: #fff;"><a href="{{ route('terms') }}" style="background-color: #fff; color: #000000;">İnternet Sitesi Kullanım Sözleşmesi</a></li>
                                     </ul>
                                 </li>
 
