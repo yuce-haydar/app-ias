@@ -142,7 +142,14 @@ Proje Detay Bölümü
                             @if(isset($project['area']))
                             <div class="summary-item">
                                 <span class="label">Alan:</span>
-                                <span class="value">{{ strip_tags($project['area']) }}</span>
+                                <span class="value">
+                                    @php
+                                        $alanMetni = $project['area'];
+                                        $alanMetni = str_replace(['<p>', '</p>', '&nbsp;'], ['', ', ', ' '], $alanMetni);
+                                        $alanMetni = trim($alanMetni, ', ');
+                                        echo $alanMetni;
+                                    @endphp
+                                </span>
                             </div>
                             @endif
                         </div>
