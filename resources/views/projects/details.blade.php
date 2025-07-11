@@ -33,7 +33,7 @@ Proje Detay Bölümü
                 <div class="project-details-content">
                     <!-- Ana Resim -->
                     <div class="project-details-thumb">
-                        <img src="{{ $project->image_url }}" alt="{{ $project->title }}" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ $project->image_url }}" alt="{{ $project->title }}" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px; cursor: pointer;" onclick="openImageModal('{{ $project->image_url }}', 0, {{ json_encode(array_merge([$project->image_url], $project->gallery_urls ?? [])) }})">
                     </div>
                     
                     <div class="project-details-wrapper">
@@ -106,10 +106,10 @@ Proje Detay Bölümü
                         <h3>Proje Galerisi</h3>
                         <div class="project-gallery">
                             <div class="row g-3">
-                                @foreach($project->gallery_urls as $image)
+                                @foreach($project->gallery_urls as $index => $image)
                                 <div class="col-md-6">
                                     <div class="gallery-item">
-                                        <img src="{{ $image }}" alt="{{ $project->title }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;">
+                                        <img src="{{ $image }}" alt="{{ $project->title }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px; cursor: pointer;" onclick="openImageModal('{{ $image }}', {{ $index + 1 }}, {{ json_encode(array_merge([$project->image_url], $project->gallery_urls)) }})">
                                     </div>
                                 </div>
                                 @endforeach
@@ -363,4 +363,194 @@ Proje Detay Bölümü
 }
 </style>
 
-@endsection 
+@endsection
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeImageModal()">&times;</span>
+        <img id="modalImage" src="" alt="Proje Fotoğrafı">
+        <div class="modal-nav">
+            <button class="prev-btn" onclick="changeImage(-1)">&#10094;</button>
+            <button class="next-btn" onclick="changeImage(1)">&#10095;</button>
+        </div>
+        <div class="image-counter">
+            <span id="imageCounter">1 / 1</span>
+        </div>
+    </div>
+</div>
+
+<style>
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    text-align: center;
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.close-modal {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.prev-btn, .next-btn {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.prev-btn {
+    margin-left: -60px;
+}
+
+.next-btn {
+    margin-right: -60px;
+}
+
+.image-counter {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+    .close-modal {
+        top: -30px;
+        right: -30px;
+        width: 40px;
+        height: 40px;
+        font-size: 30px;
+    }
+    
+    .prev-btn, .next-btn {
+        padding: 10px 15px;
+        font-size: 20px;
+    }
+    
+    .prev-btn {
+        margin-left: -40px;
+    }
+    
+    .next-btn {
+        margin-right: -40px;
+    }
+}
+</style>
+
+<script>
+let currentImageIndex = 0;
+let imageGallery = [];
+
+function openImageModal(imageSrc, index, gallery) {
+    currentImageIndex = index;
+    imageGallery = gallery;
+    
+    document.getElementById('modalImage').src = imageSrc;
+    document.getElementById('imageCounter').textContent = `${index + 1} / ${gallery.length}`;
+    document.getElementById('imageModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal() {
+    document.getElementById('imageModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+function changeImage(direction) {
+    currentImageIndex += direction;
+    
+    if (currentImageIndex >= imageGallery.length) {
+        currentImageIndex = 0;
+    } else if (currentImageIndex < 0) {
+        currentImageIndex = imageGallery.length - 1;
+    }
+    
+    document.getElementById('modalImage').src = imageGallery[currentImageIndex];
+    document.getElementById('imageCounter').textContent = `${currentImageIndex + 1} / ${imageGallery.length}`;
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(event) {
+    if (document.getElementById('imageModal').style.display === 'flex') {
+        if (event.key === 'Escape') {
+            closeImageModal();
+        } else if (event.key === 'ArrowLeft') {
+            changeImage(-1);
+        } else if (event.key === 'ArrowRight') {
+            changeImage(1);
+        }
+    }
+});
+
+// Close modal when clicking outside the image
+document.getElementById('imageModal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        closeImageModal();
+    }
+});
+</script> 
