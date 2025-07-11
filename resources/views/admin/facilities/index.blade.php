@@ -102,9 +102,7 @@
                 </table>
             </div>
             
-            <div class="mt-3">
-                {{ $facilities->links() }}
-            </div>
+
         @endif
     </div>
 </div>
@@ -114,9 +112,27 @@
 <script>
 $(document).ready(function() {
     $('#facilitiesTable').DataTable({
-        "paging": false,
-        "info": false,
-        "order": [[0, "desc"]]
+        "paging": true,
+        "info": true,
+        "searching": true,
+        "ordering": true,
+        "pageLength": 25,
+        "order": [[0, "desc"]],
+        "language": {
+            "search": "Ara:",
+            "emptyTable": "Tabloda veri bulunmuyor",
+            "zeroRecords": "Eşleşen kayıt bulunamadı",
+            "lengthMenu": "_MENU_ kayıt göster",
+            "info": "_START_ - _END_ / _TOTAL_ kayıt",
+            "infoEmpty": "Kayıt bulunamadı",
+            "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
+            "paginate": {
+                "first": "İlk",
+                "last": "Son",
+                "next": "Sonraki",
+                "previous": "Önceki"
+            }
+        }
     });
 });
 </script>

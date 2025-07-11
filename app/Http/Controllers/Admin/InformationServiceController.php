@@ -14,7 +14,7 @@ class InformationServiceController extends Controller
      */
     public function index()
     {
-        $services = InformationService::ordered()->paginate(10);
+        $services = InformationService::ordered()->get();
         return view('admin.information-services.index', compact('services'));
     }
 

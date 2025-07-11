@@ -61,4 +61,16 @@ class FacilityController extends Controller
             
         return view('facilities.details', compact('facility', 'relatedFacilities'));
     }
+
+    /**
+     * Tesis detay sayfası (slug ile)
+     */
+    public function detailsBySlug($slug)
+    {
+        // Slug ile tesisi çek
+        $facility = Facility::where('slug', $slug)->where('status', 'active')->firstOrFail();
+        
+        // Mevcut details method'undaki aynı işlemleri yap
+        return $this->details($facility->id);
+    }
 } 

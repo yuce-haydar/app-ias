@@ -91,9 +91,27 @@
 <script>
 $(document).ready(function() {
     $('#servicesTable').DataTable({
-        "paging": false,
-        "info": false,
-        "order": [[0, "asc"]]
+        "paging": true,
+        "info": true,
+        "searching": true,
+        "ordering": true,
+        "pageLength": 25,
+        "order": [[0, "asc"]],
+        "language": {
+            "search": "Ara:",
+            "emptyTable": "Tabloda veri bulunmuyor",
+            "zeroRecords": "Eşleşen kayıt bulunamadı",
+            "lengthMenu": "_MENU_ kayıt göster",
+            "info": "_START_ - _END_ / _TOTAL_ kayıt",
+            "infoEmpty": "Kayıt bulunamadı",
+            "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
+            "paginate": {
+                "first": "İlk",
+                "last": "Son",
+                "next": "Sonraki",
+                "previous": "Önceki"
+            }
+        }
     });
 });
 </script>

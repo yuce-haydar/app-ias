@@ -68,4 +68,16 @@ class BlogController extends Controller
 
         return view('blog.details', compact('article', 'relatedNews'));
     }
+
+    /**
+     * Blog detay sayfası (slug ile)
+     */
+    public function detailsBySlug($slug)
+    {
+        // Slug ile haberi çek
+        $article = News::published()->where('slug', $slug)->firstOrFail();
+        
+        // Mevcut details method'undaki aynı işlemleri yap
+        return $this->details($article->id);
+    }
 } 

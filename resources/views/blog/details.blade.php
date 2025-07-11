@@ -56,6 +56,26 @@ Haber Detay Bölümü
                         <div class="blog-content">
                             {!! $article->content !!}
                         </div>
+                        
+                        <!-- Extra Resimler (Gallery) -->
+                        @if($article->gallery && is_array($article->gallery) && count($article->gallery) > 0)
+                        <div class="blog-gallery mt-4">
+                            <h4>İlgili Görseller</h4>
+                            <div class="row">
+                                @foreach($article->gallery as $image)
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="gallery-item">
+                                        <img src="{{ \App\Helpers\ImageHelper::getImageUrl($image) }}" 
+                                             alt="{{ $article->title }}" 
+                                             class="img-fluid rounded"
+                                             style="width: 100%; height: 200px; object-fit: cover; cursor: pointer;"
+                                             onclick="openImageModal(this.src)">
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     
                     <!-- Sosyal Paylaşım -->
@@ -94,4 +114,29 @@ Haber Detay Bölümü
     </div>
 </section>
 
-@endsection 
+@endsection
+
+@push('scripts')
+<!-- Resim Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Görsel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" alt="" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openImageModal(src) {
+    document.getElementById('modalImage').src = src;
+    const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+    modal.show();
+}
+</script>
+@endpush 

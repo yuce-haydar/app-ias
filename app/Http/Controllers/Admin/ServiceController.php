@@ -16,11 +16,11 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $hizmetler = Service::orderBy('sort_order', 'asc')
+        $services = Service::orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
             
-        return view('admin.services.index', compact('hizmetler'));
+        return view('admin.services.index', compact('services'));
     }
 
     /**

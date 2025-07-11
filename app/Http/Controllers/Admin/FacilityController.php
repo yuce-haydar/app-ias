@@ -21,7 +21,7 @@ class FacilityController extends Controller
     {
         $facilities = Facility::orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
             
         return view('admin.facilities.index', compact('facilities'));
     }
