@@ -46,14 +46,13 @@
                                 <li class="{{ request()->routeIs('tenders*') || request()->routeIs('announcements*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
                                     <a href="javascript:void(0)" style="background-color: #fff; color: {{ request()->routeIs('tenders*') || request()->routeIs('announcements*') ? '#cf9f38' : '#000000' }};">Duyurular/İlanlar</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
+                                        <li style="background-color: #fff;"><a href="{{ route('blog.grid') }}" style="background-color: #fff; color: #000000;">Haberler</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('announcements') }}" style="background-color: #fff; color: #000000;">Duyurular</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('tenders') }}" style="background-color: #fff; color: #000000;">İhale Bilgileri</a></li>
                                         <li style="background-color: #fff;"><a href="{{ route('tenders') }}" style="background-color: #fff; color: #000000;">İlan Başvuru Formu</a></li>
                                     </ul>
                                 </li>
-                                <li class="{{ request()->routeIs('blog*') ? 'active' : '' }}" style="background-color: #fff;">
-                                    <a href="{{ route('blog.grid') }}" style="background-color: #fff; color: {{ request()->routeIs('blog*') ? '#cf9f38' : '#000000' }};">Haberler</a>
-                                </li>
+                                
                                 <li class="{{ request()->routeIs('hr*') ? 'active' : '' }} menu-item-has-children" style="background-color: #fff;">
                                     <a href="javascript:void(0)" style="background-color: #fff; color: {{ request()->routeIs('hr*') ? '#cf9f38' : '#000000' }};">İnsan Kaynakları</a>
                                     <ul class="sub-menu" style="background-color: #fff;">
