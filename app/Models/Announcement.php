@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Announcement extends Model
 {
@@ -35,6 +36,26 @@ class Announcement extends Model
         'is_pinned' => 'boolean',
         'attachments' => 'array'
     ];
+
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($announcement) {
+            if (empty($announcement->slug)) {
+                $announcement->slug = Str::slug($announcement->title);
+            }
+        });
+
+        static::updating(function ($announcement) {
+            if ($announcement->isDirty('title') && empty($announcement->slug)) {
+                $announcement->slug = Str::slug($announcement->title);
+            }
+        });
+    }
 
     // Scopes
     public function scopeActive($query)
