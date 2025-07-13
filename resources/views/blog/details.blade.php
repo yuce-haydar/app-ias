@@ -100,7 +100,7 @@ Haber Detay Bölümü
                                 <img src="{{ \App\Helpers\ImageHelper::getImageUrl($relatedArticle->featured_image) }}" alt="{{ $relatedArticle->title }}">
                             </div>
                             <div class="post-content">
-                                <h6><a href="{{ route('blog.details', ['id' => $relatedArticle->id]) }}">{{ Str::limit($relatedArticle->title, 50) }}</a></h6>
+                                <h6><a href="{{ route('blog.details', ['id' => $relatedArticle->id, 'slug' => $relatedArticle->slug]) }}">{{ Str::limit($relatedArticle->title, 50) }}</a></h6>
                                 <span class="date">{{ $relatedArticle->published_at->format('d M Y') }}</span>
                             </div>
                         </div>

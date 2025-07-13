@@ -44,10 +44,10 @@ Blog Grid Bölümü
                             <span class="category">{{ $article->category }}</span>
                         </div>
                         <h4 class="title">
-                            <a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a>
+                            <a href="{{ route('blog.details', ['id' => $article->id, 'slug' => $article->slug]) }}">{{ $article->title }}</a>
                         </h4>
                         <p class="text">{!! Str::limit($article->summary, 150) !!}</p>
-                        <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="read-more">
+                        <a href="{{ route('blog.details', ['id' => $article->id, 'slug' => $article->slug]) }}" class="read-more">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
                     </div>

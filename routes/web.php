@@ -42,10 +42,7 @@ Route::get('/blog', [App\Http\Controllers\BlogController::class, 'grid'])->name(
 
 Route::get('/blog-liste', [App\Http\Controllers\BlogController::class, 'list'])->name('blog.list');
 
-Route::get('/blog/{id}', [App\Http\Controllers\BlogController::class, 'details'])->name('blog.details');
-
-// Slug'lı Blog Rotaları (tarayıcıda şık görünmesi için)
-Route::get('/haber/{slug}', [App\Http\Controllers\BlogController::class, 'detailsBySlug'])->name('blog.details.slug');
+Route::get('/blog/{id}/{slug?}', [App\Http\Controllers\BlogController::class, 'details'])->name('blog.details');
 
 // Ekip Rotaları
 Route::get('/ekip', [App\Http\Controllers\TeamController::class, 'index'])->name('team');
@@ -54,25 +51,16 @@ Route::get('/ekip/{id}', [App\Http\Controllers\TeamController::class, 'details']
 // Projeler Rotaları
 Route::get('/projeler', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
 
-Route::get('/proje/{id}', [App\Http\Controllers\ProjectController::class, 'details'])->name('project.details');
-
-// Slug'lı Proje Rotaları (tarayıcıda şık görünmesi için)
-Route::get('/proje/{slug}', [App\Http\Controllers\ProjectController::class, 'detailsBySlug'])->name('project.details.slug');
+Route::get('/proje/{id}/{slug?}', [App\Http\Controllers\ProjectController::class, 'details'])->name('project.details');
 
 // Tesisler Rotaları
 Route::get('/tesisler', [App\Http\Controllers\FacilityController::class, 'index'])->name('facilities.index');
 
-Route::get('/tesis/{id}', [App\Http\Controllers\FacilityController::class, 'details'])->name('facilities.details');
-
-// Slug'lı Tesis Rotaları (tarayıcıda şık görünmesi için)
-Route::get('/tesis/{slug}', [App\Http\Controllers\FacilityController::class, 'detailsBySlug'])->name('facilities.details.slug');
+Route::get('/tesis/{id}/{slug?}', [App\Http\Controllers\FacilityController::class, 'details'])->name('facilities.details');
 
 // Duyuru Rotaları
 Route::get('/duyurular', [App\Http\Controllers\AnnouncementController::class, 'index'])->name('announcements');
-Route::get('/duyuru/{id}', [App\Http\Controllers\AnnouncementController::class, 'details'])->name('announcement.details');
-
-// Slug'lı Duyuru Rotaları (tarayıcıda şık görünmesi için)
-Route::get('/duyuru/{slug}', [App\Http\Controllers\AnnouncementController::class, 'detailsBySlug'])->name('announcement.details.slug');
+Route::get('/duyuru/{id}/{slug?}', [App\Http\Controllers\AnnouncementController::class, 'details'])->name('announcement.details');
 
 // İhale Bilgileri Rotaları
 Route::get('/ihale-bilgileri', [App\Http\Controllers\TenderController::class, 'index'])->name('tenders');

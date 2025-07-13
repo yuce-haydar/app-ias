@@ -479,15 +479,15 @@ Tamamlanan Tesisler Bölümü
                     </div>
                     <div class="service-content">
                         <h4 class="service-title" style="height: 50px; display: flex; align-items: center;">
-                            <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" style="text-decoration: none; color: #ffc107;">
+                            <a href="{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}" style="text-decoration: none; color: #ffc107;">
                                 {{ $facility->name }}
                             </a>
                         </h4>
                                                         <p class="service-text">{!! $facility->short_description !!}</p>
-                        <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" class="service-link mb-15">
+                        <a href="{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}" class="service-link mb-15">
                             <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
-                        <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" class="theme-btn bg-color10 btn-sm">
+                        <a href="{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}" class="theme-btn bg-color10 btn-sm">
                             <span class="link-effect">
                                 <span class="effect-1">Devamını Oku</span>
                                 <span class="effect-1">Devamını Oku</span>
@@ -633,9 +633,9 @@ Blog Bölümü
                             <span class="category">{{ $article->category }}</span>
                             <span class="author">{{ $article->author }}</span>
                         </div>
-                        <h4 class="blog-title"><a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a></h4>
+                        <h4 class="blog-title"><a href="{{ route('blog.details', ['id' => $article->id, 'slug' => $article->slug]) }}">{{ $article->title }}</a></h4>
                                                             <p class="blog-text">{!! Str::limit($article->summary, 120) !!}</p>
-                        <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="blog-link">
+                        <a href="{{ route('blog.details', ['id' => $article->id, 'slug' => $article->slug]) }}" class="blog-link">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
                     </div>

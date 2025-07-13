@@ -45,10 +45,10 @@ Blog Liste Bölümü
                             <span class="category">{{ $article->category }}</span>
                         </div>
                         <h3 class="title">
-                            <a href="{{ route('blog.details', ['id' => $article->id]) }}">{{ $article->title }}</a>
+                            <a href="{{ route('blog.details', ['id' => $article->id, 'slug' => $article->slug]) }}">{{ $article->title }}</a>
                         </h3>
                         <p class="text">{!! Str::limit($article->summary, 200) !!}</p>
-                        <a href="{{ route('blog.details', ['id' => $article->id]) }}" class="read-more">
+                        <a href="{{ route('blog.details', ['id' => $article->id, 'slug' => $article->slug]) }}" class="read-more">
                             Devamını Oku <i class="fa-regular fa-arrow-right-long"></i>
                         </a>
                     </div>

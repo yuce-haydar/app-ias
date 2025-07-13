@@ -23,6 +23,65 @@
             background: #f8f9fa;
         }
         
+        /* Loading Spinner */
+        .admin-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .admin-loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .admin-loading-text {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Form loading state */
+        .form-loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .btn-loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .btn-loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        
         /* Sidebar */
         .sidebar {
             position: fixed;
@@ -157,6 +216,14 @@
     @stack('styles')
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="admin-loading-overlay" id="adminLoadingOverlay">
+        <div class="text-center">
+            <div class="admin-loading-spinner"></div>
+            <div class="admin-loading-text">İşlem yapılıyor, lütfen bekleyin...</div>
+        </div>
+    </div>
+    
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -379,6 +446,100 @@
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/tr.json'
             }
         });
+        
+        // Loading Spinner Functions
+        function showAdminLoading(message = 'İşlem yapılıyor, lütfen bekleyin...') {
+            const loadingOverlay = document.getElementById('adminLoadingOverlay');
+            const loadingText = loadingOverlay.querySelector('.admin-loading-text');
+            loadingText.textContent = message;
+            loadingOverlay.style.display = 'flex';
+        }
+        
+        function hideAdminLoading() {
+            const loadingOverlay = document.getElementById('adminLoadingOverlay');
+            loadingOverlay.style.display = 'none';
+        }
+        
+        // Auto show loading on form submissions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form submissions
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    // Skip if form has data-no-loading attribute
+                    if (this.hasAttribute('data-no-loading')) {
+                        return;
+                    }
+                    
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    if (submitButton) {
+                        submitButton.classList.add('btn-loading');
+                        submitButton.disabled = true;
+                    }
+                    
+                    this.classList.add('form-loading');
+                    showAdminLoading('Kayıt ediliyor...');
+                });
+            });
+            
+            // File uploads
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        showAdminLoading('Dosya yükleniyor...');
+                        // Hide loading after 2 seconds for file preview
+                        setTimeout(() => {
+                            hideAdminLoading();
+                        }, 2000);
+                    }
+                });
+            });
+            
+            // AJAX requests
+            if (typeof $ !== 'undefined') {
+                $(document).ajaxStart(function() {
+                    showAdminLoading('Veri yükleniyor...');
+                });
+                
+                $(document).ajaxStop(function() {
+                    hideAdminLoading();
+                });
+                
+                $(document).ajaxError(function(event, xhr, settings, thrownError) {
+                    hideAdminLoading();
+                    showErrorMessage('Bir hata oluştu: ' + thrownError);
+                });
+            }
+        });
+        
+        // Error message function
+        function showErrorMessage(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const content = document.querySelector('.content');
+            if (content) {
+                content.insertBefore(alertDiv, content.firstChild);
+            }
+        }
+        
+        // Success message function
+        function showSuccessMessage(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const content = document.querySelector('.content');
+            if (content) {
+                content.insertBefore(alertDiv, content.firstChild);
+            }
+        }
     </script>
     
     @stack('scripts')

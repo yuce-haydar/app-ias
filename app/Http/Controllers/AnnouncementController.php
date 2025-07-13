@@ -44,16 +44,4 @@ class AnnouncementController extends Controller
 
         return view('announcements.details', compact('announcement', 'relatedAnnouncements'));
     }
-
-    /**
-     * Duyuru detayı (slug ile)
-     */
-    public function detailsBySlug($slug)
-    {
-        // Slug ile duyuruyu çek
-        $announcement = Announcement::where('slug', $slug)->where('status', 'published')->firstOrFail();
-        
-        // Mevcut details method'undaki aynı işlemleri yap
-        return $this->details($announcement->id);
-    }
 } 

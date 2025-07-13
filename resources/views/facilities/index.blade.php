@@ -64,7 +64,7 @@ Tesisler Grid Bölümü
                             <span class="category">{{ $facility->opening_date ? date('Y', strtotime($facility->opening_date)) . '\'den beri' : '' }}</span>
                         </div>
                         <h4 class="title">
-                            <a href="{{ route('facilities.details', ['id' => $facility->id]) }}">{{ $facility->name }}</a>
+                            <a href="{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}">{{ $facility->name }}</a>
                         </h4>
                         <p class="text">{!! Str::limit($facility->description, 200) !!}</p>
                         <div class="facility-stats mb-3">
@@ -75,7 +75,7 @@ Tesisler Grid Bölümü
                             @endif
                         </div>
                         <div class="facility-buttons">
-                            <a href="{{ route('facilities.details', ['id' => $facility->id]) }}" class="read-more me-3">
+                            <a href="{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}" class="read-more me-3">
                                 Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
                             </a>
                             @if($facility->google_maps_link)

@@ -137,16 +137,4 @@ class ProjectController extends Controller
         
         return view('projects.details', compact('project', 'relatedProjects'));
     }
-
-    /**
-     * Proje detay sayfası (slug ile)
-     */
-    public function detailsBySlug($slug)
-    {
-        // Slug ile projeyi çek
-        $project = Project::where('slug', $slug)->firstOrFail();
-        
-        // Mevcut details method'undaki aynı işlemleri yap
-        return $this->details($project->id);
-    }
 } 
