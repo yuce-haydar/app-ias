@@ -871,34 +871,38 @@ document.addEventListener('DOMContentLoaded', function() {
         iconAnchor: [16, 16]
     });
 
-    // Proje konumları - JSON ile güvenli encoding
-    var projects = {!! json_encode($allProjects->flatMap(function($project) {
-        $projectData = [];
-        if ($project->locations && $project->locations->count() > 0) {
-            foreach ($project->locations as $location) {
-                $projectData[] = [
-                    'name' => $project->title . ' - ' . $location->name,
-                    'coords' => [(float)$location->latitude, (float)$location->longitude],
-                    'status' => $project->status,
-                    'description' => $location->description ?: Str::limit(strip_tags($project->short_description), 100),
-                    'url' => route('project.details', ['id' => $project->id]),
-                    'projectTitle' => $project->title,
-                    'locationName' => $location->name
-                ];
+    // Proje konumları - Basit ve güvenli yaklaşım
+    var projects = [
+        @php
+            $projectsData = [];
+            foreach($allProjects as $project) {
+                if ($project->locations && $project->locations->count() > 0) {
+                    foreach ($project->locations as $location) {
+                        $projectsData[] = [
+                            'name' => $project->title . ' - ' . $location->name,
+                            'coords' => [(float)$location->latitude, (float)$location->longitude],
+                            'status' => $project->status,
+                            'description' => $location->description ?: Str::limit(strip_tags($project->short_description), 100),
+                            'url' => route('project.details', ['id' => $project->id]),
+                            'projectTitle' => $project->title,
+                            'locationName' => $location->name
+                        ];
+                    }
+                } else if ($project->latitude && $project->longitude) {
+                    $projectsData[] = [
+                        'name' => $project->title,
+                        'coords' => [(float)$project->latitude, (float)$project->longitude],
+                        'status' => $project->status,
+                        'description' => Str::limit(strip_tags($project->short_description), 100),
+                        'url' => route('project.details', ['id' => $project->id]),
+                        'projectTitle' => $project->title,
+                        'locationName' => 'Ana Lokasyon'
+                    ];
+                }
             }
-        } else if ($project->latitude && $project->longitude) {
-            $projectData[] = [
-                'name' => $project->title,
-                'coords' => [(float)$project->latitude, (float)$project->longitude],
-                'status' => $project->status,
-                'description' => Str::limit(strip_tags($project->short_description), 100),
-                'url' => route('project.details', ['id' => $project->id]),
-                'projectTitle' => $project->title,
-                'locationName' => 'Ana Lokasyon'
-            ];
-        }
-        return $projectData;
-    })) !!};
+        @endphp
+        {!! json_encode($projectsData) !!}
+    ];
         // Fallback projeler (eğer koordinatlı proje yoksa)
         @if($allProjects->whereNotNull('latitude')->whereNotNull('longitude')->count() == 0)
         {
@@ -952,21 +956,27 @@ document.addEventListener('DOMContentLoaded', function() {
         @endif
     ];
 
-    // Tesis konumları - JSON ile güvenli encoding
-    var facilities = {!! json_encode($allFacilities->filter(function($facility) {
-        return $facility->latitude && $facility->longitude;
-    })->map(function($facility) {
-        return [
-            'name' => $facility->name,
-            'coords' => [(float)$facility->latitude, (float)$facility->longitude],
-            'type' => 'facility',
-            'category' => $facility->category ?: 'Tesis',
-            'description' => Str::limit(strip_tags($facility->short_description), 100),
-            'url' => route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]),
-            'address' => $facility->address ?: '',
-            'phone' => $facility->phone ?: ''
-        ];
-    })->values()) !!};
+    // Tesis konumları - Basit ve güvenli yaklaşım
+    var facilities = [
+        @php
+            $facilitiesData = [];
+            foreach($allFacilities as $facility) {
+                if ($facility->latitude && $facility->longitude) {
+                    $facilitiesData[] = [
+                        'name' => $facility->name,
+                        'coords' => [(float)$facility->latitude, (float)$facility->longitude],
+                        'type' => 'facility',
+                        'category' => $facility->category ?: 'Tesis',
+                        'description' => Str::limit(strip_tags($facility->short_description), 100),
+                        'url' => route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]),
+                        'address' => $facility->address ?: '',
+                        'phone' => $facility->phone ?: ''
+                    ];
+                }
+            }
+        @endphp
+        {!! json_encode($facilitiesData) !!}
+    ];
     
     console.log('📍 Facilities data loaded:', facilities.length, 'facilities');
     console.log('🏗️ Projects data loaded:', projects.length, 'projects');
