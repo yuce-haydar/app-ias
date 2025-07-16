@@ -876,23 +876,23 @@ document.addEventListener('DOMContentLoaded', function() {
             @if($project->locations && $project->locations->count() > 0)
                 @foreach($project->locations as $location)
                 {
-                    name: "{{ $project->title }} - {{ $location->name }}",
+                    name: "{{ addslashes($project->title) }} - {{ addslashes($location->name) }}",
                     coords: [{{ $location->latitude }}, {{ $location->longitude }}],
                     status: "{{ $project->status }}",
-                    description: "{{ $location->description ?: Str::limit($project->short_description, 100) }}",
+                    description: "{{ addslashes($location->description ?: Str::limit(strip_tags($project->short_description), 100)) }}",
                     url: "{{ route('project.details', ['id' => $project->id]) }}",
-                    projectTitle: "{{ $project->title }}",
-                    locationName: "{{ $location->name }}"
+                    projectTitle: "{{ addslashes($project->title) }}",
+                    locationName: "{{ addslashes($location->name) }}"
                 },
                 @endforeach
             @elseif($project->latitude && $project->longitude)
             {
-                name: "{{ $project->title }}",
+                name: "{{ addslashes($project->title) }}",
                 coords: [{{ $project->latitude }}, {{ $project->longitude }}],
                 status: "{{ $project->status }}",
-                description: "{!! Str::limit($project->short_description, 100) !!}",
+                description: "{{ addslashes(Str::limit(strip_tags($project->short_description), 100)) }}",
                 url: "{{ route('project.details', ['id' => $project->id]) }}",
-                projectTitle: "{{ $project->title }}",
+                projectTitle: "{{ addslashes($project->title) }}",
                 locationName: "Ana Lokasyon"
             },
             @endif
@@ -955,14 +955,14 @@ document.addEventListener('DOMContentLoaded', function() {
         @foreach($allFacilities as $facility)
             @if($facility->latitude && $facility->longitude)
             {
-                name: "{{ $facility->name }}",
+                name: "{{ addslashes($facility->name) }}",
                 coords: [{{ $facility->latitude }}, {{ $facility->longitude }}],
                 type: "facility",
-                category: "{{ $facility->category ?: 'Tesis' }}",
-                description: "{!! Str::limit($facility->short_description, 100) !!}",
+                category: "{{ addslashes($facility->category ?: 'Tesis') }}",
+                description: "{{ addslashes(Str::limit(strip_tags($facility->short_description), 100)) }}",
                 url: "{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}",
-                address: "{{ $facility->address ?: '' }}",
-                phone: "{{ $facility->phone ?: '' }}"
+                address: "{{ addslashes($facility->address ?: '') }}",
+                phone: "{{ addslashes($facility->phone ?: '') }}"
             },
             @endif
         @endforeach
