@@ -703,370 +703,569 @@ Projelerimiz Özet Bölümü
 </section>
 
 <!--==============================
-Projeler Haritası Bölümü
+Interaktif Proje Haritası
 ==============================-->
-<section class="projects-map-section space bg-dark">
+<section class="interactive-map-section space bg-dark">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-area text-center">
-                    <div class="sub-title text-white"><span><i class="asterisk"></i></span>Proje ve Tesis Haritası</div>
-                    <h2 class="sec-title text-white mb-60">Projelerimiz ve <span class="bold">Tesislerimizin</span><br>Konumu</h2>
+                    <div class="sub-title text-white"><span><i class="asterisk"></i></span>Hatay İmar Haritası</div>
+                    <h2 class="sec-title text-white mb-60">Projelerimizin ve <span class="bold">Tesislerimizin</span><br>Gerçek Konumları</h2>
                 </div>
             </div>
         </div>
 
-        <!-- Leaflet Harita -->
+        <!-- Modern Harita Container -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="map-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                    <div id="projectMap" class="project-map"></div>
+                <div class="modern-map-wrapper">
+                    <div id="hatayImarMap" class="hatay-imar-map"></div>
+                    
+                    <!-- Harita Overlay Bilgi Paneli -->
+                    <div class="map-info-panel">
+                        <div class="info-content">
+                            <h5>🗺️ Harita Kontrolü</h5>
+                            <p>Yakınlaştırmak için çift tıklayın</p>
+                            <p>Marker'lara tıklayarak detayları görün</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Harita Açıklaması -->
+        <!-- Harita Legend -->
         <div class="row mt-40">
             <div class="col-lg-12">
-                <div class="map-legend text-center">
-                    <div class="legend-items d-flex justify-content-center gap-3 flex-wrap">
-                        <div class="legend-item d-flex align-items-center">
-                            <div class="legend-marker" style="width: 20px; height: 20px; background: #28a745; border-radius: 50%; margin-right: 8px;"></div>
-                            <span style="color: #fff; font-size: 14px;">Devam Eden Projeler</span>
+                <div class="map-legend-modern">
+                    <div class="legend-title">
+                        <h4>Harita Açıklaması</h4>
+                    </div>
+                    <div class="legend-grid">
+                        <div class="legend-item">
+                            <div class="marker-icon ongoing"></div>
+                            <span>Devam Eden Projeler</span>
                         </div>
-                        <div class="legend-item d-flex align-items-center">
-                            <div class="legend-marker" style="width: 20px; height: 20px; background: #ffc107; border-radius: 50%; margin-right: 8px;"></div>
-                            <span style="color: #fff; font-size: 14px;">Planlama Aşamasında</span>
+                        <div class="legend-item">
+                            <div class="marker-icon planning"></div>
+                            <span>Planlama Aşamasında</span>
                         </div>
-                        <div class="legend-item d-flex align-items-center">
-                            <div class="legend-marker" style="width: 20px; height: 20px; background: #007bff; border-radius: 50%; margin-right: 8px;"></div>
-                            <span style="color: #fff; font-size: 14px;">Tamamlanan Projeler</span>
+                        <div class="legend-item">
+                            <div class="marker-icon completed"></div>
+                            <span>Tamamlanan Projeler</span>
                         </div>
-                        <div class="legend-item d-flex align-items-center">
-                            <div class="legend-marker" style="width: 22px; height: 22px; background: #6f42c1; border-radius: 50%; margin-right: 8px; border: 2px solid white;"></div>
-                            <span style="color: #fff; font-size: 14px;">Aktif Tesisler</span>
+                        <div class="legend-item">
+                            <div class="marker-icon facility"></div>
+                            <span>Aktif Tesislerimiz</span>
                         </div>
                     </div>
-                    <p class="mt-3" style="color: #ccc; font-size: 14px;">Haritadaki işaretlere tıklayarak proje ve tesis detaylarını görebilirsiniz</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Leaflet CSS & JS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Modern Map CSS -->
+<style>
+.interactive-map-section {
+    position: relative;
+    overflow: hidden;
+}
 
+.modern-map-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    background: #1a1a1a;
+}
+
+.hatay-imar-map {
+    width: 100%;
+    height: 500px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+}
+
+.map-info-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.95);
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.map-info-panel h5 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.map-info-panel p {
+    margin: 3px 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.map-legend-modern {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.legend-title h4 {
+    color: #fff;
+    margin: 0 0 20px 0;
+    text-align: center;
+    font-size: 20px;
+}
+
+.legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.legend-item:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+.marker-icon {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+.marker-icon.ongoing {
+    background: #28a745;
+}
+
+.marker-icon.planning {
+    background: #ffc107;
+}
+
+.marker-icon.completed {
+    background: #007bff;
+}
+
+.marker-icon.facility {
+    background: #6f42c1;
+    border: 2px solid white;
+}
+
+.legend-item span {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Mobil Responsive */
+@media (max-width: 768px) {
+    .hatay-imar-map {
+        height: 350px;
+    }
+    
+    .map-info-panel {
+        top: 10px;
+        right: 10px;
+        padding: 10px;
+    }
+    
+    .legend-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modern-map-wrapper {
+        border-radius: 10px;
+        margin: 0 -15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hatay-imar-map {
+        height: 300px;
+    }
+    
+    .map-legend-modern {
+        padding: 20px;
+        margin: 0 -15px;
+        border-radius: 0;
+    }
+}
+</style>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+<!-- Modern Map JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🗺️ Map script loading...');
+    console.log('🚀 Hatay İmar Haritası Başlatılıyor...');
     
-    try {
-        // Leaflet yüklendi mi kontrol et
-        if (typeof L === 'undefined') {
-            console.error('❌ Leaflet library not loaded!');
-            return;
-        }
-        console.log('✅ Leaflet library loaded');
-    
-    // Map container var mı kontrol et
-    var mapElement = document.getElementById('projectMap');
-    if (!mapElement) {
-        console.error('❌ Map container #projectMap not found!');
+    // Harita konteynerini kontrol et
+    const mapContainer = document.getElementById('hatayImarMap');
+    if (!mapContainer) {
+        console.error('❌ Harita konteyneri bulunamadı!');
         return;
     }
-    console.log('✅ Map container found');
 
-    // Hatay koordinatları (Antakya merkez)
-    var hatayCoords = [36.2027, 36.1621];
+    // Leaflet kontrolü
+    if (typeof L === 'undefined') {
+        console.error('❌ Leaflet kütüphanesi yüklenmedi!');
+        mapContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #fff; font-size: 18px;">📡 Harita kütüphanesi yüklenemiyor...</div>';
+        return;
+    }
 
-    // Hatay bölgesi sınırları (güneybatı ve kuzeydoğu köşeler)
-    var hatayBounds = [
-        [35.8, 35.8], // güneybatı köşe
-        [36.6, 36.6]  // kuzeydoğu köşe
-    ];
-
-    // Mobil cihaz tespit et
-    var isMobile = window.innerWidth <= 768;
-
-    // Harita oluştur - zoom kısıtlamaları ve mobil optimizasyonu ile
     try {
-        console.log('🗺️ Creating map...');
-        var map = L.map('projectMap', {
-            center: hatayCoords,
-            zoom: isMobile ? 10 : 11,  // mobilde biraz daha uzak başlat
-            minZoom: isMobile ? 8 : 9,   // mobilde daha uzaklaştırabilsin
-            maxZoom: 15,  
-            maxBounds: hatayBounds, 
-            maxBoundsViscosity: 1.0,
-            // Mobil dokunma optimizasyonları
-            tap: true,
-            tapTolerance: 15,
-            touchZoom: isMobile ? true : 'center',
-            scrollWheelZoom: !isMobile, // mobilde scroll zoom'u kapat
+        // Hatay merkez koordinatları
+        const hatayCenter = [36.2027, 36.1621];
+        
+        // Responsive zoom seviyeleri
+        const isMobile = window.innerWidth <= 768;
+        const isTablet = window.innerWidth <= 1024;
+        
+        // Harita oluştur
+        const map = L.map('hatayImarMap', {
+            center: hatayCenter,
+            zoom: isMobile ? 10 : (isTablet ? 11 : 12),
+            minZoom: 8,
+            maxZoom: 18,
+            zoomControl: true,
+            scrollWheelZoom: !isMobile,
             doubleClickZoom: true,
+            touchZoom: true,
             dragging: true,
-            // Mobilde pan ve zoom davranışlarını optimize et
-            worldCopyJump: false,
-            zoomControl: !isMobile, // mobilde zoom butonlarını gizle
-            attributionControl: false // mobilde attribution'ı gizle
+            boxZoom: false,
+            keyboard: false,
+            attributionControl: false
         });
-        console.log('✅ Map created successfully');
-    } catch (error) {
-        console.error('❌ Map creation failed:', error);
-        return;
-    }
 
-    // Satellite görünümü için Esri World Imagery kullan
-    try {
-        console.log('🗺️ Adding tile layers...');
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: '© Esri, Maxar, Earthstar Geographics'
+        console.log('✅ Harita başarıyla oluşturuldu');
+
+        // Modern harita katmanı
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
+            maxZoom: 20
         }).addTo(map);
 
-        // İsteğe bağlı: Yol ve yer adları için overlay ekle
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-            attribution: '© Esri'
+        // Yol ve etiket katmanı
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png', {
+            attribution: '',
+            maxZoom: 20,
+            opacity: 0.7
         }).addTo(map);
-        console.log('✅ Tile layers added successfully');
-    } catch (error) {
-        console.error('❌ Tile layer addition failed:', error);
-    }
 
-    // Mobilde basit zoom control ekle
-    if (isMobile) {
+        // Zoom kontrolünü özelleştir
         L.control.zoom({
             position: 'topright'
         }).addTo(map);
-    }
 
-    // Özel marker iconları
-    var ongoingIcon = L.divIcon({
-        className: 'custom-marker ongoing',
-        html: '<div style="background: #28a745; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"><i class="fa-solid fa-gear" style="color: white; font-size: 14px;"></i></div>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-    });
+        // Modern marker ikonları
+        function createMarkerIcon(color, icon, size = 35) {
+            return L.divIcon({
+                className: 'custom-modern-marker',
+                html: `
+                    <div style="
+                        background: ${color};
+                        width: ${size}px;
+                        height: ${size}px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+                        border: 3px solid white;
+                        position: relative;
+                        transform: scale(1);
+                        transition: all 0.3s ease;
+                    ">
+                        <i class="${icon}" style="color: white; font-size: ${size * 0.4}px;"></i>
+                        <div style="
+                            position: absolute;
+                            bottom: -8px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 0;
+                            height: 0;
+                            border-left: 8px solid transparent;
+                            border-right: 8px solid transparent;
+                            border-top: 8px solid ${color};
+                        "></div>
+                    </div>
+                `,
+                iconSize: [size, size + 8],
+                iconAnchor: [size/2, size + 8],
+                popupAnchor: [0, -(size + 8)]
+            });
+        }
 
-    var planningIcon = L.divIcon({
-        className: 'custom-marker planning',
-        html: '<div style="background: #ffc107; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"><i class="fa-solid fa-building-circle-arrow-right" style="color: white; font-size: 14px;"></i></div>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-    });
+        // Marker icon tanımları
+        const markerIcons = {
+            ongoing: createMarkerIcon('#28a745', 'fas fa-cog'),
+            planning: createMarkerIcon('#ffc107', 'fas fa-drafting-compass'),
+            completed: createMarkerIcon('#007bff', 'fas fa-check-circle'),
+            facility: createMarkerIcon('#6f42c1', 'fas fa-building', 38)
+        };
 
-    var completedIcon = L.divIcon({
-        className: 'custom-marker completed',
-        html: '<div style="background: #007bff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"><i class="fa-solid fa-check-circle" style="color: white; font-size: 14px;"></i></div>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-    });
-
-    // Tesis marker iconları
-    var facilityIcon = L.divIcon({
-        className: 'custom-marker facility',
-        html: '<div style="background: #6f42c1; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3); border: 2px solid white;"><i class="fa-solid fa-building" style="color: white; font-size: 16px;"></i></div>',
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-    });
-
-    // Proje konumları - Basit ve güvenli yaklaşım
-    var projects = [
+        // Veri hazırlama
         @php
-            $projectsData = [];
+            // Proje verileri
+            $mapProjects = [];
             foreach($allProjects as $project) {
                 if ($project->locations && $project->locations->count() > 0) {
                     foreach ($project->locations as $location) {
-                        $projectsData[] = [
-                            'name' => $project->title . ' - ' . $location->name,
-                            'coords' => [(float)$location->latitude, (float)$location->longitude],
-                            'status' => $project->status,
-                            'description' => $location->description ?: Str::limit(strip_tags($project->short_description), 100),
-                            'url' => route('project.details', ['id' => $project->id]),
-                            'projectTitle' => $project->title,
-                            'locationName' => $location->name
-                        ];
+                        if ($location->latitude && $location->longitude) {
+                            $mapProjects[] = [
+                                'id' => $project->id,
+                                'name' => $project->title . ' - ' . $location->name,
+                                'lat' => (float)$location->latitude,
+                                'lng' => (float)$location->longitude,
+                                'status' => $project->status,
+                                'description' => $location->description ?: strip_tags($project->short_description),
+                                'url' => route('project.details', $project->id),
+                                'type' => 'project'
+                            ];
+                        }
                     }
-                } else if ($project->latitude && $project->longitude) {
-                    $projectsData[] = [
+                } elseif ($project->latitude && $project->longitude) {
+                    $mapProjects[] = [
+                        'id' => $project->id,
                         'name' => $project->title,
-                        'coords' => [(float)$project->latitude, (float)$project->longitude],
+                        'lat' => (float)$project->latitude,
+                        'lng' => (float)$project->longitude,
                         'status' => $project->status,
-                        'description' => Str::limit(strip_tags($project->short_description), 100),
-                        'url' => route('project.details', ['id' => $project->id]),
-                        'projectTitle' => $project->title,
-                        'locationName' => 'Ana Lokasyon'
+                        'description' => strip_tags($project->short_description),
+                        'url' => route('project.details', $project->id),
+                        'type' => 'project'
                     ];
                 }
             }
-        @endphp
-        {!! json_encode($projectsData) !!}
-    ];
-        // Fallback projeler (eğer koordinatlı proje yoksa)
-        @if($allProjects->whereNotNull('latitude')->whereNotNull('longitude')->count() == 0)
-        {
-            name: "Yeni Sosyal Tesis Projesi",
-            coords: [36.220, 36.150],
-            status: "planning",
-            description: "Şehrimizin kuzey bölgesinde yeni sosyal tesis"
-        },
-        {
-            name: "Parke Taşı Yenileme",
-            coords: [36.202, 36.162],
-            status: "ongoing",
-            description: "Şehir merkezinde parke taşı yenileme çalışması"
-        },
-        {
-            name: "Yeşil Alan Düzenleme",
-            coords: [36.215, 36.175],
-            status: "planning",
-            description: "Habib-i Neccar çevresinde yeşil alan düzenlemesi"
-        },
-        {
-            name: "Üretim Tesisi Modernizasyonu",
-            coords: [36.190, 36.140],
-            status: "ongoing",
-            description: "Sanayi bölgesinde tesis modernizasyonu"
-        },
-        {
-            name: "Yeni Katlı Otopark",
-            coords: [36.205, 36.155],
-            status: "ongoing",
-            description: "Şehir merkezinde yeni otopark inşaatı"
-        },
-        {
-            name: "Spor Tesisi",
-            coords: [36.185, 36.145],
-            status: "planning",
-            description: "Gençlik ve spor tesisi projesi"
-        },
-        {
-            name: "Kültür Merkezi",
-            coords: [36.210, 36.170],
-            status: "planning",
-            description: "Hatay kültür merkezi projesi"
-        },
-        {
-            name: "Teknoloji Parkı",
-            coords: [36.195, 36.180],
-            status: "ongoing",
-            description: "Modern teknoloji parkı inşaatı"
-        }
-        @endif
-    ];
 
-    // Tesis konumları - Basit ve güvenli yaklaşım
-    var facilities = [
-        @php
-            $facilitiesData = [];
+            // Tesis verileri
+            $mapFacilities = [];
             foreach($allFacilities as $facility) {
                 if ($facility->latitude && $facility->longitude) {
-                    $facilitiesData[] = [
+                    $mapFacilities[] = [
+                        'id' => $facility->id,
                         'name' => $facility->name,
-                        'coords' => [(float)$facility->latitude, (float)$facility->longitude],
-                        'type' => 'facility',
+                        'lat' => (float)$facility->latitude,
+                        'lng' => (float)$facility->longitude,
                         'category' => $facility->category ?: 'Tesis',
-                        'description' => Str::limit(strip_tags($facility->short_description), 100),
+                        'description' => strip_tags($facility->short_description),
                         'url' => route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]),
-                        'address' => $facility->address ?: '',
-                        'phone' => $facility->phone ?: ''
+                        'type' => 'facility'
                     ];
                 }
             }
         @endphp
-        {!! json_encode($facilitiesData) !!}
-    ];
-    
-    console.log('📍 Facilities data loaded:', facilities.length, 'facilities');
-    console.log('🏗️ Projects data loaded:', projects.length, 'projects');
-    console.log('🗺️ Projects detailed data:', projects);
 
-    // Projeler için marker'ları haritaya ekle
-    console.log('🗺️ Adding project markers...');
-    projects.forEach(function(project) {
-        var icon;
-        var statusText;
-        var statusColor;
-        
-        if (project.status === 'ongoing') {
-            icon = ongoingIcon;
-            statusText = 'Devam Ediyor';
-            statusColor = '#28a745';
-        } else if (project.status === 'completed') {
-            icon = completedIcon;
-            statusText = 'Tamamlandı';
-            statusColor = '#007bff';
-        } else {
-            icon = planningIcon;
-            statusText = 'Planlama Aşamasında';
-            statusColor = '#ffc107';
-        }
+        const projects = @json($mapProjects);
+        const facilities = @json($mapFacilities);
 
-        var marker = L.marker(project.coords, {icon: icon}).addTo(map);
+        console.log(`📊 Yüklenen veriler: ${projects.length} proje, ${facilities.length} tesis`);
 
-        var popupContent = `
-            <div style="text-align: center; min-width: ${isMobile ? '180px' : '200px'}; max-width: ${isMobile ? '250px' : '300px'};">
-                <h5 style="margin: 0 0 8px 0; color: #333; font-size: ${isMobile ? '14px' : '16px'};">${project.name}</h5>
-                <p style="margin: 0 0 10px 0; color: #666; font-size: ${isMobile ? '12px' : '13px'}; line-height: 1.4;">${project.description}</p>
-                <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 12px; font-size: ${isMobile ? '10px' : '11px'};">${statusText}</span>
-                ${project.url ? '<div style="margin-top: 10px;"><a href="' + project.url + '" style="color: #007bff; text-decoration: none; font-size: ' + (isMobile ? '11px' : '12px') + ';">Proje Detayları →</a></div>' : ''}
-            </div>
-        `;
+        // Modern popup stil fonksiyonu
+        function createModernPopup(item) {
+            const isProject = item.type === 'project';
+            const statusText = isProject ? 
+                (item.status === 'ongoing' ? 'Devam Ediyor' :
+                 item.status === 'completed' ? 'Tamamlandı' : 'Planlama Aşamasında') :
+                'Aktif Tesis';
+            
+            const statusColor = isProject ?
+                (item.status === 'ongoing' ? '#28a745' :
+                 item.status === 'completed' ? '#007bff' : '#ffc107') :
+                '#6f42c1';
 
-        marker.bindPopup(popupContent);
-
-        // Marker tıklama olayı
-        marker.on('click', function() {
-            console.log('Clicked project:', project.name);
-            // Eğer proje URL'si varsa detay sayfasına yönlendir
-            if (project.url) {
-                // Popup'ı açalım, link tıklanabilir olsun
-                marker.openPopup();
-            }
-        });
-    });
-
-    // Tesisler için marker'ları haritaya ekle
-    console.log('🗺️ Adding facility markers...');
-    facilities.forEach(function(facility) {
-        var marker = L.marker(facility.coords, {icon: facilityIcon}).addTo(map);
-
-        var popupContent = `
-            <div style="text-align: center; min-width: ${isMobile ? '180px' : '200px'}; max-width: ${isMobile ? '250px' : '300px'};">
-                <h5 style="margin: 0 0 8px 0; color: #333; font-size: ${isMobile ? '14px' : '16px'};">${facility.name}</h5>
-                <p style="margin: 0 0 8px 0; color: #6f42c1; font-size: ${isMobile ? '11px' : '12px'}; font-weight: 600;">${facility.category}</p>
-                <p style="margin: 0 0 10px 0; color: #666; font-size: ${isMobile ? '12px' : '13px'}; line-height: 1.4;">${facility.description}</p>
-                <span style="background: #6f42c1; color: white; padding: 4px 8px; border-radius: 12px; font-size: ${isMobile ? '10px' : '11px'}; display: inline-block; margin-bottom: 10px;">🏢 Aktif Tesis</span>
-                <div style="margin-top: 10px;">
-                    <a href="${facility.url}" style="color: #6f42c1; text-decoration: none; font-size: ${isMobile ? '11px' : '12px'}; font-weight: 500;">Tesis Detayları →</a>
+            return `
+                <div style="
+                    min-width: 280px;
+                    max-width: 320px;
+                    font-family: 'Arial', sans-serif;
+                    padding: 0;
+                    margin: 0;
+                ">
+                    <div style="
+                        background: linear-gradient(135deg, ${statusColor}, ${statusColor}dd);
+                        color: white;
+                        padding: 15px;
+                        margin: -20px -20px 15px -20px;
+                        border-radius: 10px 10px 0 0;
+                    ">
+                        <h4 style="margin: 0; font-size: 16px; font-weight: 600;">
+                            ${item.name}
+                        </h4>
+                        ${isProject ? `<p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.9;">${item.category || 'Proje'}</p>` : `<p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.9;">${item.category}</p>`}
+                    </div>
+                    
+                    <div style="padding: 0 5px;">
+                        <p style="
+                            margin: 0 0 15px 0;
+                            color: #555;
+                            font-size: 14px;
+                            line-height: 1.4;
+                        ">
+                            ${item.description.substring(0, 120)}${item.description.length > 120 ? '...' : ''}
+                        </p>
+                        
+                        <div style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            margin-top: 15px;
+                        ">
+                            <span style="
+                                background: ${statusColor};
+                                color: white;
+                                padding: 6px 12px;
+                                border-radius: 15px;
+                                font-size: 11px;
+                                font-weight: 500;
+                            ">
+                                ${statusText}
+                            </span>
+                            
+                            <a href="${item.url}" style="
+                                background: #007bff;
+                                color: white;
+                                padding: 8px 15px;
+                                border-radius: 20px;
+                                text-decoration: none;
+                                font-size: 12px;
+                                font-weight: 500;
+                                transition: all 0.3s ease;
+                            " onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
+                                Detayları Gör →
+                            </a>
+                        </div>
+                    </div>
                 </div>
+            `;
+        }
+
+        // Projeleri haritaya ekle
+        projects.forEach(function(project) {
+            const icon = markerIcons[project.status] || markerIcons.planning;
+            const marker = L.marker([project.lat, project.lng], { icon: icon }).addTo(map);
+            
+            marker.bindPopup(createModernPopup(project), {
+                maxWidth: 350,
+                className: 'modern-popup'
+            });
+
+            // Marker hover efekti
+            marker.on('mouseover', function() {
+                this.getElement().style.transform = 'scale(1.1)';
+                this.getElement().style.zIndex = '1000';
+            });
+
+            marker.on('mouseout', function() {
+                this.getElement().style.transform = 'scale(1)';
+                this.getElement().style.zIndex = '400';
+            });
+        });
+
+        // Tesisleri haritaya ekle
+        facilities.forEach(function(facility) {
+            const marker = L.marker([facility.lat, facility.lng], { icon: markerIcons.facility }).addTo(map);
+            
+            marker.bindPopup(createModernPopup(facility), {
+                maxWidth: 350,
+                className: 'modern-popup'
+            });
+
+            // Marker hover efekti
+            marker.on('mouseover', function() {
+                this.getElement().style.transform = 'scale(1.1)';
+                this.getElement().style.zIndex = '1000';
+            });
+
+            marker.on('mouseout', function() {
+                this.getElement().style.transform = 'scale(1)';
+                this.getElement().style.zIndex = '400';
+            });
+        });
+
+        console.log('🎉 Harita başarıyla yüklendi!');
+
+    } catch (error) {
+        console.error('❌ Harita yükleme hatası:', error);
+        mapContainer.innerHTML = `
+            <div style="
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                color: #fff;
+                text-align: center;
+                padding: 40px;
+            ">
+                <div style="font-size: 48px; margin-bottom: 20px;">🗺️</div>
+                <h3 style="margin: 0 0 10px 0;">Harita Yüklenemiyor</h3>
+                <p style="margin: 0; opacity: 0.8;">Lütfen sayfa yenilemeyi deneyin</p>
             </div>
         `;
-
-        marker.bindPopup(popupContent);
-
-        // Marker tıklama olayı
-        marker.on('click', function() {
-            console.log('Clicked facility:', facility.name);
-            marker.openPopup();
-        });
-    });
-    
-        console.log('🎉 Map initialization completed successfully!');
-    } catch (error) {
-        console.error('❌ Map initialization failed:', error);
-        console.error('Error details:', error.message);
-        console.error('Stack trace:', error.stack);
-        
-        // Fallback - harita container'ını gizle
-        var mapElement = document.getElementById('projectMap');
-        if (mapElement) {
-            mapElement.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">🗺️ Harita yüklenirken bir hata oluştu.</div>';
-        }
     }
 });
 </script>
+
+<!-- Modern Popup Stilleri -->
+<style>
+.leaflet-popup-content-wrapper {
+    border-radius: 12px !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3) !important;
+    padding: 20px !important;
+}
+
+.leaflet-popup-tip {
+    background: white !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2) !important;
+}
+
+.modern-popup .leaflet-popup-content {
+    margin: 0 !important;
+}
+
+.modern-popup .leaflet-popup-close-button {
+    color: #999 !important;
+    font-size: 18px !important;
+    padding: 8px !important;
+}
+
+.custom-modern-marker {
+    cursor: pointer;
+}
+
+.custom-modern-marker div:hover {
+    transform: scale(1.1) !important;
+}
+</style>
 </section>
 
 <!--==============================
@@ -1265,61 +1464,21 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #cf9f38 !important;
 }
 
-/* Proje Haritası Responsive */
-.project-map {
-    height: 500px;
-    width: 100%;
-    touch-action: pan-x pan-y;
+/* Modern Harita Responsive Stilleri */
+.interactive-map-section .hatay-imar-map {
+    background: radial-gradient(circle at center, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
 }
 
-/* Mobil cihazlarda harita boyutları */
+/* Mobil Optimizasyonlar */
 @media (max-width: 768px) {
-    .project-map {
-        height: 300px !important;
-        touch-action: manipulation;
-    }
-    
-    /* Harita container'ında scroll engellemesi */
-    .map-container {
-        position: relative;
-        overflow: hidden;
-    }
-    
-    /* Legend mobil optimizasyonu */
-    .legend-items {
-        gap: 15px !important;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .legend-item {
-        justify-content: center;
-        margin: 5px 0;
-    }
-    
-    .legend-item span {
-        font-size: 13px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .project-map {
-        height: 250px !important;
-    }
-    
-    /* Çok küçük ekranlarda daha da küçült */
-    .map-container {
-        margin: 0 -15px;
-        border-radius: 0 !important;
-    }
-    
-    /* Harita başlığını mobilde küçült */
-    .projects-map-section .sec-title {
+    .interactive-map-section .sec-title {
         font-size: 2rem !important;
         line-height: 1.2 !important;
     }
     
-    .projects-map-section .sub-title {
+    .interactive-map-section .sub-title {
         font-size: 14px !important;
     }
 }
