@@ -970,6 +970,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('📍 Facilities data loaded:', facilities.length, 'facilities');
     console.log('🏗️ Projects data loaded:', projects.length, 'projects');
+    console.log('🗺️ Projects detailed data:', projects);
 
     // Projeler için marker'ları haritaya ekle
     console.log('🗺️ Adding project markers...');

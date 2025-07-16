@@ -785,6 +785,9 @@ document.addEventListener('DOMContentLoaded', function() {
         @endforeach
     ];
 
+    console.log('🗺️ Project locations data:', projectLocations);
+    console.log('📍 Total locations:', projectLocations.length);
+
     // Harita merkez koordinatı (tüm lokasyonların ortası)
     var centerLat = projectLocations.reduce((sum, loc) => sum + loc.coords[0], 0) / projectLocations.length;
     var centerLng = projectLocations.reduce((sum, loc) => sum + loc.coords[1], 0) / projectLocations.length;
