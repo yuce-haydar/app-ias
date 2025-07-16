@@ -760,6 +760,23 @@ Projeler Haritası Bölümü
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🗺️ Map script loading...');
+    
+    // Leaflet yüklendi mi kontrol et
+    if (typeof L === 'undefined') {
+        console.error('❌ Leaflet library not loaded!');
+        return;
+    }
+    console.log('✅ Leaflet library loaded');
+    
+    // Map container var mı kontrol et
+    var mapElement = document.getElementById('projectMap');
+    if (!mapElement) {
+        console.error('❌ Map container #projectMap not found!');
+        return;
+    }
+    console.log('✅ Map container found');
+
     // Hatay koordinatları (Antakya merkez)
     var hatayCoords = [36.2027, 36.1621];
 
@@ -773,35 +790,48 @@ document.addEventListener('DOMContentLoaded', function() {
     var isMobile = window.innerWidth <= 768;
 
     // Harita oluştur - zoom kısıtlamaları ve mobil optimizasyonu ile
-    var map = L.map('projectMap', {
-        center: hatayCoords,
-        zoom: isMobile ? 10 : 11,  // mobilde biraz daha uzak başlat
-        minZoom: isMobile ? 8 : 9,   // mobilde daha uzaklaştırabilsin
-        maxZoom: 15,  
-        maxBounds: hatayBounds, 
-        maxBoundsViscosity: 1.0,
-        // Mobil dokunma optimizasyonları
-        tap: true,
-        tapTolerance: 15,
-        touchZoom: isMobile ? true : 'center',
-        scrollWheelZoom: !isMobile, // mobilde scroll zoom'u kapat
-        doubleClickZoom: true,
-        dragging: true,
-        // Mobilde pan ve zoom davranışlarını optimize et
-        worldCopyJump: false,
-        zoomControl: !isMobile, // mobilde zoom butonlarını gizle
-        attributionControl: false // mobilde attribution'ı gizle
-    });
+    try {
+        console.log('🗺️ Creating map...');
+        var map = L.map('projectMap', {
+            center: hatayCoords,
+            zoom: isMobile ? 10 : 11,  // mobilde biraz daha uzak başlat
+            minZoom: isMobile ? 8 : 9,   // mobilde daha uzaklaştırabilsin
+            maxZoom: 15,  
+            maxBounds: hatayBounds, 
+            maxBoundsViscosity: 1.0,
+            // Mobil dokunma optimizasyonları
+            tap: true,
+            tapTolerance: 15,
+            touchZoom: isMobile ? true : 'center',
+            scrollWheelZoom: !isMobile, // mobilde scroll zoom'u kapat
+            doubleClickZoom: true,
+            dragging: true,
+            // Mobilde pan ve zoom davranışlarını optimize et
+            worldCopyJump: false,
+            zoomControl: !isMobile, // mobilde zoom butonlarını gizle
+            attributionControl: false // mobilde attribution'ı gizle
+        });
+        console.log('✅ Map created successfully');
+    } catch (error) {
+        console.error('❌ Map creation failed:', error);
+        return;
+    }
 
     // Satellite görünümü için Esri World Imagery kullan
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '© Esri, Maxar, Earthstar Geographics'
-    }).addTo(map);
+    try {
+        console.log('🗺️ Adding tile layers...');
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri, Maxar, Earthstar Geographics'
+        }).addTo(map);
 
-    // İsteğe bağlı: Yol ve yer adları için overlay ekle
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '© Esri'
-    }).addTo(map);
+        // İsteğe bağlı: Yol ve yer adları için overlay ekle
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri'
+        }).addTo(map);
+        console.log('✅ Tile layers added successfully');
+    } catch (error) {
+        console.error('❌ Tile layer addition failed:', error);
+    }
 
     // Mobilde basit zoom control ekle
     if (isMobile) {
@@ -937,8 +967,12 @@ document.addEventListener('DOMContentLoaded', function() {
             @endif
         @endforeach
     ];
+    
+    console.log('📍 Facilities data loaded:', facilities.length, 'facilities');
+    console.log('🏗️ Projects data loaded:', projects.length, 'projects');
 
     // Projeler için marker'ları haritaya ekle
+    console.log('🗺️ Adding project markers...');
     projects.forEach(function(project) {
         var icon;
         var statusText;
@@ -983,6 +1017,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Tesisler için marker'ları haritaya ekle
+    console.log('🗺️ Adding facility markers...');
     facilities.forEach(function(facility) {
         var marker = L.marker(facility.coords, {icon: facilityIcon}).addTo(map);
 
@@ -1006,6 +1041,8 @@ document.addEventListener('DOMContentLoaded', function() {
             marker.openPopup();
         });
     });
+    
+    console.log('🎉 Map initialization completed successfully!');
 });
 </script>
 </section>
