@@ -23,7 +23,8 @@ class HomeController extends Controller
             ->get();
             
         // Projeleri veritabanından çek (harita için tüm projeler, görüntü için 8 tane)
-        $allProjects = Project::orderBy('sort_order', 'asc')
+        $allProjects = Project::with('locations')
+            ->orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
             ->get()
             ->map(function($project) {
@@ -56,7 +57,7 @@ class HomeController extends Controller
                 return $project;
             });
             
-        // Öne çıkan tesisleri çek
+        // Öne çıkan tesisleri çek (card'larda gösterilecek)
         $facilities = Facility::where('status', 'active')
             ->where('is_featured', true)
             ->orderBy('sort_order', 'asc')
@@ -81,6 +82,18 @@ class HomeController extends Controller
                 return $facility;
             });
             
+        // Harita için tüm aktif tesisleri çek
+        $allFacilities = Facility::where('status', 'active')
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->orderBy('sort_order', 'asc')
+            ->get()
+            ->map(function($facility) {
+                // Image path'i düzelt
+                $facility->image_url = \App\Helpers\ImageHelper::getImageUrl($facility->image);
+                return $facility;
+            });
+            
         // Öne çıkan hizmetleri çek
         $services = Service::active()
             ->featured()
@@ -91,7 +104,7 @@ class HomeController extends Controller
         // Ana sayfa ayarlarını çek
         $homeSettings = HomePageSettings::getSettings();
         
-        return view('home', compact('news', 'projects', 'allProjects', 'featuredProjects', 'facilities', 'services', 'homeSettings'));
+        return view('home', compact('news', 'projects', 'allProjects', 'featuredProjects', 'facilities', 'allFacilities', 'services', 'homeSettings'));
     }
 
     /**

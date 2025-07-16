@@ -710,8 +710,8 @@ Projeler Haritası Bölümü
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-area text-center">
-                    <div class="sub-title text-white"><span><i class="asterisk"></i></span>Proje Haritası</div>
-                    <h2 class="sec-title text-white mb-60">Devam Eden ve <span class="bold">Planlanan</span><br>Projelerimizin Konumu</h2>
+                    <div class="sub-title text-white"><span><i class="asterisk"></i></span>Proje ve Tesis Haritası</div>
+                    <h2 class="sec-title text-white mb-60">Projelerimiz ve <span class="bold">Tesislerimizin</span><br>Konumu</h2>
                 </div>
             </div>
         </div>
@@ -720,7 +720,7 @@ Projeler Haritası Bölümü
         <div class="row">
             <div class="col-lg-12">
                 <div class="map-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                    <div id="projectMap" style="height: 500px; width: 100%;"></div>
+                    <div id="projectMap" class="project-map"></div>
                 </div>
             </div>
         </div>
@@ -729,17 +729,25 @@ Projeler Haritası Bölümü
         <div class="row mt-40">
             <div class="col-lg-12">
                 <div class="map-legend text-center">
-                    <div class="legend-items d-flex justify-content-center gap-4 flex-wrap">
+                    <div class="legend-items d-flex justify-content-center gap-3 flex-wrap">
                         <div class="legend-item d-flex align-items-center">
                             <div class="legend-marker" style="width: 20px; height: 20px; background: #28a745; border-radius: 50%; margin-right: 8px;"></div>
-                            <span style="color: #fff;">Devam Eden Projeler</span>
+                            <span style="color: #fff; font-size: 14px;">Devam Eden Projeler</span>
                         </div>
                         <div class="legend-item d-flex align-items-center">
                             <div class="legend-marker" style="width: 20px; height: 20px; background: #ffc107; border-radius: 50%; margin-right: 8px;"></div>
-                            <span style="color: #fff;">Planlama Aşamasında</span>
+                            <span style="color: #fff; font-size: 14px;">Planlama Aşamasında</span>
+                        </div>
+                        <div class="legend-item d-flex align-items-center">
+                            <div class="legend-marker" style="width: 20px; height: 20px; background: #007bff; border-radius: 50%; margin-right: 8px;"></div>
+                            <span style="color: #fff; font-size: 14px;">Tamamlanan Projeler</span>
+                        </div>
+                        <div class="legend-item d-flex align-items-center">
+                            <div class="legend-marker" style="width: 22px; height: 22px; background: #6f42c1; border-radius: 50%; margin-right: 8px; border: 2px solid white;"></div>
+                            <span style="color: #fff; font-size: 14px;">Aktif Tesisler</span>
                         </div>
                     </div>
-                    <p class="mt-3" style="color: #ccc; font-size: 14px;">Haritadaki işaretlere tıklayarak proje detaylarını görebilirsiniz</p>
+                    <p class="mt-3" style="color: #ccc; font-size: 14px;">Haritadaki işaretlere tıklayarak proje ve tesis detaylarını görebilirsiniz</p>
                 </div>
             </div>
         </div>
@@ -761,14 +769,28 @@ document.addEventListener('DOMContentLoaded', function() {
         [36.6, 36.6]  // kuzeydoğu köşe
     ];
 
-    // Harita oluştur - zoom kısıtlamaları ile
+    // Mobil cihaz tespit et
+    var isMobile = window.innerWidth <= 768;
+
+    // Harita oluştur - zoom kısıtlamaları ve mobil optimizasyonu ile
     var map = L.map('projectMap', {
         center: hatayCoords,
-        zoom: 11,
-        minZoom: 9,   // minimum zoom (biraz daha uzaklaştırabilsin)
-        maxZoom: 15,  // maximum zoom
-        maxBounds: hatayBounds, // harita sınırları
-        maxBoundsViscosity: 1.0 // sınırlardan çıkamasın
+        zoom: isMobile ? 10 : 11,  // mobilde biraz daha uzak başlat
+        minZoom: isMobile ? 8 : 9,   // mobilde daha uzaklaştırabilsin
+        maxZoom: 15,  
+        maxBounds: hatayBounds, 
+        maxBoundsViscosity: 1.0,
+        // Mobil dokunma optimizasyonları
+        tap: true,
+        tapTolerance: 15,
+        touchZoom: isMobile ? true : 'center',
+        scrollWheelZoom: !isMobile, // mobilde scroll zoom'u kapat
+        doubleClickZoom: true,
+        dragging: true,
+        // Mobilde pan ve zoom davranışlarını optimize et
+        worldCopyJump: false,
+        zoomControl: !isMobile, // mobilde zoom butonlarını gizle
+        attributionControl: false // mobilde attribution'ı gizle
     });
 
     // Satellite görünümü için Esri World Imagery kullan
@@ -780,6 +802,13 @@ document.addEventListener('DOMContentLoaded', function() {
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
         attribution: '© Esri'
     }).addTo(map);
+
+    // Mobilde basit zoom control ekle
+    if (isMobile) {
+        L.control.zoom({
+            position: 'topright'
+        }).addTo(map);
+    }
 
     // Özel marker iconları
     var ongoingIcon = L.divIcon({
@@ -796,16 +825,45 @@ document.addEventListener('DOMContentLoaded', function() {
         iconAnchor: [15, 15]
     });
 
-    // Proje konumları - Veritabanından dinamik olarak
+    var completedIcon = L.divIcon({
+        className: 'custom-marker completed',
+        html: '<div style="background: #007bff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"><i class="fa-solid fa-check-circle" style="color: white; font-size: 14px;"></i></div>',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+
+    // Tesis marker iconları
+    var facilityIcon = L.divIcon({
+        className: 'custom-marker facility',
+        html: '<div style="background: #6f42c1; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3); border: 2px solid white;"><i class="fa-solid fa-building" style="color: white; font-size: 16px;"></i></div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+    });
+
+    // Proje konumları - Veritabanından dinamik olarak (birden fazla lokasyon desteği)
     var projects = [
         @foreach($allProjects as $project)
-            @if($project->latitude && $project->longitude)
+            @if($project->locations && $project->locations->count() > 0)
+                @foreach($project->locations as $location)
+                {
+                    name: "{{ $project->title }} - {{ $location->name }}",
+                    coords: [{{ $location->latitude }}, {{ $location->longitude }}],
+                    status: "{{ $project->status }}",
+                    description: "{{ $location->description ?: Str::limit($project->short_description, 100) }}",
+                    url: "{{ route('project.details', ['id' => $project->id]) }}",
+                    projectTitle: "{{ $project->title }}",
+                    locationName: "{{ $location->name }}"
+                },
+                @endforeach
+            @elseif($project->latitude && $project->longitude)
             {
                 name: "{{ $project->title }}",
                 coords: [{{ $project->latitude }}, {{ $project->longitude }}],
                 status: "{{ $project->status }}",
                 description: "{!! Str::limit($project->short_description, 100) !!}",
-                url: "{{ route('project.details', ['id' => $project->id]) }}"
+                url: "{{ route('project.details', ['id' => $project->id]) }}",
+                projectTitle: "{{ $project->title }}",
+                locationName: "Ana Lokasyon"
             },
             @endif
         @endforeach
@@ -862,7 +920,25 @@ document.addEventListener('DOMContentLoaded', function() {
         @endif
     ];
 
-    // Marker'ları haritaya ekle
+    // Tesis konumları - Veritabanından dinamik olarak
+    var facilities = [
+        @foreach($allFacilities as $facility)
+            @if($facility->latitude && $facility->longitude)
+            {
+                name: "{{ $facility->name }}",
+                coords: [{{ $facility->latitude }}, {{ $facility->longitude }}],
+                type: "facility",
+                category: "{{ $facility->category ?: 'Tesis' }}",
+                description: "{!! Str::limit($facility->short_description, 100) !!}",
+                url: "{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}",
+                address: "{{ $facility->address ?: '' }}",
+                phone: "{{ $facility->phone ?: '' }}"
+            },
+            @endif
+        @endforeach
+    ];
+
+    // Projeler için marker'ları haritaya ekle
     projects.forEach(function(project) {
         var icon;
         var statusText;
@@ -885,11 +961,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var marker = L.marker(project.coords, {icon: icon}).addTo(map);
 
         var popupContent = `
-            <div style="text-align: center; min-width: 200px;">
-                <h5 style="margin: 0 0 8px 0; color: #333;">${project.name}</h5>
-                <p style="margin: 0 0 10px 0; color: #666; font-size: 13px;">${project.description}</p>
-                <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px;">${statusText}</span>
-                ${project.url ? '<div style="margin-top: 10px;"><a href="' + project.url + '" style="color: #007bff; text-decoration: none; font-size: 12px;">Proje Detayları →</a></div>' : ''}
+            <div style="text-align: center; min-width: ${isMobile ? '180px' : '200px'}; max-width: ${isMobile ? '250px' : '300px'};">
+                <h5 style="margin: 0 0 8px 0; color: #333; font-size: ${isMobile ? '14px' : '16px'};">${project.name}</h5>
+                <p style="margin: 0 0 10px 0; color: #666; font-size: ${isMobile ? '12px' : '13px'}; line-height: 1.4;">${project.description}</p>
+                <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 12px; font-size: ${isMobile ? '10px' : '11px'};">${statusText}</span>
+                ${project.url ? '<div style="margin-top: 10px;"><a href="' + project.url + '" style="color: #007bff; text-decoration: none; font-size: ' + (isMobile ? '11px' : '12px') + ';">Proje Detayları →</a></div>' : ''}
             </div>
         `;
 
@@ -903,6 +979,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Popup'ı açalım, link tıklanabilir olsun
                 marker.openPopup();
             }
+        });
+    });
+
+    // Tesisler için marker'ları haritaya ekle
+    facilities.forEach(function(facility) {
+        var marker = L.marker(facility.coords, {icon: facilityIcon}).addTo(map);
+
+        var popupContent = `
+            <div style="text-align: center; min-width: ${isMobile ? '180px' : '200px'}; max-width: ${isMobile ? '250px' : '300px'};">
+                <h5 style="margin: 0 0 8px 0; color: #333; font-size: ${isMobile ? '14px' : '16px'};">${facility.name}</h5>
+                <p style="margin: 0 0 8px 0; color: #6f42c1; font-size: ${isMobile ? '11px' : '12px'}; font-weight: 600;">${facility.category}</p>
+                <p style="margin: 0 0 10px 0; color: #666; font-size: ${isMobile ? '12px' : '13px'}; line-height: 1.4;">${facility.description}</p>
+                <span style="background: #6f42c1; color: white; padding: 4px 8px; border-radius: 12px; font-size: ${isMobile ? '10px' : '11px'}; display: inline-block; margin-bottom: 10px;">🏢 Aktif Tesis</span>
+                <div style="margin-top: 10px;">
+                    <a href="${facility.url}" style="color: #6f42c1; text-decoration: none; font-size: ${isMobile ? '11px' : '12px'}; font-weight: 500;">Tesis Detayları →</a>
+                </div>
+            </div>
+        `;
+
+        marker.bindPopup(popupContent);
+
+        // Marker tıklama olayı
+        marker.on('click', function() {
+            console.log('Clicked facility:', facility.name);
+            marker.openPopup();
         });
     });
 });
@@ -1103,6 +1204,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .blog-title a:hover {
     color: #cf9f38 !important;
+}
+
+/* Proje Haritası Responsive */
+.project-map {
+    height: 500px;
+    width: 100%;
+    touch-action: pan-x pan-y;
+}
+
+/* Mobil cihazlarda harita boyutları */
+@media (max-width: 768px) {
+    .project-map {
+        height: 300px !important;
+        touch-action: manipulation;
+    }
+    
+    /* Harita container'ında scroll engellemesi */
+    .map-container {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Legend mobil optimizasyonu */
+    .legend-items {
+        gap: 15px !important;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .legend-item {
+        justify-content: center;
+        margin: 5px 0;
+    }
+    
+    .legend-item span {
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-map {
+        height: 250px !important;
+    }
+    
+    /* Çok küçük ekranlarda daha da küçült */
+    .map-container {
+        margin: 0 -15px;
+        border-radius: 0 !important;
+    }
+    
+    /* Harita başlığını mobilde küçült */
+    .projects-map-section .sec-title {
+        font-size: 2rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    .projects-map-section .sub-title {
+        font-size: 14px !important;
+    }
 }
 </style>
 

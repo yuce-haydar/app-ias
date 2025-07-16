@@ -177,13 +177,19 @@
 
                     @if($facility->google_maps_link || ($facility->latitude && $facility->longitude))
                     <div class="widget location-widget">
-                        <h3 class="widget-title">Tesise Git</h3>
+                        <h3 class="widget-title">Tesis Konumu</h3>
                         <p>Tesisimizi ziyaret etmek için harita üzerinden konum bilgilerini görüntüleyin.</p>
-                        <a href="{{ $facility->google_maps_link ?: 'https://maps.google.com/?q=' . $facility->latitude . ',' . $facility->longitude }}" target="_blank" class="theme-btn bg-success mb-3">
+                        
+                        <!-- Leaflet Harita -->
+                        @if($facility->latitude && $facility->longitude)
+                        <div id="facilityLocationMap" style="height: 300px; width: 100%; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 15px;"></div>
+                        @endif
+                        
+                        <a href="{{ $facility->google_maps_link ?: 'https://maps.google.com/?q=' . $facility->latitude . ',' . $facility->longitude }}" target="_blank" class="theme-btn bg-success">
                             <span class="link-effect">
-                                <span class="effect-1">Haritada Göster</span>
-                                <span class="effect-1">Haritada Göster</span>
-                            </span><i class="fa-solid fa-location-dot"></i>
+                                <span class="effect-1"><i class="fa-solid fa-route"></i> Tesise Git</span>
+                                <span class="effect-1"><i class="fa-solid fa-route"></i> Tesise Git</span>
+                            </span>
                         </a>
                     </div>
                     @endif
@@ -490,4 +496,72 @@ document.getElementById('imageModal').addEventListener('click', function(event) 
         closeImageModal();
     }
 });
-</script> 
+</script>
+
+@if($facility->latitude && $facility->longitude)
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tesis koordinatları
+    var facilityCoords = [{{ $facility->latitude }}, {{ $facility->longitude }}];
+    
+    // Harita oluştur
+    var map = L.map('facilityLocationMap', {
+        center: facilityCoords,
+        zoom: 16,
+        maxZoom: 18,
+        minZoom: 10
+    });
+
+    // Satellite görünümü
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '© Esri, Maxar, Earthstar Geographics'
+    }).addTo(map);
+
+    // Yol ve yer adları overlay
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '© Esri'
+    }).addTo(map);
+
+    // Marker iconı
+    var facilityIcon = L.divIcon({
+        className: 'custom-facility-marker',
+        html: '<div style="background: #007bff; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3); border: 3px solid white;"><i class="fa-solid fa-building" style="color: white; font-size: 16px;"></i></div>',
+        iconSize: [35, 35],
+        iconAnchor: [17.5, 17.5]
+    });
+
+    // Marker oluştur
+    var marker = L.marker(facilityCoords, {icon: facilityIcon}).addTo(map);
+    
+    // Tesis bilgileri
+    var facilityName = "{{ addslashes($facility->name) }}";
+    var facilityCategory = "{{ addslashes($facility->category ?? 'Tesis') }}";
+    var facilityAddress = "{{ addslashes($facility->address ?? '') }}";
+    var facilityMapLink = "{{ $facility->google_maps_link ?: 'https://maps.google.com/?q=' . $facility->latitude . ',' . $facility->longitude }}";
+    
+    var popupContent = `
+        <div style="text-align: center; min-width: 220px;">
+            <h6 style="margin: 0 0 8px 0; color: #333;">${facilityName}</h6>
+            <p style="margin: 0 0 8px 0; color: #666; font-size: 12px;">${facilityCategory}</p>
+            ${facilityAddress ? '<p style="margin: 0 0 10px 0; color: #666; font-size: 11px;">' + facilityAddress + '</p>' : ''}
+            <div style="margin-top: 10px;">
+                <a href="${facilityMapLink}" target="_blank" 
+                   style="background: #28a745; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: 500; display: inline-block;">
+                    <i class="fa-solid fa-route" style="margin-right: 5px;"></i>Tesise Git
+                </a>
+            </div>
+        </div>
+    `;
+    
+    marker.bindPopup(popupContent);
+    
+    // Popup'ı otomatik aç
+    marker.openPopup();
+});
+</script>
+@endif

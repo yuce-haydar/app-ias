@@ -106,14 +106,25 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    $('#announcementsTable').DataTable({
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json"
-        },
-        "order": [[0, "desc"]],
-        "pageLength": 25,
-        "responsive": true
-    });
+    try {
+        console.log('Announcements DataTable initialization starting...');
+        
+        if ($('#announcementsTable').length === 0) {
+            console.error('announcementsTable element not found!');
+            return;
+        }
+        
+        $('#announcementsTable').DataTable({
+            "order": [[0, "desc"]],
+            "pageLength": 25,
+            "responsive": true
+        });
+        
+        console.log('Announcements DataTable initialized successfully');
+    } catch (error) {
+        console.error('Announcements DataTable initialization error:', error);
+        alert('Announcements DataTable hatası: ' + error.message);
+    }
 });
 </script>
 @endpush 

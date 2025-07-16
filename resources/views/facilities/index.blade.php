@@ -78,9 +78,9 @@ Tesisler Grid Bölümü
                             <a href="{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}" class="read-more me-3">
                                 Detayları Gör <i class="fa-regular fa-arrow-right-long"></i>
                             </a>
-                            @if($facility->google_maps_link)
-                                <a href="{{ $facility->google_maps_link }}" target="_blank" class="theme-btn btn-sm bg-success">
-                                    <i class="fa-solid fa-location-dot"></i> Tesise Git
+                            @if($facility->google_maps_link || ($facility->latitude && $facility->longitude))
+                                <a href="{{ $facility->google_maps_link ?: 'https://maps.google.com/?q=' . $facility->latitude . ',' . $facility->longitude }}" target="_blank" class="theme-btn btn-sm bg-success">
+                                    <i class="fa-solid fa-route"></i> Tesise Git
                                 </a>
                             @endif
                         </div>

@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AdminErrorHandler;
 use App\Models\Tender;
 use Illuminate\Http\Request;
 
 class TenderController extends Controller
 {
+    use AdminErrorHandler;
     /**
      * Display a listing of the tenders.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tenders = Tender::withCount('applications')->latest()->paginate(10);
-        return view('admin.tenders.index', compact('tenders'));
+        return $this->handleIndexOperation(function () {
+            $tenders = Tender::withCount('applications')->latest()->paginate(10);
+            return view('admin.tenders.index', compact('tenders'));
+        }, $request, 'İhaleler yüklenirken bir hata oluştu');
     }
 
     /**

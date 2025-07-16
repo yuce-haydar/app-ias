@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AdminErrorHandler;
 use App\Models\JobPosting;
 use Illuminate\Http\Request;
 
 class JobPostingController extends Controller
 {
+    use AdminErrorHandler;
     /**
      * Display a listing of the job postings.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $jobPostings = JobPosting::with('applications')->latest()->paginate(10);
-        return view('admin.job-postings.index', compact('jobPostings'));
+        return $this->handleIndexOperation(function () {
+            $jobPostings = JobPosting::with('applications')->latest()->paginate(10);
+            return view('admin.job-postings.index', compact('jobPostings'));
+        }, $request, 'İş ilanları yüklenirken bir hata oluştu');
     }
 
     /**

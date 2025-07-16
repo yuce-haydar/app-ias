@@ -3,6 +3,10 @@
 @section('title', 'Tesisler')
 @section('page-title', 'Tesisler')
 
+@php
+use Illuminate\Support\Facades\Storage;
+@endphp
+
 @section('content')
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
@@ -111,29 +115,29 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    $('#facilitiesTable').DataTable({
-        "paging": true,
-        "info": true,
-        "searching": true,
-        "ordering": true,
-        "pageLength": 25,
-        "order": [[0, "desc"]],
-        "language": {
-            "search": "Ara:",
-            "emptyTable": "Tabloda veri bulunmuyor",
-            "zeroRecords": "Eşleşen kayıt bulunamadı",
-            "lengthMenu": "_MENU_ kayıt göster",
-            "info": "_START_ - _END_ / _TOTAL_ kayıt",
-            "infoEmpty": "Kayıt bulunamadı",
-            "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-            "paginate": {
-                "first": "İlk",
-                "last": "Son",
-                "next": "Sonraki",
-                "previous": "Önceki"
-            }
+    try {
+        console.log('DataTable initialization starting...');
+        
+        // DataTable'ın var olup olmadığını kontrol et
+        if ($('#facilitiesTable').length === 0) {
+            console.error('facilitiesTable element not found!');
+            return;
         }
-    });
+        
+        $('#facilitiesTable').DataTable({
+            "paging": true,
+            "info": true,
+            "searching": true,
+            "ordering": true,
+            "pageLength": 25,
+            "order": [[0, "desc"]]
+        });
+        
+        console.log('DataTable initialized successfully');
+    } catch (error) {
+        console.error('DataTable initialization error:', error);
+        alert('DataTable hatası: ' + error.message);
+    }
 });
 </script>
 @endpush 

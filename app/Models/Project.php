@@ -103,4 +103,20 @@ class Project extends Model
     {
         $this->increment('view_count');
     }
+
+    /**
+     * Proje lokasyonları ile ilişki
+     */
+    public function locations()
+    {
+        return $this->hasMany(ProjectLocation::class)->ordered();
+    }
+
+    /**
+     * Ana lokasyon (ilk lokasyon)
+     */
+    public function primaryLocation()
+    {
+        return $this->hasOne(ProjectLocation::class)->ordered();
+    }
 }

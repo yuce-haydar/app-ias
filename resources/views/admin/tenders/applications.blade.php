@@ -210,33 +210,44 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    // Applications tablosu için DataTable
-    $('#applicationsTable').DataTable({
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/tr.json"
-        },
-        "pageLength": 25,
-        "order": [[ 6, "desc" ]], // Başvuru tarihine göre sırala (0-indexed)
-        "columnDefs": [
-            { 
-                "targets": [8], // İşlemler sütunu (0-indexed)
-                "orderable": false,
-                "searchable": false
-            }
-        ],
-        "columns": [
-            null, // #
-            null, // Şirket Adı
-            null, // Yetkili Kişi
-            null, // E-posta
-            null, // Telefon
-            null, // Teklif Tutarı
-            null, // Başvuru Tarihi
-            null, // Durum
-            null  // İşlemler
-        ],
-        "responsive": true
-    });
+    try {
+        console.log('Applications DataTable initialization starting...');
+        
+        if ($('#applicationsTable').length === 0) {
+            console.error('applicationsTable element not found!');
+            return;
+        }
+        
+        // Applications tablosu için DataTable
+        $('#applicationsTable').DataTable({
+            "pageLength": 25,
+            "order": [[ 6, "desc" ]], // Başvuru tarihine göre sırala (0-indexed)
+            "columnDefs": [
+                { 
+                    "targets": [8], // İşlemler sütunu (0-indexed)
+                    "orderable": false,
+                    "searchable": false
+                }
+            ],
+            "columns": [
+                null, // #
+                null, // Şirket Adı
+                null, // Yetkili Kişi
+                null, // E-posta
+                null, // Telefon
+                null, // Teklif Tutarı
+                null, // Başvuru Tarihi
+                null, // Durum
+                null  // İşlemler
+            ],
+            "responsive": true
+        });
+
+        console.log('Applications DataTable initialized successfully');
+    } catch (error) {
+        console.error('Applications DataTable initialization error:', error);
+        alert('Applications DataTable hatası: ' + error.message);
+    }
 
     // Status badge'ler için tooltip
     $('[data-bs-toggle="tooltip"]').tooltip();

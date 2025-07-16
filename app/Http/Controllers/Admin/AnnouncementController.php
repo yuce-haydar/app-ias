@@ -3,27 +3,34 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AdminErrorHandler;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
 {
+    use AdminErrorHandler;
+    
     /**
      * Display a listing of the announcements.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $announcements = Announcement::latest()->paginate(10);
-        return view('admin.announcements.index', compact('announcements'));
+        return $this->handleIndexOperation(function () {
+            $announcements = Announcement::latest()->paginate(10);
+            return view('admin.announcements.index', compact('announcements'));
+        }, $request, 'Duyurular yüklenirken bir hata oluştu');
     }
 
     /**
      * Show the form for creating a new announcement.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.announcements.create');
+        return $this->handleShowOperation(function () {
+            return view('admin.announcements.create');
+        }, $request, 'Duyuru oluşturma sayfası yüklenirken bir hata oluştu');
     }
 
     /**
@@ -31,57 +38,58 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'summary' => 'nullable|string|max:1000',
-            'author' => 'nullable|string|max:255',
-            'tags' => 'nullable|string|max:255',
-            'category' => 'nullable|string|max:255',
-            'announcement_type' => 'required|string|in:general,urgent,event,regulation',
-            'importance' => 'required|string|in:low,normal,medium,high',
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after:start_date',
-            'status' => 'required|string|in:draft,published',
-            'published_at' => 'nullable|date',
-            'is_pinned' => 'nullable|boolean',
-            'attachments.*' => 'nullable|file|max:10240'
-        ]);
+        return $this->handleStoreOperation(function () use ($request) {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'content' => 'required|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'summary' => 'nullable|string|max:1000',
+                'author' => 'nullable|string|max:255',
+                'tags' => 'nullable|string|max:255',
+                'category' => 'nullable|string|max:255',
+                'announcement_type' => 'required|string|in:general,urgent,event,regulation',
+                'importance' => 'required|string|in:low,normal,medium,high',
+                'start_date' => 'required|date',
+                'end_date' => 'nullable|date|after:start_date',
+                'status' => 'required|string|in:draft,published',
+                'published_at' => 'nullable|date',
+                'is_pinned' => 'nullable|boolean',
+                'attachments.*' => 'nullable|file|max:10240'
+            ]);
 
-        $data = $request->all();
-        
-        // is_pinned checkbox'ı boolean'a çevir
-        $data['is_pinned'] = $request->has('is_pinned');
-        $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
-        
-        // Default değerler
-        $data['author'] = $data['author'] ?: 'Hatay İmar';
-        $data['category'] = $data['category'] ?: 'Genel';
-        
-        // Status published ise ve published_at belirtilmemişse şu anki zamanı set et
-        if ($data['status'] === 'published' && !$data['published_at']) {
-            $data['published_at'] = now();
-        }
-        
-        // Resim yükleme
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('announcements/images', 'public');
-        }
-        
-        // Attachments dosyalarını işle
-        if ($request->hasFile('attachments')) {
-            $attachments = [];
-            foreach ($request->file('attachments') as $file) {
-                $attachments[] = $file->store('announcements/attachments', 'public');
+            $data = $request->all();
+            
+            // is_pinned checkbox'ı boolean'a çevir
+            $data['is_pinned'] = $request->has('is_pinned');
+            $data['slug'] = \Illuminate\Support\Str::slug($request->title . '-' . time());
+            
+            // Default değerler
+            $data['author'] = $data['author'] ?: 'Hatay İmar';
+            $data['category'] = $data['category'] ?: 'Genel';
+            
+            // Status published ise ve published_at belirtilmemişse şu anki zamanı set et
+            if ($data['status'] === 'published' && !$data['published_at']) {
+                $data['published_at'] = now();
             }
-            $data['attachments'] = $attachments;
-        }
+            
+            // Resim yükleme
+            if ($request->hasFile('image')) {
+                $data['image'] = $request->file('image')->store('announcements/images', 'public');
+            }
+            
+            // Attachments dosyalarını işle
+            if ($request->hasFile('attachments')) {
+                $attachments = [];
+                foreach ($request->file('attachments') as $file) {
+                    $attachments[] = $file->store('announcements/attachments', 'public');
+                }
+                $data['attachments'] = $attachments;
+            }
 
-        Announcement::create($data);
-
-        return redirect()->route('admin.announcements.index')
-                        ->with('success', 'Duyuru başarıyla oluşturuldu.');
+            $announcement = Announcement::create($data);
+            
+            return $announcement;
+        }, $request, 'Duyuru başarıyla oluşturuldu', 'Duyuru oluşturulurken bir hata oluştu', 'admin.announcements.index');
     }
 
     /**

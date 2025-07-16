@@ -108,14 +108,25 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    $('#jobPostingsTable').DataTable({
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json"
-        },
-        "order": [[0, "desc"]],
-        "pageLength": 25,
-        "responsive": true
-    });
+    try {
+        console.log('Job Postings DataTable initialization starting...');
+        
+        if ($('#jobPostingsTable').length === 0) {
+            console.error('jobPostingsTable element not found!');
+            return;
+        }
+        
+        $('#jobPostingsTable').DataTable({
+            "order": [[0, "desc"]],
+            "pageLength": 25,
+            "responsive": true
+        });
+        
+        console.log('Job Postings DataTable initialized successfully');
+    } catch (error) {
+        console.error('Job Postings DataTable initialization error:', error);
+        alert('Job Postings DataTable hatası: ' + error.message);
+    }
 });
 </script>
 @endpush 

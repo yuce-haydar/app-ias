@@ -44,8 +44,8 @@ class ProjectController extends Controller
 
     public function details($id)
     {
-        // Veritabanından projeyi çek
-        $project = Project::findOrFail($id);
+        // Veritabanından projeyi çek (lokasyonlarla birlikte)
+        $project = Project::with('locations')->findOrFail($id);
         
         // Durum değerlerini Türkçeleştir
         $statusMap = [

@@ -109,14 +109,25 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    $('#tendersTable').DataTable({
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json"
-        },
-        "order": [[0, "desc"]],
-        "pageLength": 25,
-        "responsive": true
-    });
+    try {
+        console.log('Tenders DataTable initialization starting...');
+        
+        if ($('#tendersTable').length === 0) {
+            console.error('tendersTable element not found!');
+            return;
+        }
+        
+        $('#tendersTable').DataTable({
+            "order": [[0, "desc"]],
+            "pageLength": 25,
+            "responsive": true
+        });
+        
+        console.log('Tenders DataTable initialized successfully');
+    } catch (error) {
+        console.error('Tenders DataTable initialization error:', error);
+        alert('Tenders DataTable hatası: ' + error.message);
+    }
 });
 </script>
 @endpush 

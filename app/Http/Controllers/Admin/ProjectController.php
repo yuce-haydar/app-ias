@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\AdminErrorHandler;
 use App\Models\Project;
+use App\Models\ProjectLocation;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,8 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         return $this->handleIndexOperation(function () {
-            $projects = Project::orderBy('sort_order', 'asc')
+            $projects = Project::with('locations')
+                ->orderBy('sort_order', 'asc')
                 ->orderBy('created_at', 'desc')
                 ->get();
                 
@@ -62,7 +64,13 @@ class ProjectController extends Controller
                 'sort_order' => 'nullable|integer',
                 'is_featured' => 'boolean',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
+                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+                'locations' => 'required|array|min:1',
+                'locations.*.name' => 'required|string|max:255',
+                'locations.*.latitude' => 'required|numeric|between:-90,90',
+                'locations.*.longitude' => 'required|numeric|between:-180,180',
+                'locations.*.description' => 'nullable|string',
+                'locations.*.sort_order' => 'nullable|integer|min:0'
             ]);
 
             // Convert features and technical_specs from string to array
@@ -114,7 +122,22 @@ class ProjectController extends Controller
                 $validated['gallery'] = $gallery;
             }
 
+            // Lokasyon verilerini ayır
+            $locationData = $validated['locations'];
+            unset($validated['locations']);
+
             $project = Project::create($validated);
+
+            // Lokasyonları oluştur
+            foreach ($locationData as $location) {
+                $project->locations()->create([
+                    'name' => $location['name'],
+                    'latitude' => $location['latitude'],
+                    'longitude' => $location['longitude'],
+                    'description' => $location['description'] ?? null,
+                    'sort_order' => $location['sort_order'] ?? 0,
+                ]);
+            }
 
             return $project;
         }, $request, 'Proje başarıyla oluşturuldu', 'Proje oluşturulurken bir hata oluştu', 'admin.projects.index');
@@ -126,7 +149,7 @@ class ProjectController extends Controller
     public function show(string $id, Request $request)
     {
         return $this->handleShowOperation(function () use ($id) {
-            $project = Project::findOrFail($id);
+            $project = Project::with('locations')->findOrFail($id);
             return view('admin.projects.show', compact('project'));
         }, $request, 'Proje detayı görüntülenirken bir hata oluştu');
     }
@@ -137,7 +160,7 @@ class ProjectController extends Controller
     public function edit(string $id, Request $request)
     {
         return $this->handleShowOperation(function () use ($id) {
-            $project = Project::findOrFail($id);
+            $project = Project::with('locations')->findOrFail($id);
             return view('admin.projects.edit', compact('project'));
         }, $request, 'Proje düzenleme sayfası yüklenirken bir hata oluştu');
     }
@@ -147,7 +170,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $project = Project::findOrFail($id);
+        $project = Project::with('locations')->findOrFail($id);
         
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -168,7 +191,15 @@ class ProjectController extends Controller
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'locations' => 'required|array|min:1',
+            'locations.*.id' => 'nullable|integer|exists:project_locations,id',
+            'locations.*.name' => 'required|string|max:255',
+            'locations.*.latitude' => 'required|numeric|between:-90,90',
+            'locations.*.longitude' => 'required|numeric|between:-180,180',
+            'locations.*.description' => 'nullable|string',
+            'locations.*.sort_order' => 'nullable|integer|min:0',
+            'deleted_locations' => 'nullable|string'
         ]);
 
         // Convert features and technical_specs from string to array
@@ -345,6 +376,41 @@ class ProjectController extends Controller
             }
             
             $validated['gallery'] = $gallery;
+
+            // Lokasyon yönetimi
+            $locationData = $validated['locations'];
+            unset($validated['locations']);
+
+            // Silinen lokasyonları kaldır
+            if ($request->filled('deleted_locations')) {
+                $deletedLocationIds = json_decode($request->input('deleted_locations'), true);
+                if (is_array($deletedLocationIds)) {
+                    $project->locations()->whereIn('id', $deletedLocationIds)->delete();
+                }
+            }
+
+            // Mevcut lokasyonları güncelle ve yenilerini oluştur
+            foreach ($locationData as $location) {
+                if (isset($location['id']) && $location['id']) {
+                    // Mevcut lokasyonu güncelle
+                    $project->locations()->where('id', $location['id'])->update([
+                        'name' => $location['name'],
+                        'latitude' => $location['latitude'],
+                        'longitude' => $location['longitude'],
+                        'description' => $location['description'] ?? null,
+                        'sort_order' => $location['sort_order'] ?? 0,
+                    ]);
+                } else {
+                    // Yeni lokasyon oluştur
+                    $project->locations()->create([
+                        'name' => $location['name'],
+                        'latitude' => $location['latitude'],
+                        'longitude' => $location['longitude'],
+                        'description' => $location['description'] ?? null,
+                        'sort_order' => $location['sort_order'] ?? 0,
+                    ]);
+                }
+            }
 
             $project->update($validated);
 

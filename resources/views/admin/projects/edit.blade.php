@@ -91,37 +91,135 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="location" class="form-label">Konum</label>
+                                    <label for="location" class="form-label">Genel Konum</label>
                                     <input type="text" class="form-control @error('location') is-invalid @enderror" 
-                                           id="location" name="location" value="{{ old('location', $project->location) }}">
+                                           id="location" name="location" value="{{ old('location', $project->location) }}" 
+                                           placeholder="Örn: Antakya Merkez">
+                                    <small class="text-muted">Projenin genel konumu (eski sistem uyumluluğu için)</small>
                                     @error('location')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="latitude" class="form-label">Enlem</label>
-                                            <input type="number" class="form-control @error('latitude') is-invalid @enderror" 
-                                                   id="latitude" name="latitude" value="{{ old('latitude', $project->latitude) }}" 
-                                                   step="any" min="-90" max="90">
-                                            @error('latitude')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                <!-- Proje Lokasyonları -->
+                                <div class="mb-3">
+                                    <label class="form-label">Proje Lokasyonları</label>
+                                    <div class="locations-container">
+                                        @if($project->locations && $project->locations->count() > 0)
+                                            @foreach($project->locations as $index => $location)
+                                                <div class="location-item" data-index="{{ $index }}" data-id="{{ $location->id }}">
+                                                    <div class="card border-primary mb-3">
+                                                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                                            <span>Lokasyon {{ $index + 1 }}</span>
+                                                            <button type="button" class="btn btn-sm btn-outline-light remove-location" {{ $index === 0 && $project->locations->count() === 1 ? 'disabled' : '' }}>
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <input type="hidden" name="locations[{{ $index }}][id]" value="{{ $location->id }}">
+                                                            <div class="row">
+                                                                <div class="col-md-12 mb-3">
+                                                                    <label class="form-label">Lokasyon Adı <span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" 
+                                                                           name="locations[{{ $index }}][name]" 
+                                                                           value="{{ old('locations.'.$index.'.name', $location->name) }}" 
+                                                                           placeholder="Örn: Ana Blok, Spor Sahası" required>
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">Enlem <span class="text-danger">*</span></label>
+                                                                    <input type="number" class="form-control" 
+                                                                           name="locations[{{ $index }}][latitude]" 
+                                                                           value="{{ old('locations.'.$index.'.latitude', $location->latitude) }}" 
+                                                                           step="any" min="-90" max="90" 
+                                                                           placeholder="36.2027" required>
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">Boylam <span class="text-danger">*</span></label>
+                                                                    <input type="number" class="form-control" 
+                                                                           name="locations[{{ $index }}][longitude]" 
+                                                                           value="{{ old('locations.'.$index.'.longitude', $location->longitude) }}" 
+                                                                           step="any" min="-180" max="180" 
+                                                                           placeholder="36.1621" required>
+                                                                </div>
+                                                                <div class="col-md-12 mb-3">
+                                                                    <label class="form-label">Açıklama</label>
+                                                                    <textarea class="form-control" 
+                                                                              name="locations[{{ $index }}][description]" 
+                                                                              rows="2" 
+                                                                              placeholder="Bu lokasyon hakkında kısa açıklama">{{ old('locations.'.$index.'.description', $location->description) }}</textarea>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <label class="form-label">Sıralama</label>
+                                                                    <input type="number" class="form-control" 
+                                                                           name="locations[{{ $index }}][sort_order]" 
+                                                                           value="{{ old('locations.'.$index.'.sort_order', $location->sort_order) }}" 
+                                                                           min="0" placeholder="0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <!-- Eğer lokasyon yoksa, eski koordinatlardan bir tane oluştur -->
+                                            <div class="location-item" data-index="0">
+                                                <div class="card border-primary mb-3">
+                                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                                        <span>Lokasyon 1</span>
+                                                        <button type="button" class="btn btn-sm btn-outline-light remove-location" disabled>
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12 mb-3">
+                                                                <label class="form-label">Lokasyon Adı <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" 
+                                                                       name="locations[0][name]" 
+                                                                       value="{{ old('locations.0.name', 'Ana Lokasyon') }}" 
+                                                                       placeholder="Örn: Ana Blok, Spor Sahası" required>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Enlem <span class="text-danger">*</span></label>
+                                                                <input type="number" class="form-control" 
+                                                                       name="locations[0][latitude]" 
+                                                                       value="{{ old('locations.0.latitude', $project->latitude) }}" 
+                                                                       step="any" min="-90" max="90" 
+                                                                       placeholder="36.2027" required>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">Boylam <span class="text-danger">*</span></label>
+                                                                <input type="number" class="form-control" 
+                                                                       name="locations[0][longitude]" 
+                                                                       value="{{ old('locations.0.longitude', $project->longitude) }}" 
+                                                                       step="any" min="-180" max="180" 
+                                                                       placeholder="36.1621" required>
+                                                            </div>
+                                                            <div class="col-md-12 mb-3">
+                                                                <label class="form-label">Açıklama</label>
+                                                                <textarea class="form-control" 
+                                                                          name="locations[0][description]" 
+                                                                          rows="2" 
+                                                                          placeholder="Bu lokasyon hakkında kısa açıklama">{{ old('locations.0.description') }}</textarea>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label class="form-label">Sıralama</label>
+                                                                <input type="number" class="form-control" 
+                                                                       name="locations[0][sort_order]" 
+                                                                       value="{{ old('locations.0.sort_order', 0) }}" 
+                                                                       min="0" placeholder="0">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="longitude" class="form-label">Boylam</label>
-                                            <input type="number" class="form-control @error('longitude') is-invalid @enderror" 
-                                                   id="longitude" name="longitude" value="{{ old('longitude', $project->longitude) }}" 
-                                                   step="any" min="-180" max="180">
-                                            @error('longitude')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
+                                    <button type="button" class="btn btn-outline-primary" id="addLocationBtn">
+                                        <i class="fas fa-plus"></i> Yeni Lokasyon Ekle
+                                    </button>
+                                    <small class="d-block text-muted mt-2">En az bir lokasyon olmalıdır. Silinecek lokasyonlar form gönderildiğinde kaldırılacaktır.</small>
+                                    <input type="hidden" name="deleted_locations" id="deleted_locations" value="">
                                 </div>
                             </div>
 
@@ -390,5 +488,117 @@ document.getElementById('gallery').addEventListener('change', function(e) {
         });
     }
 });
+
+// Lokasyon Yönetimi
+let locationIndex = {{ $project->locations ? $project->locations->count() : 1 }};
+let deletedLocations = [];
+
+document.getElementById('addLocationBtn').addEventListener('click', function() {
+    const locationsContainer = document.querySelector('.locations-container');
+    const newLocationHtml = `
+        <div class="location-item" data-index="${locationIndex}">
+            <div class="card border-secondary mb-3">
+                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <span>Lokasyon ${locationIndex + 1}</span>
+                    <button type="button" class="btn btn-sm btn-outline-light remove-location">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Lokasyon Adı <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" 
+                                   name="locations[${locationIndex}][name]" 
+                                   placeholder="Örn: Ana Blok, Spor Sahası" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Enlem <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" 
+                                   name="locations[${locationIndex}][latitude]" 
+                                   step="any" min="-90" max="90" 
+                                   placeholder="36.2027" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Boylam <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" 
+                                   name="locations[${locationIndex}][longitude]" 
+                                   step="any" min="-180" max="180" 
+                                   placeholder="36.1621" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Açıklama</label>
+                            <textarea class="form-control" 
+                                      name="locations[${locationIndex}][description]" 
+                                      rows="2" 
+                                      placeholder="Bu lokasyon hakkında kısa açıklama"></textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Sıralama</label>
+                            <input type="number" class="form-control" 
+                                   name="locations[${locationIndex}][sort_order]" 
+                                   value="${locationIndex}" 
+                                   min="0" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    locationsContainer.insertAdjacentHTML('beforeend', newLocationHtml);
+    locationIndex++;
+    updateRemoveButtons();
+});
+
+// Lokasyon kaldırma
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-location')) {
+        const locationItem = e.target.closest('.location-item');
+        const locationId = locationItem.dataset.id;
+        
+        // Eğer bu mevcut bir lokasyonsa (ID varsa) silme listesine ekle
+        if (locationId) {
+            deletedLocations.push(locationId);
+            document.getElementById('deleted_locations').value = JSON.stringify(deletedLocations);
+        }
+        
+        locationItem.remove();
+        updateRemoveButtons();
+        updateLocationNumbers();
+    }
+});
+
+function updateRemoveButtons() {
+    const locationItems = document.querySelectorAll('.location-item');
+    const removeButtons = document.querySelectorAll('.remove-location');
+    
+    // En az bir lokasyon kalması gerekiyor
+    removeButtons.forEach((btn, index) => {
+        btn.disabled = locationItems.length <= 1;
+    });
+}
+
+function updateLocationNumbers() {
+    const locationItems = document.querySelectorAll('.location-item');
+    locationItems.forEach((item, index) => {
+        const header = item.querySelector('.card-header span');
+        header.textContent = `Lokasyon ${index + 1}`;
+        
+        // İndeksleri güncelle
+        item.dataset.index = index;
+        
+        // Input name'lerini güncelle (sadece yeni eklenenler için)
+        if (!item.dataset.id) {
+            const inputs = item.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                const name = input.name;
+                if (name && name.includes('locations[')) {
+                    input.name = name.replace(/locations\[\d+\]/, `locations[${index}]`);
+                }
+            });
+        }
+    });
+}
 </script>
 @endpush

@@ -77,6 +77,79 @@ Proje Detay Bölümü
                         <h3>Proje Hakkında</h3>
                         <p>{!! $project['description'] ?? 'Bu proje hakkında detaylı bilgi yakında eklenecektir.' !!}</p>
 
+                        <!-- Proje Konumları Haritası -->
+                        @if($project->locations && $project->locations->count() > 0)
+                        <div class="project-locations-section mt-5">
+                            <h3>Proje Konumları</h3>
+                            
+                            @if($project->locations->count() > 1)
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="mainLocationSelect" class="form-label fw-bold">Haritada Görmek İstediğiniz Lokasyon:</label>
+                                    <select id="mainLocationSelect" class="form-select form-select-lg">
+                                        <option value="all">🗺️ Tüm Lokasyonlar</option>
+                                        @foreach($project->locations as $index => $location)
+                                        <option value="{{ $index }}">📍 {{ $location->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-end">
+                                    <div class="location-info">
+                                        <span class="badge bg-primary">{{ $project->locations->count() }} Lokasyon</span>
+                                        <small class="text-muted ms-2">Haritada tüm konumları görebilirsiniz</small>
+                                    </div>
+                                </div>
+                            </div>
+                            @else
+                                                         <div class="mb-3">
+                                 <div class="d-flex align-items-center gap-3">
+                                     <span class="badge bg-primary">{{ $project->locations->first()->name }}</span>
+                                     <a href="https://maps.google.com/?q={{ $project->locations->first()->latitude }},{{ $project->locations->first()->longitude }}" target="_blank" 
+                                        class="btn btn-success btn-sm">
+                                         <i class="fa-solid fa-route"></i> Konuma Git
+                                     </a>
+                                 </div>
+                             </div>
+                            @endif
+                            
+                            <!-- Tam Genişlik Harita -->
+                            <div class="full-width-map">
+                                <div id="mainProjectLocationMap" style="height: 500px; width: 100%; border-radius: 15px; border: 2px solid #ddd; box-shadow: 0 8px 25px rgba(0,0,0,0.1);"></div>
+                            </div>
+                            
+                            @if($project->locations->count() > 1)
+                            <div class="location-grid mt-4">
+                                <h4>Proje Lokasyonları</h4>
+                                <div class="row g-3">
+                                    @foreach($project->locations as $index => $location)
+                                    <div class="col-md-6">
+                                        <div class="location-card" style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 10px; padding: 20px; border-left: 4px solid #1f4788;">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-2" style="color: #1f4788; font-weight: 600;">📍 {{ $location->name }}</h6>
+                                                    @if($location->description)
+                                                    <p class="mb-3 text-muted" style="font-size: 14px;">{{ $location->description }}</p>
+                                                    @endif
+                                                    <div class="location-actions">
+                                                        <button class="btn btn-outline-primary btn-sm me-2" onclick="focusOnLocation({{ $index }})">
+                                                            <i class="fa-solid fa-search-location"></i> Haritada Göster
+                                                        </button>
+                                                                                                                 <a href="https://maps.google.com/?q={{ $location->latitude }},{{ $location->longitude }}" target="_blank" 
+                                                            class="btn btn-success btn-sm">
+                                                             <i class="fa-solid fa-route"></i> Konuma Git
+                                                         </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif
+                        </div>
+                        @endif
+
                         <!-- Proje Özellikleri -->
                         @if(isset($project['features']) && count($project['features']) > 0)
                         <h3>Tesis Özellikleri</h3>
@@ -149,6 +222,60 @@ Proje Detay Bölümü
                             @endif
                         </div>
                     </div>
+
+                    <!-- Proje Lokasyonları Haritası -->
+                    @if($project->locations && $project->locations->count() > 0)
+                    <div class="widget location-widget">
+                        <h4 class="widget-title">Proje Konumları</h4>
+                        
+                        @if($project->locations->count() > 1)
+                        <div class="location-selector mb-3">
+                            <label for="locationSelect" class="form-label">Haritada Görmek İstediğiniz Lokasyon:</label>
+                            <select id="locationSelect" class="form-select">
+                                <option value="all">Tüm Lokasyonlar</option>
+                                @foreach($project->locations as $index => $location)
+                                <option value="{{ $index }}">{{ $location->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
+                        
+                        <div id="projectLocationMap" style="height: 300px; width: 100%; border-radius: 10px; border: 1px solid #ddd;"></div>
+                        
+                        @if($project->locations->count() === 1)
+                        <div class="single-location-actions mt-3 text-center">
+                            <a href="https://maps.google.com/?q={{ $project->locations->first()->latitude }},{{ $project->locations->first()->longitude }}" target="_blank" 
+                               class="theme-btn bg-success">
+                                <i class="fa-solid fa-route"></i> Konuma Git
+                            </a>
+                        </div>
+                        @endif
+                        
+                        @if($project->locations->count() > 1)
+                        <div class="location-list mt-3">
+                            <h6>Proje Lokasyonları:</h6>
+                            <ul class="list-unstyled">
+                                @foreach($project->locations as $location)
+                                <li class="mb-3 p-3" style="background: #f8f9fa; border-radius: 8px; border-left: 4px solid #1f4788;">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <strong style="color: #1f4788;">{{ $location->name }}</strong>
+                                            @if($location->description)
+                                            <br><small class="text-muted">{{ $location->description }}</small>
+                                            @endif
+                                        </div>
+                                        <a href="https://maps.google.com/?q={{ $location->latitude }},{{ $location->longitude }}" target="_blank" 
+                                           class="btn btn-sm btn-success" style="font-size: 11px; padding: 4px 8px;">
+                                            <i class="fa-solid fa-route"></i> Konuma Git
+                                        </a>
+                                    </div>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+                    </div>
+                    @endif
 
                     <!-- İlgili Projeler -->
                     @if($relatedProjects->count() > 0)
@@ -361,6 +488,88 @@ Proje Detay Bölümü
     padding-bottom: 10px;
     border-bottom: 2px solid #1f4788;
 }
+
+/* Ana Harita Stilleri */
+.project-locations-section h3 {
+    color: #1f4788;
+    font-weight: 600;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1f4788;
+}
+
+.full-width-map {
+    margin: 20px 0;
+}
+
+.location-grid h4 {
+    color: #1f4788;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.location-card {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.location-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    border-left-color: #28a745 !important;
+}
+
+.location-card h6 {
+    font-size: 16px;
+}
+
+.location-actions .btn {
+    transition: all 0.3s ease;
+}
+
+.location-actions .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.form-select-lg {
+    font-size: 16px;
+   
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.form-select-lg:focus {
+    border-color: #1f4788;
+    box-shadow: 0 0 0 0.2rem rgba(31, 71, 136, 0.25);
+}
+
+.location-info .badge {
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+/* Responsive Ana Harita */
+@media (max-width: 768px) {
+    .project-locations-section .row.mb-4 {
+        margin-bottom: 20px !important;
+    }
+    
+    .location-card {
+        margin-bottom: 20px;
+    }
+    
+    .location-actions .btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        margin-bottom: 5px;
+    }
+    
+    #mainProjectLocationMap {
+        height: 350px !important;
+    }
+}
 </style>
 
 @endsection
@@ -553,4 +762,246 @@ document.getElementById('imageModal').addEventListener('click', function(event) 
         closeImageModal();
     }
 });
-</script> 
+</script>
+
+@if($project->locations && $project->locations->count() > 0)
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Proje lokasyon verileri
+    var projectLocations = [
+        @foreach($project->locations as $index => $location)
+        {
+            index: {{ $index }},
+            name: "{{ addslashes($location->name) }}",
+            coords: [{{ $location->latitude }}, {{ $location->longitude }}],
+            description: "{{ addslashes($location->description ?? '') }}",
+            projectTitle: "{{ addslashes($project->title) }}"
+        },
+        @endforeach
+    ];
+
+    // Harita merkez koordinatı (tüm lokasyonların ortası)
+    var centerLat = projectLocations.reduce((sum, loc) => sum + loc.coords[0], 0) / projectLocations.length;
+    var centerLng = projectLocations.reduce((sum, loc) => sum + loc.coords[1], 0) / projectLocations.length;
+
+    // Ana Harita oluştur (Tam genişlik)
+    var mainMap = L.map('mainProjectLocationMap', {
+        center: [centerLat, centerLng],
+        zoom: projectLocations.length === 1 ? 16 : 13,
+        maxZoom: 18,
+        minZoom: 8
+    });
+
+    // Satellite görünümü - Ana harita
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '© Esri, Maxar, Earthstar Geographics'
+    }).addTo(mainMap);
+
+    // Yol ve yer adları overlay - Ana harita
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '© Esri'
+    }).addTo(mainMap);
+
+    // Marker iconları
+    var locationIcon = L.divIcon({
+        className: 'custom-location-marker',
+        html: '<div style="background: #1f4788; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(31,71,136,0.4); border: 3px solid white;"><i class="fa-solid fa-map-marker-alt" style="color: white; font-size: 16px;"></i></div>',
+        iconSize: [35, 35],
+        iconAnchor: [17.5, 17.5]
+    });
+
+    // Ana harita marker'ları
+    var mainMarkers = [];
+
+    // Ana harita marker'ları oluştur
+    projectLocations.forEach(function(location, index) {
+        var marker = L.marker(location.coords, {icon: locationIcon}).addTo(mainMap);
+        
+        var popupContent = `
+            <div style="text-align: center; min-width: 250px;">
+                <h5 style="margin: 0 0 10px 0; color: #1f4788; font-weight: 600;">${location.projectTitle}</h5>
+                <h6 style="margin: 0 0 8px 0; color: #333; font-weight: 500;">📍 ${location.name}</h6>
+                ${location.description ? '<p style="margin: 0 0 12px 0; color: #666; font-size: 13px;">' + location.description + '</p>' : ''}
+                <div style="margin-top: 15px;">
+                    <a href="https://maps.google.com/?q=${location.coords[0]},${location.coords[1]}" target="_blank" 
+                       style="background: #28a745; color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-size: 13px; font-weight: 500; display: inline-block; transition: all 0.3s;">
+                                                 <i class="fa-solid fa-route" style="margin-right: 6px;"></i>Konuma Git
+                    </a>
+                </div>
+            </div>
+        `;
+        
+        marker.bindPopup(popupContent);
+        mainMarkers.push({marker: marker, location: location});
+    });
+
+    // Ana selectbox event listener
+    var mainLocationSelect = document.getElementById('mainLocationSelect');
+    if (mainLocationSelect) {
+        mainLocationSelect.addEventListener('change', function() {
+            var selectedValue = this.value;
+            
+            if (selectedValue === 'all') {
+                // Tüm marker'ları göster ve haritayı tüm lokasyonlara odakla
+                mainMarkers.forEach(function(item) {
+                    item.marker.addTo(mainMap);
+                });
+                
+                // Tüm marker'ları içeren sınırları hesapla
+                if (mainMarkers.length > 1) {
+                    var group = new L.featureGroup(mainMarkers.map(item => item.marker));
+                    mainMap.fitBounds(group.getBounds().pad(0.1));
+                } else {
+                    mainMap.setView(mainMarkers[0].location.coords, 16);
+                }
+            } else {
+                // Seçili marker'ı göster, diğerlerini gizle
+                var selectedIndex = parseInt(selectedValue);
+                
+                mainMarkers.forEach(function(item, index) {
+                    if (index === selectedIndex) {
+                        item.marker.addTo(mainMap);
+                        mainMap.setView(item.location.coords, 16);
+                        item.marker.openPopup();
+                    } else {
+                        mainMap.removeLayer(item.marker);
+                    }
+                });
+            }
+        });
+    }
+
+    // focusOnLocation fonksiyonu - location card'lardan çağrılır
+    window.focusOnLocation = function(locationIndex) {
+        var location = projectLocations[locationIndex];
+        mainMap.setView(location.coords, 17);
+        mainMarkers[locationIndex].marker.openPopup();
+        
+        // Select box'ı da güncelle
+        if (mainLocationSelect) {
+            mainLocationSelect.value = locationIndex;
+        }
+        
+        // Sayfayı haritaya scroll et
+        document.getElementById('mainProjectLocationMap').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+    };
+    
+    // İlk yükleme ayarları
+    if (projectLocations.length === 1) {
+        mainMarkers[0].marker.openPopup();
+    } else {
+        // Çoklu lokasyon varsa tüm marker'ları gösterecek şekilde zoom ayarla
+        var group = new L.featureGroup(mainMarkers.map(item => item.marker));
+        mainMap.fitBounds(group.getBounds().pad(0.1));
+    }
+
+    // Sidebar haritası (küçük harita) - Eğer varsa
+    var sidebarMap = document.getElementById('projectLocationMap');
+    if (sidebarMap) {
+        var map = L.map('projectLocationMap', {
+            center: [centerLat, centerLng],
+            zoom: projectLocations.length === 1 ? 16 : 14,
+            maxZoom: 18,
+            minZoom: 10
+        });
+
+        // Satellite görünümü
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri, Maxar, Earthstar Geographics'
+        }).addTo(map);
+
+        // Yol ve yer adları overlay
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri'
+        }).addTo(map);
+
+        // Sidebar marker iconları (daha küçük)
+        var sidebarLocationIcon = L.divIcon({
+            className: 'custom-location-marker',
+            html: '<div style="background: #007bff; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.3); border: 2px solid white;"><i class="fa-solid fa-map-marker-alt" style="color: white; font-size: 12px;"></i></div>',
+            iconSize: [25, 25],
+            iconAnchor: [12.5, 12.5]
+        });
+
+        // Sidebar marker'ları
+        var markers = [];
+
+        // Sidebar marker'ları oluştur
+        projectLocations.forEach(function(location, index) {
+            var marker = L.marker(location.coords, {icon: sidebarLocationIcon}).addTo(map);
+            
+            var popupContent = `
+                <div style="text-align: center; min-width: 220px;">
+                    <h6 style="margin: 0 0 8px 0; color: #333;">${location.projectTitle}</h6>
+                    <h7 style="margin: 0 0 8px 0; color: #666;">${location.name}</h7>
+                    ${location.description ? '<p style="margin: 0 0 8px 0; color: #666; font-size: 12px;">' + location.description + '</p>' : ''}
+                    <div style="margin-top: 10px;">
+                        <a href="https://maps.google.com/?q=${location.coords[0]},${location.coords[1]}" target="_blank" 
+                           style="background: #28a745; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: 500; display: inline-block;">
+                            <i class="fa-solid fa-route" style="margin-right: 5px;"></i>Konuma Git
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            markers.push({marker: marker, location: location});
+            
+            // İlk marker'ın popup'ını aç
+            if (index === 0) {
+                marker.openPopup();
+            }
+        });
+
+        // Sidebar selectbox event listener
+        var locationSelect = document.getElementById('locationSelect');
+        if (locationSelect) {
+            locationSelect.addEventListener('change', function() {
+                var selectedValue = this.value;
+                
+                if (selectedValue === 'all') {
+                    // Tüm marker'ları göster ve haritayı tüm lokasyonlara odakla
+                    markers.forEach(function(item) {
+                        item.marker.addTo(map);
+                    });
+                    
+                    // Tüm marker'ları içeren sınırları hesapla
+                    var group = new L.featureGroup(markers.map(item => item.marker));
+                    map.fitBounds(group.getBounds().pad(0.1));
+                } else {
+                    // Seçili marker'ı göster, diğerlerini gizle
+                    var selectedIndex = parseInt(selectedValue);
+                    
+                    markers.forEach(function(item, index) {
+                        if (index === selectedIndex) {
+                            item.marker.addTo(map);
+                            map.setView(item.location.coords, 16);
+                            item.marker.openPopup();
+                        } else {
+                            map.removeLayer(item.marker);
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Eğer tek lokasyon varsa, marker'ı aç
+        if (projectLocations.length === 1) {
+            markers[0].marker.openPopup();
+        } else {
+            // Çoklu lokasyon varsa tüm marker'ları gösterecek şekilde zoom ayarla
+            var group = new L.featureGroup(markers.map(item => item.marker));
+            map.fitBounds(group.getBounds().pad(0.1));
+        }
+    }
+});
+</script>
+@endif 

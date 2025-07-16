@@ -3,18 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AdminErrorHandler;
 use App\Models\Faq;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
+    use AdminErrorHandler;
+    
     /**
      * Display a listing of the FAQs.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $faqs = Faq::ordered()->paginate(10);
-        return view('admin.faqs.index', compact('faqs'));
+        return $this->handleIndexOperation(function () {
+            $faqs = Faq::ordered()->paginate(10);
+            return view('admin.faqs.index', compact('faqs'));
+        }, $request, 'SSS listesi yüklenirken bir hata oluştu');
     }
 
     /**

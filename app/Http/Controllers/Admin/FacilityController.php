@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\AdminErrorHandler;
 use App\Models\Facility;
 use App\Models\QrMenu;
 use App\Models\QrMenuUser;
@@ -14,24 +15,29 @@ use Illuminate\Support\Str;
 
 class FacilityController extends Controller
 {
+    use AdminErrorHandler;
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $facilities = Facility::orderBy('sort_order', 'asc')
-            ->orderBy('created_at', 'desc')
-            ->get();
-            
-        return view('admin.facilities.index', compact('facilities'));
+        return $this->handleIndexOperation(function () {
+            $facilities = Facility::orderBy('sort_order', 'asc')
+                ->orderBy('created_at', 'desc')
+                ->get();
+                
+            return view('admin.facilities.index', compact('facilities'));
+        }, $request, 'Tesisler yüklenirken bir hata oluştu');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.facilities.create');
+        return $this->handleShowOperation(function () {
+            return view('admin.facilities.create');
+        }, $request, 'Tesis oluşturma sayfası yüklenirken bir hata oluştu');
     }
 
     /**
@@ -113,19 +119,23 @@ class FacilityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
-        $facility = Facility::findOrFail($id);
-        return view('admin.facilities.show', compact('facility'));
+        return $this->handleShowOperation(function () use ($id) {
+            $facility = Facility::findOrFail($id);
+            return view('admin.facilities.show', compact('facility'));
+        }, $request, 'Tesis detayı yüklenirken bir hata oluştu');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
-        $facility = Facility::findOrFail($id);
-        return view('admin.facilities.edit', compact('facility'));
+        return $this->handleShowOperation(function () use ($id) {
+            $facility = Facility::findOrFail($id);
+            return view('admin.facilities.edit', compact('facility'));
+        }, $request, 'Tesis düzenleme sayfası yüklenirken bir hata oluştu');
     }
 
     /**

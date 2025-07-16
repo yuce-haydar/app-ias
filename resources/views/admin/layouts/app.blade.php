@@ -443,7 +443,28 @@
         // DataTable Default Settings
         $.extend(true, $.fn.dataTable.defaults, {
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/tr.json'
+                "decimal": "",
+                "emptyTable": "Tabloda veri bulunmuyor",
+                "info": "_START_ - _END_ / _TOTAL_ kayıt gösteriliyor",
+                "infoEmpty": "0 - 0 / 0 kayıt gösteriliyor",
+                "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "_MENU_ kayıt göster",
+                "loadingRecords": "Yükleniyor...",
+                "processing": "İşleniyor...",
+                "search": "Ara:",
+                "zeroRecords": "Eşleşen kayıt bulunamadı",
+                "paginate": {
+                    "first": "İlk",
+                    "last": "Son",
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                },
+                "aria": {
+                    "sortAscending": ": artan sıralama",
+                    "sortDescending": ": azalan sıralama"
+                }
             }
         });
         
@@ -506,7 +527,24 @@
                 
                 $(document).ajaxError(function(event, xhr, settings, thrownError) {
                     hideAdminLoading();
-                    showErrorMessage('Bir hata oluştu: ' + thrownError);
+                    
+                    console.error('AJAX Error Details:', {
+                        status: xhr.status,
+                        statusText: xhr.statusText,
+                        responseText: xhr.responseText,
+                        thrownError: thrownError,
+                        url: settings.url
+                    });
+                    
+                    let errorMessage = 'AJAX Hatası:\n';
+                    errorMessage += 'Status: ' + xhr.status + '\n';
+                    errorMessage += 'Status Text: ' + xhr.statusText + '\n';
+                    errorMessage += 'URL: ' + settings.url + '\n';
+                    errorMessage += 'Thrown Error: ' + (thrownError || 'Yok') + '\n';
+                    errorMessage += 'Response: ' + (xhr.responseText || 'Yok');
+                    
+                    alert(errorMessage);
+                    showErrorMessage(errorMessage.replace(/\n/g, '<br>'));
                 });
             }
         });
