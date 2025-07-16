@@ -722,14 +722,6 @@ Interaktif Proje Haritası
                 <div class="modern-map-wrapper">
                     <div id="hatayImarMap" class="hatay-imar-map"></div>
                     
-                    <!-- Harita Overlay Bilgi Paneli -->
-                    <div class="map-info-panel">
-                        <div class="info-content">
-                            <h5>🗺️ Harita Kontrolü</h5>
-                            <p>Yakınlaştırmak için çift tıklayın</p>
-                            <p>Marker'lara tıklayarak detayları görün</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -740,7 +732,7 @@ Interaktif Proje Haritası
                 <div class="map-legend-modern">
                     <div class="legend-title">
                         <h4>Harita Açıklaması</h4>
-                    </div>
+                        </div>
                     <div class="legend-grid">
                         <div class="legend-item">
                             <div class="marker-icon ongoing"></div>
@@ -749,7 +741,7 @@ Interaktif Proje Haritası
                         <div class="legend-item">
                             <div class="marker-icon planning"></div>
                             <span>Planlama Aşamasında</span>
-                        </div>
+                    </div>
                         <div class="legend-item">
                             <div class="marker-icon completed"></div>
                             <span>Tamamlanan Projeler</span>
@@ -948,7 +940,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Responsive zoom seviyeleri
         const isMobile = window.innerWidth <= 768;
         const isTablet = window.innerWidth <= 1024;
-        
+
         // Harita oluştur
         const map = L.map('hatayImarMap', {
             center: hatayCenter,
@@ -967,30 +959,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('✅ Harita başarıyla oluşturuldu');
 
-        // Modern harita katmanı
-        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
+        // Uydu görünümü (Google Satellite)
+        L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            attribution: '&copy; <a href="https://www.google.com/maps">Google</a>',
             maxZoom: 20
-        }).addTo(map);
-
-        // Yol ve etiket katmanı
-        L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png', {
-            attribution: '',
-            maxZoom: 20,
-            opacity: 0.7
         }).addTo(map);
 
         // Zoom kontrolünü özelleştir
         L.control.zoom({
             position: 'topright'
-        }).addTo(map);
+    }).addTo(map);
 
         // Modern marker ikonları
         function createMarkerIcon(color, icon, size = 35) {
             return L.divIcon({
                 className: 'custom-modern-marker',
                 html: `
-                    <div style="
+                    <div class="marker-container" style="
                         background: ${color};
                         width: ${size}px;
                         height: ${size}px;
@@ -1001,10 +986,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         box-shadow: 0 5px 15px rgba(0,0,0,0.4);
                         border: 3px solid white;
                         position: relative;
-                        transform: scale(1);
-                        transition: all 0.3s ease;
+                        cursor: pointer;
+                        z-index: 1000;
                     ">
-                        <i class="${icon}" style="color: white; font-size: ${size * 0.4}px;"></i>
+                        <i class="${icon}" style="color: white; font-size: ${size * 0.4}px; pointer-events: none;"></i>
                         <div style="
                             position: absolute;
                             bottom: -8px;
@@ -1015,13 +1000,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             border-left: 8px solid transparent;
                             border-right: 8px solid transparent;
                             border-top: 8px solid ${color};
+                            pointer-events: none;
                         "></div>
                     </div>
                 `,
                 iconSize: [size, size + 8],
                 iconAnchor: [size/2, size + 8],
                 popupAnchor: [0, -(size + 8)]
-            });
+    });
         }
 
         // Marker icon tanımları
@@ -1048,7 +1034,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                 'status' => $project->status,
                                 'description' => $location->description ?: strip_tags($project->short_description),
                                 'url' => route('project.details', $project->id),
-                                'type' => 'project'
+                                'type' => 'project',
+                                'category' => $project->category ?: 'İnşaat Projesi',
+                                'district' => $location->district ?: ($project->district ?: 'Hatay Merkez'),
+                                'budget' => $project->budget ?? null,
+                                'start_date' => $project->start_date ?? null
                             ];
                         }
                     }
@@ -1061,7 +1051,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         'status' => $project->status,
                         'description' => strip_tags($project->short_description),
                         'url' => route('project.details', $project->id),
-                        'type' => 'project'
+                        'type' => 'project',
+                        'category' => $project->category ?: 'İnşaat Projesi',
+                        'district' => $project->district ?: 'Hatay Merkez',
+                        'budget' => $project->budget ?? null,
+                        'start_date' => $project->start_date ?? null
                     ];
                 }
             }
@@ -1102,66 +1096,96 @@ document.addEventListener('DOMContentLoaded', function() {
                  item.status === 'completed' ? '#007bff' : '#ffc107') :
                 '#6f42c1';
 
+            const statusIcon = isProject ?
+                (item.status === 'ongoing' ? 'fas fa-cog fa-spin' :
+                 item.status === 'completed' ? 'fas fa-check-circle' : 'fas fa-clock') :
+                'fas fa-building';
+
             return `
                 <div style="
                     min-width: 280px;
                     max-width: 320px;
-                    font-family: 'Arial', sans-serif;
+                    font-family: 'Segoe UI', 'Arial', sans-serif;
                     padding: 0;
                     margin: 0;
+                    overflow: hidden;
                 ">
+                    <!-- Header with gradient -->
                     <div style="
-                        background: linear-gradient(135deg, ${statusColor}, ${statusColor}dd);
+                        background: linear-gradient(135deg, ${statusColor}ee, ${statusColor});
                         color: white;
                         padding: 15px;
                         margin: -20px -20px 15px -20px;
-                        border-radius: 10px 10px 0 0;
+                        border-radius: 12px 12px 0 0;
+                        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
                     ">
-                        <h4 style="margin: 0; font-size: 16px; font-weight: 600;">
-                            ${item.name}
-                        </h4>
-                        ${isProject ? `<p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.9;">${item.category || 'Proje'}</p>` : `<p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.9;">${item.category}</p>`}
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                            <i class="${statusIcon}" style="font-size: 14px; opacity: 0.9;"></i>
+                            <h3 style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.3;">
+                                ${item.name}
+                            </h3>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="
+                                background: rgba(255,255,255,0.25);
+                                padding: 3px 8px;
+                                border-radius: 10px;
+                                font-size: 10px;
+                                font-weight: 600;
+                                text-transform: uppercase;
+                                letter-spacing: 0.3px;
+                            ">
+                                ${isProject ? (item.category || 'PROJESİ') : item.category}
+                            </span>
+                            <span style="
+                                background: rgba(255,255,255,0.9);
+                                color: ${statusColor};
+                                padding: 3px 6px;
+                                border-radius: 8px;
+                                font-size: 9px;
+                                font-weight: 700;
+                            ">
+                                ${statusText.toUpperCase()}
+                            </span>
+                        </div>
                     </div>
                     
-                    <div style="padding: 0 5px;">
+                    <!-- Content -->
+                    <div style="padding: 0 8px; margin-bottom: 15px;">
                         <p style="
                             margin: 0 0 15px 0;
-                            color: #555;
-                            font-size: 14px;
+                            color: #444;
+                            font-size: 13px;
                             line-height: 1.4;
+                            text-align: justify;
                         ">
-                            ${item.description.substring(0, 120)}${item.description.length > 120 ? '...' : ''}
+                            ${item.description.substring(0, 100)}${item.description.length > 100 ? '...' : ''}
                         </p>
                         
-                        <div style="
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            margin-top: 15px;
-                        ">
-                            <span style="
-                                background: ${statusColor};
+                        <!-- Quick action button -->
+                        <div style="text-align: center; margin-bottom: 12px;">
+                            <button onclick="openLocationModal('${item.id}', '${item.type}', '${item.name.replace(/'/g, '\\\'')}')" style="
+                                background: linear-gradient(135deg, #ff6b35, #f7931e);
                                 color: white;
-                                padding: 6px 12px;
-                                border-radius: 15px;
-                                font-size: 11px;
-                                font-weight: 500;
-                            ">
-                                ${statusText}
-                            </span>
-                            
-                            <a href="${item.url}" style="
-                                background: #007bff;
-                                color: white;
-                                padding: 8px 15px;
+                                border: none;
+                                padding: 10px 20px;
                                 border-radius: 20px;
-                                text-decoration: none;
                                 font-size: 12px;
-                                font-weight: 500;
+                                font-weight: 600;
+                                cursor: pointer;
                                 transition: all 0.3s ease;
-                            " onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
-                                Detayları Gör →
-                            </a>
+                                box-shadow: 0 3px 10px rgba(255,107,53,0.3);
+                                width: 100%;
+                            " onmouseover="
+                                this.style.transform='translateY(-2px)'; 
+                                this.style.boxShadow='0 5px 15px rgba(255,107,53,0.4)';
+                            " onmouseout="
+                                this.style.transform='translateY(0px)'; 
+                                this.style.boxShadow='0 3px 10px rgba(255,107,53,0.3)';
+                            ">
+                                <i class="fas fa-info-circle" style="margin-right: 6px;"></i>
+                                ${isProject ? 'Proje Seçenekleri' : 'Tesis Seçenekleri'}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1173,20 +1197,47 @@ document.addEventListener('DOMContentLoaded', function() {
             const icon = markerIcons[project.status] || markerIcons.planning;
             const marker = L.marker([project.lat, project.lng], { icon: icon }).addTo(map);
             
-            marker.bindPopup(createModernPopup(project), {
-                maxWidth: 350,
-                className: 'modern-popup'
-            });
-
-            // Marker hover efekti
+            // Basit popup içeriği
+            const popupContent = `
+                <div style="text-align: center; padding: 10px;">
+                    <h4 style="margin: 0 0 10px 0; color: #333;">${project.name}</h4>
+                    <p style="margin: 0 0 15px 0; color: #666; font-size: 14px;">${project.description.substring(0, 100)}...</p>
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        <a href="${project.url}" target="_blank" 
+                           style="background: #007bff; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px; display: inline-block;">
+                            Detay
+                        </a>
+                        <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=${project.lat},${project.lng}', '_blank')" 
+                                style="background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+                            Konuma Git
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            
+            // Hover efekti
             marker.on('mouseover', function() {
-                this.getElement().style.transform = 'scale(1.1)';
-                this.getElement().style.zIndex = '1000';
+                const markerElement = this.getElement();
+                if (markerElement) {
+                    const container = markerElement.querySelector('.marker-container');
+                    if (container) {
+                        container.style.transform = 'scale(1.15)';
+                        container.style.filter = 'brightness(1.1)';
+                    }
+                }
             });
 
             marker.on('mouseout', function() {
-                this.getElement().style.transform = 'scale(1)';
-                this.getElement().style.zIndex = '400';
+                const markerElement = this.getElement();
+                if (markerElement) {
+                    const container = markerElement.querySelector('.marker-container');
+                    if (container) {
+                        container.style.transform = 'scale(1)';
+                        container.style.filter = 'brightness(1)';
+                    }
+                }
             });
         });
 
@@ -1194,20 +1245,56 @@ document.addEventListener('DOMContentLoaded', function() {
         facilities.forEach(function(facility) {
             const marker = L.marker([facility.lat, facility.lng], { icon: markerIcons.facility }).addTo(map);
             
-            marker.bindPopup(createModernPopup(facility), {
-                maxWidth: 350,
-                className: 'modern-popup'
-            });
-
-            // Marker hover efekti
+            // Basit popup içeriği
+            const popupContent = `
+                <div style="text-align: center; padding: 10px;">
+                    <h4 style="margin: 0 0 10px 0; color: #333;">${facility.name}</h4>
+                    <p style="margin: 0 0 15px 0; color: #666; font-size: 14px;">${facility.description.substring(0, 100)}...</p>
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        <a href="${facility.url}" target="_blank" 
+                           style="background: #007bff; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px; display: inline-block;">
+                            Detay
+                        </a>
+                        <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=${facility.lat},${facility.lng}', '_blank')" 
+                                style="background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+                            Konuma Git
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            
+            // Hover efekti
             marker.on('mouseover', function() {
-                this.getElement().style.transform = 'scale(1.1)';
-                this.getElement().style.zIndex = '1000';
+                const markerElement = this.getElement();
+                if (markerElement) {
+                    const container = markerElement.querySelector('.marker-container');
+                    if (container) {
+                        container.style.transform = 'scale(1.15)';
+                        container.style.filter = 'brightness(1.1)';
+                    }
+                }
             });
 
             marker.on('mouseout', function() {
-                this.getElement().style.transform = 'scale(1)';
-                this.getElement().style.zIndex = '400';
+                const markerElement = this.getElement();
+                if (markerElement) {
+                    const container = markerElement.querySelector('.marker-container');
+                    if (container) {
+                        container.style.transform = 'scale(1)';
+                        container.style.filter = 'brightness(1)';
+                    }
+                }
+            });
+        });
+
+        // Haritaya tıklandığında tüm popup'ları kapat
+        map.on('click', function(e) {
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    layer.closePopup();
+                }
             });
         });
 
@@ -1233,6 +1320,142 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 });
+
+// Modal JavaScript fonksiyonları
+function openLocationModal(id, type, name) {
+    const modal = document.getElementById('locationModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+    
+    modalTitle.textContent = name;
+    
+    // Modal içeriğini güncelle
+    if (type === 'project') {
+        modalContent.innerHTML = `
+            <div class="modal-options">
+                <div class="option-card">
+                    <div class="option-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="option-content">
+                        <h4>Proje Lokasyonu</h4>
+                        <p>Projenin bulunduğu konumu Google Maps'te görüntüleyin</p>
+                        <button onclick="openGoogleMaps('${id}', '${type}')" class="option-btn location-btn">
+                            <i class="fas fa-map-marked-alt"></i>
+                            Konuma Git
+                        </button>
+                    </div>
+                </div>
+                <div class="option-card">
+                    <div class="option-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="option-content">
+                        <h4>Proje Detayları</h4>
+                        <p>Projenin tüm detaylarını, görsellerini ve bilgilerini görüntüleyin</p>
+                        <button onclick="goToDetails('${id}', '${type}')" class="option-btn details-btn">
+                            <i class="fas fa-external-link-alt"></i>
+                            Detayları Gör
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        modalContent.innerHTML = `
+            <div class="modal-options">
+                <div class="option-card">
+                    <div class="option-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="option-content">
+                        <h4>Tesis Lokasyonu</h4>
+                        <p>Tesisin bulunduğu konumu Google Maps'te görüntüleyin</p>
+                        <button onclick="openGoogleMaps('${id}', '${type}')" class="option-btn location-btn">
+                            <i class="fas fa-map-marked-alt"></i>
+                            Tesise Git
+                        </button>
+                    </div>
+                </div>
+                <div class="option-card">
+                    <div class="option-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="option-content">
+                        <h4>Tesis Detayları</h4>
+                        <p>Tesisin tüm detaylarını, görsellerini ve bilgilerini görüntüleyin</p>
+                        <button onclick="goToDetails('${id}', '${type}')" class="option-btn details-btn">
+                            <i class="fas fa-external-link-alt"></i>
+                            Tesis Detayları
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    modal.style.display = 'block';
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+}
+
+function closeLocationModal() {
+    const modal = document.getElementById('locationModal');
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
+}
+
+function openGoogleMaps(id, type) {
+    // Mevcut verilerden koordinatları bul
+    let lat, lng;
+    
+    if (type === 'project') {
+        const project = projects.find(p => p.id == id);
+        if (project) {
+            lat = project.lat;
+            lng = project.lng;
+        }
+    } else {
+        const facility = facilities.find(f => f.id == id);
+        if (facility) {
+            lat = facility.lat;
+            lng = facility.lng;
+        }
+    }
+    
+    if (lat && lng) {
+        // Google Maps'te aç
+        const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+        window.open(url, '_blank');
+    }
+    
+    closeLocationModal();
+}
+
+function goToDetails(id, type) {
+    if (type === 'project') {
+        const project = projects.find(p => p.id == id);
+        if (project) {
+            window.location.href = project.url;
+        }
+    } else {
+        const facility = facilities.find(f => f.id == id);
+        if (facility) {
+            window.location.href = facility.url;
+        }
+    }
+}
+
+// Modal dış alanına tıklandığında kapat
+window.onclick = function(event) {
+    const modal = document.getElementById('locationModal');
+    if (event.target == modal) {
+        closeLocationModal();
+    }
+}
 </script>
 
 <!-- Modern Popup Stilleri -->
@@ -1260,10 +1483,231 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .custom-modern-marker {
     cursor: pointer;
+    z-index: 1000 !important;
 }
 
-.custom-modern-marker div:hover {
+.custom-modern-marker .marker-container {
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1000;
+}
+
+.custom-modern-marker .marker-container:hover {
     transform: scale(1.1) !important;
+    filter: brightness(1.1) !important;
+    z-index: 1001 !important;
+}
+
+/* Location Modal Stilleri */
+.location-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.location-modal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.location-modal.show .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 20px 25px;
+    position: relative;
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    padding-right: 40px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.modal-body {
+    padding: 30px 25px;
+}
+
+.modal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.option-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.option-card:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.option-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.option-content {
+    flex: 1;
+}
+
+.option-content h4 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.option-content p {
+    margin: 0 0 15px 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.option-btn {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.location-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.location-btn:hover {
+    background: linear-gradient(135deg, #20c997, #28a745);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+}
+
+.details-btn {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+}
+
+.details-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #007bff);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+}
+
+/* Mobil Responsive */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+    
+    .modal-header {
+        padding: 15px 20px;
+    }
+    
+    .modal-header h3 {
+        font-size: 18px;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .option-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .option-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .option-content h4 {
+        font-size: 16px;
+    }
+    
+    .option-content p {
+        font-size: 13px;
+    }
+    
+    .option-btn {
+        padding: 10px 18px;
+        font-size: 13px;
+    }
 }
 </style>
 </section>
@@ -1483,6 +1927,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 </style>
+
+<!-- Location Modal -->
+<div id="locationModal" class="location-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Proje Seçenekleri</h3>
+            <button class="modal-close" onclick="closeLocationModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="modalContent">
+                <!-- Modal içeriği JavaScript ile doldurulacak -->
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--==============================
 Soru ve Görüşleriniz Bölümü

@@ -114,7 +114,7 @@ Haber Detay Bölümü
     </div>
 </section>
 
-@endsection
+@endsection 
 
 @push('scripts')
 <!-- Resim Modal -->

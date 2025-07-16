@@ -69,7 +69,7 @@ Blog Grid Bölümü
     </div>
 </section>
 
-@endsection
+@endsection 
 
 @push('styles')
 <style>
