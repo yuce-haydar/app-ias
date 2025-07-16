@@ -762,12 +762,13 @@ Projeler Haritası Bölümü
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🗺️ Map script loading...');
     
-    // Leaflet yüklendi mi kontrol et
-    if (typeof L === 'undefined') {
-        console.error('❌ Leaflet library not loaded!');
-        return;
-    }
-    console.log('✅ Leaflet library loaded');
+    try {
+        // Leaflet yüklendi mi kontrol et
+        if (typeof L === 'undefined') {
+            console.error('❌ Leaflet library not loaded!');
+            return;
+        }
+        console.log('✅ Leaflet library loaded');
     
     // Map container var mı kontrol et
     var mapElement = document.getElementById('projectMap');
@@ -870,33 +871,34 @@ document.addEventListener('DOMContentLoaded', function() {
         iconAnchor: [16, 16]
     });
 
-    // Proje konumları - Veritabanından dinamik olarak (birden fazla lokasyon desteği)
-    var projects = [
-        @foreach($allProjects as $project)
-            @if($project->locations && $project->locations->count() > 0)
-                @foreach($project->locations as $location)
-                {
-                    name: "{{ addslashes($project->title) }} - {{ addslashes($location->name) }}",
-                    coords: [{{ $location->latitude }}, {{ $location->longitude }}],
-                    status: "{{ $project->status }}",
-                    description: "{{ addslashes($location->description ?: Str::limit(strip_tags($project->short_description), 100)) }}",
-                    url: "{{ route('project.details', ['id' => $project->id]) }}",
-                    projectTitle: "{{ addslashes($project->title) }}",
-                    locationName: "{{ addslashes($location->name) }}"
-                },
-                @endforeach
-            @elseif($project->latitude && $project->longitude)
-            {
-                name: "{{ addslashes($project->title) }}",
-                coords: [{{ $project->latitude }}, {{ $project->longitude }}],
-                status: "{{ $project->status }}",
-                description: "{{ addslashes(Str::limit(strip_tags($project->short_description), 100)) }}",
-                url: "{{ route('project.details', ['id' => $project->id]) }}",
-                projectTitle: "{{ addslashes($project->title) }}",
-                locationName: "Ana Lokasyon"
-            },
-            @endif
-        @endforeach
+    // Proje konumları - JSON ile güvenli encoding
+    var projects = {!! json_encode($allProjects->flatMap(function($project) {
+        $projectData = [];
+        if ($project->locations && $project->locations->count() > 0) {
+            foreach ($project->locations as $location) {
+                $projectData[] = [
+                    'name' => $project->title . ' - ' . $location->name,
+                    'coords' => [(float)$location->latitude, (float)$location->longitude],
+                    'status' => $project->status,
+                    'description' => $location->description ?: Str::limit(strip_tags($project->short_description), 100),
+                    'url' => route('project.details', ['id' => $project->id]),
+                    'projectTitle' => $project->title,
+                    'locationName' => $location->name
+                ];
+            }
+        } else if ($project->latitude && $project->longitude) {
+            $projectData[] = [
+                'name' => $project->title,
+                'coords' => [(float)$project->latitude, (float)$project->longitude],
+                'status' => $project->status,
+                'description' => Str::limit(strip_tags($project->short_description), 100),
+                'url' => route('project.details', ['id' => $project->id]),
+                'projectTitle' => $project->title,
+                'locationName' => 'Ana Lokasyon'
+            ];
+        }
+        return $projectData;
+    })) !!};
         // Fallback projeler (eğer koordinatlı proje yoksa)
         @if($allProjects->whereNotNull('latitude')->whereNotNull('longitude')->count() == 0)
         {
@@ -950,23 +952,21 @@ document.addEventListener('DOMContentLoaded', function() {
         @endif
     ];
 
-    // Tesis konumları - Veritabanından dinamik olarak
-    var facilities = [
-        @foreach($allFacilities as $facility)
-            @if($facility->latitude && $facility->longitude)
-            {
-                name: "{{ addslashes($facility->name) }}",
-                coords: [{{ $facility->latitude }}, {{ $facility->longitude }}],
-                type: "facility",
-                category: "{{ addslashes($facility->category ?: 'Tesis') }}",
-                description: "{{ addslashes(Str::limit(strip_tags($facility->short_description), 100)) }}",
-                url: "{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}",
-                address: "{{ addslashes($facility->address ?: '') }}",
-                phone: "{{ addslashes($facility->phone ?: '') }}"
-            },
-            @endif
-        @endforeach
-    ];
+    // Tesis konumları - JSON ile güvenli encoding
+    var facilities = {!! json_encode($allFacilities->filter(function($facility) {
+        return $facility->latitude && $facility->longitude;
+    })->map(function($facility) {
+        return [
+            'name' => $facility->name,
+            'coords' => [(float)$facility->latitude, (float)$facility->longitude],
+            'type' => 'facility',
+            'category' => $facility->category ?: 'Tesis',
+            'description' => Str::limit(strip_tags($facility->short_description), 100),
+            'url' => route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]),
+            'address' => $facility->address ?: '',
+            'phone' => $facility->phone ?: ''
+        ];
+    })->values()) !!};
     
     console.log('📍 Facilities data loaded:', facilities.length, 'facilities');
     console.log('🏗️ Projects data loaded:', projects.length, 'projects');
@@ -1043,7 +1043,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    console.log('🎉 Map initialization completed successfully!');
+        console.log('🎉 Map initialization completed successfully!');
+    } catch (error) {
+        console.error('❌ Map initialization failed:', error);
+        console.error('Error details:', error.message);
+        console.error('Stack trace:', error.stack);
+        
+        // Fallback - harita container'ını gizle
+        var mapElement = document.getElementById('projectMap');
+        if (mapElement) {
+            mapElement.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">🗺️ Harita yüklenirken bir hata oluştu.</div>';
+        }
+    }
 });
 </script>
 </section>
