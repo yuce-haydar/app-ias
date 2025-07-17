@@ -656,6 +656,33 @@
             </div>
         </div>
 
+        <!-- Footer İframe Ayarları -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-code me-2"></i>
+                    Footer İframe Ayarları
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="footer_iframe_code" class="form-label">Footer İframe Kodu</label>
+                    <textarea class="form-control @error('footer_iframe_code') is-invalid @enderror" 
+                              id="footer_iframe_code" name="footer_iframe_code" rows="6" 
+                              placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('footer_iframe_code', $settings->footer_iframe_code) }}</textarea>
+                    <small class="text-muted">Bu iframe kodu SADECE ana sayfanın footer bölümünde gösterilecektir. Diğer sayfalarda footer statik kalacaktır.</small>
+                    @error('footer_iframe_code')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Bilgi:</strong> Bu iframe sadece ana sayfada gösterilir. Boş bırakılırsa normal footer görüntülenir.
+                </div>
+            </div>
+        </div>
+
         <!-- Kaydet Butonu -->
         <div class="text-end">
             <button type="submit" class="btn btn-primary btn-lg">

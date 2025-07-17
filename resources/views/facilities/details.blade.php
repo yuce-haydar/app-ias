@@ -153,6 +153,16 @@
                     </div>
                     @endif
 
+                    <!-- Tesis İframe Bölümü -->
+                    @if($facility->iframe_code)
+                    <div class="facility-iframe-section mt-5">
+                        <h3 class="mb-30">Ek Bilgiler ve Harita</h3>
+                        <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                            {!! $facility->iframe_code !!}
+                        </div>
+                    </div>
+                    @endif
+
                 </div>
             </div>
             

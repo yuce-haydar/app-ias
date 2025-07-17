@@ -97,6 +97,9 @@ class HomePageController extends Controller
                 'contact_subtitle' => 'nullable|string|max:255',
                 'contact_show' => 'boolean',
                 
+                // Footer Iframe
+                'footer_iframe_code' => 'nullable|string',
+                
                 // Breadcrumb Image
                 'breadcrumb_image' => 'nullable|image|max:15360',
             ]);

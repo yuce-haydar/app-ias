@@ -15,6 +15,7 @@ class Facility extends Model
         'slug',
         'short_description',
         'description',
+        'iframe_code',
         'image',
         'gallery',
         'facility_type',

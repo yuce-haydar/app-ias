@@ -50,6 +50,7 @@ class AboutPageController extends Controller
                 'features.*' => 'string|max:255',
                 'mission_text' => 'required|string',
                 'vision_text' => 'required|string',
+                'iframe_code' => 'nullable|string',
             ];
 
             // Sadece dosya yüklendiyse image validation ekle
@@ -134,6 +135,7 @@ class AboutPageController extends Controller
                 'features' => array_values($features),
                 'mission_text' => $request->mission_text,
                 'vision_text' => $request->vision_text,
+                'iframe_code' => $request->iframe_code,
             ]);
 
             return back()->with('success', 'Hakkımızda sayfası başarıyla güncellendi.');

@@ -18,6 +18,7 @@ class AboutPageSetting extends Model
         'features',
         'mission_text',
         'vision_text',
+        'iframe_code',
     ];
 
     protected $casts = [

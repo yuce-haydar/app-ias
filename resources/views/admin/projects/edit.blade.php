@@ -69,6 +69,17 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="iframe_code" class="form-label">Harita/İframe Kodu</label>
+                                    <textarea class="form-control @error('iframe_code') is-invalid @enderror" 
+                                              id="iframe_code" name="iframe_code" rows="4" 
+                                              placeholder="Örn: Google Maps embed kodu veya başka bir iframe kodu">{{ old('iframe_code', $project->iframe_code) }}</textarea>
+                                    <small class="text-muted">Projeye ait harita veya başka bir iframe kodunu buraya ekleyebilirsiniz.</small>
+                                    @error('iframe_code')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="features" class="form-label">Özellikler</label>
                                     <textarea class="form-control @error('features') is-invalid @enderror" 
                                               id="features" name="features" rows="5" 

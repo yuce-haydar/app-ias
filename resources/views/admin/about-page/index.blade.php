@@ -175,6 +175,33 @@
             </div>
         </div>
 
+        <!-- İframe Ayarları -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-code me-2"></i>
+                    İframe Ayarları
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="iframe_code" class="form-label">İframe Kodu</label>
+                    <textarea class="form-control @error('iframe_code') is-invalid @enderror" 
+                              id="iframe_code" name="iframe_code" rows="6" 
+                              placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('iframe_code', $settings->iframe_code) }}</textarea>
+                    <small class="text-muted">Hakkımızda sayfasında gösterilecek iframe kodunu buraya ekleyebilirsiniz.</small>
+                    @error('iframe_code')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Bilgi:</strong> Bu iframe hakkımızda sayfasının sonunda görüntülenir. Boş bırakılırsa iframe gösterilmez.
+                </div>
+            </div>
+        </div>
+
         <!-- Kaydet Butonu -->
         <div class="card">
             <div class="card-body">

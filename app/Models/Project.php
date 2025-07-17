@@ -15,6 +15,7 @@ class Project extends Model
         'slug',
         'short_description',
         'description',
+        'iframe_code',
         'image',
         'gallery',
         'project_type',

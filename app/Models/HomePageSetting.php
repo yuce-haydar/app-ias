@@ -63,6 +63,9 @@ class HomePageSetting extends Model
         'contact_subtitle',
         'contact_show',
         
+        // Footer Iframe
+        'footer_iframe_code',
+        
         // JSON Sliders
         'hero_slides',
         'about_images',

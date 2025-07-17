@@ -189,6 +189,16 @@ Proje Detay Bölümü
                             </div>
                         </div>
                         @endif
+
+                        <!-- Proje İframe Bölümü -->
+                        @if($project->iframe_code)
+                        <div class="project-iframe-section mt-5">
+                            <h3>Ek Bilgiler ve Harita</h3>
+                            <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                                {!! $project->iframe_code !!}
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

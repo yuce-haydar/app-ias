@@ -45,7 +45,20 @@
                
                 <div class="col-lg-1 md-d-none"></div>
                 <div class="col-lg-3 col-md-6">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/T-F_GtcXw6U?si=g5niksZcD0xvZhHQ&amp;start=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    @php
+                        $homeSettings = \App\Models\HomePageSetting::first();
+                        $isHomePage = request()->route() && request()->route()->getName() === 'home';
+                    @endphp
+                    
+                    @if($isHomePage && $homeSettings && $homeSettings->footer_iframe_code)
+                        <!-- Ana sayfa için dinamik iframe -->
+                        <div class="iframe-container" style="border-radius: 10px; overflow: hidden;">
+                            {!! $homeSettings->footer_iframe_code !!}
+                        </div>
+                    @else
+                        <!-- Diğer sayfalar için statik YouTube iframe -->
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/T-F_GtcXw6U?si=g5niksZcD0xvZhHQ&amp;start=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    @endif
                 </div>
             </div>
         </div>
