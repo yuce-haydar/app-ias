@@ -696,6 +696,14 @@ Ek Bilgiler ve Haritalar Bölümü (4 Tane Yan Yana)
                 @endif
             @endforeach
         </div>
+        <div class="text-center mt-40">
+            <a href="https://www.youtube.com/@HBB-TV/videos" class="theme-btn bg-color10" target="_blank">
+                <span class="link-effect">
+                    <span class="effect-1">Devamı</span>
+                    <span class="effect-1">Devamı</span>
+                </span><i class="fa-regular fa-arrow-right-long"></i>
+            </a>
+        </div>
     </div>
 </section>
 
