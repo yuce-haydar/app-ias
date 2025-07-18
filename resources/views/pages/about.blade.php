@@ -115,7 +115,7 @@
             <div class="col-12">
                 <div class="iframe-wrapper">
                     <div class="title-area text-center mb-50">
-                        <div class="sub-title"><span><i class="asterisk"></i></span><a href="{{ route('news.index') }}">Ek Bilgiler</a></div>
+                        <div class="sub-title"><span><i class="asterisk"></i></span><a href="{{ route('blog.grid') }}">Ek Bilgiler</a></div>
                         <h2 class="sec-title">Videolarımız</h2>
                     </div>
                     <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
