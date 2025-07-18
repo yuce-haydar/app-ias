@@ -145,7 +145,7 @@ Mobil Menü
                     <span class="effect-1"><i class="fab fa-instagram"></i></span>
                 </span>
             </a>
-            <a href="https://twitter.com/hatayimar">
+            <a href="https://x.com/hatayimarr">
                 <span class="link-effect">
                     <span class="effect-1"><i class="fab fa-twitter"></i></span>
                     <span class="effect-1"><i class="fab fa-twitter"></i></span>

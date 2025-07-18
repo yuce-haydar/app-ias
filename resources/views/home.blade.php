@@ -830,13 +830,30 @@ Interaktif Proje Haritası
                         <h4>Harita Açıklaması</h4>
                         </div>
                     <div class="legend-grid">
-                        <div class="legend-item">
+                        <div class="legend-item clickable" onclick="showProjectsList('ongoing')" style="cursor: pointer;">
                             <div class="marker-icon ongoing"></div>
                             <span>Devam Eden Projeler</span>
+                            <i class="fas fa-chevron-down legend-arrow" style="margin-left: 10px; color: #cf9f38;"></i>
                         </div>
-                        <div class="legend-item">
+                        <div class="legend-item clickable" onclick="showFacilitiesList()" style="cursor: pointer;">
                             <div class="marker-icon facility"></div>
                             <span>Aktif Tesislerimiz</span>
+                            <i class="fas fa-chevron-down legend-arrow" style="margin-left: 10px; color: #cf9f38;"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Dropdown Lists -->
+                    <div id="projectsList" class="legend-dropdown" style="display: none;">
+                        <h5 style="color: #fff; margin-bottom: 15px;">Devam Eden Projeler</h5>
+                        <div class="dropdown-items" id="projectsItems">
+                            <!-- JavaScript ile doldurulacak -->
+                        </div>
+                    </div>
+                    
+                    <div id="facilitiesList" class="legend-dropdown" style="display: none;">
+                        <h5 style="color: #fff; margin-bottom: 15px;">Aktif Tesislerimiz</h5>
+                        <div class="dropdown-items" id="facilitiesItems">
+                            <!-- JavaScript ile doldurulacak -->
                         </div>
                     </div>
                 </div>
@@ -961,6 +978,62 @@ Interaktif Proje Haritası
     color: #fff;
     font-size: 14px;
     font-weight: 500;
+}
+
+.legend-item.clickable:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-3px);
+}
+
+.legend-dropdown {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: slideDown 0.3s ease;
+}
+
+.dropdown-items {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    background: rgba(255,255,255,0.1);
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid #cf9f38;
+}
+
+.dropdown-item:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateX(5px);
+}
+
+.dropdown-item h6 {
+    color: #fff;
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dropdown-item p {
+    color: rgba(255,255,255,0.8);
+    margin: 0;
+    font-size: 12px;
+}
+
+.legend-arrow {
+    transition: transform 0.3s ease;
+}
+
+.legend-item.active .legend-arrow {
+    transform: rotate(180deg);
 }
 
 /* Mobil Responsive */
@@ -1387,6 +1460,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         console.log('🎉 Harita başarıyla yüklendi!');
+        
+        // Global değişkenler legend fonksiyonları için
+        window.hatayImarMap = map;
+        window.hatayImarProjects = projects;
+        window.hatayImarFacilities = facilities;
 
     } catch (error) {
         console.error('❌ Harita yükleme hatası:', error);
@@ -1408,6 +1486,130 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 });
+
+// Legend dropdown fonksiyonları
+function showProjectsList(status = 'ongoing') {
+    const dropdown = document.getElementById('projectsList');
+    const facilitiesDropdown = document.getElementById('facilitiesList');
+    const projectsItems = document.getElementById('projectsItems');
+    const legendItem = document.querySelector('.legend-item.clickable');
+    
+    // Facilities dropdown'ını kapat
+    facilitiesDropdown.style.display = 'none';
+    document.querySelectorAll('.legend-item.clickable')[1].classList.remove('active');
+    
+    // Projects dropdown'ını aç/kapat
+    if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+        legendItem.classList.remove('active');
+        return;
+    }
+    
+    // Projeleri filtrele ve listele
+    const ongoingProjects = window.hatayImarProjects ? window.hatayImarProjects.filter(project => project.status === status) : [];
+    
+    projectsItems.innerHTML = '';
+    
+    if (ongoingProjects.length === 0) {
+        projectsItems.innerHTML = '<p style="color: rgba(255,255,255,0.8); text-align: center;">Devam eden proje bulunamadı.</p>';
+    } else {
+        ongoingProjects.forEach(project => {
+            const item = document.createElement('div');
+            item.className = 'dropdown-item';
+            item.onclick = () => focusOnLocation(project.lat, project.lng, project.name);
+            item.innerHTML = `
+                <h6>${project.name}</h6>
+                <p>${project.description.substring(0, 80)}...</p>
+            `;
+            projectsItems.appendChild(item);
+        });
+    }
+    
+    dropdown.style.display = 'block';
+    legendItem.classList.add('active');
+}
+
+function showFacilitiesList() {
+    const dropdown = document.getElementById('facilitiesList');
+    const projectsDropdown = document.getElementById('projectsList');
+    const facilitiesItems = document.getElementById('facilitiesItems');
+    const legendItems = document.querySelectorAll('.legend-item.clickable');
+    const facilitiesLegendItem = legendItems[1];
+    
+    // Projects dropdown'ını kapat
+    projectsDropdown.style.display = 'none';
+    legendItems[0].classList.remove('active');
+    
+    // Facilities dropdown'ını aç/kapat
+    if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+        facilitiesLegendItem.classList.remove('active');
+        return;
+    }
+    
+    // Tesisleri listele
+    const facilities = window.hatayImarFacilities || [];
+    
+    facilitiesItems.innerHTML = '';
+    
+    if (facilities.length === 0) {
+        facilitiesItems.innerHTML = '<p style="color: rgba(255,255,255,0.8); text-align: center;">Aktif tesis bulunamadı.</p>';
+    } else {
+        facilities.forEach(facility => {
+            const item = document.createElement('div');
+            item.className = 'dropdown-item';
+            item.onclick = () => focusOnLocation(facility.lat, facility.lng, facility.name);
+            item.innerHTML = `
+                <h6>${facility.name}</h6>
+                <p>${facility.description.substring(0, 80)}...</p>
+            `;
+            facilitiesItems.appendChild(item);
+        });
+    }
+    
+    dropdown.style.display = 'block';
+    facilitiesLegendItem.classList.add('active');
+}
+
+function focusOnLocation(lat, lng, name) {
+    if (window.hatayImarMap) {
+        // Haritayı konuma zoom yap
+        window.hatayImarMap.setView([lat, lng], 16, {
+            animate: true,
+            duration: 1
+        });
+        
+        // Bilgi mesajı göster
+        const infoDiv = document.createElement('div');
+        infoDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(207, 159, 56, 0.95);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 10000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        `;
+        infoDiv.innerHTML = `📍 ${name} konumuna odaklandı`;
+        document.body.appendChild(infoDiv);
+        
+        // 3 saniye sonra mesajı kaldır
+        setTimeout(() => {
+            document.body.removeChild(infoDiv);
+        }, 3000);
+        
+        // Dropdown'ları kapat
+        document.getElementById('projectsList').style.display = 'none';
+        document.getElementById('facilitiesList').style.display = 'none';
+        document.querySelectorAll('.legend-item.clickable').forEach(item => {
+            item.classList.remove('active');
+        });
+    }
+}
 
 // Modal JavaScript fonksiyonları
 function openLocationModal(id, type, name) {
