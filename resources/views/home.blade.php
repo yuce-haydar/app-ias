@@ -329,6 +329,25 @@ Hero Bölümü
 <!--======== / Hero Bölümü ========-->
 
 <!--==============================
+Slider Altı İframe Bölümü
+==============================-->
+@if($homeSettings && $homeSettings->slider_iframe_code)
+<section class="slider-iframe-section space-bottom mt-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="iframe-wrapper">
+                    <div class="iframe-container" style="width: 100%; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                        {!! $homeSettings->slider_iframe_code !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
+<!--==============================
 Hakkımızda Bölümü
 ==============================-->
 <section class="about-section style-6 space overflow-hidden bg-theme3" id="about-section">
@@ -1944,6 +1963,29 @@ window.onclick = function(event) {
         </div>
     </div>
 </div>
+
+<!--==============================
+İletişim Üstü İframe Bölümü
+==============================-->
+@if($homeSettings && $homeSettings->contact_iframe_code)
+<section class="contact-iframe-section space-bottom bg-theme3">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="iframe-wrapper">
+                    <div class="title-area text-center mb-50">
+                        <div class="sub-title"><span><i class="asterisk"></i></span>Ek Bilgiler</div>
+                        <h2 class="sec-title">Daha Fazla Bilgi</h2>
+                    </div>
+                    <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                        {!! $homeSettings->contact_iframe_code !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
 
 <!--==============================
 Soru ve Görüşleriniz Bölümü

@@ -66,6 +66,10 @@ class HomePageSetting extends Model
         // Footer Iframe
         'footer_iframe_code',
         
+        // Additional Iframes
+        'slider_iframe_code',
+        'contact_iframe_code',
+        
         // JSON Sliders
         'hero_slides',
         'about_images',

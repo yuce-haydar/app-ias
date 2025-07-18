@@ -656,29 +656,69 @@
             </div>
         </div>
 
-        <!-- Footer İframe Ayarları -->
+        <!-- İframe Ayarları -->
         <div class="card mb-4">
             <div class="card-header">
                 <h5 class="card-title mb-0">
                     <i class="fas fa-code me-2"></i>
-                    Footer İframe Ayarları
+                    İframe Ayarları
                 </h5>
             </div>
             <div class="card-body">
-                <div class="mb-3">
-                    <label for="footer_iframe_code" class="form-label">Footer İframe Kodu</label>
-                    <textarea class="form-control @error('footer_iframe_code') is-invalid @enderror" 
-                              id="footer_iframe_code" name="footer_iframe_code" rows="6" 
-                              placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('footer_iframe_code', $settings->footer_iframe_code) }}</textarea>
-                    <small class="text-muted">Bu iframe kodu SADECE ana sayfanın footer bölümünde gösterilecektir. Diğer sayfalarda footer statik kalacaktır.</small>
-                    @error('footer_iframe_code')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <!-- Slider Altı İframe -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h6 class="border-bottom pb-2 mb-3">Slider Altı İframe</h6>
+                        <div class="mb-3">
+                            <label for="slider_iframe_code" class="form-label">Slider Altı İframe Kodu</label>
+                            <textarea class="form-control @error('slider_iframe_code') is-invalid @enderror" 
+                                      id="slider_iframe_code" name="slider_iframe_code" rows="6" 
+                                      placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('slider_iframe_code', $settings->slider_iframe_code) }}</textarea>
+                            <small class="text-muted">Bu iframe slider bölümünün hemen altında gösterilecektir.</small>
+                            @error('slider_iframe_code')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İletişim Üstü İframe -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h6 class="border-bottom pb-2 mb-3">İletişim Bölümü Üstü İframe</h6>
+                        <div class="mb-3">
+                            <label for="contact_iframe_code" class="form-label">İletişim Üstü İframe Kodu</label>
+                            <textarea class="form-control @error('contact_iframe_code') is-invalid @enderror" 
+                                      id="contact_iframe_code" name="contact_iframe_code" rows="6" 
+                                      placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('contact_iframe_code', $settings->contact_iframe_code) }}</textarea>
+                            <small class="text-muted">Bu iframe iletişim bölümünün hemen üstünde gösterilecektir.</small>
+                            @error('contact_iframe_code')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer İframe -->
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="border-bottom pb-2 mb-3">Footer İframe</h6>
+                        <div class="mb-3">
+                            <label for="footer_iframe_code" class="form-label">Footer İframe Kodu</label>
+                            <textarea class="form-control @error('footer_iframe_code') is-invalid @enderror" 
+                                      id="footer_iframe_code" name="footer_iframe_code" rows="6" 
+                                      placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('footer_iframe_code', $settings->footer_iframe_code) }}</textarea>
+                            <small class="text-muted">Bu iframe kodu SADECE ana sayfanın footer bölümünde gösterilecektir. Diğer sayfalarda footer statik kalacaktır.</small>
+                            @error('footer_iframe_code')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle me-2"></i>
-                    <strong>Bilgi:</strong> Bu iframe sadece ana sayfada gösterilir. Boş bırakılırsa normal footer görüntülenir.
+                    <strong>Bilgi:</strong> Bu iframe'ler sadece ana sayfada gösterilir. Boş bırakılan alanlar gösterilmez.
                 </div>
             </div>
         </div>

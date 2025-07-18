@@ -100,6 +100,10 @@ class HomePageController extends Controller
                 // Footer Iframe
                 'footer_iframe_code' => 'nullable|string',
                 
+                // Additional Iframes
+                'slider_iframe_code' => 'nullable|string',
+                'contact_iframe_code' => 'nullable|string',
+                
                 // Breadcrumb Image
                 'breadcrumb_image' => 'nullable|image|max:15360',
             ]);
