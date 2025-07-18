@@ -122,47 +122,53 @@ Mobil Menü
                 <li class="{{ request()->routeIs('home') ? 'active' : '' }}">
                     <a href="{{ route('home') }}">Anasayfa</a>
                 </li>
-                <li class="{{ request()->routeIs('about') ? 'active' : '' }} submenu-item-has-children">
+                <li class="{{ request()->routeIs('about') ? 'active' : '' }} menu-item-has-children">
                     <a href="javascript:void(0)">Kurumsal</a>
-                    <ul class="submenu-class">
+                    <span class="mobile-menu-toggle" style="color: #cf9f38;"><i class="fas fa-chevron-down"></i></span>
+                    <ul class="sub-menu">
                         <li><a href="{{ route('about') }}">Hakkımızda</a></li>
                         <li><a href="{{ route('about') }}">Misyon & Vizyon</a></li>
                         <li><a href="{{ route('team') }}">Yönetim Kurulu</a></li>
                         <li><a href="{{ route('bilgi-toplumu-hizmetleri') }}">Bilgi Toplumu Hizmetleri</a></li>
                     </ul>
                 </li>
-                <li class="{{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? 'active' : '' }} submenu-item-has-children">
+                <li class="{{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? 'active' : '' }} menu-item-has-children">
                     <a href="javascript:void(0)">Tesisler/Projeler</a>
-                    <ul class="submenu-class">
+                    <span class="mobile-menu-toggle" style="color: #cf9f38;"><i class="fas fa-chevron-down"></i></span>
+                    <ul class="sub-menu">
                         <li><a href="{{ route('facilities.index') }}">Tesislerimiz</a></li>
-                        <li class="submenu-item-has-children">
+                        <li class="menu-item-has-children">
                             <a href="javascript:void(0)">Projelerimiz</a>
-                            <ul class="submenu-class">
+                            <span class="mobile-menu-toggle" style="color: #cf9f38;"><i class="fas fa-chevron-down"></i></span>
+                            <ul class="sub-menu">
                                 <li><a href="{{ route('projects', ['status' => 'ongoing']) }}">Devam Eden Projeler</a></li>
                                 <li><a href="{{ route('projects', ['status' => 'completed']) }}">Tamamlanan Projeler</a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
-                <li class="{{ request()->routeIs('tenders*') || request()->routeIs('announcements*') ? 'active' : '' }} submenu-item-has-children">
+                <li class="{{ request()->routeIs('tenders*') || request()->routeIs('announcements*') ? 'active' : '' }} menu-item-has-children">
                     <a href="javascript:void(0)">Duyurular/İlanlar</a>
-                    <ul class="submenu-class">
+                    <span class="mobile-menu-toggle" style="color: #cf9f38;"><i class="fas fa-chevron-down"></i></span>
+                    <ul class="sub-menu">
                         <li><a href="{{ route('blog.grid') }}">Haberler</a></li>
                         <li><a href="{{ route('announcements') }}">Duyurular</a></li>
                         <li><a href="{{ route('tenders') }}">İhale Bilgileri</a></li>
                         <li><a href="{{ route('tenders') }}">İlan Başvuru Formu</a></li>
                     </ul>
                 </li>
-                <li class="{{ request()->routeIs('hr*') ? 'active' : '' }} submenu-item-has-children">
+                <li class="{{ request()->routeIs('hr*') ? 'active' : '' }} menu-item-has-children">
                     <a href="javascript:void(0)">İnsan Kaynakları</a>
-                    <ul class="submenu-class">
+                    <span class="mobile-menu-toggle" style="color: #cf9f38;"><i class="fas fa-chevron-down"></i></span>
+                    <ul class="sub-menu">
                         <li><a href="{{ route('hr') }}">Kariyer Fırsatları</a></li>
                         <li><a href="{{ route('careers') }}">Açık Pozisyonlar</a></li>
                     </ul>
                 </li>
-                <li class="submenu-item-has-children">
+                <li class="menu-item-has-children">
                     <a href="javascript:void(0)">KVKK</a>
-                    <ul class="submenu-class">
+                    <span class="mobile-menu-toggle" style="color: #cf9f38;"><i class="fas fa-chevron-down"></i></span>
+                    <ul class="sub-menu">
                         <li><a href="{{ route('legal') }}">KVKK Başvuru Formu</a></li>
                         <li><a href="{{ route('contact-notice') }}">İletişim Bölümü Aydınlatma Metni</a></li>
                         <li><a href="{{ route('cookies-notice') }}">Çerez Aydınlatma Metni</a></li>
@@ -171,9 +177,6 @@ Mobil Menü
                         <li><a href="{{ route('privacy') }}">Gizlilik Politikası</a></li>
                         <li><a href="{{ route('terms') }}">İnternet Sitesi Kullanım Sözleşmesi</a></li>
                     </ul>
-                </li>
-                <li>
-                    <a href="{{ route('contact') }}">İletişim</a>
                 </li>
             </ul>
         </div>
@@ -216,165 +219,111 @@ Mobil Menü
     </div>
 </div>
 
-<!-- Mobil Menü Stilleri ve JavaScript -->
 <style>
-/* Mobil menü ok ikonları düzeltme */
-.mobile-menu .submenu-item-has-children > a::after {
-    content: '\f107';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
+/* Mobil Menü Accordion Stilleri */
+.mobile-menu .menu-item-has-children {
+    position: relative;
+}
+
+.mobile-menu-toggle {
     position: absolute;
-    right: 20px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #ffffff !important;
-    font-size: 14px;
+    cursor: pointer;
+    padding: 5px;
     transition: all 0.3s ease;
 }
 
-.mobile-menu .submenu-item-has-children.active-class > a::after {
-    content: '\f106';
+.mobile-menu-toggle:hover {
     color: #cf9f38 !important;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.mobile-menu-toggle.active {
     transform: translateY(-50%) rotate(180deg);
 }
 
-.mobile-menu .submenu-item-has-children > a .mean-expand-class {
-    display: none !important;
-}
-
-/* Alt menü stilleri */
-.mobile-menu .submenu-class {
+.mobile-menu .sub-menu {
     display: none;
-    background-color: rgba(0,0,0,0.2);
-    margin-left: 0;
-    padding-left: 0;
-}
-
-.mobile-menu .submenu-class.menu-open {
-    display: block !important;
-}
-
-.mobile-menu .submenu-class li {
     padding-left: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.05);
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
-.mobile-menu .submenu-class li a {
-    color: #ffffff !important;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 10px 20px;
-}
-
-.mobile-menu .submenu-class li a:hover {
-    color: #cf9f38 !important;
-}
-
-/* İç içe alt menüler */
-.mobile-menu .submenu-class .submenu-item-has-children > a::after {
-    font-size: 12px;
-    right: 15px;
-}
-
-.mobile-menu .submenu-class .submenu-class {
-    margin-left: 20px;
-}
-
-/* Mobil menü açık/kapalı durumları */
-.mobile-menu-wrapper.body-visible {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-.mobile-menu-wrapper.body-visible .mobile-menu-area {
-    transform: translateX(0) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-/* Mobil menü hambürger butonu */
-.menu-toggle {
-    border: none !important;
-    background: transparent !important;
-}
-
-.menu-toggle .line {
-    width: 25px;
-    height: 2px;
-    background-color: #000;
+.mobile-menu .sub-menu.active {
     display: block;
-    margin: 5px 0;
-    transition: all 0.3s ease;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 500px;
+    }
+}
+
+.mobile-menu .sub-menu .menu-item-has-children .sub-menu {
+    padding-left: 15px;
+    background: rgba(0,0,0,0.1);
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobil menü toggle işlevi
-    const menuToggleButtons = document.querySelectorAll('.menu-toggle');
-    const mobileMenuWrapper = document.querySelector('.mobile-menu-wrapper');
+    // Mobil menü accordion işlevselliği
+    const mobileMenuToggles = document.querySelectorAll('.mobile-menu-toggle');
     
-    menuToggleButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+    mobileMenuToggles.forEach(function(toggle) {
+        toggle.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            toggleMobileMenu();
-        });
-    });
-    
-    // Mobil menü aç/kapat
-    function toggleMobileMenu() {
-        if (mobileMenuWrapper.classList.contains('body-visible')) {
-            mobileMenuWrapper.classList.remove('body-visible');
-            document.body.style.overflow = '';
-        } else {
-            mobileMenuWrapper.classList.add('body-visible');
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    
-    // Mobil menü overlay tıklaması
-    mobileMenuWrapper.addEventListener('click', function(e) {
-        if (e.target === mobileMenuWrapper) {
-            toggleMobileMenu();
-        }
-    });
-    
-    // Alt menü dropdown işlevi
-    const submenuItems = document.querySelectorAll('.mobile-menu .submenu-item-has-children');
-    
-    submenuItems.forEach(item => {
-        const link = item.querySelector('a');
-        const submenu = item.querySelector('.submenu-class');
-        
-        if (link && submenu) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
+            
+            const parentLi = this.closest('li');
+            const subMenu = parentLi.querySelector('.sub-menu');
+            
+            if (subMenu) {
                 // Diğer açık menüleri kapat
-                submenuItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active-class');
-                        const otherSubmenu = otherItem.querySelector('.submenu-class');
-                        if (otherSubmenu) {
-                            otherSubmenu.classList.remove('menu-open');
-                        }
+                const allSubMenus = document.querySelectorAll('.mobile-menu .sub-menu');
+                const allToggles = document.querySelectorAll('.mobile-menu-toggle');
+                
+                allSubMenus.forEach(function(menu) {
+                    if (menu !== subMenu) {
+                        menu.classList.remove('active');
+                    }
+                });
+                
+                allToggles.forEach(function(tog) {
+                    if (tog !== toggle) {
+                        tog.classList.remove('active');
                     }
                 });
                 
                 // Mevcut menüyü aç/kapat
-                item.classList.toggle('active-class');
-                submenu.classList.toggle('menu-open');
-            });
-        }
+                subMenu.classList.toggle('active');
+                this.classList.toggle('active');
+            }
+        });
     });
     
-    // Esc tuşu ile menü kapatma
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileMenuWrapper.classList.contains('body-visible')) {
-            toggleMobileMenu();
-        }
+    // Menü item'ına tıklandığında da çalışır
+    const menuItemsWithChildren = document.querySelectorAll('.mobile-menu .menu-item-has-children > a');
+    
+    menuItemsWithChildren.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            const parentLi = this.closest('li');
+            const toggle = parentLi.querySelector('.mobile-menu-toggle');
+            
+            if (toggle) {
+                e.preventDefault();
+                toggle.click();
+            }
+        });
     });
 });
 </script>

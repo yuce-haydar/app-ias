@@ -681,28 +681,14 @@ Blog Bölümü
 Ek Bilgiler ve Haritalar Bölümü (4 Tane Yan Yana)
 ==============================-->
 @if($homeSettings && $homeSettings->contact_iframe_codes && is_array($homeSettings->contact_iframe_codes) && count($homeSettings->contact_iframe_codes) > 0)
-<section class="contact-iframe-section space bg-theme3">
+<section class="contact-iframe-section space bg-dark">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="title-area text-center">
-                    <div class="sub-title"><span><i class="asterisk"></i></span>Ek Bilgiler ve Haritalar</div>
-                    <h2 class="sec-title mb-60">Detaylı Bilgi ve <span class="bold">Konumlar</span></h2>
-                </div>
-            </div>
-        </div>
-        
         <div class="row gy-30">
             @foreach($homeSettings->contact_iframe_codes as $index => $iframe)
                 @if(!empty($iframe['code']))
                     <div class="col-lg-3 col-md-6">
                         <div class="iframe-card">
-                            @if(!empty($iframe['title']))
-                                <div class="iframe-title">
-                                    <h5>{{ $iframe['title'] }}</h5>
-                                </div>
-                            @endif
-                            <div class="iframe-container" style="width: 100%; overflow: hidden; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); background: white; min-height: 300px;">
+                            <div class="iframe-container" style="width: 100%; overflow: hidden;  box-shadow: 0 8px 25px rgba(0,0,0,0.3); background: white; min-height: 300px;">
                                 {!! $iframe['code'] !!}
                             </div>
                         </div>
@@ -715,52 +701,40 @@ Ek Bilgiler ve Haritalar Bölümü (4 Tane Yan Yana)
 
 <style>
 .contact-iframe-section .iframe-card {
-    background: white;
+    background: transparent;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     height: 100%;
 }
 
 .contact-iframe-section .iframe-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-.contact-iframe-section .iframe-title {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-}
-
-.contact-iframe-section .iframe-title h5 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
 }
 
 .contact-iframe-section .iframe-container {
     position: relative;
     overflow: hidden;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(255,255,255,0.1);
+}
+
+.contact-iframe-section .iframe-card:hover .iframe-container {
+    box-shadow: 0 15px 35px rgba(255,255,255,0.15);
 }
 
 .contact-iframe-section .iframe-container iframe {
     width: 100% !important;
     height: 300px !important;
     border: none !important;
-    border-radius: 0 !important;
+    border-radius: 10px !important;
 }
 
 /* Mobil responsive */
 @media (max-width: 768px) {
     .contact-iframe-section .iframe-container iframe {
         height: 250px !important;
-    }
-    
-    .contact-iframe-section .iframe-title h5 {
-        font-size: 14px;
     }
 }
 
