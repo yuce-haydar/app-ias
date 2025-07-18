@@ -7,7 +7,7 @@ use App\Models\News;
 use App\Models\Project;
 use App\Models\Facility;
 use App\Models\Service;
-use App\Models\HomePageSettings;
+use App\Models\HomePageSetting;
 
 class HomeController extends Controller
 {
@@ -102,7 +102,7 @@ class HomeController extends Controller
             ->get();
             
         // Ana sayfa ayarlarını çek
-        $homeSettings = HomePageSettings::getSettings();
+        $homeSettings = HomePageSetting::getSettings();
         
         return view('home', compact('news', 'projects', 'allProjects', 'featuredProjects', 'facilities', 'allFacilities', 'services', 'homeSettings'));
     }
