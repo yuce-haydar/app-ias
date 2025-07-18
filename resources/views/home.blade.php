@@ -688,7 +688,7 @@ Ek Bilgiler ve Haritalar Bölümü (4 Tane Yan Yana)
                 @if(!empty($iframe['code']))
                     <div class="col-lg-3 col-md-6">
                         <div class="iframe-card">
-                            <div class="iframe-container" style="width: 100%; overflow: hidden;  box-shadow: 0 8px 25px rgba(0,0,0,0.3); background: white; min-height: 300px;">
+                            <div class="iframe-container" style="width: 100%; overflow: hidden; ">
                                 {!! $iframe['code'] !!}
                             </div>
                         </div>

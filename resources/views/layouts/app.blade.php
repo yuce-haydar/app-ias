@@ -88,6 +88,11 @@
             filter: blur(0);
         }
         
+        /* Mobil Menü - Sadece turuncu accordion tuşu */
+        .mobile-menu .mean-expand-class {
+            color: #cf9f38 !important;
+        }
+        
         .lazy-img.loading {
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
             background-size: 200% 100%;
@@ -392,6 +397,19 @@
                 lazyBg.classList.add('loaded');
             });
         }
+    });
+    
+    // Mobil menü li elementine tıklayınca accordion açılsın
+    $(document).ready(function() {
+        $(document).on('click', '.mobile-menu .submenu-item-has-children > a', function(e) {
+            var $parentLi = $(this).parent();
+            var $expandButton = $parentLi.find('.mean-expand-class');
+            
+            if ($expandButton.length > 0) {
+                e.preventDefault();
+                $expandButton.trigger('click');
+            }
+        });
     });
     </script>
 
