@@ -102,7 +102,8 @@ class HomePageController extends Controller
                 
                 // Additional Iframes
                 'slider_iframe_code' => 'nullable|string',
-                'contact_iframe_code' => 'nullable|string',
+                'contact_iframe_codes.*.title' => 'nullable|string|max:255',
+                'contact_iframe_codes.*.code' => 'nullable|string',
                 
                 // Breadcrumb Image
                 'breadcrumb_image' => 'nullable|image|max:15360',
@@ -229,6 +230,22 @@ class HomePageController extends Controller
                         'homepage'
                     );
                 }
+            }
+
+            // Contact iframe codes verilerini işle
+            if (isset($validatedData['contact_iframe_codes']) && is_array($validatedData['contact_iframe_codes'])) {
+                $iframeCodes = [];
+                foreach ($validatedData['contact_iframe_codes'] as $iframe) {
+                    if (!empty($iframe['code']) || !empty($iframe['title'])) {
+                        $iframeCodes[] = [
+                            'title' => $iframe['title'] ?? '',
+                            'code' => $iframe['code'] ?? ''
+                        ];
+                    }
+                }
+                $validatedData['contact_iframe_codes'] = $iframeCodes;
+            } else {
+                $validatedData['contact_iframe_codes'] = [];
             }
 
             // Convert checkbox values to boolean

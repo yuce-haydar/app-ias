@@ -678,6 +678,101 @@ Blog Bölümü
 </section>
 
 <!--==============================
+Ek Bilgiler ve Haritalar Bölümü (4 Tane Yan Yana)
+==============================-->
+@if($homeSettings && $homeSettings->contact_iframe_codes && is_array($homeSettings->contact_iframe_codes) && count($homeSettings->contact_iframe_codes) > 0)
+<section class="contact-iframe-section space bg-theme3">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="title-area text-center">
+                    <div class="sub-title"><span><i class="asterisk"></i></span>Ek Bilgiler ve Haritalar</div>
+                    <h2 class="sec-title mb-60">Detaylı Bilgi ve <span class="bold">Konumlar</span></h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row gy-30">
+            @foreach($homeSettings->contact_iframe_codes as $index => $iframe)
+                @if(!empty($iframe['code']))
+                    <div class="col-lg-3 col-md-6">
+                        <div class="iframe-card">
+                            @if(!empty($iframe['title']))
+                                <div class="iframe-title">
+                                    <h5>{{ $iframe['title'] }}</h5>
+                                </div>
+                            @endif
+                            <div class="iframe-container" style="width: 100%; overflow: hidden; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); background: white; min-height: 300px;">
+                                {!! $iframe['code'] !!}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<style>
+.contact-iframe-section .iframe-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.contact-iframe-section .iframe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.contact-iframe-section .iframe-title {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+.contact-iframe-section .iframe-title h5 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.contact-iframe-section .iframe-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-iframe-section .iframe-container iframe {
+    width: 100% !important;
+    height: 300px !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+/* Mobil responsive */
+@media (max-width: 768px) {
+    .contact-iframe-section .iframe-container iframe {
+        height: 250px !important;
+    }
+    
+    .contact-iframe-section .iframe-title h5 {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-iframe-section .iframe-container iframe {
+        height: 200px !important;
+    }
+}
+</style>
+@endif
+
+<!--==============================
 Projelerimiz Özet Bölümü
 ==============================-->
 <section class="projects-summary-section space bg-theme3">
@@ -756,14 +851,6 @@ Interaktif Proje Haritası
                         <div class="legend-item">
                             <div class="marker-icon ongoing"></div>
                             <span>Devam Eden Projeler</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="marker-icon planning"></div>
-                            <span>Planlama Aşamasında</span>
-                    </div>
-                        <div class="legend-item">
-                            <div class="marker-icon completed"></div>
-                            <span>Tamamlanan Projeler</span>
                         </div>
                         <div class="legend-item">
                             <div class="marker-icon facility"></div>
@@ -1739,7 +1826,7 @@ window.onclick = function(event) {
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-area text-center">
-                    <div class="sub-title"><span><i class="asterisk"></i></span>{{ $homeSettings->featured_projects_subtitle ?: 'Öne Çıkan Projelerimiz' }}</div>
+                    <div class="sub-title" style="color: #fff;"><span><i class="asterisk"></i></span>{{ $homeSettings->featured_projects_subtitle ?: 'Öne Çıkan Projelerimiz' }}</div>
                     <h2 class="sec-title mb-60">{!! $homeSettings->featured_projects_title ? nl2br(e($homeSettings->featured_projects_title)) : 'Hatay\'ın <span class="bold">Gelişimi</span><br>İçin Çalışıyoruz' !!}</h2>
                 </div>
             </div>
@@ -1964,28 +2051,7 @@ window.onclick = function(event) {
     </div>
 </div>
 
-<!--==============================
-İletişim Üstü İframe Bölümü
-==============================-->
-@if($homeSettings && $homeSettings->contact_iframe_code)
-<section class="contact-iframe-section space-bottom bg-theme3 ">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="iframe-wrapper">
-                    <div class="title-area text-center mb-50">
-                        <div class="sub-title"><span><i class="asterisk"></i></span>Ek Bilgiler</div>
-                        <h2 class="sec-title">Daha Fazla Bilgi</h2>
-                    </div>
-                    <div class="iframe-container" style="width: 100%; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
-                        {!! $homeSettings->contact_iframe_code !!}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
+
 
 <!--==============================
 Soru ve Görüşleriniz Bölümü

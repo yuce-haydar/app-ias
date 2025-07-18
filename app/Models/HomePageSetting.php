@@ -68,7 +68,7 @@ class HomePageSetting extends Model
         
         // Additional Iframes
         'slider_iframe_code',
-        'contact_iframe_code',
+        'contact_iframe_codes',
         
         // JSON Sliders
         'hero_slides',
@@ -89,6 +89,7 @@ class HomePageSetting extends Model
         'hero_slides' => 'array',
         'about_images' => 'array',
         'expertise_images' => 'array',
+        'contact_iframe_codes' => 'array',
     ];
 
     /**

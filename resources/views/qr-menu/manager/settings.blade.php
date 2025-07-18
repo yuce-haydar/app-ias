@@ -450,11 +450,11 @@
                 </div>
             </div>
 
-            <!-- QR Kod Yönetimi -->
+            <!-- QR Kod Görüntüleme -->
             <div class="settings-card">
                 <div class="settings-card-header">
                     <i class="fas fa-qrcode settings-card-icon"></i>
-                    <h3 class="settings-card-title">QR Kod Yönetimi</h3>
+                    <h3 class="settings-card-title">QR Kod</h3>
                 </div>
                 <div class="settings-card-body">
                     <div class="qr-preview">
@@ -466,13 +466,6 @@
                         @endif
                     </div>
                     <div class="qr-actions">
-                        <form method="POST" action="{{ route('qr-menu.regenerate-qr', $qrMenu->url_slug) }}" style="display: inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-warning">
-                                <i class="fas fa-sync"></i>
-                                QR Kod Yenile
-                            </button>
-                        </form>
                         @if($qrMenu->qr_code_path)
                             <a href="{{ route('qr-menu.download-qr', $qrMenu->url_slug) }}" class="btn btn-info">
                                 <i class="fas fa-download"></i>
@@ -480,6 +473,9 @@
                             </a>
                         @endif
                     </div>
+                    <p style="color: var(--dark-gray); margin-top: 1rem; text-align: center; font-size: 0.9rem;">
+                        QR kod müşterileriniz tarafından menüyü görüntülemek için kullanılır.
+                    </p>
                 </div>
             </div>
 
@@ -525,68 +521,11 @@
                 </div>
             </div>
 
-            <!-- Tehlikeli İşlemler -->
-            <div class="settings-card">
-                <div class="settings-card-header" style="background: var(--danger-color);">
-                    <i class="fas fa-exclamation-triangle settings-card-icon"></i>
-                    <h3 class="settings-card-title">Tehlikeli İşlemler</h3>
-                </div>
-                <div class="settings-card-body">
-                    <div class="form-group">
-                        <label class="form-label">Menü Silme</label>
-                        <p style="color: var(--dark-gray); margin-bottom: 1rem;">
-                            Bu işlem geri alınamaz. Menü, tüm kategoriler ve ürünler kalıcı olarak silinecektir.
-                        </p>
-                        <button type="button" class="btn btn-danger" onclick="confirmDeleteMenu()">
-                            <i class="fas fa-trash"></i>
-                            Menüyü Sil
-                        </button>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Tüm Verileri Sıfırla</label>
-                        <p style="color: var(--dark-gray); margin-bottom: 1rem;">
-                            Tüm kategoriler ve ürünler silinir, sadece menü ayarları korunur.
-                        </p>
-                        <button type="button" class="btn btn-warning" onclick="confirmResetData()">
-                            <i class="fas fa-refresh"></i>
-                            Verileri Sıfırla
-                        </button>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
 
     <script>
-        function confirmDeleteMenu() {
-            if (confirm('Menüyü silmek istediğinizden emin misiniz?\n\nBu işlem geri alınamaz ve tüm veriler kalıcı olarak silinecektir.')) {
-                if (confirm('Son kez soruyoruz: Gerçekten menüyü silmek istiyor musunuz?')) {
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = '#'; // QR menü silme işlemi admin panelinden yapılacak
-                    form.innerHTML = `
-                        @csrf
-                        @method('DELETE')
-                    `;
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            }
-        }
-
-        function confirmResetData() {
-            if (confirm('Tüm kategori ve ürün verilerini sıfırlamak istediğinizden emin misiniz?\n\nBu işlem geri alınamaz.')) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '#'; // Reset işlemi admin panelinden yapılacak
-                form.innerHTML = `
-                    @csrf
-                `;
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
         // Color preview update
         document.querySelectorAll('input[type="color"]').forEach(input => {
             input.addEventListener('change', function() {

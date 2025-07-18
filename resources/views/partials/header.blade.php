@@ -119,7 +119,62 @@ Mobil Menü
         </div>
         <div class="mobile-menu">
             <ul class="navigation clearfix">
-                <!--Menü Javascript ile gelecek-->
+                <li class="{{ request()->routeIs('home') ? 'active' : '' }}">
+                    <a href="{{ route('home') }}">Anasayfa</a>
+                </li>
+                <li class="{{ request()->routeIs('about') ? 'active' : '' }} submenu-item-has-children">
+                    <a href="javascript:void(0)">Kurumsal</a>
+                    <ul class="submenu-class">
+                        <li><a href="{{ route('about') }}">Hakkımızda</a></li>
+                        <li><a href="{{ route('about') }}">Misyon & Vizyon</a></li>
+                        <li><a href="{{ route('team') }}">Yönetim Kurulu</a></li>
+                        <li><a href="{{ route('bilgi-toplumu-hizmetleri') }}">Bilgi Toplumu Hizmetleri</a></li>
+                    </ul>
+                </li>
+                <li class="{{ request()->routeIs('projects*') || request()->routeIs('facilities*') ? 'active' : '' }} submenu-item-has-children">
+                    <a href="javascript:void(0)">Tesisler/Projeler</a>
+                    <ul class="submenu-class">
+                        <li><a href="{{ route('facilities.index') }}">Tesislerimiz</a></li>
+                        <li class="submenu-item-has-children">
+                            <a href="javascript:void(0)">Projelerimiz</a>
+                            <ul class="submenu-class">
+                                <li><a href="{{ route('projects', ['status' => 'ongoing']) }}">Devam Eden Projeler</a></li>
+                                <li><a href="{{ route('projects', ['status' => 'completed']) }}">Tamamlanan Projeler</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="{{ request()->routeIs('tenders*') || request()->routeIs('announcements*') ? 'active' : '' }} submenu-item-has-children">
+                    <a href="javascript:void(0)">Duyurular/İlanlar</a>
+                    <ul class="submenu-class">
+                        <li><a href="{{ route('blog.grid') }}">Haberler</a></li>
+                        <li><a href="{{ route('announcements') }}">Duyurular</a></li>
+                        <li><a href="{{ route('tenders') }}">İhale Bilgileri</a></li>
+                        <li><a href="{{ route('tenders') }}">İlan Başvuru Formu</a></li>
+                    </ul>
+                </li>
+                <li class="{{ request()->routeIs('hr*') ? 'active' : '' }} submenu-item-has-children">
+                    <a href="javascript:void(0)">İnsan Kaynakları</a>
+                    <ul class="submenu-class">
+                        <li><a href="{{ route('hr') }}">Kariyer Fırsatları</a></li>
+                        <li><a href="{{ route('careers') }}">Açık Pozisyonlar</a></li>
+                    </ul>
+                </li>
+                <li class="submenu-item-has-children">
+                    <a href="javascript:void(0)">KVKK</a>
+                    <ul class="submenu-class">
+                        <li><a href="{{ route('legal') }}">KVKK Başvuru Formu</a></li>
+                        <li><a href="{{ route('contact-notice') }}">İletişim Bölümü Aydınlatma Metni</a></li>
+                        <li><a href="{{ route('cookies-notice') }}">Çerez Aydınlatma Metni</a></li>
+                        <li><a href="{{ route('cookies-policy') }}">Çerez Politikası</a></li>
+                        <li><a href="{{ route('job-application-notice') }}">İlan Başvuru Formu Aydınlatma Metni</a></li>
+                        <li><a href="{{ route('privacy') }}">Gizlilik Politikası</a></li>
+                        <li><a href="{{ route('terms') }}">İnternet Sitesi Kullanım Sözleşmesi</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ route('contact') }}">İletişim</a>
+                </li>
             </ul>
         </div>
         <div class="sidebar-wrap">
@@ -127,29 +182,31 @@ Mobil Menü
             <h6>Katlı Otopark Sitesi No: 2 K-2 Antakya</h6>
         </div>
         <div class="sidebar-wrap">
-            <h6><a href="tel:+903262132326">+90 326 213 23 26</a></h6>
+            <h6><a href="tel:+905331550090">+90 533 155 00 90</a></h6>
+            <h6><a href="tel:+905338920090">+90 533 892 00 90</a></h6>
+            <h6><a href="tel:+905338920090">+90 326 213 2326 90</a></h6>
             <h6><a href="mailto:info@hatayimar.com.tr">info@hatayimar.com.tr</a></h6>
         </div>
         <div class="social-btn style3">
-            <a href="https://www.facebook.com/">
+            <a href="https://www.facebook.com/hbbimar/">
                 <span class="link-effect">
                     <span class="effect-1"><i class="fab fa-facebook"></i></span>
                     <span class="effect-1"><i class="fab fa-facebook"></i></span>
                 </span>
             </a>
-            <a href="https://instagram.com/">
+            <a href="https://instagram.com/hatayimar">
                 <span class="link-effect">
                     <span class="effect-1"><i class="fab fa-instagram"></i></span>
                     <span class="effect-1"><i class="fab fa-instagram"></i></span>
                 </span>
             </a>
-            <a href="https://twitter.com/">
+            <a href="https://twitter.com/hatayimar">
                 <span class="link-effect">
                     <span class="effect-1"><i class="fab fa-twitter"></i></span>
                     <span class="effect-1"><i class="fab fa-twitter"></i></span>
                 </span>
             </a>
-            <a href="https://linkedin.com/">
+            <a href="https://linkedin.com/hatayimar">
                 <span class="link-effect">
                     <span class="effect-1"><i class="fab fa-linkedin"></i></span>
                     <span class="effect-1"><i class="fab fa-linkedin"></i></span>
@@ -158,3 +215,166 @@ Mobil Menü
         </div>
     </div>
 </div>
+
+<!-- Mobil Menü Stilleri ve JavaScript -->
+<style>
+/* Mobil menü ok ikonları düzeltme */
+.mobile-menu .submenu-item-has-children > a::after {
+    content: '\f107';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffffff !important;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu .submenu-item-has-children.active-class > a::after {
+    content: '\f106';
+    color: #cf9f38 !important;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.mobile-menu .submenu-item-has-children > a .mean-expand-class {
+    display: none !important;
+}
+
+/* Alt menü stilleri */
+.mobile-menu .submenu-class {
+    display: none;
+    background-color: rgba(0,0,0,0.2);
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.mobile-menu .submenu-class.menu-open {
+    display: block !important;
+}
+
+.mobile-menu .submenu-class li {
+    padding-left: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.mobile-menu .submenu-class li a {
+    color: #ffffff !important;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 10px 20px;
+}
+
+.mobile-menu .submenu-class li a:hover {
+    color: #cf9f38 !important;
+}
+
+/* İç içe alt menüler */
+.mobile-menu .submenu-class .submenu-item-has-children > a::after {
+    font-size: 12px;
+    right: 15px;
+}
+
+.mobile-menu .submenu-class .submenu-class {
+    margin-left: 20px;
+}
+
+/* Mobil menü açık/kapalı durumları */
+.mobile-menu-wrapper.body-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.mobile-menu-wrapper.body-visible .mobile-menu-area {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Mobil menü hambürger butonu */
+.menu-toggle {
+    border: none !important;
+    background: transparent !important;
+}
+
+.menu-toggle .line {
+    width: 25px;
+    height: 2px;
+    background-color: #000;
+    display: block;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobil menü toggle işlevi
+    const menuToggleButtons = document.querySelectorAll('.menu-toggle');
+    const mobileMenuWrapper = document.querySelector('.mobile-menu-wrapper');
+    
+    menuToggleButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMobileMenu();
+        });
+    });
+    
+    // Mobil menü aç/kapat
+    function toggleMobileMenu() {
+        if (mobileMenuWrapper.classList.contains('body-visible')) {
+            mobileMenuWrapper.classList.remove('body-visible');
+            document.body.style.overflow = '';
+        } else {
+            mobileMenuWrapper.classList.add('body-visible');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    // Mobil menü overlay tıklaması
+    mobileMenuWrapper.addEventListener('click', function(e) {
+        if (e.target === mobileMenuWrapper) {
+            toggleMobileMenu();
+        }
+    });
+    
+    // Alt menü dropdown işlevi
+    const submenuItems = document.querySelectorAll('.mobile-menu .submenu-item-has-children');
+    
+    submenuItems.forEach(item => {
+        const link = item.querySelector('a');
+        const submenu = item.querySelector('.submenu-class');
+        
+        if (link && submenu) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Diğer açık menüleri kapat
+                submenuItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active-class');
+                        const otherSubmenu = otherItem.querySelector('.submenu-class');
+                        if (otherSubmenu) {
+                            otherSubmenu.classList.remove('menu-open');
+                        }
+                    }
+                });
+                
+                // Mevcut menüyü aç/kapat
+                item.classList.toggle('active-class');
+                submenu.classList.toggle('menu-open');
+            });
+        }
+    });
+    
+    // Esc tuşu ile menü kapatma
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileMenuWrapper.classList.contains('body-visible')) {
+            toggleMobileMenu();
+        }
+    });
+});
+</script>

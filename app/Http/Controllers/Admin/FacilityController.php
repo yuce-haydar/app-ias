@@ -466,20 +466,11 @@ class FacilityController extends Controller
     }
 
     /**
-     * QR kod yeniden oluştur
+     * QR kod yeniden oluştur - GÜVENLİK AMACIYYLA DEVRE DIŞI
      */
     public function regenerateQrCode($id)
     {
-        $facility = Facility::findOrFail($id);
-        $qrMenu = $facility->qrMenu;
-
-        if (!$qrMenu) {
-            return back()->with('error', 'Bu tesis için QR menü bulunamadı.');
-        }
-
-        $qrMenu->generateQrCode();
-
-        return back()->with('success', 'QR kod başarıyla yeniden oluşturuldu.');
+        return back()->with('error', 'Güvenlik amacıyla QR kod yenileme işlemi devre dışı bırakılmıştır. Bu işlem için sistem yöneticisine başvurun.');
     }
 
     /**
@@ -502,38 +493,10 @@ class FacilityController extends Controller
     }
 
     /**
-     * QR menü sil
+     * QR menü sil - GÜVENLİK AMACIYYLA DEVRE DIŞI
      */
     public function destroyQrMenu($id)
     {
-        $facility = Facility::findOrFail($id);
-        $qrMenu = $facility->qrMenu;
-
-        if (!$qrMenu) {
-            return back()->with('error', 'Bu tesis için QR menü bulunamadı.');
-        }
-
-        // QR kod dosyasını sil
-        if ($qrMenu->qr_code_path) {
-            Storage::disk('public')->delete($qrMenu->qr_code_path);
-        }
-
-        // Logo dosyasını sil
-        if ($qrMenu->logo) {
-            Storage::disk('public')->delete($qrMenu->logo);
-        }
-
-        // Menü öğesi resimlerini sil
-        foreach ($qrMenu->menuCategories as $category) {
-            foreach ($category->menuItems as $item) {
-                if ($item->image) {
-                    Storage::disk('public')->delete($item->image);
-                }
-            }
-        }
-
-        $qrMenu->delete();
-
-        return back()->with('success', 'QR menü başarıyla silindi.');
+        return back()->with('error', 'Güvenlik amacıyla QR menü silme işlemi devre dışı bırakılmıştır. Bu işlem için sistem yöneticisine başvurun.');
     }
 }

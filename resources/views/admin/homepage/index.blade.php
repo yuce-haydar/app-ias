@@ -682,20 +682,76 @@
                     </div>
                 </div>
 
-                <!-- İletişim Üstü İframe -->
+                <!-- İletişim Üstü İframe'ler (4 Tane Yan Yana) -->
                 <div class="row mb-4">
                     <div class="col-12">
-                        <h6 class="border-bottom pb-2 mb-3">İletişim Bölümü Üstü İframe</h6>
-                        <div class="mb-3">
-                            <label for="contact_iframe_code" class="form-label">İletişim Üstü İframe Kodu</label>
-                            <textarea class="form-control @error('contact_iframe_code') is-invalid @enderror" 
-                                      id="contact_iframe_code" name="contact_iframe_code" rows="6" 
-                                      placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('contact_iframe_code', $settings->contact_iframe_code) }}</textarea>
-                            <small class="text-muted">Bu iframe iletişim bölümünün hemen üstünde gösterilecektir.</small>
-                            @error('contact_iframe_code')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <h6 class="border-bottom pb-2 mb-3">Haberler Altı İframe'ler (4 Tane Yan Yana)</h6>
+                        <div class="contact-iframe-codes-container">
+                            @if($settings->contact_iframe_codes && is_array($settings->contact_iframe_codes) && count($settings->contact_iframe_codes) > 0)
+                                @foreach($settings->contact_iframe_codes as $index => $iframe)
+                                    <div class="contact-iframe-item" data-index="{{ $index }}">
+                                        <div class="card border-info mb-3">
+                                            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                                <span>İframe {{ $index + 1 }}</span>
+                                                <button type="button" class="btn btn-sm btn-outline-light remove-contact-iframe" {{ $index === 0 && (!is_array($settings->contact_iframe_codes) || count($settings->contact_iframe_codes) <= 1) ? 'disabled' : '' }}>
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Başlık (İsteğe Bağlı)</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="contact_iframe_codes[{{ $index }}][title]" 
+                                                           value="{{ old('contact_iframe_codes.' . $index . '.title', $iframe['title'] ?? '') }}"
+                                                           placeholder="Örn: Haritamız, Video, Galeri">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">İframe Kodu</label>
+                                                    <textarea class="form-control" 
+                                                              name="contact_iframe_codes[{{ $index }}][code]" 
+                                                              rows="4" 
+                                                              placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('contact_iframe_codes.' . $index . '.code', $iframe['code'] ?? '') }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="contact-iframe-item" data-index="0">
+                                    <div class="card border-info mb-3">
+                                        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                            <span>İframe 1</span>
+                                            <button type="button" class="btn btn-sm btn-outline-light remove-contact-iframe" disabled>
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label class="form-label">Başlık (İsteğe Bağlı)</label>
+                                                <input type="text" class="form-control" 
+                                                       name="contact_iframe_codes[0][title]" 
+                                                       value="{{ old('contact_iframe_codes.0.title') }}"
+                                                       placeholder="Örn: Haritamız, Video, Galeri">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">İframe Kodu</label>
+                                                <textarea class="form-control" 
+                                                          name="contact_iframe_codes[0][code]" 
+                                                          rows="4" 
+                                                          placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu">{{ old('contact_iframe_codes.0.code') }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
+                        <button type="button" class="btn btn-outline-info btn-sm add-contact-iframe">
+                            <i class="fas fa-plus"></i> Yeni İframe Ekle
+                        </button>
+                        <small class="text-muted d-block mt-2">Bu iframe'ler haberler bölümünün altında 4 tane yan yana gösterilecektir. Boş bırakılan alanlar gösterilmez.</small>
+                        @error('contact_iframe_codes.*')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
@@ -718,7 +774,7 @@
                 
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle me-2"></i>
-                    <strong>Bilgi:</strong> Bu iframe'ler sadece ana sayfada gösterilir. Boş bırakılan alanlar gösterilmez.
+                    <strong>Bilgi:</strong> Bu iframe'ler sadece ana sayfada gösterilir. Haberler altı iframe'ler haberler bölümünün hemen altında yan yana gösterilir. Boş bırakılan alanlar gösterilmez.
                 </div>
             </div>
         </div>
@@ -779,6 +835,7 @@
 let heroSlideIndex = {{ $settings->hero_slides ? count($settings->hero_slides) : 1 }};
 let aboutImageIndex = {{ $settings->about_images ? count($settings->about_images) : 1 }};
 let expertiseImageIndex = {{ $settings->expertise_images ? count($settings->expertise_images) : 1 }};
+let contactIframeIndex = {{ ($settings->contact_iframe_codes && is_array($settings->contact_iframe_codes)) ? count($settings->contact_iframe_codes) : 1 }};
 
 // Hero Slide ekleme
 function addHeroSlide() {
@@ -976,6 +1033,90 @@ function updateSlideNumbers() {
     });
 }
 
+// Contact İframe ekleme
+function addContactIframe() {
+    const container = document.querySelector('.contact-iframe-codes-container');
+    const newIframe = `
+        <div class="contact-iframe-item" data-index="${contactIframeIndex}">
+            <div class="card border-info mb-3">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <span>İframe ${contactIframeIndex + 1}</span>
+                    <button type="button" class="btn btn-sm btn-outline-light remove-contact-iframe">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Başlık (İsteğe Bağlı)</label>
+                        <input type="text" class="form-control" 
+                               name="contact_iframe_codes[${contactIframeIndex}][title]" 
+                               placeholder="Örn: Haritamız, Video, Galeri">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">İframe Kodu</label>
+                        <textarea class="form-control" 
+                                  name="contact_iframe_codes[${contactIframeIndex}][code]" 
+                                  rows="4" 
+                                  placeholder="Örn: Google Maps embed kodu, YouTube iframe veya başka bir iframe kodu"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML('beforeend', newIframe);
+    contactIframeIndex++;
+    updateContactIframeButtons();
+}
+
+// Contact İframe silme
+function removeContactIframe(button) {
+    const iframes = document.querySelectorAll('.contact-iframe-item');
+    if (iframes.length <= 1) {
+        alert('En az bir iframe bulunmalıdır.');
+        return;
+    }
+    
+    if (!confirm('Bu iframe\'i silmek istediğinizden emin misiniz?')) {
+        return;
+    }
+    
+    const iframeItem = button.closest('.contact-iframe-item');
+    iframeItem.remove();
+    updateContactIframeIndexes();
+    updateContactIframeButtons();
+}
+
+// Contact İframe indexlerini güncelle
+function updateContactIframeIndexes() {
+    const iframes = document.querySelectorAll('.contact-iframe-item');
+    iframes.forEach((iframe, index) => {
+        iframe.setAttribute('data-index', index);
+        const title = iframe.querySelector('.card-header span');
+        title.textContent = `İframe ${index + 1}`;
+        
+        // Input isimlerini güncelle
+        const titleInput = iframe.querySelector('input[name*="[title]"]');
+        const codeTextarea = iframe.querySelector('textarea[name*="[code]"]');
+        
+        if (titleInput) titleInput.name = `contact_iframe_codes[${index}][title]`;
+        if (codeTextarea) codeTextarea.name = `contact_iframe_codes[${index}][code]`;
+    });
+}
+
+// Contact İframe butonlarını güncelle
+function updateContactIframeButtons() {
+    const removeButtons = document.querySelectorAll('.remove-contact-iframe');
+    const iframes = document.querySelectorAll('.contact-iframe-item');
+    
+    removeButtons.forEach((button, index) => {
+        if (iframes.length === 1) {
+            button.disabled = true;
+        } else {
+            button.disabled = false;
+        }
+    });
+}
+
 // Slide görseli silme
 function deleteSlideImage(type, index, button, imageType = 'image') {
     if (!confirm('Bu görseli silmek istediğinizden emin misiniz?')) {
@@ -1040,5 +1181,24 @@ function deleteImage(field, button) {
         alert('Bir hata oluştu.');
     });
 }
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Contact iframe ekleme butonu
+    const addContactIframeBtn = document.querySelector('.add-contact-iframe');
+    if (addContactIframeBtn) {
+        addContactIframeBtn.addEventListener('click', addContactIframe);
+    }
+    
+    // Contact iframe silme butonları (event delegation)
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.remove-contact-iframe')) {
+            removeContactIframe(e.target.closest('.remove-contact-iframe'));
+        }
+    });
+    
+    // İlk yüklemede buton durumlarını kontrol et
+    updateContactIframeButtons();
+});
 </script>
 @endsection 

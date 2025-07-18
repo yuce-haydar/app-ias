@@ -216,29 +216,25 @@
                                                             </tr>
                                                         </table>
                                                         
-                                                        <div class="mt-3">
-                                                            <div class="btn-group" role="group">
-                                                                <a href="{{ route('admin.facilities.qr-menu.edit', $facility) }}" 
-                                                                   class="btn btn-sm btn-warning">
-                                                                    <i class="fas fa-edit"></i> Düzenle
-                                                                </a>
-                                                                <form method="POST" action="{{ route('admin.facilities.qr-menu.regenerate', $facility) }}" style="display: inline;">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-sm btn-info">
-                                                                        <i class="fas fa-sync"></i> QR Yenile
-                                                                    </button>
-                                                                </form>
-                                                                <a href="{{ route('admin.facilities.qr-menu.download', $facility) }}" 
-                                                                   class="btn btn-sm btn-primary">
-                                                                    <i class="fas fa-download"></i> QR İndir
-                                                                </a>
-                                                                <button type="button" 
-                                                                        class="btn btn-sm btn-danger" 
-                                                                        onclick="confirmDelete()">
-                                                                    <i class="fas fa-trash"></i> Sil
-                                                                </button>
-                                                            </div>
-                                                        </div>
+                                                                                                <div class="mt-3">
+                                            <div class="btn-group" role="group">
+                                                <a href="{{ route('admin.facilities.qr-menu.edit', $facility) }}" 
+                                                   class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-edit"></i> Düzenle
+                                                </a>
+                                                <a href="{{ route('admin.facilities.qr-menu.download', $facility) }}" 
+                                                   class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-download"></i> QR İndir
+                                                </a>
+                                            </div>
+                                            
+                                            <!-- Güvenlik Uyarısı -->
+                                            <div class="alert alert-info mt-3 mb-0" style="font-size: 0.85rem;">
+                                                <i class="fas fa-info-circle"></i>
+                                                <strong>Güvenlik:</strong> QR kod yenileme ve menü silme işlemleri güvenlik amacıyla devre dışı bırakılmıştır. 
+                                                Bu işlemler için sistem yöneticisine başvurun.
+                                            </div>
+                                        </div>
                                                     </div>
                                                     <div class="col-md-4 text-center">
                                                         @if($facility->qrMenu->qr_code_path)
@@ -398,31 +394,5 @@
 @endpush
 
 @push('scripts')
-<script>
-    function confirmDelete() {
-        if (confirm('QR menüyü silmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve tüm menü verileri silinecek.')) {
-            // Form ile DELETE isteği gönder
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '{{ route("admin.facilities.qr-menu.destroy", $facility) }}';
-            
-            // CSRF token
-            const csrfToken = document.createElement('input');
-            csrfToken.type = 'hidden';
-            csrfToken.name = '_token';
-            csrfToken.value = '{{ csrf_token() }}';
-            form.appendChild(csrfToken);
-            
-            // Method spoofing
-            const methodInput = document.createElement('input');
-            methodInput.type = 'hidden';
-            methodInput.name = '_method';
-            methodInput.value = 'DELETE';
-            form.appendChild(methodInput);
-            
-            document.body.appendChild(form);
-            form.submit();
-        }
-    }
-</script>
+{{-- Tehlikeli QR işlemleri güvenlik amacıyla kaldırılmıştır --}}
 @endpush 
