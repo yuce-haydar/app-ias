@@ -53,9 +53,7 @@
                                 <h4 class="title">{{ $contactSettings->phone_title }}</h4>
                                 <div class="content">
                                     Genel: <a href="tel:{{ str_replace([' ', '-', '(', ')'], '', $contactSettings->phone_general) }}">{{ $contactSettings->phone_general }}</a><br>
-                                    @if($contactSettings->phone_fax)
-                                    Faks: <a href="tel:{{ str_replace([' ', '-', '(', ')'], '', $contactSettings->phone_fax) }}">{{ $contactSettings->phone_fax }}</a>
-                                    @endif
+                                   
                                 </div>
                             </div>
                         </div>
@@ -90,32 +88,32 @@
                         @if($contactSettings->facebook_url)
                         <a href="{{ $contactSettings->facebook_url }}" target="_blank" rel="noopener">
                             <span class="link-effect">
-                                <span class="effect-1">Facebook</span>
-                                <span class="effect-1">Facebook</span>
+                                <span class="effect-1"><i class="fab fa-facebook"></i></span>
+                                <span class="effect-1"><i class="fab fa-facebook"></i></span>
                             </span>
                         </a>
                         @endif
                         @if($contactSettings->twitter_url)
                         <a href="{{ $contactSettings->twitter_url }}" target="_blank" rel="noopener">
                             <span class="link-effect">
-                                <span class="effect-1">Twitter</span>
-                                <span class="effect-1">Twitter</span>
+                                <span class="effect-1"><i class="fab fa-twitter"></i></span>
+                                <span class="effect-1"><i class="fab fa-twitter"></i></span>
                             </span>
                         </a>
                         @endif
                         @if($contactSettings->instagram_url)
                         <a href="{{ $contactSettings->instagram_url }}" target="_blank" rel="noopener">
                             <span class="link-effect">
-                                <span class="effect-1">Instagram</span>
-                                <span class="effect-1">Instagram</span>
+                                <span class="effect-1"><i class="fab fa-instagram"></i></span>
+                                <span class="effect-1"><i class="fab fa-instagram"></i></span>
                             </span>
                         </a>
                         @endif
                         @if($contactSettings->youtube_url)
                         <a href="{{ $contactSettings->youtube_url }}" target="_blank" rel="noopener">
                             <span class="link-effect">
-                                <span class="effect-1">YouTube</span>
-                                <span class="effect-1">YouTube</span>
+                                <span class="effect-1"><i class="fab fa-youtube"></i></span>
+                                <span class="effect-1"><i class="fab fa-youtube"></i></span>
                             </span>
                         </a>
                         @endif

@@ -1036,6 +1036,99 @@ Interaktif Proje Haritası
     transform: rotate(180deg);
 }
 
+/* Dropdown ve Tooltip animasyonları */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 500px;
+    }
+}
+
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes tooltipFadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+}
+
+/* Hover tooltip stilleri */
+.marker-hover-tooltip .tooltip-content {
+    text-align: center;
+}
+
+.marker-hover-tooltip .tooltip-content h6 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+}
+
+.marker-hover-tooltip .tooltip-content p {
+    margin: 5px 0;
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.marker-hover-tooltip .tooltip-content i {
+    font-size: 12px;
+    color: #cf9f38;
+}
+
+.tooltip-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+}
+
+.tooltip-status.ongoing {
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
+}
+
+.tooltip-status.completed {
+    background: rgba(0, 123, 255, 0.9);
+    color: white;
+}
+
+.tooltip-status.planning {
+    background: rgba(255, 193, 7, 0.9);
+    color: #333;
+}
+
+.tooltip-status.facility {
+    background: rgba(111, 66, 193, 0.9);
+    color: white;
+}
+
 /* Mobil Responsive */
 @media (max-width: 768px) {
     .hatay-imar-map {
@@ -1378,16 +1471,55 @@ document.addEventListener('DOMContentLoaded', function() {
             
             marker.bindPopup(popupContent);
             
-            // Hover efekti
-            marker.on('mouseover', function() {
+            // Hover efekti ve tooltip
+            marker.on('mouseover', function(e) {
                 const markerElement = this.getElement();
                 if (markerElement) {
                     const container = markerElement.querySelector('.marker-container');
                     if (container) {
                         container.style.transform = 'scale(1.15)';
                         container.style.filter = 'brightness(1.1)';
+                        container.style.zIndex = '1001';
                     }
                 }
+                
+                // Hover tooltip oluştur
+                const tooltip = document.createElement('div');
+                tooltip.className = 'marker-hover-tooltip';
+                tooltip.innerHTML = `
+                    <div class="tooltip-content">
+                        <h6>${project.name}</h6>
+                        <p><i class="fas fa-map-marker-alt"></i> ${project.district || 'Hatay'}</p>
+                        <p><i class="fas fa-info-circle"></i> ${project.category}</p>
+                        <span class="tooltip-status ${project.status}">${project.status === 'ongoing' ? 'Devam Ediyor' : project.status === 'completed' ? 'Tamamlandı' : 'Planlama'}</span>
+                    </div>
+                `;
+                
+                // Tooltip stillerini ayarla
+                tooltip.style.cssText = `
+                    position: absolute;
+                    bottom: 50px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0,0,0,0.9);
+                    color: white;
+                    padding: 15px;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255,255,255,0.1);
+                    min-width: 200px;
+                    max-width: 280px;
+                    z-index: 10000;
+                    opacity: 0;
+                    animation: tooltipFadeIn 0.3s ease forwards;
+                    pointer-events: none;
+                `;
+                
+                markerElement.appendChild(tooltip);
+                
+                // Marker'ı aktif olarak işaretle
+                markerElement.setAttribute('data-tooltip-active', 'true');
             });
 
             marker.on('mouseout', function() {
@@ -1397,7 +1529,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (container) {
                         container.style.transform = 'scale(1)';
                         container.style.filter = 'brightness(1)';
+                        container.style.zIndex = '1000';
                     }
+                    
+                    // Tooltip'i kaldır
+                    const tooltip = markerElement.querySelector('.marker-hover-tooltip');
+                    if (tooltip) {
+                        tooltip.style.animation = 'tooltipFadeOut 0.2s ease forwards';
+                        setTimeout(() => {
+                            if (tooltip.parentNode) {
+                                tooltip.parentNode.removeChild(tooltip);
+                            }
+                        }, 200);
+                    }
+                    
+                    markerElement.removeAttribute('data-tooltip-active');
                 }
             });
         });
@@ -1426,16 +1572,55 @@ document.addEventListener('DOMContentLoaded', function() {
             
             marker.bindPopup(popupContent);
             
-            // Hover efekti
-            marker.on('mouseover', function() {
+            // Hover efekti ve tooltip
+            marker.on('mouseover', function(e) {
                 const markerElement = this.getElement();
                 if (markerElement) {
                     const container = markerElement.querySelector('.marker-container');
                     if (container) {
                         container.style.transform = 'scale(1.15)';
                         container.style.filter = 'brightness(1.1)';
+                        container.style.zIndex = '1001';
                     }
                 }
+                
+                // Hover tooltip oluştur
+                const tooltip = document.createElement('div');
+                tooltip.className = 'marker-hover-tooltip';
+                tooltip.innerHTML = `
+                    <div class="tooltip-content">
+                        <h6>${facility.name}</h6>
+                        <p><i class="fas fa-map-marker-alt"></i> ${facility.district || 'Hatay'}</p>
+                        <p><i class="fas fa-building"></i> ${facility.category}</p>
+                        <span class="tooltip-status facility">Aktif Tesis</span>
+                    </div>
+                `;
+                
+                // Tooltip stillerini ayarla
+                tooltip.style.cssText = `
+                    position: absolute;
+                    bottom: 50px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0,0,0,0.9);
+                    color: white;
+                    padding: 15px;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255,255,255,0.1);
+                    min-width: 200px;
+                    max-width: 280px;
+                    z-index: 10000;
+                    opacity: 0;
+                    animation: tooltipFadeIn 0.3s ease forwards;
+                    pointer-events: none;
+                `;
+                
+                markerElement.appendChild(tooltip);
+                
+                // Marker'ı aktif olarak işaretle
+                markerElement.setAttribute('data-tooltip-active', 'true');
             });
 
             marker.on('mouseout', function() {
@@ -1445,7 +1630,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (container) {
                         container.style.transform = 'scale(1)';
                         container.style.filter = 'brightness(1)';
+                        container.style.zIndex = '1000';
                     }
+                    
+                    // Tooltip'i kaldır
+                    const tooltip = markerElement.querySelector('.marker-hover-tooltip');
+                    if (tooltip) {
+                        tooltip.style.animation = 'tooltipFadeOut 0.2s ease forwards';
+                        setTimeout(() => {
+                            if (tooltip.parentNode) {
+                                tooltip.parentNode.removeChild(tooltip);
+                            }
+                        }, 200);
+                    }
+                    
+                    markerElement.removeAttribute('data-tooltip-active');
                 }
             });
         });

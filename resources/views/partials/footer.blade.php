@@ -12,6 +12,32 @@
                             <img src="{{ url('assets/images/logo/imar-bg.png') }}" alt="İmar Logo" class="img-fluid" style="height: 50px; width: auto; min-width: 35px; max-width: 70px;">
                         </a>
                         <p class="text">Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı,<br>Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız.</p>
+                    <div class="social-btn style3 mt-3">
+                        <a href="https://www.facebook.com/hbbimar/">
+                            <span class="link-effect">
+                                <span class="effect-1"><i class="fab fa-facebook"></i></span>
+                                <span class="effect-1"><i class="fab fa-facebook"></i></span>
+                            </span>
+                        </a>
+                        <a href="https://instagram.com/hatayimar">
+                            <span class="link-effect">
+                                <span class="effect-1"><i class="fab fa-instagram"></i></span>
+                                <span class="effect-1"><i class="fab fa-instagram"></i></span>
+                            </span>
+                        </a>
+                        <a href="https://x.com/hatayimarr">
+                            <span class="link-effect">
+                                <span class="effect-1"><i class="fab fa-twitter"></i></span>
+                                <span class="effect-1"><i class="fab fa-twitter"></i></span>
+                            </span>
+                        </a>
+                        <a href="https://linkedin.com/hatayimar">
+                            <span class="link-effect">
+                                <span class="effect-1"><i class="fab fa-linkedin"></i></span>
+                                <span class="effect-1"><i class="fab fa-linkedin"></i></span>
+                            </span>
+                        </a>
+                    </div>
                     </div>
                    
                 </div>
