@@ -502,7 +502,7 @@ Tamamlanan Tesisler Bölümü
                                 {{ $facility->name }}
                             </a>
                         </h4>
-                                                        <p class="service-text">{!! $facility->short_description !!}</p>
+                        <div class="service-text" style="height: 80px; overflow: hidden;">{!! Str::limit($facility->short_description, 120) !!}</div>
                         <a href="{{ route('facilities.details', ['id' => $facility->id, 'slug' => $facility->slug]) }}" class="service-link mb-15">
                             <i class="fa-regular fa-arrow-right-long"></i>
                         </a>

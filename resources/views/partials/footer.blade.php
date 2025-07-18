@@ -1,18 +1,68 @@
 <!--==============================
     Footer Bölümü
 ==============================-->
+<style>
+.footer-brand .brand-header {
+    min-height: 320px !important;
+}
+
+.footer-brand .social-btn {
+    margin-top: auto !important;
+}
+
+/* Footer padding düzeltmesi */
+.footer-section .footer-top.space {
+    padding-top: 80px !important;
+    padding-bottom: 30px !important;
+}
+
+.footer-section .footer-bottom {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+}
+
+@media (max-width: 768px) {
+    .footer-brand .brand-header {
+        min-height: auto !important;
+    }
+    
+    .footer-brand .social-btn {
+        margin-top: 30px !important;
+    }
+    
+    .footer-section .footer-top.space {
+        padding-top: 60px !important;
+    }
+    
+    .footer-logo img {
+        height: 75px !important;
+    }
+    
+    .footer-logo img:first-child {
+        max-width: 140px !important;
+    }
+    
+    .footer-logo img:last-child {
+        max-width: 110px !important;
+        min-width: 55px !important;
+    }
+}
+</style>
+
 <footer class="footer-section bg-dark">
     <div class="footer-top space">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6 footer-brand">
-                    <div class="brand-header">
-                        <a href="{{ url('/') }}" class="footer-logo d-flex align-items-center gap-3 mb-20">
-                            <img src="{{ url('assets/images/logo/hbblogo.png') }}" alt="HBB Logo" class="img-fluid" style="height: 50px; width: auto; max-width: 100px;">
-                            <img src="{{ url('assets/images/logo/imar-bg.png') }}" alt="İmar Logo" class="img-fluid" style="height: 50px; width: auto; min-width: 35px; max-width: 70px;">
-                        </a>
-                        <p class="text">Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı,<br>Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız.</p>
-                    <div class="social-btn style3 " style="margin-top: 100px;">
+                    <div class="brand-header" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <a href="{{ url('/') }}" class="footer-logo d-flex align-items-center gap-4 mb-20">
+                                <img src="{{ url('assets/images/logo/hbblogo.png') }}" alt="HBB Logo" class="img-fluid" style="height: 110px; width: auto; max-width: 200px;">
+                                <img src="{{ url('assets/images/logo/imar-bg.png') }}" alt="İmar Logo" class="img-fluid" style="height: 110px; width: auto; min-width: 80px; max-width: 160px;">
+                            </a>
+                            <p class="text mb-30">Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı,<br>Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız.</p>
+                        </div>
+                        <div class="social-btn style3" style="margin-top: auto; padding-top: 20px;">
                         <a href="https://www.facebook.com/hbbimar/">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-facebook"></i></span>
@@ -31,15 +81,14 @@
                                 <span class="effect-1"><i class="fab fa-twitter"></i></span>
                             </span>
                         </a>
-                        <a href="https://linkedin.com/hatayimar">
+                        <a href="https://www.youtube.com/@hbbimar">
                             <span class="link-effect">
-                                <span class="effect-1"><i class="fab fa-linkedin"></i></span>
-                                <span class="effect-1"><i class="fab fa-linkedin"></i></span>
+                                <span class="effect-1"><i class="fab fa-youtube"></i></span>
+                                <span class="effect-1"><i class="fab fa-youtube"></i></span>
                             </span>
                         </a>
+                        </div>
                     </div>
-                    </div>
-                   
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="row">

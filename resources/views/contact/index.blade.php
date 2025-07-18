@@ -84,9 +84,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="social-links">
+                    <div class="social-links" style="font-size: 1.8em; margin-top: 20px;">
                         @if($contactSettings->facebook_url)
-                        <a href="{{ $contactSettings->facebook_url }}" target="_blank" rel="noopener">
+                        <a href="{{ $contactSettings->facebook_url }}" target="_blank" rel="noopener" style="transform: scale(1.5); margin: 0 15px;">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-facebook"></i></span>
                                 <span class="effect-1"><i class="fab fa-facebook"></i></span>
@@ -94,7 +94,7 @@
                         </a>
                         @endif
                         @if($contactSettings->twitter_url)
-                        <a href="{{ $contactSettings->twitter_url }}" target="_blank" rel="noopener">
+                        <a href="{{ $contactSettings->twitter_url }}" target="_blank" rel="noopener" style="transform: scale(1.5); margin: 0 15px;">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-twitter"></i></span>
                                 <span class="effect-1"><i class="fab fa-twitter"></i></span>
@@ -102,7 +102,7 @@
                         </a>
                         @endif
                         @if($contactSettings->instagram_url)
-                        <a href="{{ $contactSettings->instagram_url }}" target="_blank" rel="noopener">
+                        <a href="{{ $contactSettings->instagram_url }}" target="_blank" rel="noopener" style="transform: scale(1.5); margin: 0 15px;">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-instagram"></i></span>
                                 <span class="effect-1"><i class="fab fa-instagram"></i></span>
@@ -110,7 +110,7 @@
                         </a>
                         @endif
                         @if($contactSettings->youtube_url)
-                        <a href="{{ $contactSettings->youtube_url }}" target="_blank" rel="noopener">
+                        <a href="{{ $contactSettings->youtube_url }}" target="_blank" rel="noopener" style="transform: scale(1.5); margin: 0 15px;">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-youtube"></i></span>
                                 <span class="effect-1"><i class="fab fa-youtube"></i></span>
