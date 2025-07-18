@@ -103,7 +103,7 @@ Tesisler Grid Bölümü
 
 <!--==============================
 Tesisler İstatistikleri
-==============================-->
+==============================
 <section class="counter-section space bg-dark">
     <div class="container">
         <div class="row">
@@ -165,7 +165,7 @@ Tesisler İstatistikleri
         </div>
     </div>
 </section>
-
+-->
 <!--==============================
 CTA Bölümü
 ==============================-->

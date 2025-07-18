@@ -89,7 +89,7 @@ Projeler Grid Bölümü
 
 <!--==============================
 İstatistik Bölümü
-==============================-->
+==============================
 <section class="counter-section space bg-dark">
     <div class="container">
         <div class="row gy-30">
@@ -143,7 +143,7 @@ Projeler Grid Bölümü
         </div>
     </div>
 </section>
-
+-->
 @endsection 
 
 <style>
