@@ -193,7 +193,7 @@ Proje Detay Bölümü
                         <!-- Proje İframe Bölümü -->
                         @if($project->iframe_codes && count($project->iframe_codes) > 0)
                         <div class="project-iframe-section mt-5">
-                            <h3>Ek Bilgiler ve Haritalar</h3>
+                            <h3>Video Galerisi</h3>
                             @foreach($project->iframe_codes as $iframe)
                                 @if(!empty($iframe['code']))
                                 <div class="iframe-item mb-4">

@@ -156,7 +156,7 @@
                     <!-- Tesis İframe Bölümü -->
                     @if($facility->iframe_codes && count($facility->iframe_codes) > 0)
                     <div class="facility-iframe-section mt-5">
-                        <h3 class="mb-30">Ek Bilgiler ve Haritalar</h3>
+                        <h3 class="mb-30">Video Galerisi</h3>
                         @foreach($facility->iframe_codes as $iframe)
                             @if(!empty($iframe['code']))
                             <div class="iframe-item mb-4">
