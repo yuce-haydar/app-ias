@@ -12,7 +12,7 @@
                             <img src="{{ url('assets/images/logo/imar-bg.png') }}" alt="İmar Logo" class="img-fluid" style="height: 50px; width: auto; min-width: 35px; max-width: 70px;">
                         </a>
                         <p class="text">Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı,<br>Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız.</p>
-                    <div class="social-btn style3 mt-3">
+                    <div class="social-btn style3 " style="margin-top: 100px;">
                         <a href="https://www.facebook.com/hbbimar/">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-facebook"></i></span>
@@ -93,7 +93,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="mb-0">&copy;{{ date('Y') }} - Tüm Hakları Saklıdır <a href="https://hatayimar.com.tr">Hatay İmar</a></p>
+                    <p class="mb-0">&copy;{{ date('Y') }} - Tüm Hakları Saklıdır <a href="https://hatayimar.com.tr" style="color: #cf9f38 !important;">Hatay İmar Sanayi Anonim Şirketi</a></p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <div class="footer-policy">

@@ -115,11 +115,19 @@
             <div class="col-12">
                 <div class="iframe-wrapper">
                     <div class="title-area text-center mb-50">
-                        <div class="sub-title"><span><i class="asterisk"></i></span>Ek Bilgiler</div>
-                        <h2 class="sec-title">Daha Fazla Bilgi</h2>
+                        <div class="sub-title"><span><i class="asterisk"></i></span><a href="{{ route('news.index') }}">Ek Bilgiler</a></div>
+                        <h2 class="sec-title">Videolarımız</h2>
                     </div>
                     <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
                         {!! $aboutSettings->iframe_code !!}
+                    </div>
+                    <div class="text-center mt-40">
+                        <a href="https://www.youtube.com/@hbbimar" class="theme-btn bg-color10" target="_blank">
+                            <span class="link-effect">
+                                <span class="effect-1">Devamı</span>
+                                <span class="effect-1">Devamı</span>
+                            </span><i class="fa-regular fa-arrow-right-long"></i>
+                        </a>
                     </div>
                 </div>
             </div>
