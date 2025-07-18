@@ -65,7 +65,10 @@ class FacilityController extends Controller
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'iframe_codes' => 'nullable|array',
+            'iframe_codes.*.title' => 'nullable|string|max:255',
+            'iframe_codes.*.code' => 'nullable|string'
         ]);
 
         // Text alanlarını array'e çevir
@@ -108,6 +111,22 @@ class FacilityController extends Controller
                 $gallery[] = ImageHelper::compressAndStore($file, 'tesisler/gallery');
             }
             $validated['gallery'] = $gallery;
+        }
+
+        // iframe_codes verilerini işle
+        if (isset($validated['iframe_codes']) && is_array($validated['iframe_codes'])) {
+            $iframeCodes = [];
+            foreach ($validated['iframe_codes'] as $iframe) {
+                if (!empty($iframe['code']) || !empty($iframe['title'])) {
+                    $iframeCodes[] = [
+                        'title' => $iframe['title'] ?? '',
+                        'code' => $iframe['code'] ?? ''
+                    ];
+                }
+            }
+            $validated['iframe_codes'] = $iframeCodes;
+        } else {
+            $validated['iframe_codes'] = [];
         }
 
         Facility::create($validated);
@@ -165,7 +184,10 @@ class FacilityController extends Controller
             'sort_order' => 'nullable|integer',
             'is_featured' => 'boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'iframe_codes' => 'nullable|array',
+            'iframe_codes.*.title' => 'nullable|string|max:255',
+            'iframe_codes.*.code' => 'nullable|string'
         ]);
 
         // Text alanlarını array'e çevir
@@ -235,6 +257,22 @@ class FacilityController extends Controller
         }
         
         $validated['gallery'] = $gallery;
+
+        // iframe_codes verilerini işle
+        if (isset($validated['iframe_codes']) && is_array($validated['iframe_codes'])) {
+            $iframeCodes = [];
+            foreach ($validated['iframe_codes'] as $iframe) {
+                if (!empty($iframe['code']) || !empty($iframe['title'])) {
+                    $iframeCodes[] = [
+                        'title' => $iframe['title'] ?? '',
+                        'code' => $iframe['code'] ?? ''
+                    ];
+                }
+            }
+            $validated['iframe_codes'] = $iframeCodes;
+        } else {
+            $validated['iframe_codes'] = [];
+        }
 
         $facility->update($validated);
 

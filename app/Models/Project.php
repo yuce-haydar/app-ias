@@ -15,7 +15,7 @@ class Project extends Model
         'slug',
         'short_description',
         'description',
-        'iframe_code',
+        'iframe_codes',
         'image',
         'gallery',
         'project_type',
@@ -37,6 +37,7 @@ class Project extends Model
 
     protected $casts = [
         'gallery' => 'array',
+        'iframe_codes' => 'array',
         'features' => 'array',
         'technical_specs' => 'array',
         'start_date' => 'date',

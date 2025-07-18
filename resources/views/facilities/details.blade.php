@@ -154,12 +154,21 @@
                     @endif
 
                     <!-- Tesis İframe Bölümü -->
-                    @if($facility->iframe_code)
+                    @if($facility->iframe_codes && count($facility->iframe_codes) > 0)
                     <div class="facility-iframe-section mt-5">
-                        <h3 class="mb-30">Ek Bilgiler ve Harita</h3>
-                        <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
-                            {!! $facility->iframe_code !!}
-                        </div>
+                        <h3 class="mb-30">Ek Bilgiler ve Haritalar</h3>
+                        @foreach($facility->iframe_codes as $iframe)
+                            @if(!empty($iframe['code']))
+                            <div class="iframe-item mb-4">
+                                @if(!empty($iframe['title']))
+                                <h4 class="iframe-title mb-3">{{ $iframe['title'] }}</h4>
+                                @endif
+                                <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                                    {!! $iframe['code'] !!}
+                                </div>
+                            </div>
+                            @endif
+                        @endforeach
                     </div>
                     @endif
 

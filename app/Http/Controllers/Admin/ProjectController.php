@@ -65,6 +65,9 @@ class ProjectController extends Controller
                 'is_featured' => 'boolean',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
                 'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+                'iframe_codes' => 'nullable|array',
+                'iframe_codes.*.title' => 'nullable|string|max:255',
+                'iframe_codes.*.code' => 'nullable|string',
                 'locations' => 'required|array|min:1',
                 'locations.*.name' => 'required|string|max:255',
                 'locations.*.latitude' => 'required|numeric|between:-90,90',
@@ -120,6 +123,22 @@ class ProjectController extends Controller
                     $gallery[] = ImageHelper::compressAndStore($file, 'projeler/gallery');
                 }
                 $validated['gallery'] = $gallery;
+            }
+
+            // iframe_codes verilerini işle
+            if (isset($validated['iframe_codes']) && is_array($validated['iframe_codes'])) {
+                $iframeCodes = [];
+                foreach ($validated['iframe_codes'] as $iframe) {
+                    if (!empty($iframe['code']) || !empty($iframe['title'])) {
+                        $iframeCodes[] = [
+                            'title' => $iframe['title'] ?? '',
+                            'code' => $iframe['code'] ?? ''
+                        ];
+                    }
+                }
+                $validated['iframe_codes'] = $iframeCodes;
+            } else {
+                $validated['iframe_codes'] = [];
             }
 
             // Lokasyon verilerini ayır
@@ -193,6 +212,9 @@ class ProjectController extends Controller
                 'is_featured' => 'boolean',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
                 'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+                'iframe_codes' => 'nullable|array',
+                'iframe_codes.*.title' => 'nullable|string|max:255',
+                'iframe_codes.*.code' => 'nullable|string',
                 'locations' => 'nullable|array',
                 'locations.*.id' => 'nullable|integer|exists:project_locations,id',
                 'locations.*.name' => 'required_with:locations|string|max:255',
@@ -277,6 +299,22 @@ class ProjectController extends Controller
             }
             
             $validated['gallery'] = $gallery;
+
+            // iframe_codes verilerini işle
+            if (isset($validated['iframe_codes']) && is_array($validated['iframe_codes'])) {
+                $iframeCodes = [];
+                foreach ($validated['iframe_codes'] as $iframe) {
+                    if (!empty($iframe['code']) || !empty($iframe['title'])) {
+                        $iframeCodes[] = [
+                            'title' => $iframe['title'] ?? '',
+                            'code' => $iframe['code'] ?? ''
+                        ];
+                    }
+                }
+                $validated['iframe_codes'] = $iframeCodes;
+            } else {
+                $validated['iframe_codes'] = [];
+            }
 
             // Lokasyon yönetimi - eğer locations gönderilmişse
             if (isset($validated['locations']) && is_array($validated['locations'])) {

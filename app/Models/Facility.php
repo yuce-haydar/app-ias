@@ -15,7 +15,7 @@ class Facility extends Model
         'slug',
         'short_description',
         'description',
-        'iframe_code',
+        'iframe_codes',
         'image',
         'gallery',
         'facility_type',
@@ -38,6 +38,7 @@ class Facility extends Model
 
     protected $casts = [
         'gallery' => 'array',
+        'iframe_codes' => 'array',
         'features' => 'array',
         'working_hours' => 'array',
         'opening_date' => 'date',

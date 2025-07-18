@@ -191,12 +191,21 @@ Proje Detay Bölümü
                         @endif
 
                         <!-- Proje İframe Bölümü -->
-                        @if($project->iframe_code)
+                        @if($project->iframe_codes && count($project->iframe_codes) > 0)
                         <div class="project-iframe-section mt-5">
-                            <h3>Ek Bilgiler ve Harita</h3>
-                            <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
-                                {!! $project->iframe_code !!}
-                            </div>
+                            <h3>Ek Bilgiler ve Haritalar</h3>
+                            @foreach($project->iframe_codes as $iframe)
+                                @if(!empty($iframe['code']))
+                                <div class="iframe-item mb-4">
+                                    @if(!empty($iframe['title']))
+                                    <h4 class="iframe-title mb-3">{{ $iframe['title'] }}</h4>
+                                    @endif
+                                    <div class="iframe-container" style="border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                                        {!! $iframe['code'] !!}
+                                    </div>
+                                </div>
+                                @endif
+                            @endforeach
                         </div>
                         @endif
                     </div>

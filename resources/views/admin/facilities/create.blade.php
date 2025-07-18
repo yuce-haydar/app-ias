@@ -42,15 +42,41 @@
                         @enderror
                     </div>
 
+                    <!-- İframe Kodları -->
                     <div class="mb-3">
-                        <label for="iframe_code" class="form-label">Harita/İframe Kodu</label>
-                        <textarea class="form-control @error('iframe_code') is-invalid @enderror" 
-                                  id="iframe_code" name="iframe_code" rows="4" 
-                                  placeholder="Örn: Google Maps embed kodu veya başka bir iframe kodu">{{ old('iframe_code') }}</textarea>
-                        <small class="text-muted">Tesise ait harita veya başka bir iframe kodunu buraya ekleyebilirsiniz.</small>
-                        @error('iframe_code')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <label class="form-label">Harita/İframe Kodları</label>
+                        <div class="iframe-codes-container">
+                            <div class="iframe-item" data-index="0">
+                                <div class="card border-info mb-3">
+                                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                        <span>İframe 1</span>
+                                        <button type="button" class="btn btn-sm btn-outline-light remove-iframe" disabled>
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Başlık</label>
+                                            <input type="text" class="form-control" 
+                                                   name="iframe_codes[0][title]" 
+                                                   value="{{ old('iframe_codes.0.title') }}" 
+                                                   placeholder="Örn: Tesis Haritası, 360° Görünüm">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">İframe Kodu</label>
+                                            <textarea class="form-control" 
+                                                      name="iframe_codes[0][code]" 
+                                                      rows="4" 
+                                                      placeholder="Örn: Google Maps embed kodu veya başka bir iframe kodu">{{ old('iframe_codes.0.code') }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-info btn-sm add-iframe">
+                            <i class="fas fa-plus"></i> Yeni İframe Ekle
+                        </button>
+                        <small class="text-muted d-block mt-2">Tesise ait harita, 360° görünüm veya başka iframe kodlarını buraya ekleyebilirsiniz.</small>
                     </div>
                     
                     <div class="row">
@@ -363,6 +389,78 @@ function removeGalleryPreview(index) {
         document.getElementById('gallery').value = '';
         document.getElementById('galleryPreview').innerHTML = '';
     }
+}
+
+// İframe Kodları Yönetimi
+let iframeIndex = 1;
+const iframeCodesContainer = document.querySelector('.iframe-codes-container');
+const addIframeBtn = document.querySelector('.add-iframe');
+
+// Yeni iframe ekleme
+addIframeBtn.addEventListener('click', function() {
+    const newIframeHtml = `
+        <div class="iframe-item" data-index="${iframeIndex}">
+            <div class="card border-info mb-3">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <span>İframe ${iframeIndex + 1}</span>
+                    <button type="button" class="btn btn-sm btn-outline-light remove-iframe">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Başlık</label>
+                        <input type="text" class="form-control" 
+                               name="iframe_codes[${iframeIndex}][title]" 
+                               placeholder="Örn: Tesis Haritası, 360° Görünüm">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">İframe Kodu</label>
+                        <textarea class="form-control" 
+                                  name="iframe_codes[${iframeIndex}][code]" 
+                                  rows="4" 
+                                  placeholder="Örn: Google Maps embed kodu veya başka bir iframe kodu"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    iframeCodesContainer.insertAdjacentHTML('beforeend', newIframeHtml);
+    iframeIndex++;
+    updateIframeRemoveButtons();
+});
+
+// İframe kaldırma
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-iframe')) {
+        const iframeItem = e.target.closest('.iframe-item');
+        iframeItem.remove();
+        updateIframeRemoveButtons();
+        updateIframeNumbers();
+    }
+});
+
+function updateIframeRemoveButtons() {
+    const iframeItems = document.querySelectorAll('.iframe-item');
+    const removeButtons = document.querySelectorAll('.remove-iframe');
+    
+    // İlk iframe'i silme butonu her zaman devre dışı
+    removeButtons.forEach((btn, index) => {
+        if (index === 0) {
+            btn.disabled = iframeItems.length <= 1;
+        } else {
+            btn.disabled = false;
+        }
+    });
+}
+
+function updateIframeNumbers() {
+    const iframeItems = document.querySelectorAll('.iframe-item');
+    iframeItems.forEach((item, index) => {
+        const header = item.querySelector('.card-header span');
+        header.textContent = `İframe ${index + 1}`;
+    });
 }
 </script>
 @endpush
