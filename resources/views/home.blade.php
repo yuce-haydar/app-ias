@@ -584,13 +584,7 @@ Hatay Şehri Bölümü
                              alt="{{ $main2Image['caption'] ?? ($projects->count() > 1 ? $projects->shuffle()->skip(1)->first()->title : 'İnşaat Projesi') }}" 
                              style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" loading="lazy">
                     </div>
-                    <div class="experience-box">
-                        <div class="icon"><i class="fa-solid fa-hard-hat"></i></div>
-                        <div class="content">
-                            <h4>15+</h4>
-                            <p>Yıllık İnşaat<br>Tecrübesi</p>
-                        </div>
-                    </div>
+              
 
                     <!-- Projelerden Rastgele Galeri -->
                     @if($projects->count() > 0)
