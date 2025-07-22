@@ -55,10 +55,12 @@ Proje Detay Bölümü
                                 <h6>Durum:</h6>
                                 <p><span class="badge badge-{{ strtolower(str_replace(' ', '-', $project->display_status)) }}">{{ $project->display_status }}</span></p>
                             </div>
+                            @if($visibleLocations->count() > 0)
                             <div class="meta-item">
                                 <h6>Lokasyon:</h6>
                                 <p>{{ $project->location }}</p>
                             </div>
+                            @endif
                             @if($project->area)
                             <div class="meta-item">
                                 <h6>Alan:</h6>
@@ -78,24 +80,27 @@ Proje Detay Bölümü
                         <p>{!! $project['description'] ?? 'Bu proje hakkında detaylı bilgi yakında eklenecektir.' !!}</p>
 
                         <!-- Proje Konumları Haritası -->
-                        @if($project->locations && $project->locations->count() > 0)
+                        @php
+                            $visibleLocations = $project->locations ? $project->locations->where('show_location', true) : collect();
+                        @endphp
+                        @if($visibleLocations->count() > 0)
                         <div class="project-locations-section mt-5">
                             <h3>Proje Konumları</h3>
                             
-                            @if($project->locations->count() > 1)
+                            @if($visibleLocations->count() > 1)
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="mainLocationSelect" class="form-label fw-bold">Haritada Görmek İstediğiniz Lokasyon:</label>
                                     <select id="mainLocationSelect" class="form-select form-select-lg">
                                         <option value="all">🗺️ Tüm Lokasyonlar</option>
-                                        @foreach($project->locations as $index => $location)
+                                        @foreach($visibleLocations as $index => $location)
                                         <option value="{{ $index }}">📍 {{ $location->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-6 d-flex align-items-end">
                                     <div class="location-info">
-                                        <span class="badge bg-primary">{{ $project->locations->count() }} Lokasyon</span>
+                                        <span class="badge bg-primary">{{ $visibleLocations->count() }} Lokasyon</span>
                                         <small class="text-muted ms-2">Haritada tüm konumları görebilirsiniz</small>
                                     </div>
                                 </div>
@@ -103,8 +108,8 @@ Proje Detay Bölümü
                             @else
                                                          <div class="mb-3">
                                  <div class="d-flex align-items-center gap-3">
-                                     <span class="badge bg-primary">{{ $project->locations->first()->name }}</span>
-                                     <a href="https://maps.google.com/?q={{ $project->locations->first()->latitude }},{{ $project->locations->first()->longitude }}" target="_blank" 
+                                     <span class="badge bg-primary">{{ $visibleLocations->first()->name }}</span>
+                                     <a href="https://maps.google.com/?q={{ $visibleLocations->first()->latitude }},{{ $visibleLocations->first()->longitude }}" target="_blank" 
                                         class="btn btn-success btn-sm">
                                          <i class="fa-solid fa-route"></i> Konuma Git
                                      </a>
@@ -117,11 +122,11 @@ Proje Detay Bölümü
                                 <div id="mainProjectLocationMap" style="height: 500px; width: 100%; border-radius: 15px; border: 2px solid #ddd; box-shadow: 0 8px 25px rgba(0,0,0,0.1);"></div>
                             </div>
                             
-                            @if($project->locations->count() > 1)
+                            @if($visibleLocations->count() > 1)
                             <div class="location-grid mt-4">
                                 <h4>Proje Lokasyonları</h4>
                                 <div class="row g-3">
-                                    @foreach($project->locations as $index => $location)
+                                    @foreach($visibleLocations as $index => $location)
                                     <div class="col-md-6">
                                         <div class="location-card" style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 10px; padding: 20px; border-left: 4px solid #1f4788;">
                                             <div class="d-flex justify-content-between align-items-start">
@@ -227,10 +232,12 @@ Proje Detay Bölümü
                                 <span class="label">Durum:</span>
                                 <span class="value">{{ $project['status'] }}</span>
                             </div>
+                            @if($visibleLocations->count() > 0)
                             <div class="summary-item">
                                 <span class="label">Lokasyon:</span>
                                 <span class="value">{{ $project['location'] }}</span>
                             </div>
+                            @endif
                             @if(isset($project['area']))
                             <div class="summary-item">
                                 <span class="label">Alan:</span>
@@ -243,16 +250,16 @@ Proje Detay Bölümü
                     </div>
 
                     <!-- Proje Lokasyonları Haritası -->
-                    @if($project->locations && $project->locations->count() > 0)
+                    @if($visibleLocations->count() > 0)
                     <div class="widget location-widget">
                         <h4 class="widget-title">Proje Konumları</h4>
                         
-                        @if($project->locations->count() > 1)
+                        @if($visibleLocations->count() > 1)
                         <div class="location-selector mb-3">
                             <label for="locationSelect" class="form-label">Haritada Görmek İstediğiniz Lokasyon:</label>
                             <select id="locationSelect" class="form-select">
                                 <option value="all">Tüm Lokasyonlar</option>
-                                @foreach($project->locations as $index => $location)
+                                @foreach($visibleLocations as $index => $location)
                                 <option value="{{ $index }}">{{ $location->name }}</option>
                                 @endforeach
                             </select>
@@ -261,20 +268,20 @@ Proje Detay Bölümü
                         
                         <div id="projectLocationMap" style="height: 300px; width: 100%; border-radius: 10px; border: 1px solid #ddd;"></div>
                         
-                        @if($project->locations->count() === 1)
+                        @if($visibleLocations->count() === 1)
                         <div class="single-location-actions mt-3 text-center">
-                            <a href="https://maps.google.com/?q={{ $project->locations->first()->latitude }},{{ $project->locations->first()->longitude }}" target="_blank" 
+                            <a href="https://maps.google.com/?q={{ $visibleLocations->first()->latitude }},{{ $visibleLocations->first()->longitude }}" target="_blank" 
                                class="theme-btn bg-success">
                                 <i class="fa-solid fa-route"></i> Konuma Git
                             </a>
                         </div>
                         @endif
                         
-                        @if($project->locations->count() > 1)
+                        @if($visibleLocations->count() > 1)
                         <div class="location-list mt-3">
                             <h6>Proje Lokasyonları:</h6>
                             <ul class="list-unstyled">
-                                @foreach($project->locations as $location)
+                                @foreach($visibleLocations as $location)
                                 <li class="mb-3 p-3" style="background: #f8f9fa; border-radius: 8px; border-left: 4px solid #1f4788;">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div>
@@ -783,7 +790,7 @@ document.getElementById('imageModal').addEventListener('click', function(event) 
 });
 </script>
 
-@if($project->locations && $project->locations->count() > 0)
+@if($visibleLocations->count() > 0)
 <!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <!-- Leaflet JS -->
@@ -791,9 +798,9 @@ document.getElementById('imageModal').addEventListener('click', function(event) 
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Proje lokasyon verileri
+    // Proje lokasyon verileri (sadece görünür lokasyonlar)
     var projectLocations = [
-        @foreach($project->locations as $index => $location)
+        @foreach($visibleLocations as $index => $location)
         {
             index: {{ $index }},
             name: "{{ addslashes($location->name) }}",

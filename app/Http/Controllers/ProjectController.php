@@ -9,8 +9,9 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        // Veritabanından projeleri çek
-        $projects = Project::orderBy('sort_order', 'asc')
+        // Veritabanından projeleri çek (locations ile birlikte)
+        $projects = Project::with('locations')
+            ->orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
             ->get()
             ->map(function($project) {

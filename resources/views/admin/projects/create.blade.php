@@ -132,6 +132,8 @@
                                     @enderror
                                 </div>
 
+
+
                                 <!-- Proje Lokasyonları -->
                                 <div class="mb-3">
                                     <label class="form-label">Proje Lokasyonları</label>
@@ -176,12 +178,24 @@
                                                                       rows="2" 
                                                                       placeholder="Bu lokasyon hakkında kısa açıklama">{{ old('locations.0.description') }}</textarea>
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
                                                             <label class="form-label">Sıralama</label>
                                                             <input type="number" class="form-control" 
                                                                    name="locations[0][sort_order]" 
                                                                    value="{{ old('locations.0.sort_order', 0) }}" 
                                                                    min="0" placeholder="0">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">Konum Gösterimi</label>
+                                                            <div class="form-check form-switch mt-2">
+                                                                <input type="hidden" name="locations[0][show_location]" value="0">
+                                                                <input type="checkbox" class="form-check-input" 
+                                                                       name="locations[0][show_location]" 
+                                                                       value="1" 
+                                                                       {{ old('locations.0.show_location', true) ? 'checked' : '' }}>
+                                                                <label class="form-check-label">Bu lokasyonu göster</label>
+                                                            </div>
+                                                            <small class="text-muted">Kapatılırsa bu lokasyon haritada ve detaylarda gizlenir</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -488,12 +502,23 @@ document.getElementById('addLocationBtn').addEventListener('click', function() {
                                       rows="2" 
                                       placeholder="Bu lokasyon hakkında kısa açıklama"></textarea>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="form-label">Sıralama</label>
                             <input type="number" class="form-control" 
                                    name="locations[${locationIndex}][sort_order]" 
                                    value="${locationIndex}" 
                                    min="0" placeholder="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Konum Gösterimi</label>
+                            <div class="form-check form-switch mt-2">
+                                <input type="hidden" name="locations[${locationIndex}][show_location]" value="0">
+                                <input type="checkbox" class="form-check-input" 
+                                       name="locations[${locationIndex}][show_location]" 
+                                       value="1" checked>
+                                <label class="form-check-label">Bu lokasyonu göster</label>
+                            </div>
+                            <small class="text-muted">Kapatılırsa bu lokasyon haritada ve detaylarda gizlenir</small>
                         </div>
                     </div>
                 </div>

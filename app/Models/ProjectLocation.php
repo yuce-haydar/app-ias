@@ -15,12 +15,14 @@ class ProjectLocation extends Model
         'latitude',
         'longitude',
         'description',
-        'sort_order'
+        'sort_order',
+        'show_location'
     ];
 
     protected $casts = [
         'latitude' => 'decimal:8',
-        'longitude' => 'decimal:8'
+        'longitude' => 'decimal:8',
+        'show_location' => 'boolean'
     ];
 
     /**

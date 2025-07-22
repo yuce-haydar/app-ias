@@ -73,7 +73,8 @@ class ProjectController extends Controller
                 'locations.*.latitude' => 'required|numeric|between:-90,90',
                 'locations.*.longitude' => 'required|numeric|between:-180,180',
                 'locations.*.description' => 'nullable|string',
-                'locations.*.sort_order' => 'nullable|integer|min:0'
+                'locations.*.sort_order' => 'nullable|integer|min:0',
+                'locations.*.show_location' => 'boolean'
             ]);
 
             // Convert features and technical_specs from string to array
@@ -155,6 +156,7 @@ class ProjectController extends Controller
                     'longitude' => $location['longitude'],
                     'description' => $location['description'] ?? null,
                     'sort_order' => $location['sort_order'] ?? 0,
+                    'show_location' => $location['show_location'] ?? true,
                 ]);
             }
 
@@ -222,6 +224,7 @@ class ProjectController extends Controller
                 'locations.*.longitude' => 'required_with:locations|numeric|between:-180,180',
                 'locations.*.description' => 'nullable|string',
                 'locations.*.sort_order' => 'nullable|integer|min:0',
+                'locations.*.show_location' => 'boolean',
                 'deleted_locations' => 'nullable|string'
             ]);
 
@@ -338,6 +341,7 @@ class ProjectController extends Controller
                             'longitude' => $location['longitude'],
                             'description' => $location['description'] ?? null,
                             'sort_order' => $location['sort_order'] ?? 0,
+                            'show_location' => $location['show_location'] ?? true,
                         ]);
                     } else {
                         // Yeni lokasyon oluştur
@@ -347,6 +351,7 @@ class ProjectController extends Controller
                             'longitude' => $location['longitude'],
                             'description' => $location['description'] ?? null,
                             'sort_order' => $location['sort_order'] ?? 0,
+                            'show_location' => $location['show_location'] ?? true,
                         ]);
                     }
                 }

@@ -23,10 +23,16 @@ class HomeController extends Controller
             ->get();
             
         // Projeleri veritabanından çek (harita için tüm projeler, görüntü için 8 tane)
-        $allProjects = Project::with('locations')
+        $allProjects = Project::with(['locations' => function($query) {
+                $query->where('show_location', true); // Sadece gösterimi aktif olan lokasyonlar
+            }])
             ->orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
             ->get()
+            ->filter(function($project) {
+                // En az bir görünür lokasyonu olan projeleri al
+                return $project->locations && $project->locations->count() > 0;
+            })
             ->map(function($project) {
                 // Image path'i düzelt
                 $project->image_url = \App\Helpers\ImageHelper::getImageUrl($project->image);

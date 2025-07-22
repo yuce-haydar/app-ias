@@ -69,7 +69,12 @@ Projeler Grid Bölümü
                         </h4>
                         <p class="text">{!! $project->short_description !!}</p>
                         <div class="project-stats mb-3">
+                            @php
+                                $hasVisibleLocations = $project->locations && $project->locations->where('show_location', true)->count() > 0;
+                            @endphp
+                            @if($hasVisibleLocations)
                             <span class="stat-item"><i class="fa-solid fa-map-marker-alt"></i> {{ $project->location }}</span>
+                            @endif
                             @if($project->area)
                             <span class="stat-item"><i class="fa-solid fa-expand"></i> {!! $project->area !!}</span>
                             @endif
