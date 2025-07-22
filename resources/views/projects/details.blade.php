@@ -80,9 +80,6 @@ Proje Detay Bölümü
                         <p>{!! $project['description'] ?? 'Bu proje hakkında detaylı bilgi yakında eklenecektir.' !!}</p>
 
                         <!-- Proje Konumları Haritası -->
-                        @php
-                            $visibleLocations = $project->locations ? $project->locations->where('show_location', true) : collect();
-                        @endphp
                         @if($visibleLocations->count() > 0)
                         <div class="project-locations-section mt-5">
                             <h3>Proje Konumları</h3>

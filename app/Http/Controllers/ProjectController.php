@@ -136,6 +136,9 @@ class ProjectController extends Controller
             $relatedProjects = $relatedProjects->merge($additionalProjects);
         }
         
-        return view('projects.details', compact('project', 'relatedProjects'));
+        // Görünür lokasyonları hesapla
+        $visibleLocations = $project->locations ? $project->locations->where('show_location', true) : collect();
+        
+        return view('projects.details', compact('project', 'relatedProjects', 'visibleLocations'));
     }
 } 
