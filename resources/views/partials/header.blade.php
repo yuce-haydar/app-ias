@@ -127,9 +127,9 @@ Mobil Menü
             <h6>Katlı Otopark Sitesi No: 2 K-2 Antakya</h6>
         </div>
         <div class="sidebar-wrap">
-            <h6><a href="tel:+905331550090">+90 533 155 00 90</a></h6>
-            <h6><a href="tel:+905338920090">+90 533 892 00 90</a></h6>
-            <h6><a href="tel:+905338920090">+90 326 213 2326 90</a></h6>
+            <h6><a href="tel:+905331550093">+90 533 155 00 93</a></h6>
+            <h6><a href="tel:+905331550093">+90 533 155 00 93</a></h6>
+            <h6><a href="tel:+903262132326">+90 326 213 2326</a></h6>
             <h6><a href="mailto:info@hatayimar.com.tr">info@hatayimar.com.tr</a></h6>
         </div>
         <div class="social-btn style3">
@@ -145,16 +145,16 @@ Mobil Menü
                     <span class="effect-1"><i class="fab fa-instagram"></i></span>
                 </span>
             </a>
-            <a href="https://x.com/hatayimarr">
+            <a href="https://x.com/hbbimarr">
                 <span class="link-effect">
                     <span class="effect-1"><i class="fab fa-twitter"></i></span>
                     <span class="effect-1"><i class="fab fa-twitter"></i></span>
                 </span>
             </a>
-            <a href="https://linkedin.com/hatayimar">
+            <a href="https://www.youtube.com/channel/UCn-OKyOCxCk5BV5MgDR8S5w">
                 <span class="link-effect">
-                    <span class="effect-1"><i class="fab fa-linkedin"></i></span>
-                    <span class="effect-1"><i class="fab fa-linkedin"></i></span>
+                    <span class="effect-1"><i class="fab fa-youtube"></i></span>
+                    <span class="effect-1"><i class="fab fa-youtube"></i></span>
                 </span>
             </a>
         </div>
