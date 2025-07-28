@@ -53,9 +53,9 @@
     <div class="footer-top space">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 footer-brand">
+                <div class="col-lg-4 col-md-4 col-sm-6 footer-brand bg-white p-4">
                     <div class="brand-header" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                        <div>
+                        <div class="bg-white">
                             <a href="{{ url('/') }}" class="footer-logo d-flex align-items-center gap-4 mb-20">
                                 <img src="{{ url('assets/images/logo/hbblogo.png') }}" alt="HBB Logo" class="img-fluid" style="height: 110px; width: auto; max-width: 200px;">
                                 <img src="{{ url('assets/images/logo/imar-bg.png') }}" alt="İmar Logo" class="img-fluid" style="height: 110px; width: auto; min-width: 80px; max-width: 160px;">
@@ -63,25 +63,25 @@
                             <p class="text mb-30">Hatay İmar olarak Kaliteli Hizmeti, Özverili Çalışmayı,<br>Değer Katmayı temel prensip edinip, var gücümüzle çalışmaktayız.</p>
                         </div>
                         <div class="social-btn style3" style="margin-top: auto; padding-top: 20px;">
-                        <a href="https://www.facebook.com/hbbimar/">
+                        <a href="https://www.facebook.com/hbbimar/" target="_blank">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-facebook"></i></span>
                                 <span class="effect-1"><i class="fab fa-facebook"></i></span>
                             </span>
                         </a>
-                        <a href="https://instagram.com/hatayimar">
+                        <a href="https://instagram.com/hatayimar" target="_blank">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-instagram"></i></span>
                                 <span class="effect-1"><i class="fab fa-instagram"></i></span>
                             </span>
                         </a>
-                        <a href="https://x.com/hatayimarr">
+                        <a href="https://x.com/hatayimarr" target="_blank">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-twitter"></i></span>
                                 <span class="effect-1"><i class="fab fa-twitter"></i></span>
                             </span>
                         </a>
-                        <a href="https://www.youtube.com/@hbbimar">
+                        <a href="https://www.youtube.com/@hbbimar" target="_blank"  >
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-youtube"></i></span>
                                 <span class="effect-1"><i class="fab fa-youtube"></i></span>

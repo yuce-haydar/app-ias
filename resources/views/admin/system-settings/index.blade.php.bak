@@ -1,0 +1,158 @@
+@extends('admin.layouts.app')
+
+@section('title', 'Sistem Ayarları')
+
+@section('content')
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Sistem Ayarları</h4>
+                    <p class="text-muted">Sistem genelinde kullanılan ayarları yönetin</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Form -->
+    <form action="{{ route('admin.settings.store') }}" method="POST">
+        @csrf
+        
+        @if($settings->isNotEmpty())
+            @foreach($settings as $group => $groupSettings)
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>
+                                    @switch($group)
+                                        @case('site')
+                                            🌐 Site Ayarları
+                                            @break
+                                        @case('contact')
+                                            📞 İletişim Bilgileri
+                                            @break
+                                        @case('social')
+                                            📱 Sosyal Medya
+                                            @break
+                                        @case('seo')
+                                            📊 SEO Ayarları
+                                            @break
+                                        @default
+                                            {{ ucfirst($group) }} Ayarları
+                                    @endswitch
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    @foreach($groupSettings as $setting)
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ $setting->label }}</label>
+                                                @if($setting->description)
+                                                    <small class="form-text text-muted">{{ $setting->description }}</small>
+                                                @endif
+                                                
+                                                @switch($setting->type)
+                                                    @case('textarea')
+                                                        <textarea 
+                                                            class="form-control" 
+                                                            name="{{ $setting->key }}" 
+                                                            rows="3"
+                                                        >{{ $setting->value }}</textarea>
+                                                        @break
+                                                    
+                                                    @case('email')
+                                                        <input 
+                                                            type="email" 
+                                                            class="form-control" 
+                                                            name="{{ $setting->key }}" 
+                                                            value="{{ $setting->value }}"
+                                                        >
+                                                        @break
+                                                    
+                                                    @case('url')
+                                                        <input 
+                                                            type="url" 
+                                                            class="form-control" 
+                                                            name="{{ $setting->key }}" 
+                                                            value="{{ $setting->value }}"
+                                                        >
+                                                        @break
+                                                    
+                                                    @case('file')
+                                                        <input 
+                                                            type="file" 
+                                                            class="form-control" 
+                                                            name="{{ $setting->key }}" 
+                                                            accept="image/*"
+                                                        >
+                                                        @if($setting->value)
+                                                            <div class="mt-2">
+                                                                <img src="{{ asset('storage/' . $setting->value) }}" 
+                                                                     alt="Current" 
+                                                                     class="img-thumbnail" 
+                                                                     style="max-height: 100px;">
+                                                            </div>
+                                                        @endif
+                                                        @break
+                                                    
+                                                    @default
+                                                        <input 
+                                                            type="text" 
+                                                            class="form-control" 
+                                                            name="{{ $setting->key }}" 
+                                                            value="{{ $setting->value }}"
+                                                        >
+                                                @endswitch
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="text-muted">Henüz hiç ayar tanımlanmamış.</p>
+                            <p>Varsayılan ayarlar otomatik olarak oluşturulacak.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Submit Button -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <button type="submit" class="btn btn-success btn-lg px-5">
+                            <i class="fas fa-save"></i> Ayarları Kaydet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@push('styles')
+<style>
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+</style>
+@endpush
+@endsection 

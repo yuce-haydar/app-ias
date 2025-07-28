@@ -91,7 +91,7 @@ class SettingsController extends Controller
 
         SiteSetting::updateSettings($data);
 
-        return redirect()->route('admin.settings.index')
+        return redirect()->route('admin.site-settings.index')
             ->with('success', 'Site ayarları başarıyla güncellendi!');
     }
 

@@ -416,7 +416,7 @@ Hakkımızda Bölümü
                         <li>Yarı olimpik yüzme havuzları</li>
                         <li>Modern halısaha ve spor kompleksleri</li>
                         <li>Kreş ve eğitim tesisleri</li>
-                        <li>Taziye evleri ve sosyal tesisler</li>
+                        <li>Çok Amaçlı Salon</li>
                     </ul>
                     <a href="{{ route('projects') }}" class="theme-btn bg-dark mt-35">
                         <span class="link-effect">

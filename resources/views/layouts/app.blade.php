@@ -104,7 +104,11 @@
             100% { background-position: 200% 0; }
         }
 
-        /* Loading Ekranı Yazı Rengi Düzeltmesi - Güçlü Override */
+        /* Loading Ekranı Stil Düzeltmesi */
+        .loading-screen {
+            background-color: #ffffff !important; /* Beyaz arka plan */
+        }
+        
         .loading-screen .animation-preloader .txt-loading,
         .loading-screen .animation-preloader .txt-loading .letters-loading {
             color: #cf9f38 !important;

@@ -356,16 +356,17 @@
                     </a>
                 </li>
                 
-                <li class="menu-header text-muted px-3 mt-3 mb-2">
+               <!--    <li class="menu-header text-muted px-3 mt-3 mb-2">
                     <small>SİSTEM</small>
                 </li>
                 
               
-                <li>
+             <li>
                     <a href="{{ route('admin.settings.index') }}" class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                         <i class="fas fa-cog"></i> Ayarlar
                     </a>
                 </li>
+                -->
             </ul>
         </div>
     </div>
