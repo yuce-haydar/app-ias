@@ -75,4 +75,6 @@ class QrMenuAuthController extends Controller
         return redirect()->route('qr-menu.login', $slug)
             ->with('success', 'Başarıyla çıkış yaptınız.');
     }
+
+
 }

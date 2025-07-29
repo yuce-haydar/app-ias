@@ -20,13 +20,21 @@ class QrMenuController extends Controller
         ->active()
         ->firstOrFail();
 
-        // Kategorileri aktif olanlarla filtrele
+        // Kategorileri hiyerarşik olarak yükle (ana kategoriler ve alt kategorileri)
         $categories = $qrMenu->menuCategories()
             ->active()
             ->ordered()
-            ->with(['menuItems' => function ($query) {
-                $query->active()->available()->ordered();
-            }])
+            ->with([
+                'menuItems' => function ($query) {
+                    $query->active()->available()->ordered();
+                },
+                'children' => function ($query) {
+                    $query->active()->ordered()->with(['menuItems' => function ($subQuery) {
+                        $subQuery->active()->available()->ordered();
+                    }]);
+                }
+            ])
+            ->whereNull('parent_id') // Sadece ana kategoriler, alt kategoriler children ilişkisiyle gelecek
             ->get();
 
         // Önerilen ürünleri getir
@@ -39,4 +47,6 @@ class QrMenuController extends Controller
 
         return view('qr-menu.show', compact('qrMenu', 'categories', 'recommendedItems'));
     }
+
+
 }

@@ -8,6 +8,9 @@ Route::prefix('admin')->group(base_path('routes/admin.php'));
 // QR Menu Routes
 require base_path('routes/qr-menu.php');
 
+// Subdomain QR Menu Routes
+require base_path('routes/subdomain.php');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

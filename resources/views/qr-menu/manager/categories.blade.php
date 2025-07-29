@@ -446,12 +446,18 @@
 
         @if($categories->count() > 0)
             <div class="categories-grid">
-                @foreach($categories as $category)
+                {{-- Ana kategoriler --}}
+                @foreach($categories->whereNull('parent_id')->sortBy('order') as $category)
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="{{ $category->icon ?: 'fas fa-utensils' }}"></i>
                         </div>
-                        <h3 class="category-title">{{ $category->name }}</h3>
+                        <h3 class="category-title">
+                            📂 {{ $category->name }}
+                            @if($category->children->count() > 0)
+                                <small style="color: #cf9f38; font-size: 0.8rem;">({{ $category->children->count() }} alt kategori)</small>
+                            @endif
+                        </h3>
                         @if($category->description)
                             <p class="category-description">{!! $category->description !!}</p>
                         @endif
@@ -480,6 +486,46 @@
                             </button>
                         </div>
                     </div>
+
+                    {{-- Bu ana kategorinin alt kategorileri --}}
+                    @foreach($category->children->sortBy('order') as $subCategory)
+                        <div class="category-card" style="margin-left: 20px; border-left: 4px solid var(--primary-color); opacity: 0.9; transform: scale(0.95);">
+                            <div class="category-icon" style="background: var(--secondary-color);">
+                                <i class="{{ $subCategory->icon ?: 'fas fa-folder' }}"></i>
+                            </div>
+                            <h3 class="category-title" style="font-size: 1.1rem;">
+                                📁 {{ $subCategory->name }}
+                                <small style="color: #666; font-size: 0.7rem; display: block;">{{ $category->name }} altında</small>
+                            </h3>
+                            @if($subCategory->description)
+                                <p class="category-description">{!! $subCategory->description !!}</p>
+                            @endif
+                            <div class="category-stats">
+                                <div class="stat-item">
+                                    <i class="fas fa-utensils"></i>
+                                    {{ $subCategory->menuItems->count() }} Ürün
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-sort-numeric-up"></i>
+                                    Sıra: {{ $subCategory->order }}
+                                </div>
+                            </div>
+                            <div class="category-actions">
+                                <button class="btn btn-warning btn-sm" onclick="editCategory({{ $subCategory->id }})">
+                                    <i class="fas fa-edit"></i>
+                                    Düzenle
+                                </button>
+                                <a href="{{ route('qr-menu.items', $qrMenu->url_slug) }}?category={{ $subCategory->id }}" class="btn btn-success btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                    Ürünleri Gör
+                                </a>
+                                <button class="btn btn-danger btn-sm" onclick="deleteCategory({{ $subCategory->id }}, '{{ $subCategory->name }}')">
+                                    <i class="fas fa-trash"></i>
+                                    Sil
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
                 @endforeach
             </div>
         @else
@@ -504,6 +550,16 @@
             </div>
             <form method="POST" action="{{ route('qr-menu.categories.store', $qrMenu->url_slug) }}">
                 @csrf
+                <div class="form-group">
+                    <label class="form-label">Ana Kategori</label>
+                    <select name="parent_id" class="form-select">
+                        <option value="">📂 Ana Kategori (Alt kategori değil)</option>
+                        @foreach($categories->whereNull('parent_id') as $parentCategory)
+                            <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }} (Alt kategori olarak)</option>
+                        @endforeach
+                    </select>
+                    <small style="color: #666; font-size: 0.85rem;">Alt kategori oluşturmak için bir ana kategori seçin</small>
+                </div>
                 <div class="form-group">
                     <label class="form-label">Kategori Adı</label>
                     <input type="text" name="name" class="form-input" required>
@@ -549,6 +605,16 @@
             <form method="POST" id="editForm">
                 @csrf
                 @method('PUT')
+                <div class="form-group">
+                    <label class="form-label">Ana Kategori</label>
+                    <select name="parent_id" class="form-select" id="editParentId">
+                        <option value="">📂 Ana Kategori (Alt kategori değil)</option>
+                        @foreach($categories->whereNull('parent_id') as $parentCategory)
+                            <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }} (Alt kategori olarak)</option>
+                        @endforeach
+                    </select>
+                    <small style="color: #666; font-size: 0.85rem;">Alt kategori oluşturmak için bir ana kategori seçin</small>
+                </div>
                 <div class="form-group">
                     <label class="form-label">Kategori Adı</label>
                     <input type="text" name="name" class="form-input" id="editName" required>
@@ -598,6 +664,7 @@
             fetch(`/qr-menu/{{ $qrMenu->url_slug }}/yonetici/kategoriler/${categoryId}`)
                 .then(response => response.json())
                 .then(data => {
+                    document.getElementById('editParentId').value = data.parent_id || '';
                     document.getElementById('editName').value = data.name;
                     document.getElementById('editDescription').value = data.description || '';
                     document.getElementById('editIcon').value = data.icon || 'fas fa-utensils';

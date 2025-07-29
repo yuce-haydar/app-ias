@@ -18,6 +18,7 @@ class QrMenu extends Model
         'qr_code_path',
         'description',
         'logo',
+        'header_background',
         'theme_colors',
         'is_active'
     ];
@@ -46,6 +47,14 @@ class QrMenu extends Model
     // QR kod URL'si
     public function getQrUrlAttribute()
     {
+        // Subdomain URL kullan
+        $domain = app()->environment('local') ? 'localhost' : 'hatayimar.com.tr';
+        return "https://{$this->url_slug}.{$domain}";
+    }
+
+    // Eski format URL (geriye uyumluluk için)
+    public function getLegacyQrUrlAttribute()
+    {
         return url("/qr-menu/{$this->url_slug}");
     }
 
@@ -63,6 +72,16 @@ class QrMenu extends Model
     {
         if ($this->logo) {
             return asset('storage/' . $this->logo);
+        }
+        // Default logo olarak hh.png kullan
+        return asset('assets/images/hh.png');
+    }
+
+    // Header Background URL'si
+    public function getHeaderBackgroundUrlAttribute()
+    {
+        if ($this->header_background) {
+            return asset('storage/' . $this->header_background);
         }
         return null;
     }

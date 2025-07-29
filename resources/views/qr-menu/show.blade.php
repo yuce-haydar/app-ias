@@ -43,6 +43,42 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .header.has-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .header-logo {
+            height: 60px;
+            width: auto;
+            border-radius: 8px;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
         }
 
         .header h1 {
@@ -54,6 +90,128 @@
         .header p {
             opacity: 0.9;
             font-size: 1rem;
+        }
+
+        /* Search Box Styles */
+        .search-container {
+            margin-top: 1rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:hover,
+        .search-box:focus-within {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .search-icon {
+            color: rgba(255,255,255,0.8);
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        #searchInput {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 400;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #searchInput::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-clear {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-clear:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        /* Search Results */
+        .search-results {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            margin: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-results-header {
+            padding: 1rem 1.5rem;
+            background: var(--light-gray);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-results-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin: 0;
+        }
+
+        .search-results-count {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #666;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        .search-highlight {
+            background: rgba(207, 159, 56, 0.3);
+            padding: 0.1rem 0.2rem;
+            border-radius: 3px;
+            font-weight: 600;
         }
 
         /* Container */
@@ -599,6 +757,16 @@
                 font-size: 1.4rem;
             }
 
+            .header-top {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .header-logo {
+                height: 50px;
+            }
+
             .categories-nav {
                 position: relative;
                 top: 0;
@@ -823,15 +991,36 @@
 </head>
 <body>
     <!-- Header -->
-    <div class="header">
-        <h1>{{ $qrMenu->name }}</h1>
-        @if($qrMenu->description)
-                                <p>{!! $qrMenu->description !!}</p>
-        @endif
+    <div class="header {{ $qrMenu->header_background ? 'has-background' : '' }}" 
+         @if($qrMenu->header_background_url)
+         style="background-image: url('{{ $qrMenu->header_background_url }}');"
+         @endif>
+        <div class="header-content">
+            <!-- Logo ve Başlık -->
+            <div class="header-top">
+                <img src="{{ $qrMenu->logo_url }}" alt="{{ $qrMenu->name }} Logo" class="header-logo">
+                <h1>{{ $qrMenu->name }}</h1>
+            </div>
+            
+            @if($qrMenu->description)
+                <p>{!! $qrMenu->description !!}</p>
+            @endif
+            
+            <!-- Search Box -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Ürün ara..." autocomplete="off">
+                    <button class="search-clear" id="searchClear" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Categories Navigation -->
-    @if($categories->count() > 1)
+    @if($categories->count() > 1 || $categories->pluck('children')->flatten()->count() > 0)
     <div class="categories-nav">
         <div class="categories-scroll">
             @foreach($categories as $category)
@@ -840,13 +1029,42 @@
                         <i class="{{ $category->icon }}"></i>
                     @endif
                     {{ $category->name }}
+                    @if($category->children->count() > 0)
+                        <span style="opacity: 0.7; font-size: 0.8rem;">({{ $category->children->count() }})</span>
+                    @endif
                 </a>
+                
+                {{-- Alt kategoriler --}}
+                @foreach($category->children as $subCategory)
+                    <a href="#category-{{ $subCategory->id }}" class="category-btn" style="margin-left: 10px; opacity: 0.9; font-size: 0.85rem; background: rgba(255,255,255,0.1);">
+                        @if($subCategory->icon)
+                            <i class="{{ $subCategory->icon }}"></i>
+                        @endif
+                        {{ $subCategory->name }}
+                    </a>
+                @endforeach
             @endforeach
         </div>
     </div>
     @endif
 
-    <div class="container">
+    <!-- Search Results -->
+    <div class="search-results" id="searchResults">
+        <div class="search-results-header">
+            <h2 class="search-results-title">Arama Sonuçları</h2>
+            <div class="search-results-count" id="searchResultsCount"></div>
+        </div>
+        <div class="items-grid" id="searchResultsGrid">
+            <!-- Search results will be populated here -->
+        </div>
+        <div class="no-results" id="noResults" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>Sonuç bulunamadı</h3>
+            <p>Aradığınız ürün bulunamadı. Lütfen farklı kelimeler deneyin.</p>
+        </div>
+    </div>
+
+    <div class="container" id="mainContent">
         <!-- Recommended Items -->
         @if($recommendedItems->count() > 0)
         <div class="recommended-section">
@@ -910,6 +1128,9 @@
                     <i class="{{ $category->icon }}"></i>
                 @endif
                 {{ $category->name }}
+                @if($category->children->count() > 0)
+                    <small style="opacity: 0.7; font-size: 0.7rem; margin-left: 10px;">({{ $category->children->count() }} alt kategori)</small>
+                @endif
             </h2>
             
             @if($category->menuItems->count() > 0)
@@ -968,7 +1189,90 @@
                         </div>
                     @endforeach
                 </div>
-            @else
+            @endif
+
+            {{-- Alt kategoriler --}}
+            @foreach($category->children as $subCategory)
+                <div class="category-section" id="category-{{ $subCategory->id }}" style="margin-left: 20px; margin-top: 2rem;">
+                    <h3 class="category-title" style="font-size: 1.4rem; padding-left: 20px; border-left: 4px solid var(--primary-color);">
+                        @if($subCategory->icon)
+                            <i class="{{ $subCategory->icon }}"></i>
+                        @endif
+                        {{ $subCategory->name }}
+                        <small style="opacity: 0.6; font-size: 0.7rem; margin-left: 10px;">{{ $category->name }} altında</small>
+                    </h3>
+                    
+                    @if($subCategory->menuItems->count() > 0)
+                        <div class="items-grid">
+                            @foreach($subCategory->menuItems as $item)
+                                <div class="item-card {{ $item->is_recommended ? 'recommended' : '' }}" onclick="openItemModal({{ $item->id }})">
+                                    @if($item->is_recommended)
+                                        <div class="recommended-badge">ÖNERİLEN</div>
+                                    @endif
+                                    
+                                    @if($item->main_image_url)
+                                        <div class="item-image">
+                                            <img src="{{ $item->main_image_url }}" alt="{{ $item->name }}" loading="lazy">
+                                            @if($item->gallery_urls && count($item->gallery_urls) > 1)
+                                                <div class="gallery-indicator">
+                                                    <i class="fas fa-images"></i>
+                                                    {{ count($item->gallery_urls) }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endif
+                                    
+                                    <div class="item-header">
+                                        <div>
+                                            <h3 class="item-name">{{ $item->name }}</h3>
+                                            @if($item->description)
+                                                <p class="item-description">{!! $item->description !!}</p>
+                                            @endif
+                                        </div>
+                                        @if($item->price)
+                                            <div class="item-price">{{ $item->formatted_price }}</div>
+                                        @endif
+                                    </div>
+                                    
+                                    @if($item->preparation_time || $item->allergens || $item->ingredients)
+                                    <div class="item-meta">
+                                        @if($item->preparation_time)
+                                            <span class="meta-tag time">
+                                                <i class="fas fa-clock"></i> {{ $item->preparation_time }}
+                                            </span>
+                                        @endif
+                                        @if($item->allergens)
+                                            @foreach($item->allergens as $allergen)
+                                                <span class="meta-tag allergen">
+                                                    <i class="fas fa-exclamation-triangle"></i> {{ $allergen }}
+                                                </span>
+                                            @endforeach
+                                        @endif
+                                        @if($item->ingredients && count($item->ingredients) <= 3)
+                                            @foreach($item->ingredients as $ingredient)
+                                                <span class="meta-tag">{{ $ingredient }}</span>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="empty-message">
+                            <i class="fas fa-utensils"></i>
+                            <p>Bu alt kategoride henüz ürün bulunmuyor.</p>
+                        </div>
+                    @endif
+                </div>
+            @endforeach
+
+            {{-- Ana kategoride ürün yoksa ve alt kategori varsa mesaj --}}
+            @if($category->menuItems->count() == 0 && $category->children->count() > 0)
+                <div style="text-align: center; padding: 1rem; opacity: 0.7; font-style: italic;">
+                    Bu kategorinin ürünleri alt kategorilerde bulunur ⬇️
+                </div>
+            @elseif($category->menuItems->count() == 0 && $category->children->count() == 0)
                 <div class="empty-message">
                     <i class="fas fa-utensils"></i>
                     <p>Bu kategoride henüz ürün bulunmuyor.</p>
@@ -1013,9 +1317,25 @@
                             <i class="{{ $category->icon }}"></i>
                         @endif
                         <span>{{ $category->name }}</span>
+                        @if($category->children->count() > 0)
+                            <small style="opacity: 0.7; margin-left: 5px;">({{ $category->children->count() }} alt)</small>
+                        @endif
                     </div>
                     <span class="side-menu-category-count">{{ $category->menuItems->count() }}</span>
                 </a>
+                
+                {{-- Alt kategoriler --}}
+                @foreach($category->children as $subCategory)
+                    <a href="#category-{{ $subCategory->id }}" class="side-menu-category" onclick="scrollToCategory('category-{{ $subCategory->id }}')" style="padding-left: 3rem; background: rgba(0,0,0,0.05); border-left: 3px solid var(--primary-color);">
+                        <div class="side-menu-category-info">
+                            @if($subCategory->icon)
+                                <i class="{{ $subCategory->icon }}" style="opacity: 0.8;"></i>
+                            @endif
+                            <span style="font-size: 0.9rem;">{{ $subCategory->name }}</span>
+                        </div>
+                        <span class="side-menu-category-count">{{ $subCategory->menuItems->count() }}</span>
+                    </a>
+                @endforeach
             @endforeach
         </div>
     </div>
@@ -1047,9 +1367,9 @@
     </div>
 
     <script>
-        // Menu items data
+        // Menu items data (ana kategoriler + alt kategoriler)
         const menuItems = {
-            @foreach(collect($recommendedItems)->merge($categories->pluck('menuItems')->flatten()) as $item)
+            @foreach(collect($recommendedItems)->merge($categories->pluck('menuItems')->flatten())->merge($categories->pluck('children')->flatten()->pluck('menuItems')->flatten()) as $item)
                 {{ $item->id }}: {
                     name: '{{ addslashes($item->name) }}',
                     description: '{{ addslashes($item->description) }}',
@@ -1059,7 +1379,9 @@
                     gallery_urls: @json($item->gallery_urls),
                     preparation_time: '{{ $item->preparation_time }}',
                     allergens: @json($item->allergens),
-                    ingredients: @json($item->ingredients)
+                    ingredients: @json($item->ingredients),
+                    category_name: '{{ $item->category->name ?? '' }}',
+                    parent_category_name: '{{ $item->category->parent->name ?? '' }}'
                 },
             @endforeach
         };
@@ -1257,6 +1579,187 @@
             } else {
                 floatingBtn.classList.remove('active');
             }
+        }
+
+        // Search functionality
+        let searchTimeout;
+        const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsGrid = document.getElementById('searchResultsGrid');
+        const searchResultsCount = document.getElementById('searchResultsCount');
+        const noResults = document.getElementById('noResults');
+        const mainContent = document.getElementById('mainContent');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            
+            if (query.length === 0) {
+                clearSearch();
+                return;
+            }
+
+            // Show clear button
+            searchClear.style.display = 'flex';
+
+            // Debounce search
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        });
+
+        searchClear.addEventListener('click', function() {
+            clearSearch();
+        });
+
+        function clearSearch() {
+            searchInput.value = '';
+            searchClear.style.display = 'none';
+            searchResults.classList.remove('active');
+            mainContent.style.display = 'block';
+        }
+
+        function performSearch(query) {
+            const results = [];
+            const queryLower = query.toLowerCase();
+
+            // Search through all menu items (ana kategoriler + alt kategoriler)
+            Object.keys(menuItems).forEach(itemId => {
+                const item = menuItems[itemId];
+                const nameMatch = item.name.toLowerCase().includes(queryLower);
+                const descMatch = item.description.toLowerCase().includes(queryLower);
+                const categoryMatch = item.category_name.toLowerCase().includes(queryLower);
+                const parentCategoryMatch = item.parent_category_name && item.parent_category_name.toLowerCase().includes(queryLower);
+                const ingredientsMatch = item.ingredients && item.ingredients.some(ing => 
+                    ing.toLowerCase().includes(queryLower)
+                );
+
+                if (nameMatch || descMatch || categoryMatch || parentCategoryMatch || ingredientsMatch) {
+                    results.push({
+                        id: itemId,
+                        ...item,
+                        relevance: calculateRelevance(item, queryLower)
+                    });
+                }
+            });
+
+            // Sort by relevance
+            results.sort((a, b) => b.relevance - a.relevance);
+
+            displaySearchResults(results, query);
+        }
+
+        function calculateRelevance(item, query) {
+            let score = 0;
+            const nameLower = item.name.toLowerCase();
+            const descLower = item.description.toLowerCase();
+            const categoryLower = item.category_name.toLowerCase();
+            const parentCategoryLower = item.parent_category_name ? item.parent_category_name.toLowerCase() : '';
+
+            // Exact name match gets highest score
+            if (nameLower === query) score += 100;
+            else if (nameLower.startsWith(query)) score += 50;
+            else if (nameLower.includes(query)) score += 25;
+
+            // Description matches
+            if (descLower.includes(query)) score += 10;
+
+            // Category matches (alt kategori eşleşmeleri daha yüksek skor)
+            if (categoryLower === query) score += 30;
+            else if (categoryLower.includes(query)) score += 15;
+
+            // Parent category matches
+            if (parentCategoryLower === query) score += 20;
+            else if (parentCategoryLower.includes(query)) score += 10;
+
+            // Ingredients matches
+            if (item.ingredients) {
+                item.ingredients.forEach(ing => {
+                    if (ing.toLowerCase().includes(query)) score += 5;
+                });
+            }
+
+            return score;
+        }
+
+        function displaySearchResults(results, query) {
+            // Show search results, hide main content
+            searchResults.classList.add('active');
+            mainContent.style.display = 'none';
+
+            // Update results count
+            searchResultsCount.textContent = `${results.length} sonuç bulundu`;
+
+            if (results.length === 0) {
+                searchResultsGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            // Hide no results, show grid
+            noResults.style.display = 'none';
+            searchResultsGrid.style.display = 'grid';
+
+            // Generate results HTML
+            let resultsHTML = '';
+            results.forEach(item => {
+                const highlightedName = highlightText(item.name, query);
+                const highlightedDesc = highlightText(item.description, query);
+
+                resultsHTML += `
+                    <div class="item-card ${item.is_recommended ? 'recommended' : ''}" onclick="openItemModal(${item.id})">
+                        ${item.is_recommended ? '<div class="recommended-badge">ÖNERİLEN</div>' : ''}
+                        
+                        ${item.main_image_url ? `
+                            <div class="item-image">
+                                <img src="${item.main_image_url}" alt="${item.name}" loading="lazy">
+                                ${item.gallery_urls && item.gallery_urls.length > 1 ? `
+                                    <div class="gallery-indicator">
+                                        <i class="fas fa-images"></i>
+                                        ${item.gallery_urls.length}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-name">${highlightedName}</h3>
+                                ${item.description ? `<p class="item-description">${highlightedDesc}</p>` : ''}
+                            </div>
+                            ${item.price ? `<div class="item-price">${item.price}</div>` : ''}
+                        </div>
+                        
+                        ${item.preparation_time || item.allergens || item.ingredients ? `
+                            <div class="item-meta">
+                                ${item.preparation_time ? `
+                                    <span class="meta-tag time">
+                                        <i class="fas fa-clock"></i> ${item.preparation_time}
+                                    </span>
+                                ` : ''}
+                                ${item.allergens ? item.allergens.map(allergen => `
+                                    <span class="meta-tag allergen">
+                                        <i class="fas fa-exclamation-triangle"></i> ${allergen}
+                                    </span>
+                                `).join('') : ''}
+                                ${item.ingredients && item.ingredients.length <= 3 ? item.ingredients.map(ingredient => 
+                                    `<span class="meta-tag">${highlightText(ingredient, query)}</span>`
+                                ).join('') : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            searchResultsGrid.innerHTML = resultsHTML;
+        }
+
+        function highlightText(text, query) {
+            if (!text || !query) return text;
+            
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
         }
 
         // Update floating button on side menu toggle

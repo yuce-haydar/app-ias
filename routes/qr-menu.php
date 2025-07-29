@@ -52,6 +52,9 @@ Route::middleware(['qr-menu-auth'])->group(function () {
     Route::post('/qr-menu/{slug}/yonetici/kategoriler', [QrMenuManagerController::class, 'storeCategory'])
         ->name('qr-menu.categories.store');
     
+    Route::get('/qr-menu/{slug}/yonetici/kategoriler/{category}', [QrMenuManagerController::class, 'getCategory'])
+        ->name('qr-menu.categories.get');
+    
     Route::put('/qr-menu/{slug}/yonetici/kategoriler/{category}', [QrMenuManagerController::class, 'updateCategory'])
         ->name('qr-menu.categories.update');
     
@@ -93,6 +96,9 @@ Route::middleware(['qr-menu-auth'])->group(function () {
         
         Route::post('/qr-menu/{slug}/yonetici/kullanicilar', [QrMenuManagerController::class, 'storeUser'])
             ->name('qr-menu.users.store');
+        
+        Route::get('/qr-menu/{slug}/yonetici/kullanicilar/{user}', [QrMenuManagerController::class, 'getUser'])
+            ->name('qr-menu.users.get');
         
         Route::put('/qr-menu/{slug}/yonetici/kullanicilar/{user}', [QrMenuManagerController::class, 'updateUser'])
             ->name('qr-menu.users.update');

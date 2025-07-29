@@ -64,7 +64,8 @@ class QrMenuManagerController extends Controller
             'description' => 'nullable|string',
             'url_slug' => 'nullable|string|max:255|unique:qr_menus,url_slug,' . $qrMenu->id,
             'status' => 'nullable|in:active,inactive,maintenance',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'header_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'primary_color' => 'nullable|string|max:7',
             'secondary_color' => 'nullable|string|max:7',
             'background_color' => 'nullable|string|max:7',
@@ -83,13 +84,38 @@ class QrMenuManagerController extends Controller
             ];
         }
 
-        // Logo yükleme
+        // Logo işlemleri
         if ($request->hasFile('logo')) {
             // Eski logoyu sil
             if ($qrMenu->logo) {
                 Storage::disk('public')->delete($qrMenu->logo);
             }
             $data['logo'] = $request->file('logo')->store('qr-menu-logos', 'public');
+        }
+
+        // Header background işlemleri
+        if ($request->hasFile('header_background')) {
+            // Eski header background'u sil
+            if ($qrMenu->header_background) {
+                Storage::disk('public')->delete($qrMenu->header_background);
+            }
+            $data['header_background'] = $request->file('header_background')->store('qr-menu-headers', 'public');
+        }
+
+        // Logo silme işlemi
+        if ($request->has('delete_logo')) {
+            if ($qrMenu->logo) {
+                Storage::disk('public')->delete($qrMenu->logo);
+                $data['logo'] = null;
+            }
+        }
+
+        // Header background silme işlemi
+        if ($request->has('delete_header_background')) {
+            if ($qrMenu->header_background) {
+                Storage::disk('public')->delete($qrMenu->header_background);
+                $data['header_background'] = null;
+            }
         }
 
         $qrMenu->update($data);
@@ -148,6 +174,17 @@ class QrMenuManagerController extends Controller
 
         return redirect()->route('qr-menu.categories', $slug)
             ->with('success', 'Kategori başarıyla güncellendi.');
+    }
+
+    /**
+     * Kategori bilgilerini getir (AJAX için)
+     */
+    public function getCategory($slug, MenuCategory $category)
+    {
+        $qrMenu = $this->getQrMenu($slug);
+        $this->checkCategoryOwnership($category, $qrMenu);
+
+        return response()->json($category);
     }
 
     /**
@@ -441,7 +478,7 @@ class QrMenuManagerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:qr_menu_users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:owner,manager,staff',
         ]);
@@ -469,7 +506,7 @@ class QrMenuManagerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:qr_menu_users,email,' . $user->id,
-            'password' => 'nullable|string|min:6',
+            'password' => 'nullable|string|min:6|confirmed',
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:owner,manager,staff',
         ]);
@@ -484,6 +521,17 @@ class QrMenuManagerController extends Controller
 
         return redirect()->route('qr-menu.users', $slug)
             ->with('success', 'Kullanıcı başarıyla güncellendi.');
+    }
+
+    /**
+     * Kullanıcı bilgilerini getir (AJAX için)
+     */
+    public function getUser($slug, QrMenuUser $user)
+    {
+        $qrMenu = $this->getQrMenu($slug);
+        $this->checkUserOwnership($user, $qrMenu);
+
+        return response()->json($user);
     }
 
     /**

@@ -11,6 +11,7 @@ class MenuCategory extends Model
 
     protected $fillable = [
         'qr_menu_id',
+        'parent_id',
         'name',
         'description',
         'icon',
@@ -33,6 +34,22 @@ class MenuCategory extends Model
         return $this->hasMany(MenuItem::class)->orderBy('order');
     }
 
+    // Alt kategori ilişkileri
+    public function parent()
+    {
+        return $this->belongsTo(MenuCategory::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(MenuCategory::class, 'parent_id')->orderBy('order');
+    }
+
+    public function allChildren()
+    {
+        return $this->children()->with('allChildren');
+    }
+
     // Aktif scope
     public function scopeActive($query)
     {
@@ -43,5 +60,17 @@ class MenuCategory extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('order');
+    }
+
+    // Ana kategoriler (parent_id null olanlar)
+    public function scopeMainCategories($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    // Alt kategoriler (parent_id dolu olanlar)
+    public function scopeSubCategories($query)
+    {
+        return $query->whereNotNull('parent_id');
     }
 }

@@ -386,6 +386,17 @@
             border-color: var(--primary-color);
         }
 
+        .is-invalid {
+            border-color: var(--danger-color) !important;
+        }
+
+        .invalid-feedback {
+            display: block;
+            color: var(--danger-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
         .form-select {
             width: 100%;
             padding: 0.75rem;
@@ -555,26 +566,41 @@
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Ad Soyad</label>
-                    <input type="text" name="name" class="form-input" required>
+                    <input type="text" name="name" class="form-input @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
+                    @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label class="form-label">E-posta</label>
-                    <input type="email" name="email" class="form-input" required>
+                    <input type="email" name="email" class="form-input @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label class="form-label">Telefon</label>
-                    <input type="text" name="phone" class="form-input">
+                    <input type="text" name="phone" class="form-input @error('phone') is-invalid @enderror" value="{{ old('phone') }}">
+                    @error('phone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label class="form-label">Rol</label>
-                    <select name="role" class="form-select" required>
-                        <option value="manager">Yönetici</option>
-                        <option value="staff">Personel</option>
+                    <select name="role" class="form-select @error('role') is-invalid @enderror" required>
+                        <option value="manager" {{ old('role') == 'manager' ? 'selected' : '' }}>Yönetici</option>
+                        <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Personel</option>
                     </select>
+                    @error('role')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label class="form-label">Şifre</label>
-                    <input type="password" name="password" class="form-input" required>
+                    <input type="password" name="password" class="form-input @error('password') is-invalid @enderror" required>
+                    @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label class="form-label">Şifre Tekrar</label>

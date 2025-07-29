@@ -323,6 +323,27 @@
             font-weight: 600;
         }
 
+        .form-help {
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--dark-gray);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .current-image {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: var(--light-gray);
+            border-radius: 8px;
+        }
+
+        .current-image img {
+            border: 2px solid var(--border-color);
+        }
+
         @media (max-width: 768px) {
             .navbar-content {
                 flex-direction: column;
@@ -450,6 +471,64 @@
                 </div>
             </div>
 
+            <!-- Logo ve Header Ayarları -->
+            <div class="settings-card">
+                <div class="settings-card-header">
+                    <i class="fas fa-image settings-card-icon"></i>
+                    <h3 class="settings-card-title">Logo ve Header Ayarları</h3>
+                </div>
+                <div class="settings-card-body">
+                    <form method="POST" action="{{ route('qr-menu.settings.update', $qrMenu->url_slug) }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        
+                        <!-- Logo Upload -->
+                        <div class="form-group">
+                            <label class="form-label">Menü Logosu</label>
+                            <input type="file" name="logo" class="form-input" accept="image/*">
+                            @if($qrMenu->logo)
+                                <div class="current-image">
+                                    <img src="{{ $qrMenu->logo_url }}" alt="Mevcut Logo" style="max-height: 100px; border-radius: 8px; margin-top: 10px;">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('logo')" style="margin-left: 10px;">
+                                        <i class="fas fa-trash"></i> Logoyu Sil
+                                    </button>
+                                </div>
+                            @else
+                                <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                                    <strong>Mevcut:</strong> Varsayılan logo (hh.png)
+                                    <img src="{{ asset('assets/images/hh.png') }}" alt="Varsayılan Logo" style="height: 50px; margin-left: 10px;">
+                                </div>
+                            @endif
+                            <small class="form-help">Logo tesis isminin yanında görünecek. Önerilen boyut: 200x80px</small>
+                        </div>
+
+                        <!-- Header Background -->
+                        <div class="form-group">
+                            <label class="form-label">Header Arka Plan Resmi</label>
+                            <input type="file" name="header_background" class="form-input" accept="image/*">
+                            @if($qrMenu->header_background)
+                                <div class="current-image">
+                                    <img src="{{ $qrMenu->header_background_url }}" alt="Mevcut Header Background" style="max-height: 100px; width: 300px; object-fit: cover; border-radius: 8px; margin-top: 10px;">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('header_background')" style="margin-left: 10px;">
+                                        <i class="fas fa-trash"></i> Arka Planı Sil
+                                    </button>
+                                </div>
+                            @else
+                                <div style="margin-top: 10px; padding: 10px; background: linear-gradient(135deg, #cf9f38, #2c3e50); color: white; border-radius: 8px; text-align: center;">
+                                    <strong>Mevcut:</strong> Varsayılan gradient arka plan
+                                </div>
+                            @endif
+                            <small class="form-help">Header'ın arka planında görünecek. Eğer yüklenmezse renkli gradient kullanılır. Önerilen boyut: 1200x300px</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i>
+                            Logo ve Header Ayarlarını Kaydet
+                        </button>
+                    </form>
+                </div>
+            </div>
+
             <!-- QR Kod Görüntüleme -->
             <div class="settings-card">
                 <div class="settings-card-header">
@@ -538,6 +617,22 @@
             const secondary = document.querySelector('input[name="secondary_color"]').value;
             const preview = document.querySelector('.color-preview');
             preview.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+        }
+
+        // Delete image function
+        function deleteImage(field) {
+            if (confirm('Bu resmi silmek istediğinizden emin misiniz?')) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '{{ route("qr-menu.settings.update", $qrMenu->url_slug) }}';
+                form.innerHTML = `
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="delete_${field}" value="1">
+                `;
+                document.body.appendChild(form);
+                form.submit();
+            }
         }
     </script>
 </body>
