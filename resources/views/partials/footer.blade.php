@@ -69,13 +69,13 @@
                                 <span class="effect-1"><i class="fab fa-facebook"></i></span>
                             </span>
                         </a>
-                        <a href="https://instagram.com/hatayimar" target="_blank">
+                        <a href="https://instagram.com/hbbimar" target="_blank">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-instagram"></i></span>
                                 <span class="effect-1"><i class="fab fa-instagram"></i></span>
                             </span>
                         </a>
-                        <a href="https://x.com/hatayimarr" target="_blank">
+                        <a href="https://x.com/hbbimarr" target="_blank">
                             <span class="link-effect">
                                 <span class="effect-1"><i class="fab fa-twitter"></i></span>
                                 <span class="effect-1"><i class="fab fa-twitter"></i></span>
