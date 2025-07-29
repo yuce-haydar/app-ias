@@ -47,9 +47,8 @@ class QrMenu extends Model
     // QR kod URL'si
     public function getQrUrlAttribute()
     {
-        // Subdomain URL kullan
-        $domain = app()->environment('local') ? 'localhost' : 'hatayimar.com.tr';
-        return "https://{$this->url_slug}.{$domain}";
+        // Her zaman hatayimar.com.tr kullan
+        return "https://{$this->url_slug}.hatayimar.com.tr";
     }
 
     // Eski format URL (geriye uyumluluk için)

@@ -386,7 +386,7 @@ class FacilityController extends Controller
         ]);
 
         return redirect()->route('admin.facilities.show', $facility)
-            ->with('success', 'QR menü başarıyla oluşturuldu. Menü URL\'si: ' . url("/qr-menu/{$qrMenu->url_slug}"));
+            ->with('success', 'QR menü başarıyla oluşturuldu. Menü URL\'si: ' . $qrMenu->qr_url);
     }
 
     /**

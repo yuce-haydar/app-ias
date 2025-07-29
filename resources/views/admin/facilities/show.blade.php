@@ -191,10 +191,10 @@
                                                             <tr>
                                                                 <td><strong>URL:</strong></td>
                                                                 <td>
-                                                                    <a href="{{ url('/qr-menu/' . $facility->qrMenu->url_slug) }}" 
+                                                                    <a href="{{ $facility->qrMenu->qr_url }}" 
                                                                        target="_blank" 
                                                                        class="text-decoration-none">
-                                                                        {{ url('/qr-menu/' . $facility->qrMenu->url_slug) }}
+                                                                        {{ $facility->qrMenu->qr_url }}
                                                                         <i class="fas fa-external-link-alt ms-1"></i>
                                                                     </a>
                                                                 </td>
