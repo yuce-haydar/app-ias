@@ -52,12 +52,21 @@ class NewsController extends Controller
                 'is_featured' => 'boolean',
                 'allow_comments' => 'boolean',
                 'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
+                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+                'iframes' => 'nullable|array',
+                'iframes.*' => 'nullable|string'
             ]);
 
             // Tags text'ini array'e çevir
             if ($validated['tags']) {
                 $validated['tags'] = array_filter(array_map('trim', explode(",", $validated['tags'])));
+            }
+
+            // iframe'leri temizle ve filtrele
+            if (!empty($validated['iframes'])) {
+                $validated['iframes'] = array_filter($validated['iframes'], function($iframe) {
+                    return !empty(trim($iframe));
+                });
             }
 
             // Handle featured image upload with compression
@@ -147,12 +156,21 @@ class NewsController extends Controller
                 'is_featured' => 'boolean',
                 'allow_comments' => 'boolean',
                 'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360'
+                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+                'iframes' => 'nullable|array',
+                'iframes.*' => 'nullable|string'
             ]);
 
             // Tags text'ini array'e çevir
             if ($validated['tags']) {
                 $validated['tags'] = array_filter(array_map('trim', explode(",", $validated['tags'])));
+            }
+
+            // iframe'leri temizle ve filtrele
+            if (!empty($validated['iframes'])) {
+                $validated['iframes'] = array_filter($validated['iframes'], function($iframe) {
+                    return !empty(trim($iframe));
+                });
             }
 
             // Handle featured image removal

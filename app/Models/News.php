@@ -17,6 +17,7 @@ class News extends Model
         'content',
         'featured_image',
         'gallery',
+        'iframes',
         'category',
         'tags',
         'author',
@@ -30,6 +31,7 @@ class News extends Model
 
     protected $casts = [
         'gallery' => 'array',
+        'iframes' => 'array',
         'tags' => 'array',
         'published_at' => 'datetime',
         'is_featured' => 'boolean',

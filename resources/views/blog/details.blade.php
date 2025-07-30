@@ -76,16 +76,23 @@ Haber Detay Bölümü
                             </div>
                         </div>
                         @endif
+                        
+                        <!-- YouTube Video'lar -->
+                        @if($article->iframes && is_array($article->iframes) && count($article->iframes) > 0)
+                        <div class="blog-videos mt-4">
+                            <h4 class="mb-3">📹 İlgili Videolar</h4>
+                            @foreach($article->iframes as $iframe)
+                                @if(trim($iframe))
+                                <div class="video-container mb-4" style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border-radius: 8px; overflow: hidden;">
+                                    {!! $iframe !!}
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        @endif
                     </div>
                     
-                    <!-- Sosyal Paylaşım -->
-                    <div class="blog-share">
-                        <h6>Paylaş:</h6>
-                        <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link linkedin"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
-                    </div>
+                   
                 </article>
             </div>
             

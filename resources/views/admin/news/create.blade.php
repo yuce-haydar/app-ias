@@ -51,6 +51,28 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <!-- YouTube iframe'ler -->
+                                <div class="mb-3">
+                                    <label class="form-label">YouTube Videoları</label>
+                                    <div id="iframe-container">
+                                        <div class="iframe-item mb-2">
+                                            <div class="input-group">
+                                                <textarea class="form-control" name="iframes[]" rows="3" placeholder="YouTube iframe kodunu buraya yapıştırın...">{{ old('iframes.0') }}</textarea>
+                                                <button type="button" class="btn btn-danger" onclick="removeIframe(this)" style="display: none;">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="addIframe()">
+                                        <i class="fas fa-plus"></i> Video Ekle
+                                    </button>
+                                    <small class="text-muted d-block">YouTube'dan aldığınız iframe kodlarını buraya yapıştırabilirsiniz.</small>
+                                    @error('iframes.*')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="col-md-4">
@@ -286,6 +308,42 @@ function removeGalleryPreview(index) {
         document.getElementById('gallery').value = '';
         document.getElementById('galleryPreview').innerHTML = '';
     }
+}
+
+// iframe ekleme
+function addIframe() {
+    const container = document.getElementById('iframe-container');
+    const newItem = document.createElement('div');
+    newItem.className = 'iframe-item mb-2';
+    newItem.innerHTML = `
+        <div class="input-group">
+            <textarea class="form-control" name="iframes[]" rows="3" placeholder="YouTube iframe kodunu buraya yapıştırın..."></textarea>
+            <button type="button" class="btn btn-danger" onclick="removeIframe(this)">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+    container.appendChild(newItem);
+    updateIframeButtons();
+}
+
+// iframe kaldırma
+function removeIframe(button) {
+    button.closest('.iframe-item').remove();
+    updateIframeButtons();
+}
+
+// iframe butonlarını güncelle
+function updateIframeButtons() {
+    const items = document.querySelectorAll('.iframe-item');
+    items.forEach((item, index) => {
+        const deleteBtn = item.querySelector('.btn-danger');
+        if (items.length > 1) {
+            deleteBtn.style.display = 'block';
+        } else {
+            deleteBtn.style.display = 'none';
+        }
+    });
 }
 </script>
 @endpush 
