@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #cf9f38;
     position: relative;
     overflow: hidden;
 }
@@ -196,7 +196,7 @@
 }
 </style>
 
-<div class="error-container">
+<div class="error-container mt-5">
     <div class="floating-shapes">
         <div class="shape"></div>
         <div class="shape"></div>

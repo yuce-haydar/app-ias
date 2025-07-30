@@ -23,7 +23,8 @@ use App\Http\Controllers\Admin\{
     InformationServiceController,
     AboutPageController,
     GeneralJobApplicationController,
-    ContactSettingsController
+    ContactSettingsController,
+    ChairmanController
 };
 
 // Authentication routes (middleware group dışında)
@@ -135,4 +136,8 @@ Route::middleware(['admin'])->group(function () {
     // Contact Settings Management
     Route::get('contact-settings', [ContactSettingsController::class, 'edit'])->name('admin.contact-settings.edit');
     Route::put('contact-settings', [ContactSettingsController::class, 'update'])->name('admin.contact-settings.update');
+    
+    // Chairman Management (Başkanlar)
+    Route::resource('chairmen', ChairmanController::class)->names('admin.chairmen');
+    Route::patch('chairmen/{chairman}/toggle-status', [ChairmanController::class, 'toggleStatus'])->name('admin.chairmen.toggle-status');
 });

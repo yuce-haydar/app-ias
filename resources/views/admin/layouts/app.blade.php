@@ -345,6 +345,12 @@
                 </li>
                 
                 <li>
+                    <a href="{{ route('admin.chairmen.index') }}" class="{{ request()->routeIs('admin.chairmen.*') ? 'active' : '' }}">
+                        <i class="fas fa-user-tie"></i> Başkanlar
+                    </a>
+                </li>
+                
+                <li>
                     <a href="{{ route('admin.contact-settings.edit') }}" class="{{ request()->routeIs('admin.contact-settings.*') ? 'active' : '' }}">
                         <i class="fas fa-phone"></i> İletişim Ayarları
                     </a>

@@ -30,6 +30,12 @@ Route::get('/hakkimizda', function () {
     return view('pages.about');
 })->name('about');
 
+// Başkanımız
+Route::get('/baskanımiz', function () {
+    $chairmen = App\Models\Chairman::active()->ordered()->get();
+    return view('pages.chairman', compact('chairmen'));
+})->name('chairman');
+
 // Bilgi Toplumu Hizmetleri
 Route::get('/bilgi-toplumu-hizmetleri', function () {
     $informationServices = App\Models\InformationService::active()->ordered()->get();
