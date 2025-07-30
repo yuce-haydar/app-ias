@@ -159,7 +159,7 @@ Breadcrumb Area
                         <div class="biography-content">
                             <div class="title-area text-center mb-50">
                                 <h3 class="sec-title">Özgeçmiş</h3>
-                                <p class="sec-text">{{ $chairman->name }}'in profesyonel yaşam hikayesi</p>
+                                <p class="sec-text">{{ $chairman->name }}'ün profesyonel yaşam hikayesi</p>
                             </div>
                             
                             <div class="biography-text">
