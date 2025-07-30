@@ -999,12 +999,12 @@
             <!-- Logo ve Başlık -->
             <div class="header-top">
                 <img src="{{ $qrMenu->logo_url }}" alt="{{ $qrMenu->name }} Logo" class="header-logo">
-                <h1>{{ $qrMenu->name }}</h1>
+        <h1>{{ $qrMenu->name }}</h1>
             </div>
             
-            @if($qrMenu->description)
-                <p>{!! $qrMenu->description !!}</p>
-            @endif
+        @if($qrMenu->description)
+                                <p>{!! $qrMenu->description !!}</p>
+        @endif
             
             <!-- Search Box -->
             <div class="search-container">
@@ -1041,7 +1041,7 @@
                             <i class="{{ $subCategory->icon }}"></i>
                         @endif
                         {{ $subCategory->name }}
-                    </a>
+                </a>
                 @endforeach
             @endforeach
         </div>
@@ -1205,60 +1205,60 @@
                     @if($subCategory->menuItems->count() > 0)
                         <div class="items-grid">
                             @foreach($subCategory->menuItems as $item)
-                                <div class="item-card {{ $item->is_recommended ? 'recommended' : '' }}" onclick="openItemModal({{ $item->id }})">
-                                    @if($item->is_recommended)
-                                        <div class="recommended-badge">ÖNERİLEN</div>
-                                    @endif
-                                    
-                                    @if($item->main_image_url)
-                                        <div class="item-image">
-                                            <img src="{{ $item->main_image_url }}" alt="{{ $item->name }}" loading="lazy">
-                                            @if($item->gallery_urls && count($item->gallery_urls) > 1)
-                                                <div class="gallery-indicator">
-                                                    <i class="fas fa-images"></i>
-                                                    {{ count($item->gallery_urls) }}
-                                                </div>
-                                            @endif
+                        <div class="item-card {{ $item->is_recommended ? 'recommended' : '' }}" onclick="openItemModal({{ $item->id }})">
+                            @if($item->is_recommended)
+                                <div class="recommended-badge">ÖNERİLEN</div>
+                            @endif
+                            
+                            @if($item->main_image_url)
+                                <div class="item-image">
+                                    <img src="{{ $item->main_image_url }}" alt="{{ $item->name }}" loading="lazy">
+                                    @if($item->gallery_urls && count($item->gallery_urls) > 1)
+                                        <div class="gallery-indicator">
+                                            <i class="fas fa-images"></i>
+                                            {{ count($item->gallery_urls) }}
                                         </div>
-                                    @endif
-                                    
-                                    <div class="item-header">
-                                        <div>
-                                            <h3 class="item-name">{{ $item->name }}</h3>
-                                            @if($item->description)
-                                                <p class="item-description">{!! $item->description !!}</p>
-                                            @endif
-                                        </div>
-                                        @if($item->price)
-                                            <div class="item-price">{{ $item->formatted_price }}</div>
-                                        @endif
-                                    </div>
-                                    
-                                    @if($item->preparation_time || $item->allergens || $item->ingredients)
-                                    <div class="item-meta">
-                                        @if($item->preparation_time)
-                                            <span class="meta-tag time">
-                                                <i class="fas fa-clock"></i> {{ $item->preparation_time }}
-                                            </span>
-                                        @endif
-                                        @if($item->allergens)
-                                            @foreach($item->allergens as $allergen)
-                                                <span class="meta-tag allergen">
-                                                    <i class="fas fa-exclamation-triangle"></i> {{ $allergen }}
-                                                </span>
-                                            @endforeach
-                                        @endif
-                                        @if($item->ingredients && count($item->ingredients) <= 3)
-                                            @foreach($item->ingredients as $ingredient)
-                                                <span class="meta-tag">{{ $ingredient }}</span>
-                                            @endforeach
-                                        @endif
-                                    </div>
                                     @endif
                                 </div>
-                            @endforeach
+                            @endif
+                            
+                            <div class="item-header">
+                                <div>
+                                    <h3 class="item-name">{{ $item->name }}</h3>
+                                    @if($item->description)
+                                        <p class="item-description">{!! $item->description !!}</p>
+                                    @endif
+                                </div>
+                                @if($item->price)
+                                    <div class="item-price">{{ $item->formatted_price }}</div>
+                                @endif
+                            </div>
+                            
+                            @if($item->preparation_time || $item->allergens || $item->ingredients)
+                            <div class="item-meta">
+                                @if($item->preparation_time)
+                                    <span class="meta-tag time">
+                                        <i class="fas fa-clock"></i> {{ $item->preparation_time }}
+                                    </span>
+                                @endif
+                                @if($item->allergens)
+                                    @foreach($item->allergens as $allergen)
+                                        <span class="meta-tag allergen">
+                                            <i class="fas fa-exclamation-triangle"></i> {{ $allergen }}
+                                        </span>
+                                    @endforeach
+                                @endif
+                                @if($item->ingredients && count($item->ingredients) <= 3)
+                                    @foreach($item->ingredients as $ingredient)
+                                        <span class="meta-tag">{{ $ingredient }}</span>
+                                    @endforeach
+                                @endif
+                            </div>
+                            @endif
                         </div>
-                    @else
+                    @endforeach
+                </div>
+            @else
                         <div class="empty-message">
                             <i class="fas fa-utensils"></i>
                             <p>Bu alt kategoride henüz ürün bulunmuyor.</p>

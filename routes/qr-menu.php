@@ -78,8 +78,12 @@ Route::middleware(['qr-menu-auth'])->group(function () {
         ->name('qr-menu.items.destroy');
     
     // Ürün durumu toggle
-    Route::patch('/qr-menu/{slug}/yonetici/urunler/{item}/durum', [QrMenuManagerController::class, 'toggleItemStatus'])
+    Route::patch('/qr-menu/{slug}/yonetici/urunler/{item}/toggle-availability', [QrMenuManagerController::class, 'toggleItemStatus'])
         ->name('qr-menu.items.toggle-status');
+    
+    // Ürün önerilme durumu toggle
+    Route::patch('/qr-menu/{slug}/yonetici/urunler/{item}/toggle-recommended', [QrMenuManagerController::class, 'toggleItemRecommended'])
+        ->name('qr-menu.items.toggle-recommended');
     
     // QR kod yeniden oluştur
     Route::post('/qr-menu/{slug}/yonetici/qr-kod-olustur', [QrMenuManagerController::class, 'regenerateQrCode'])

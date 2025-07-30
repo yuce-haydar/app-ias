@@ -13,6 +13,11 @@ class QrMenuController extends Controller
      */
     public function show($slug)
     {
+        // Eski URL'den geliyorsa yeni subdomain'e yönlendir
+        if (request()->getHost() === 'hatayimar.com.tr' && request()->path() === "qr-menu/$slug") {
+            return redirect("https://$slug.hatayimar.com.tr/", 301);
+        }
+
         $qrMenu = QrMenu::with(['menuCategories.menuItems' => function ($query) {
             $query->active()->available()->ordered();
         }])
@@ -26,7 +31,7 @@ class QrMenuController extends Controller
             ->ordered()
             ->with([
                 'menuItems' => function ($query) {
-                    $query->active()->available()->ordered();
+                $query->active()->available()->ordered();
                 },
                 'children' => function ($query) {
                     $query->active()->ordered()->with(['menuItems' => function ($subQuery) {

@@ -372,7 +372,7 @@
                     <i class="fas fa-arrow-left"></i>
                     Dashboard
                 </a>
-                <a href="{{ route('qr-menu.show', $qrMenu->url_slug) }}" class="nav-btn" target="_blank">
+                <a href="{{ $qrMenu->qr_url }}" class="nav-btn" target="_blank">
                     <i class="fas fa-external-link-alt"></i>
                     Menüyü Görüntüle
                 </a>

@@ -82,8 +82,12 @@ Route::domain('{slug}.hatayimar.com.tr')->group(function () {
             ->name('qr-menu.subdomain.items.destroy');
         
         // Ürün durumu toggle
-        Route::patch('/yonetici/urunler/{item}/durum', [QrMenuManagerController::class, 'toggleItemStatus'])
+        Route::patch('/yonetici/urunler/{item}/toggle-availability', [QrMenuManagerController::class, 'toggleItemStatus'])
             ->name('qr-menu.subdomain.items.toggle-status');
+        
+        // Ürün önerilme durumu toggle
+        Route::patch('/yonetici/urunler/{item}/toggle-recommended', [QrMenuManagerController::class, 'toggleItemRecommended'])
+            ->name('qr-menu.subdomain.items.toggle-recommended');
         
         // QR kod yeniden oluştur
         Route::post('/yonetici/qr-kod-olustur', [QrMenuManagerController::class, 'regenerateQrCode'])
@@ -156,8 +160,11 @@ if (app()->environment('local')) {
                 ->name('qr-menu.local.items.update');
             Route::delete('/yonetici/urunler/{item}', [QrMenuManagerController::class, 'destroyItem'])
                 ->name('qr-menu.local.items.destroy');
-            Route::patch('/yonetici/urunler/{item}/durum', [QrMenuManagerController::class, 'toggleItemStatus'])
+            Route::patch('/yonetici/urunler/{item}/toggle-availability', [QrMenuManagerController::class, 'toggleItemStatus'])
                 ->name('qr-menu.local.items.toggle-status');
+            
+            Route::patch('/yonetici/urunler/{item}/toggle-recommended', [QrMenuManagerController::class, 'toggleItemRecommended'])
+                ->name('qr-menu.local.items.toggle-recommended');
             Route::post('/yonetici/qr-kod-olustur', [QrMenuManagerController::class, 'regenerateQrCode'])
                 ->name('qr-menu.local.regenerate-qr');
             Route::get('/yonetici/qr-kod-indir', [QrMenuManagerController::class, 'downloadQrCode'])

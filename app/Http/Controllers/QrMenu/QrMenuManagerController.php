@@ -432,6 +432,23 @@ class QrMenuManagerController extends Controller
     }
 
     /**
+     * Ürün önerilme durumu toggle
+     */
+    public function toggleItemRecommended($slug, MenuItem $item)
+    {
+        $qrMenu = $this->getQrMenu($slug);
+        $this->checkItemOwnership($item, $qrMenu);
+
+        $item->update(['is_recommended' => !$item->is_recommended]);
+
+        return response()->json([
+            'success' => true,
+            'is_recommended' => $item->is_recommended,
+            'message' => $item->is_recommended ? 'Ürün önerilenlere eklendi.' : 'Ürün önerilen listesinden çıkarıldı.'
+        ]);
+    }
+
+    /**
      * QR kod yeniden oluştur
      */
     public function regenerateQrCode($slug)

@@ -130,3 +130,8 @@ Route::get('/test-logo', function () {
 // Genel iş başvuru rotası
 Route::post('/general-job-application', [App\Http\Controllers\GeneralJobApplicationController::class, 'store'])
     ->name('general-job-application.store');
+
+// 404 Fallback Route - En son olmalı
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});
