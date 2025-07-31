@@ -491,7 +491,7 @@ Tamamlanan Tesisler Bölümü
             <div class="col-lg-3 col-md-6">
                 <div class="service-item style-6">
                     <div class="service-thumb mb-20">
-                        <img src="{{ $facility->image_url ?? \App\Helpers\ImageHelper::getImageUrl($facility->image) }}" alt="{{ $facility->name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
+                        <img src="{{ $facility->image_url ?? \App\Helpers\ImageHelper::getImageUrl($facility->image) }}" alt="{{ $facility->name }}" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px;" loading="lazy">
                     </div>
                     <div class="service-icon">
                         <i class="{{ $facility->icon_class }}"></i>
