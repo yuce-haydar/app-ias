@@ -1116,17 +1116,15 @@
                     <div class="item-card recommended" onclick="openItemModal({{ $item->id }})">
                         <div class="recommended-badge">ÖNERİLEN</div>
                         
-                        @if($item->main_image_url)
-                            <div class="item-image">
-                                <img src="{{ $item->main_image_url }}" alt="{{ $item->name }}" loading="lazy">
-                                @if($item->gallery_urls && count($item->gallery_urls) > 1)
-                                    <div class="gallery-indicator">
-                                        <i class="fas fa-images"></i>
-                                        {{ count($item->gallery_urls) }}
-                                    </div>
-                                @endif
-                            </div>
-                        @endif
+                        <div class="item-image">
+                            <img src="{{ $item->main_image_url ?? asset('assets/images/demo.png') }}" alt="{{ $item->name }}" loading="lazy">
+                            @if($item->gallery_urls && count($item->gallery_urls) > 1)
+                                <div class="gallery-indicator">
+                                    <i class="fas fa-images"></i>
+                                    {{ count($item->gallery_urls) }}
+                                </div>
+                            @endif
+                        </div>
                         
                         <div class="item-header">
                             <div>
@@ -1183,17 +1181,15 @@
                                 <div class="recommended-badge">ÖNERİLEN</div>
                             @endif
                             
-                            @if($item->main_image_url)
-                                <div class="item-image">
-                                    <img src="{{ $item->main_image_url }}" alt="{{ $item->name }}" loading="lazy">
-                                    @if($item->gallery_urls && count($item->gallery_urls) > 1)
-                                        <div class="gallery-indicator">
-                                            <i class="fas fa-images"></i>
-                                            {{ count($item->gallery_urls) }}
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
+                            <div class="item-image">
+                                <img src="{{ $item->main_image_url ?? asset('assets/images/demo.png') }}" alt="{{ $item->name }}" loading="lazy">
+                                @if($item->gallery_urls && count($item->gallery_urls) > 1)
+                                    <div class="gallery-indicator">
+                                        <i class="fas fa-images"></i>
+                                        {{ count($item->gallery_urls) }}
+                                    </div>
+                                @endif
+                            </div>
                             
                             <div class="item-header">
                                 <div>
@@ -1252,17 +1248,15 @@
                                 <div class="recommended-badge">ÖNERİLEN</div>
                             @endif
                             
-                            @if($item->main_image_url)
-                                <div class="item-image">
-                                    <img src="{{ $item->main_image_url }}" alt="{{ $item->name }}" loading="lazy">
-                                    @if($item->gallery_urls && count($item->gallery_urls) > 1)
-                                        <div class="gallery-indicator">
-                                            <i class="fas fa-images"></i>
-                                            {{ count($item->gallery_urls) }}
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
+                            <div class="item-image">
+                                <img src="{{ $item->main_image_url ?? asset('assets/images/demo.png') }}" alt="{{ $item->name }}" loading="lazy">
+                                @if($item->gallery_urls && count($item->gallery_urls) > 1)
+                                    <div class="gallery-indicator">
+                                        <i class="fas fa-images"></i>
+                                        {{ count($item->gallery_urls) }}
+                                    </div>
+                                @endif
+                            </div>
                             
                             <div class="item-header">
                                 <div>
@@ -1768,17 +1762,15 @@
                     <div class="item-card ${item.is_recommended ? 'recommended' : ''}" onclick="openItemModal(${item.id})">
                         ${item.is_recommended ? '<div class="recommended-badge">ÖNERİLEN</div>' : ''}
                         
-                        ${item.main_image_url ? `
-                            <div class="item-image">
-                                <img src="${item.main_image_url}" alt="${item.name}" loading="lazy">
-                                ${item.gallery_urls && item.gallery_urls.length > 1 ? `
-                                    <div class="gallery-indicator">
-                                        <i class="fas fa-images"></i>
-                                        ${item.gallery_urls.length}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        ` : ''}
+                        <div class="item-image">
+                            <img src="${item.main_image_url || '{{ asset('assets/images/demo.png') }}'}" alt="${item.name}" loading="lazy">
+                            ${item.gallery_urls && item.gallery_urls.length > 1 ? `
+                                <div class="gallery-indicator">
+                                    <i class="fas fa-images"></i>
+                                    ${item.gallery_urls.length}
+                                </div>
+                            ` : ''}
+                        </div>
                         
                         <div class="item-header">
                             <div>
