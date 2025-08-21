@@ -236,6 +236,9 @@ class QrMenuManagerController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'nullable|numeric|min:0',
+            'sizes' => 'nullable|array',
+            'sizes.*.name' => 'required_with:sizes|string|max:255',
+            'sizes.*.price' => 'required_with:sizes|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'allergens' => 'nullable|array',
@@ -246,6 +249,9 @@ class QrMenuManagerController extends Controller
             'gallery.*.image' => 'Galeri görselleri geçerli resim formatında olmalıdır.',
             'gallery.*.max' => 'Galeri görselleri 10MB\'dan küçük olmalıdır.',
             'gallery.max' => 'En fazla 5 görsel yükleyebilirsiniz.',
+            'sizes.*.name.required_with' => 'Boy adı gereklidir.',
+            'sizes.*.price.required_with' => 'Boy fiyatı gereklidir.',
+            'sizes.*.price.numeric' => 'Boy fiyatı sayısal olmalıdır.',
         ]);
 
         // Galeri kontrolü (en az 1, en fazla 5)
@@ -265,6 +271,20 @@ class QrMenuManagerController extends Controller
         $this->checkCategoryOwnership($category, $qrMenu);
 
         $data = $request->all();
+
+        // Boy verilerini işle
+        if ($request->has('sizes') && is_array($request->sizes)) {
+            $sizes = [];
+            foreach ($request->sizes as $size) {
+                if (!empty($size['name']) && !empty($size['price'])) {
+                    $sizes[] = [
+                        'name' => trim($size['name']),
+                        'price' => floatval($size['price'])
+                    ];
+                }
+            }
+            $data['sizes'] = !empty($sizes) ? $sizes : null;
+        }
 
         // Ana resim yükleme
         if ($request->hasFile('image')) {
@@ -310,6 +330,7 @@ class QrMenuManagerController extends Controller
             'name' => $item->name,
             'description' => $item->description,
             'price' => $item->price,
+            'sizes' => $item->sizes,
             'image_url' => $item->image_url,
             'gallery_urls' => $item->gallery_urls,
             'allergens' => $item->allergens,
@@ -334,6 +355,9 @@ class QrMenuManagerController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'nullable|numeric|min:0',
+            'sizes' => 'nullable|array',
+            'sizes.*.name' => 'required_with:sizes|string|max:255',
+            'sizes.*.price' => 'required_with:sizes|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'allergens' => 'nullable|array',
@@ -343,9 +367,26 @@ class QrMenuManagerController extends Controller
         ], [
             'gallery.*.image' => 'Galeri görselleri geçerli resim formatında olmalıdır.',
             'gallery.*.max' => 'Galeri görselleri 10MB\'dan küçük olmalıdır.',
+            'sizes.*.name.required_with' => 'Boy adı gereklidir.',
+            'sizes.*.price.required_with' => 'Boy fiyatı gereklidir.',
+            'sizes.*.price.numeric' => 'Boy fiyatı sayısal olmalıdır.',
         ]);
 
         $data = $request->all();
+
+        // Boy verilerini işle
+        if ($request->has('sizes') && is_array($request->sizes)) {
+            $sizes = [];
+            foreach ($request->sizes as $size) {
+                if (!empty($size['name']) && !empty($size['price'])) {
+                    $sizes[] = [
+                        'name' => trim($size['name']),
+                        'price' => floatval($size['price'])
+                    ];
+                }
+            }
+            $data['sizes'] = !empty($sizes) ? $sizes : null;
+        }
 
         // Ana resim yükleme
         if ($request->hasFile('image')) {

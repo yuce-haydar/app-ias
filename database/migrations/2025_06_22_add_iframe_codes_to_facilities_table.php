@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('facilities', function (Blueprint $table) {
-            $table->json('iframe_codes')->nullable()->after('description');
-            $table->dropColumn('iframe_code');
-        });
+        // iframe_codes kolonu zaten mevcut, sadece iframe_code kolonunu kaldır
+        if (Schema::hasColumn('facilities', 'iframe_code')) {
+            Schema::table('facilities', function (Blueprint $table) {
+                $table->dropColumn('iframe_code');
+            });
+        }
     }
 
     /**
@@ -22,9 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('facilities', function (Blueprint $table) {
-            $table->text('iframe_code')->nullable()->after('description');
-            $table->dropColumn('iframe_codes');
-        });
+        // iframe_code kolonunu geri ekle
+        if (!Schema::hasColumn('facilities', 'iframe_code')) {
+            Schema::table('facilities', function (Blueprint $table) {
+                $table->text('iframe_code')->nullable()->after('description');
+            });
+        }
     }
 }; 

@@ -547,6 +547,33 @@
             }
         }
 
+        /* Simple grid system for sizes */
+        .row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .col-1 {
+            flex: 0 0 auto;
+            width: 40px;
+        }
+
+        .col-5 {
+            flex: 0 0 40%;
+        }
+
+        .col-6 {
+            flex: 0 0 50%;
+        }
+
+        .size-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem;
+            background: var(--light-gray);
+        }
+
         @media (max-width: 768px) {
             .navbar-content {
                 flex-direction: column;
@@ -666,7 +693,9 @@
                                     <p class="item-description">{!! $item->description !!}</p>
                                 @endif
                             </div>
-                            @if($item->price)
+                            @if($item->has_sizes)
+                                <div class="item-price">{{ $item->formatted_price_range }}</div>
+                            @elseif($item->price)
                                 <div class="item-price">{{ $item->formatted_price }}</div>
                             @endif
                         </div>
@@ -779,8 +808,43 @@
                     <textarea name="description" class="form-input form-textarea" rows="3"></textarea>
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Fiyat Türü</label>
+                    <div class="form-checkbox">
+                        <input type="radio" name="price_type" value="single" id="singlePrice" checked onchange="togglePriceType()">
+                        <label for="singlePrice">Tek Fiyat</label>
+                    </div>
+                    <div class="form-checkbox">
+                        <input type="radio" name="price_type" value="multiple" id="multiplePrice" onchange="togglePriceType()">
+                        <label for="multiplePrice">Boylar ile Farklı Fiyatlar</label>
+                    </div>
+                </div>
+                <div class="form-group" id="singlePriceGroup">
                     <label class="form-label">Fiyat (₺)</label>
                     <input type="number" name="price" class="form-input" step="0.01" min="0">
+                </div>
+                <div class="form-group" id="sizesGroup" style="display: none;">
+                    <label class="form-label">Boy Seçenekleri</label>
+                    <div id="sizesContainer">
+                        <div class="size-item mb-2">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" name="sizes[0][name]" class="form-input" placeholder="Boy adı (örn: Küçük, S)">
+                                </div>
+                                <div class="col-5">
+                                    <input type="number" name="sizes[0][price]" class="form-input" step="0.01" min="0" placeholder="Fiyat">
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeSize(this)" style="display: none;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success btn-sm" onclick="addSize()">
+                        <i class="fas fa-plus"></i> Boy Ekle
+                    </button>
+                    <small class="form-text">Farklı boylar için farklı fiyatlar belirleyebilirsiniz.</small>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Ana Görsel</label>
@@ -851,8 +915,29 @@
                     <textarea name="description" class="form-input form-textarea" rows="3" id="editDescription"></textarea>
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Fiyat Türü</label>
+                    <div class="form-checkbox">
+                        <input type="radio" name="price_type" value="single" id="editSinglePrice" checked onchange="toggleEditPriceType()">
+                        <label for="editSinglePrice">Tek Fiyat</label>
+                    </div>
+                    <div class="form-checkbox">
+                        <input type="radio" name="price_type" value="multiple" id="editMultiplePrice" onchange="toggleEditPriceType()">
+                        <label for="editMultiplePrice">Boylar ile Farklı Fiyatlar</label>
+                    </div>
+                </div>
+                <div class="form-group" id="editSinglePriceGroup">
                     <label class="form-label">Fiyat (₺)</label>
                     <input type="number" name="price" class="form-input" step="0.01" min="0" id="editPrice">
+                </div>
+                <div class="form-group" id="editSizesGroup" style="display: none;">
+                    <label class="form-label">Boy Seçenekleri</label>
+                    <div id="editSizesContainer">
+                        <!-- Sizes will be populated here -->
+                    </div>
+                    <button type="button" class="btn btn-success btn-sm" onclick="addEditSize()">
+                        <i class="fas fa-plus"></i> Boy Ekle
+                    </button>
+                    <small class="form-text">Farklı boylar için farklı fiyatlar belirleyebilirsiniz.</small>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Ana Görsel</label>
@@ -938,6 +1023,41 @@
                     document.getElementById('editIngredients').value = data.ingredients ? data.ingredients.join(', ') : '';
                     document.getElementById('editAvailable').checked = data.is_available;
                     document.getElementById('editRecommended').checked = data.is_recommended;
+                    
+                    // Size verilerini yükle
+                    const editSizesContainer = document.getElementById('editSizesContainer');
+                    editSizesContainer.innerHTML = '';
+                    editSizeIndex = 0;
+                    
+                    if (data.sizes && data.sizes.length > 0) {
+                        document.getElementById('editMultiplePrice').checked = true;
+                        toggleEditPriceType();
+                        
+                        data.sizes.forEach((size, index) => {
+                            const sizeElement = document.createElement('div');
+                            sizeElement.className = 'size-item mb-2';
+                            sizeElement.innerHTML = `
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" name="sizes[${index}][name]" class="form-input" value="${size.name}" placeholder="Boy adı">
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="number" name="sizes[${index}][price]" class="form-input" step="0.01" min="0" value="${size.price}" placeholder="Fiyat">
+                                    </div>
+                                    <div class="col-1">
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="removeSize(this)" ${data.sizes.length === 1 ? 'style="display: none;"' : ''}>
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                            editSizesContainer.appendChild(sizeElement);
+                            editSizeIndex++;
+                        });
+                    } else {
+                        document.getElementById('editSinglePrice').checked = true;
+                        toggleEditPriceType();
+                    }
                     
                     // Mevcut ana görsel
                     const currentImage = document.getElementById('currentImage');
@@ -1025,6 +1145,116 @@
                 });
             }
         });
+
+        // Size management functions
+        let sizeIndex = 1;
+        let editSizeIndex = 0;
+
+        function togglePriceType() {
+            const singlePrice = document.getElementById('singlePrice').checked;
+            const singlePriceGroup = document.getElementById('singlePriceGroup');
+            const sizesGroup = document.getElementById('sizesGroup');
+            
+            if (singlePrice) {
+                singlePriceGroup.style.display = 'block';
+                sizesGroup.style.display = 'none';
+            } else {
+                singlePriceGroup.style.display = 'none';
+                sizesGroup.style.display = 'block';
+            }
+        }
+
+        function toggleEditPriceType() {
+            const singlePrice = document.getElementById('editSinglePrice').checked;
+            const singlePriceGroup = document.getElementById('editSinglePriceGroup');
+            const sizesGroup = document.getElementById('editSizesGroup');
+            
+            if (singlePrice) {
+                singlePriceGroup.style.display = 'block';
+                sizesGroup.style.display = 'none';
+            } else {
+                singlePriceGroup.style.display = 'none';
+                sizesGroup.style.display = 'block';
+            }
+        }
+
+        function addSize() {
+            const container = document.getElementById('sizesContainer');
+            const newSize = document.createElement('div');
+            newSize.className = 'size-item mb-2';
+            newSize.innerHTML = `
+                <div class="row">
+                    <div class="col-6">
+                        <input type="text" name="sizes[${sizeIndex}][name]" class="form-input" placeholder="Boy adı (örn: Orta, M)">
+                    </div>
+                    <div class="col-5">
+                        <input type="number" name="sizes[${sizeIndex}][price]" class="form-input" step="0.01" min="0" placeholder="Fiyat">
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeSize(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(newSize);
+            sizeIndex++;
+            updateSizeButtons();
+        }
+
+        function addEditSize() {
+            const container = document.getElementById('editSizesContainer');
+            const newSize = document.createElement('div');
+            newSize.className = 'size-item mb-2';
+            newSize.innerHTML = `
+                <div class="row">
+                    <div class="col-6">
+                        <input type="text" name="sizes[${editSizeIndex}][name]" class="form-input" placeholder="Boy adı (örn: Orta, M)">
+                    </div>
+                    <div class="col-5">
+                        <input type="number" name="sizes[${editSizeIndex}][price]" class="form-input" step="0.01" min="0" placeholder="Fiyat">
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeSize(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(newSize);
+            editSizeIndex++;
+            updateEditSizeButtons();
+        }
+
+        function removeSize(button) {
+            button.closest('.size-item').remove();
+            updateSizeButtons();
+            updateEditSizeButtons();
+        }
+
+        function updateSizeButtons() {
+            const sizeItems = document.querySelectorAll('#sizesContainer .size-item');
+            sizeItems.forEach((item, index) => {
+                const deleteBtn = item.querySelector('.btn-danger');
+                if (sizeItems.length > 1) {
+                    deleteBtn.style.display = 'block';
+                } else {
+                    deleteBtn.style.display = 'none';
+                }
+            });
+        }
+
+        function updateEditSizeButtons() {
+            const sizeItems = document.querySelectorAll('#editSizesContainer .size-item');
+            sizeItems.forEach((item, index) => {
+                const deleteBtn = item.querySelector('.btn-danger');
+                if (sizeItems.length > 1) {
+                    deleteBtn.style.display = 'block';
+                } else {
+                    deleteBtn.style.display = 'none';
+                }
+            });
+        }
 
         // Image Optimizer başlatma
         document.addEventListener('DOMContentLoaded', function() {

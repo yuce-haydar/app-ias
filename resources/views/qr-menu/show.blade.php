@@ -605,6 +605,46 @@
             color: var(--primary-color);
         }
 
+        /* Size Options in Modal */
+        .size-options {
+            margin: 1rem 0;
+        }
+
+        .size-options h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .size-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .size-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(207, 159, 56, 0.1);
+        }
+
+        .size-name {
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        .size-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
         /* Footer */
         .footer {
             background: var(--secondary-color);
@@ -1095,7 +1135,9 @@
                                     <p class="item-description">{!! $item->description !!}</p>
                                 @endif
                             </div>
-                            @if($item->price)
+                            @if($item->has_sizes)
+                                <div class="item-price">{{ $item->formatted_price_range }}</div>
+                            @elseif($item->price)
                                 <div class="item-price">{{ $item->formatted_price }}</div>
                             @endif
                         </div>
@@ -1374,6 +1416,9 @@
                     name: '{{ addslashes($item->name) }}',
                     description: '{{ addslashes($item->description) }}',
                     price: '{{ $item->formatted_price }}',
+                    has_sizes: {{ $item->has_sizes ? 'true' : 'false' }},
+                    sizes: @json($item->formatted_sizes),
+                    price_range: '{{ $item->formatted_price_range }}',
                     image_url: '{{ $item->image_url }}',
                     main_image_url: '{{ $item->main_image_url }}',
                     gallery_urls: @json($item->gallery_urls),
@@ -1394,7 +1439,19 @@
             // Set modal content
             document.getElementById('modalTitle').textContent = item.name;
             document.getElementById('modalDescription').textContent = item.description;
-            document.getElementById('modalPrice').innerHTML = item.price ? `<strong>${item.price}</strong>` : '';
+            
+            // Set price information
+            let priceHTML = '';
+            if (item.has_sizes && item.sizes && item.sizes.length > 0) {
+                priceHTML = '<div class="size-options"><h4>Boy Seçenekleri:</h4>';
+                item.sizes.forEach(size => {
+                    priceHTML += `<div class="size-option"><span class="size-name">${size.name}</span><span class="size-price">${size.formatted_price}</span></div>`;
+                });
+                priceHTML += '</div>';
+            } else if (item.price) {
+                priceHTML = `<strong>${item.price}</strong>`;
+            }
+            document.getElementById('modalPrice').innerHTML = priceHTML;
             
             // Set main image
             const modalImage = document.getElementById('modalImage');
@@ -1728,7 +1785,7 @@
                                 <h3 class="item-name">${highlightedName}</h3>
                                 ${item.description ? `<p class="item-description">${highlightedDesc}</p>` : ''}
                             </div>
-                            ${item.price ? `<div class="item-price">${item.price}</div>` : ''}
+                            ${item.has_sizes ? `<div class="item-price">${item.price_range}</div>` : (item.price ? `<div class="item-price">${item.price}</div>` : '')}
                         </div>
                         
                         ${item.preparation_time || item.allergens || item.ingredients ? `

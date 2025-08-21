@@ -13,8 +13,9 @@ class QrMenuController extends Controller
      */
     public function show($slug)
     {
-        // Eski URL'den geliyorsa yeni subdomain'e yönlendir
-        if (request()->getHost() === 'hatayimar.com.tr' && request()->path() === "qr-menu/$slug") {
+        // Sadece ana domain'den geliyorsa subdomain'e yönlendir (subdomain'den gelenleri yönlendirme)
+        $host = request()->getHost();
+        if ($host === 'hatayimar.com.tr' && request()->path() === "qr-menu/$slug" && !request()->header('X-Forwarded-Host')) {
             return redirect("https://$slug.hatayimar.com.tr/", 301);
         }
 

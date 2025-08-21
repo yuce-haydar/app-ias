@@ -14,6 +14,7 @@ class MenuItem extends Model
         'name',
         'description',
         'price',
+        'sizes',
         'image',
         'gallery',
         'allergens',
@@ -27,6 +28,7 @@ class MenuItem extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
+        'sizes' => 'array',
         'gallery' => 'array',
         'allergens' => 'array',
         'ingredients' => 'array',
@@ -77,6 +79,65 @@ class MenuItem extends Model
             return number_format($this->price, 2) . ' ₺';
         }
         return null;
+    }
+
+    // Boy seçenekleri var mı?
+    public function getHasSizesAttribute()
+    {
+        return $this->sizes && is_array($this->sizes) && count($this->sizes) > 0;
+    }
+
+    // Boy seçenekleri ile formatlanmış fiyatlar
+    public function getFormattedSizesAttribute()
+    {
+        if (!$this->has_sizes) {
+            return [];
+        }
+
+        return array_map(function($size) {
+            return [
+                'name' => $size['name'],
+                'price' => $size['price'],
+                'formatted_price' => number_format($size['price'], 2) . ' ₺'
+            ];
+        }, $this->sizes);
+    }
+
+    // En düşük fiyat
+    public function getMinPriceAttribute()
+    {
+        if ($this->has_sizes) {
+            $prices = array_column($this->sizes, 'price');
+            return min($prices);
+        }
+        return $this->price;
+    }
+
+    // En yüksek fiyat
+    public function getMaxPriceAttribute()
+    {
+        if ($this->has_sizes) {
+            $prices = array_column($this->sizes, 'price');
+            return max($prices);
+        }
+        return $this->price;
+    }
+
+    // Fiyat aralığı formatlanmış
+    public function getFormattedPriceRangeAttribute()
+    {
+        if ($this->has_sizes) {
+            $minPrice = number_format($this->min_price, 2) . ' ₺';
+            $maxPrice = number_format($this->max_price, 2) . ' ₺';
+            
+            if ($this->min_price == $this->max_price) {
+                return $minPrice;
+            }
+            
+            return $minPrice . ' - ' . $maxPrice;
+        }
+        
+        return $this->formatted_price;
     }
 
     // Aktif scope
