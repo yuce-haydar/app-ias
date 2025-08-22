@@ -286,6 +286,20 @@ class QrMenuManagerController extends Controller
             $data['sizes'] = !empty($sizes) ? $sizes : null;
         }
 
+        // Alerjenleri array'e çevir
+        if ($request->has('allergens') && !empty($request->allergens)) {
+            $allergens = array_map('trim', explode(',', $request->allergens));
+            $allergens = array_filter($allergens); // Boş değerleri temizle
+            $data['allergens'] = !empty($allergens) ? $allergens : null;
+        }
+
+        // İçerikleri array'e çevir
+        if ($request->has('ingredients') && !empty($request->ingredients)) {
+            $ingredients = array_map('trim', explode(',', $request->ingredients));
+            $ingredients = array_filter($ingredients); // Boş değerleri temizle
+            $data['ingredients'] = !empty($ingredients) ? $ingredients : null;
+        }
+
         // Ana resim yükleme
         if ($request->hasFile('image')) {
             $data['image'] = ImageHelper::compressAndStore(
@@ -386,6 +400,20 @@ class QrMenuManagerController extends Controller
                 }
             }
             $data['sizes'] = !empty($sizes) ? $sizes : null;
+        }
+
+        // Alerjenleri array'e çevir
+        if ($request->has('allergens') && !empty($request->allergens)) {
+            $allergens = array_map('trim', explode(',', $request->allergens));
+            $allergens = array_filter($allergens); // Boş değerleri temizle
+            $data['allergens'] = !empty($allergens) ? $allergens : null;
+        }
+
+        // İçerikleri array'e çevir
+        if ($request->has('ingredients') && !empty($request->ingredients)) {
+            $ingredients = array_map('trim', explode(',', $request->ingredients));
+            $ingredients = array_filter($ingredients); // Boş değerleri temizle
+            $data['ingredients'] = !empty($ingredients) ? $ingredients : null;
         }
 
         // Ana resim yükleme

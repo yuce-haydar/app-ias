@@ -69,22 +69,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.5rem;
             margin-bottom: 1rem;
             flex-wrap: wrap;
         }
 
         .header-logo {
-            height: 60px;
+            height: 80px;
             width: auto;
             border-radius: 8px;
             filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
         }
 
         .header h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0;
+            line-height: 1.2;
+            max-width: 300px;
         }
 
         .header p {
@@ -94,34 +96,32 @@
 
         /* Search Box Styles */
         .search-container {
-            margin-top: 1rem;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 1.5rem auto;
+            max-width: 500px;
+            padding: 0 1rem;
         }
 
         .search-box {
             position: relative;
             display: flex;
             align-items: center;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.2);
+            background: white;
+            border: 2px solid var(--border-color);
             border-radius: 25px;
             padding: 0.75rem 1rem;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .search-box:hover,
         .search-box:focus-within {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.4);
+            border-color: var(--primary-color);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         .search-icon {
-            color: rgba(255,255,255,0.8);
+            color: var(--primary-color);
             margin-right: 0.75rem;
             font-size: 1.1rem;
         }
@@ -131,18 +131,18 @@
             background: transparent;
             border: none;
             outline: none;
-            color: white;
+            color: var(--text-color);
             font-size: 1rem;
             font-weight: 400;
             font-family: 'Poppins', sans-serif;
         }
 
         #searchInput::placeholder {
-            color: rgba(255,255,255,0.7);
+            color: #999;
         }
 
         .search-clear {
-            background: rgba(255,255,255,0.2);
+            background: var(--light-gray);
             border: none;
             border-radius: 50%;
             width: 24px;
@@ -150,14 +150,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--text-color);
             cursor: pointer;
             margin-left: 0.5rem;
             transition: all 0.3s ease;
         }
 
         .search-clear:hover {
-            background: rgba(255,255,255,0.3);
+            background: var(--primary-color);
+            color: white;
             transform: scale(1.1);
         }
 
@@ -458,9 +459,9 @@
 
         /* Item Card */
         .item-card {
-            background: white;
+            background: var(--light-gray);
             border-radius: 15px;
-            padding: 1rem;
+            padding: 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             border: 1px solid var(--border-color);
@@ -482,8 +483,9 @@
             position: relative;
             border-radius: 12px;
             overflow: hidden;
+            margin: 1rem;
             margin-bottom: 1rem;
-            height: 180px;
+            height: 220px; /* Daha büyük yükseklik */
             background: var(--light-gray);
         }
 
@@ -517,7 +519,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            margin: 0 1rem 1rem 1rem;
             gap: 1rem;
         }
 
@@ -534,9 +536,31 @@
             font-weight: 700;
             color: var(--primary-color);
             background: var(--light-gray);
-            padding: 0.25rem 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        .item-price-btn {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            background: var(--primary-color);
+            padding: 0.5rem 1rem;
             border-radius: 20px;
             white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .item-price-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .item-description {
@@ -551,7 +575,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin: 1rem;
         }
 
         .meta-tag {
@@ -605,45 +629,39 @@
             color: var(--primary-color);
         }
 
-        /* Size Options in Modal */
-        .size-options {
-            margin: 1rem 0;
-        }
-
-        .size-options h4 {
-            color: var(--secondary-color);
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .size-option {
+        /* Size options artık modal'da kullanılmıyor, ana sayfada fiyatlar gösteriliyor */
+        
+        /* Size item stilleri ana sayfada */
+        .size-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem;
+            padding: 0.2rem 0.2rem;
             background: var(--light-gray);
             border-radius: 8px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0;
             border: 2px solid transparent;
             transition: all 0.3s ease;
         }
 
-        .size-option:hover {
+        .size-item:hover {
             border-color: var(--primary-color);
             background: rgba(207, 159, 56, 0.1);
         }
 
-        .size-name {
+        .size-item .size-name {
             font-weight: 500;
             color: var(--secondary-color);
+            font-size: 0.9rem;
         }
 
-        .size-price {
+        .size-item .size-price {
             font-weight: 700;
             color: var(--primary-color);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
+
+        /* Fiyat stilleri artık ana sayfada kullanılıyor */
 
         /* Footer */
         .footer {
@@ -670,6 +688,13 @@
             padding: 1rem;
         }
 
+        /* Mobilde modal padding'i azalt */
+        @media (max-width: 768px) {
+            .modal {
+                padding: 0.5rem;
+            }
+        }
+
         .modal-content {
             background: white;
             padding: 0;
@@ -680,6 +705,17 @@
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             animation: modalOpen 0.3s ease;
+        }
+
+        /* Mobilde modal biraz küçült */
+        @media (max-width: 768px) {
+            .modal-content {
+               
+                border-radius: 10px;
+                margin: 2.5%;
+                width: 95vw;
+               
+            }
         }
 
         @keyframes modalOpen {
@@ -727,6 +763,19 @@
             height: 300px; /* Sabit yükseklik */
             overflow: hidden;
             border-radius: 15px 15px 0 0;
+            padding: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        /* Mobilde resim tam ekran */
+        @media (max-width: 768px) {
+            .modal-image-container {
+                width: 100vw;
+                height: 50vh; /* Ekran yüksekliğinin yarısı */
+                margin-left: calc(-50vw + 50%);
+                border-radius: 0;
+                padding: 1rem;
+            }
         }
 
         .modal-image-container img {
@@ -738,6 +787,13 @@
 
         .modal-info {
             padding: 1.5rem;
+        }
+
+        /* Mobilde modal info padding'i azalt */
+        @media (max-width: 768px) {
+            .modal-info {
+                padding: 1rem;
+            }
         }
 
         .modal-info h3 {
@@ -752,13 +808,52 @@
             line-height: 1.6;
         }
 
+        /* Modal meta tags */
+        .modal-info .meta-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin: 0.25rem;
+        }
+
+        .modal-info .meta-tag.time {
+            background: var(--secondary-color);
+        }
+
+        .modal-info .meta-tag.allergen {
+            background: var(--danger-color);
+        }
+
         .modal-gallery {
             display: flex;
             gap: 0.5rem;
-            padding: 0 1.5rem 1.5rem;
+            padding: 1rem;
             overflow-x: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            background: var(--light-gray);
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        /* Mobilde modal gallery padding'i azalt */
+        @media (max-width: 768px) {
+            .modal-gallery {
+                padding: 0.75rem;
+                gap: 0.5rem;
+                margin: 0.75rem 0;
+            }
+            
+            .modal-gallery img {
+                width: 60px;
+                height: 60px;
+            }
         }
 
         .modal-gallery::-webkit-scrollbar {
@@ -766,25 +861,31 @@
         }
 
         .modal-gallery img {
-            width: 60px;
-            height: 60px; /* Sabit yükseklik */
+            width: 70px;
+            height: 70px; /* Biraz daha büyük */
             object-fit: cover;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 3px solid transparent;
             flex-shrink: 0;
+            background: var(--light-gray);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .modal-gallery img:hover {
             border-color: var(--primary-color);
             transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .modal-gallery img.active {
             border-color: var(--primary-color);
             transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
         }
+
+        /* Galeri resim hover ve active stilleri yukarıda tanımlandı */
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
@@ -798,7 +899,7 @@
             }
 
             .header-top {
-                flex-direction: column;
+              
                 gap: 0.5rem;
                 margin-bottom: 0.5rem;
             }
@@ -859,11 +960,12 @@
             }
 
             .item-card {
-                padding: 0.8rem;
+                padding: 0;
             }
 
             .item-image {
-                height: 160px;
+                height: 260px; /* Mobilde de daha büyük */
+                padding: 10px;
             }
 
             .item-name {
@@ -889,26 +991,14 @@
             }
 
             .modal-image-container {
-                height: 250px; /* Mobilde daha düşük */
-            }
-
-            .modal-info {
-                padding: 1rem;
+                height: 50vh; /* Mobilde ekran yüksekliğinin yarısı */
             }
 
             .modal-info h3 {
                 font-size: 1.2rem;
             }
 
-            .modal-gallery {
-                padding: 0 1rem 1rem;
-                gap: 0.3rem;
-            }
-
-            .modal-gallery img {
-                width: 50px;
-                height: 50px;
-            }
+            /* Modal gallery img boyutu yukarıda tanımlandı */
 
             .close {
                 top: 5px;
@@ -954,17 +1044,14 @@
             }
 
             .item-image {
-                height: 140px;
+                height: 180px; /* Çok küçük ekranlarda da daha büyük */
             }
 
             .modal-image-container {
-                height: 200px; /* Çok küçük ekranlarda daha düşük */
+                height: 50vh; /* Çok küçük ekranlarda da ekran yüksekliğinin yarısı */
             }
 
-            .modal-gallery img {
-                width: 45px;
-                height: 45px;
-            }
+            /* Modal gallery img boyutu yukarıda tanımlandı */
 
             .category-title {
                 font-size: 1.2rem;
@@ -1039,23 +1126,12 @@
             <!-- Logo ve Başlık -->
             <div class="header-top">
                 <img src="{{ $qrMenu->logo_url }}" alt="{{ $qrMenu->name }} Logo" class="header-logo">
-        <h1>{{ $qrMenu->name }}</h1>
+                <h1>{{ $qrMenu->name }}</h1>
             </div>
             
-        @if($qrMenu->description)
-                                <p>{!! $qrMenu->description !!}</p>
-        @endif
-            
-            <!-- Search Box -->
-            <div class="search-container">
-                <div class="search-box">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="searchInput" placeholder="Ürün ara..." autocomplete="off">
-                    <button class="search-clear" id="searchClear" style="display: none;">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
+            @if($qrMenu->description)
+                <p>{!! $qrMenu->description !!}</p>
+            @endif
         </div>
     </div>
 
@@ -1087,6 +1163,17 @@
         </div>
     </div>
     @endif
+
+    <!-- Search Box -->
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Ürün ara..." autocomplete="off">
+            <button class="search-clear" id="searchClear" style="display: none;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
 
     <!-- Search Results -->
     <div class="search-results" id="searchResults">
@@ -1134,7 +1221,14 @@
                                 @endif
                             </div>
                             @if($item->has_sizes)
-                                <div class="item-price">{{ $item->formatted_price_range }}</div>
+                                <div class="item-price">
+                                    @foreach($item->sizes as $size)
+                                        <div class="size-item">
+                                            <span class="size-name">{{ $size['name'] }}</span>
+                                            <span class="size-price">{{ $size['price'] }}₺</span>
+                                        </div>
+                                    @endforeach
+                                </div>
                             @elseif($item->price)
                                 <div class="item-price">{{ $item->formatted_price }}</div>
                             @endif
@@ -1198,7 +1292,16 @@
                                         <p class="item-description">{!! $item->description !!}</p>
                                     @endif
                                 </div>
-                                @if($item->price)
+                                @if($item->has_sizes)
+                                    <div class="item-price">
+                                        @foreach($item->sizes as $size)
+                                            <div class="size-item">
+                                                <span class="size-name">{{ $size['name'] }}</span>
+                                                <span class="size-price">{{ $size['price'] }}₺</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @elseif($item->price)
                                     <div class="item-price">{{ $item->formatted_price }}</div>
                                 @endif
                             </div>
@@ -1265,7 +1368,16 @@
                                         <p class="item-description">{!! $item->description !!}</p>
                                     @endif
                                 </div>
-                                @if($item->price)
+                                @if($item->has_sizes)
+                                    <div class="item-price">
+                                        @foreach($item->sizes as $size)
+                                            <div class="size-item">
+                                                <span class="size-name">{{ $size['name'] }}</span>
+                                                <span class="size-price">{{ $size['price'] }}₺</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @elseif($item->price)
                                     <div class="item-price">{{ $item->formatted_price }}</div>
                                 @endif
                             </div>
@@ -1392,12 +1504,11 @@
                 <div class="modal-info">
                     <h3 id="modalTitle"></h3>
                     <p id="modalDescription"></p>
-                    <div id="modalPrice"></div>
+                    <div class="modal-gallery" id="modalGallery">
+                        <!-- Gallery thumbnails will be populated here -->
+                    </div>
                     <div id="modalMeta"></div>
                 </div>
-            </div>
-            <div class="modal-gallery" id="modalGallery">
-                <!-- Gallery thumbnails will be populated here -->
             </div>
         </div>
     </div>
@@ -1415,10 +1526,10 @@
                     price_range: '{{ $item->formatted_price_range }}',
                     image_url: '{{ $item->image_url }}',
                     main_image_url: '{{ $item->main_image_url }}',
-                    gallery_urls: @json($item->gallery_urls),
+                    gallery_urls: @json($item->gallery_urls ?? []),
                     preparation_time: '{{ $item->preparation_time }}',
-                    allergens: @json($item->allergens),
-                    ingredients: @json($item->ingredients),
+                    allergens: @json($item->allergens ?? []),
+                    ingredients: @json($item->ingredients ?? []),
                     category_name: '{{ $item->category->name ?? '' }}',
                     parent_category_name: '{{ $item->category->parent->name ?? '' }}'
                 },
@@ -1434,27 +1545,12 @@
             document.getElementById('modalTitle').textContent = item.name;
             document.getElementById('modalDescription').textContent = item.description;
             
-            // Set price information
-            let priceHTML = '';
-            if (item.has_sizes && item.sizes && item.sizes.length > 0) {
-                priceHTML = '<div class="size-options"><h4>Boy Seçenekleri:</h4>';
-                item.sizes.forEach(size => {
-                    priceHTML += `<div class="size-option"><span class="size-name">${size.name}</span><span class="size-price">${size.formatted_price}</span></div>`;
-                });
-                priceHTML += '</div>';
-            } else if (item.price) {
-                priceHTML = `<strong>${item.price}</strong>`;
-            }
-            document.getElementById('modalPrice').innerHTML = priceHTML;
+            // Fiyat bilgileri artık ana sayfada gösteriliyor, modal'da göstermiyoruz
             
             // Set main image
             const modalImage = document.getElementById('modalImage');
-            if (item.main_image_url) {
-                modalImage.src = item.main_image_url;
-                modalImage.style.display = 'block';
-            } else {
-                modalImage.style.display = 'none';
-            }
+            modalImage.src = item.main_image_url || '{{ asset('assets/images/demo.png') }}';
+            modalImage.style.display = 'block';
 
             // Set meta information
             let metaHTML = '';
@@ -1475,15 +1571,21 @@
 
             // Set gallery
             const modalGallery = document.getElementById('modalGallery');
-            if (item.gallery_urls && item.gallery_urls.length > 1) {
+            console.log('Gallery URLs:', item.gallery_urls); // Debug için
+            
+            if (item.gallery_urls && item.gallery_urls.length > 0) {
                 let galleryHTML = '';
                 item.gallery_urls.forEach((url, index) => {
-                    galleryHTML += `<img src="${url}" alt="Galeri ${index + 1}" ${index === 0 ? 'class="active"' : ''} onclick="changeModalImage('${url}', this)">`;
+                    // Galeri resmi yoksa demo resim kullan
+                    const galleryImageUrl = url || '{{ asset('assets/images/demo.png') }}';
+                    galleryHTML += `<img src="${galleryImageUrl}" alt="Galeri ${index + 1}" ${index === 0 ? 'class="active"' : ''} onclick="changeModalImage('${galleryImageUrl}', this)">`;
                 });
                 modalGallery.innerHTML = galleryHTML;
                 modalGallery.style.display = 'flex';
+                console.log('Gallery HTML:', galleryHTML); // Debug için
             } else {
                 modalGallery.style.display = 'none';
+                console.log('No gallery images'); // Debug için
             }
 
             // Show modal
@@ -1777,7 +1879,7 @@
                                 <h3 class="item-name">${highlightedName}</h3>
                                 ${item.description ? `<p class="item-description">${highlightedDesc}</p>` : ''}
                             </div>
-                            ${item.has_sizes ? `<div class="item-price">${item.price_range}</div>` : (item.price ? `<div class="item-price">${item.price}</div>` : '')}
+                            ${item.has_sizes ? `<div class="item-price">${item.sizes.map(size => `<div class="size-item"><span class="size-name">${size.name}</span><span class="size-price">${size.price}₺</span></div>`).join('')}</div>` : (item.price ? `<div class="item-price">${item.price}</div>` : '')}
                         </div>
                         
                         ${item.preparation_time || item.allergens || item.ingredients ? `
