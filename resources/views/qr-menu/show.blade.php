@@ -283,6 +283,9 @@
             padding: 0 0.5rem;
             width: 100%;
             box-sizing: border-box;
+            overflow: visible !important;
+            position: relative;
+            height: auto;
         }
 
         /* Categories Navigation */
@@ -1317,6 +1320,7 @@
                 max-width: 100vw;
                 width: 100vw;
                 margin: 0;
+                margin-top: 60px; /* Fixed categories nav için space */
                 position: relative;
                 overflow: visible !important;
             }
@@ -1358,14 +1362,15 @@
             }
 
             .categories-nav {
-                position: -webkit-sticky !important;
-                position: sticky !important;
+                position: fixed !important;
                 top: 80px !important;
+                left: 0 !important;
+                right: 0 !important;
                 padding: 0.5rem 0.25rem;
                 margin: 0;
-                width: 100vw;
-                max-width: 100vw;
-                z-index: 100 !important;
+                width: 100vw !important;
+                max-width: 100vw !important;
+                z-index: 1000 !important;
                 height: 60px;
                 min-height: 60px;
                 max-height: 60px;
@@ -1375,8 +1380,6 @@
                 backdrop-filter: blur(15px) !important;
                 border-bottom: 1px solid var(--border-color);
                 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                left: 0;
-                right: 0;
             }
 
             .categories-scroll {
