@@ -19,6 +19,12 @@
             --danger-color: #dc3545;
         }
 
+        /* MOBILE STICKY FORCE */
+        .mobile-sticky-force {
+            position: -webkit-sticky !important;
+            position: sticky !important;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -1291,10 +1297,19 @@
                 box-sizing: border-box;
             }
 
+            html {
+                overflow-x: hidden !important;
+                height: 100%;
+            }
+
             body {
                 padding: 0;
                 margin: 0;
                 overflow-x: hidden !important;
+                overflow-y: auto !important;
+                height: auto;
+                min-height: 100vh;
+                position: relative;
             }
 
             .container {
@@ -1302,18 +1317,24 @@
                 max-width: 100vw;
                 width: 100vw;
                 margin: 0;
+                position: relative;
+                overflow: visible !important;
             }
 
             .header {
                 padding: 1rem 0.25rem;
-                position: sticky;
-                top: 0;
+                position: -webkit-sticky !important;
+                position: sticky !important;
+                top: 0 !important;
                 overflow: hidden;
                 margin: 0;
-                z-index: 101;
+                z-index: 101 !important;
                 width: 100vw;
                 max-width: 100vw;
                 box-sizing: border-box;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
             }
 
             .header h1 {
@@ -1337,18 +1358,25 @@
             }
 
             .categories-nav {
-                position: sticky;
-                top: 80px;
+                position: -webkit-sticky !important;
+                position: sticky !important;
+                top: 80px !important;
                 padding: 0.5rem 0.25rem;
                 margin: 0;
                 width: 100vw;
                 max-width: 100vw;
-                z-index: 100;
+                z-index: 100 !important;
                 height: 60px;
                 min-height: 60px;
                 max-height: 60px;
-                overflow: hidden;
+                overflow: visible !important;
                 box-sizing: border-box;
+                background: rgba(255, 255, 255, 0.98) !important;
+                backdrop-filter: blur(15px) !important;
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                left: 0;
+                right: 0;
             }
 
             .categories-scroll {
@@ -1620,7 +1648,7 @@
 
     <!-- Categories Navigation -->
     @if($categories->count() > 1 || $categories->pluck('children')->flatten()->count() > 0)
-    <div class="categories-nav">
+    <div class="categories-nav mobile-sticky-force">
         <div class="categories-scroll">
             @foreach($categories as $category)
                 <a href="#category-{{ $category->id }}" class="category-btn">
