@@ -142,17 +142,35 @@ class QrMenuManagerController extends Controller
     {
         $qrMenu = $this->getQrMenu($slug);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string|max:255',
-            'order' => 'integer|min:0',
-        ]);
+        // Order değeri yoksa 0 yap
+        if (!$request->has('order') || $request->input('order') === null) {
+            $request->merge(['order' => 0]);
+        }
 
-        $qrMenu->menuCategories()->create($request->all());
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'icon' => 'nullable|string|max:255',
+                'order' => 'nullable|integer|min:0',
+            ], [
+                'name.required' => 'Kategori adı zorunludur.',
+                'name.max' => 'Kategori adı en fazla 255 karakter olabilir.',
+                'icon.max' => 'İkon adı en fazla 255 karakter olabilir.',
+                'order.integer' => 'Sıralama değeri sayısal olmalıdır.',
+                'order.min' => 'Sıralama değeri sıfırdan küçük olamaz.',
+            ]);
 
-        return redirect()->route('qr-menu.categories', $slug)
-            ->with('success', 'Kategori başarıyla eklendi.');
+            $qrMenu->menuCategories()->create($request->all());
+
+            return redirect()->route('qr-menu.categories', $slug)
+                ->with('success', 'Kategori başarıyla eklendi.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput()
+                ->with('error', 'Kategori eklenirken hata oluştu. Lütfen form verilerini kontrol edin.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Kategori kaydedilirken bir hata oluştu: ' . $e->getMessage()])->withInput();
+        }
     }
 
     /**
@@ -163,17 +181,35 @@ class QrMenuManagerController extends Controller
         $qrMenu = $this->getQrMenu($slug);
         $this->checkCategoryOwnership($category, $qrMenu);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string|max:255',
-            'order' => 'integer|min:0',
-        ]);
+        // Order değeri yoksa 0 yap
+        if (!$request->has('order') || $request->input('order') === null) {
+            $request->merge(['order' => 0]);
+        }
 
-        $category->update($request->all());
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'icon' => 'nullable|string|max:255',
+                'order' => 'nullable|integer|min:0',
+            ], [
+                'name.required' => 'Kategori adı zorunludur.',
+                'name.max' => 'Kategori adı en fazla 255 karakter olabilir.',
+                'icon.max' => 'İkon adı en fazla 255 karakter olabilir.',
+                'order.integer' => 'Sıralama değeri sayısal olmalıdır.',
+                'order.min' => 'Sıralama değeri sıfırdan küçük olamaz.',
+            ]);
 
-        return redirect()->route('qr-menu.categories', $slug)
-            ->with('success', 'Kategori başarıyla güncellendi.');
+            $category->update($request->all());
+
+            return redirect()->route('qr-menu.categories', $slug)
+                ->with('success', 'Kategori başarıyla güncellendi.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput()
+                ->with('error', 'Kategori güncellenirken hata oluştu. Lütfen form verilerini kontrol edin.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Kategori güncellenirken bir hata oluştu: ' . $e->getMessage()])->withInput();
+        }
     }
 
     /**
@@ -231,28 +267,53 @@ class QrMenuManagerController extends Controller
     {
         $qrMenu = $this->getQrMenu($slug);
 
-        $request->validate([
-            'menu_category_id' => 'required|exists:menu_categories,id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'nullable|numeric|min:0',
-            'sizes' => 'nullable|array',
-            'sizes.*.name' => 'required_with:sizes|string|max:255',
-            'sizes.*.price' => 'required_with:sizes|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            'allergens' => 'nullable|array',
-            'ingredients' => 'nullable|array',
-            'preparation_time' => 'nullable|string|max:255',
-            'order' => 'integer|min:0',
-        ], [
-            'gallery.*.image' => 'Galeri görselleri geçerli resim formatında olmalıdır.',
-            'gallery.*.max' => 'Galeri görselleri 10MB\'dan küçük olmalıdır.',
-            'gallery.max' => 'En fazla 5 görsel yükleyebilirsiniz.',
-            'sizes.*.name.required_with' => 'Boy adı gereklidir.',
-            'sizes.*.price.required_with' => 'Boy fiyatı gereklidir.',
-            'sizes.*.price.numeric' => 'Boy fiyatı sayısal olmalıdır.',
-        ]);
+        // Veri tiplerini düzelt
+        $this->preprocessItemData($request);
+
+        try {
+            $request->validate([
+                'menu_category_id' => 'required|exists:menu_categories,id',
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'price' => 'nullable|numeric|min:0',
+                'sizes' => 'nullable|array',
+                'sizes.*.name' => 'required_with:sizes|string|max:255',
+                'sizes.*.price' => 'required_with:sizes|numeric|min:0',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+                'allergens' => 'nullable|string',
+                'ingredients' => 'nullable|string',
+                'preparation_time' => 'nullable|string|max:255',
+                'order' => 'nullable|integer|min:0',
+                'is_available' => 'nullable|boolean',
+                'is_recommended' => 'nullable|boolean',
+            ], [
+                'menu_category_id.required' => 'Kategori seçimi zorunludur.',
+                'menu_category_id.exists' => 'Seçilen kategori geçersiz.',
+                'name.required' => 'Ürün adı zorunludur.',
+                'name.max' => 'Ürün adı en fazla 255 karakter olabilir.',
+                'price.numeric' => 'Fiyat sayısal bir değer olmalıdır.',
+                'price.min' => 'Fiyat sıfırdan küçük olamaz.',
+                'image.image' => 'Ana görsel geçerli bir resim dosyası olmalıdır.',
+                'image.mimes' => 'Ana görsel jpeg, png, jpg, gif veya webp formatında olmalıdır.',
+                'image.max' => 'Ana görsel maksimum 10MB olabilir.',
+                'gallery.*.image' => 'Galeri görselleri geçerli resim formatında olmalıdır.',
+                'gallery.*.mimes' => 'Galeri görselleri jpeg, png, jpg, gif veya webp formatında olmalıdır.',
+                'gallery.*.max' => 'Galeri görselleri maksimum 10MB olabilir.',
+                'sizes.array' => 'Boy seçenekleri array formatında olmalıdır.',
+                'sizes.*.name.required_with' => 'Boy adı gereklidir.',
+                'sizes.*.name.max' => 'Boy adı en fazla 255 karakter olabilir.',
+                'sizes.*.price.required_with' => 'Boy fiyatı gereklidir.',
+                'sizes.*.price.numeric' => 'Boy fiyatı sayısal olmalıdır.',
+                'sizes.*.price.min' => 'Boy fiyatı sıfırdan küçük olamaz.',
+                'preparation_time.max' => 'Hazırlanma süresi en fazla 255 karakter olabilir.',
+                'order.integer' => 'Sıralama değeri sayısal olmalıdır.',
+                'order.min' => 'Sıralama değeri sıfırdan küçük olamaz.',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput()
+                ->with('error', 'Ürün eklenirken hata oluştu. Lütfen form verilerini kontrol edin.');
+        }
 
         // Galeri kontrolü (en az 1, en fazla 5)
         $galleryCount = $request->hasFile('gallery') ? count($request->file('gallery')) : 0;
@@ -324,10 +385,13 @@ class QrMenuManagerController extends Controller
             $data['gallery'] = $gallery;
         }
 
-        MenuItem::create($data);
-
-        return redirect()->route('qr-menu.items', $slug)
-            ->with('success', 'Ürün başarıyla eklendi.');
+        try {
+            MenuItem::create($data);
+            return redirect()->route('qr-menu.items', $slug)
+                ->with('success', 'Ürün başarıyla eklendi.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Ürün kaydedilirken bir hata oluştu: ' . $e->getMessage()])->withInput();
+        }
     }
 
     /**
@@ -364,27 +428,53 @@ class QrMenuManagerController extends Controller
         $qrMenu = $this->getQrMenu($slug);
         $this->checkItemOwnership($item, $qrMenu);
 
-        $request->validate([
-            'menu_category_id' => 'required|exists:menu_categories,id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'nullable|numeric|min:0',
-            'sizes' => 'nullable|array',
-            'sizes.*.name' => 'required_with:sizes|string|max:255',
-            'sizes.*.price' => 'required_with:sizes|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            'allergens' => 'nullable|array',
-            'ingredients' => 'nullable|array',
-            'preparation_time' => 'nullable|string|max:255',
-            'order' => 'integer|min:0',
-        ], [
-            'gallery.*.image' => 'Galeri görselleri geçerli resim formatında olmalıdır.',
-            'gallery.*.max' => 'Galeri görselleri 10MB\'dan küçük olmalıdır.',
-            'sizes.*.name.required_with' => 'Boy adı gereklidir.',
-            'sizes.*.price.required_with' => 'Boy fiyatı gereklidir.',
-            'sizes.*.price.numeric' => 'Boy fiyatı sayısal olmalıdır.',
-        ]);
+        // Veri tiplerini düzelt
+        $this->preprocessItemData($request);
+
+        try {
+            $request->validate([
+                'menu_category_id' => 'required|exists:menu_categories,id',
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'price' => 'nullable|numeric|min:0',
+                'sizes' => 'nullable|array',
+                'sizes.*.name' => 'required_with:sizes|string|max:255',
+                'sizes.*.price' => 'required_with:sizes|numeric|min:0',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+                'allergens' => 'nullable|string',
+                'ingredients' => 'nullable|string',
+                'preparation_time' => 'nullable|string|max:255',
+                'order' => 'nullable|integer|min:0',
+                'is_available' => 'nullable|boolean',
+                'is_recommended' => 'nullable|boolean',
+            ], [
+                'menu_category_id.required' => 'Kategori seçimi zorunludur.',
+                'menu_category_id.exists' => 'Seçilen kategori geçersiz.',
+                'name.required' => 'Ürün adı zorunludur.',
+                'name.max' => 'Ürün adı en fazla 255 karakter olabilir.',
+                'price.numeric' => 'Fiyat sayısal bir değer olmalıdır.',
+                'price.min' => 'Fiyat sıfırdan küçük olamaz.',
+                'image.image' => 'Ana görsel geçerli bir resim dosyası olmalıdır.',
+                'image.mimes' => 'Ana görsel jpeg, png, jpg, gif veya webp formatında olmalıdır.',
+                'image.max' => 'Ana görsel maksimum 10MB olabilir.',
+                'gallery.*.image' => 'Galeri görselleri geçerli resim formatında olmalıdır.',
+                'gallery.*.mimes' => 'Galeri görselleri jpeg, png, jpg, gif veya webp formatında olmalıdır.',
+                'gallery.*.max' => 'Galeri görselleri maksimum 10MB olabilir.',
+                'sizes.array' => 'Boy seçenekleri array formatında olmalıdır.',
+                'sizes.*.name.required_with' => 'Boy adı gereklidir.',
+                'sizes.*.name.max' => 'Boy adı en fazla 255 karakter olabilir.',
+                'sizes.*.price.required_with' => 'Boy fiyatı gereklidir.',
+                'sizes.*.price.numeric' => 'Boy fiyatı sayısal olmalıdır.',
+                'sizes.*.price.min' => 'Boy fiyatı sıfırdan küçük olamaz.',
+                'preparation_time.max' => 'Hazırlanma süresi en fazla 255 karakter olabilir.',
+                'order.integer' => 'Sıralama değeri sayısal olmalıdır.',
+                'order.min' => 'Sıralama değeri sıfırdan küçük olamaz.',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput()
+                ->with('error', 'Ürün güncellenirken hata oluştu. Lütfen form verilerini kontrol edin.');
+        }
 
         $data = $request->all();
 
@@ -451,10 +541,13 @@ class QrMenuManagerController extends Controller
             $data['gallery'] = $gallery;
         }
 
-        $item->update($data);
-
-        return redirect()->route('qr-menu.items', $slug)
-            ->with('success', 'Ürün başarıyla güncellendi.');
+        try {
+            $item->update($data);
+            return redirect()->route('qr-menu.items', $slug)
+                ->with('success', 'Ürün başarıyla güncellendi.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Ürün güncellenirken bir hata oluştu: ' . $e->getMessage()])->withInput();
+        }
     }
 
     /**
@@ -640,6 +733,33 @@ class QrMenuManagerController extends Controller
     private function getQrMenu($slug)
     {
         return QrMenu::where('url_slug', $slug)->active()->firstOrFail();
+    }
+
+    /**
+     * Ürün verilerini validation öncesi düzenle
+     */
+    private function preprocessItemData(Request $request)
+    {
+        // Checkbox değerlerini düzenle
+        if (!$request->has('is_available')) {
+            $request->merge(['is_available' => false]);
+        } else {
+            $request->merge(['is_available' => (bool) $request->input('is_available')]);
+        }
+
+        if (!$request->has('is_recommended')) {
+            $request->merge(['is_recommended' => false]);
+        } else {
+            $request->merge(['is_recommended' => (bool) $request->input('is_recommended')]);
+        }
+
+        // Order değeri yoksa 0 yap
+        if (!$request->has('order') || $request->input('order') === null) {
+            $request->merge(['order' => 0]);
+        }
+
+        // Allergens ve ingredients string'den array'e çevirme işlemini validation sonrasına bırak
+        // Şimdilik string olarak bırak
     }
 
     private function checkCategoryOwnership(MenuCategory $category, QrMenu $qrMenu)

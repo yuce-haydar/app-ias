@@ -19,6 +19,39 @@
             --dark-gray: #6c757d;
         }
 
+        /* Alert Styles */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -790,22 +823,45 @@
             </div>
             <form method="POST" action="{{ route('qr-menu.items.store', $qrMenu->url_slug) }}" enctype="multipart/form-data">
                 @csrf
+                
+                <!-- Hata Mesajları -->
+                @if($errors->any() || session('error'))
+                    <div class="alert alert-danger mb-3">
+                        @if(session('error'))
+                            <div class="mb-2"><strong>{{ session('error') }}</strong></div>
+                        @endif
+                        @if($errors->any())
+                            <ul class="mb-0" style="padding-left: 20px;">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                @endif
+                
+                <!-- Başarı Mesajları -->
+                @if(session('success'))
+                    <div class="alert alert-success mb-3">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="form-group">
                     <label class="form-label">Kategori</label>
                     <select name="menu_category_id" class="form-select" required>
                         <option value="">Kategori Seçin</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" {{ old('menu_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Ürün Adı</label>
-                    <input type="text" name="name" class="form-input" required>
+                    <input type="text" name="name" class="form-input" value="{{ old('name') }}" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Açıklama</label>
-                    <textarea name="description" class="form-input form-textarea" rows="3"></textarea>
+                    <textarea name="description" class="form-input form-textarea" rows="3">{{ old('description') }}</textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Fiyat Türü</label>
@@ -820,7 +876,7 @@
                 </div>
                 <div class="form-group" id="singlePriceGroup">
                     <label class="form-label">Fiyat (₺)</label>
-                    <input type="number" name="price" class="form-input" step="0.01" min="0">
+                    <input type="number" name="price" class="form-input" step="0.01" min="0" value="{{ old('price') }}">
                 </div>
                 <div class="form-group" id="sizesGroup" style="display: none;">
                     <label class="form-label">Boy Seçenekleri</label>
@@ -858,27 +914,32 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Hazırlık Süresi</label>
-                    <input type="text" name="preparation_time" class="form-input" placeholder="Örn: 15 dk">
+                    <input type="text" name="preparation_time" class="form-input" placeholder="Örn: 15 dk" value="{{ old('preparation_time') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Alerjenler (virgül ile ayırın)</label>
-                    <input type="text" name="allergens" class="form-input" placeholder="Örn: Gluten, Süt, Yumurta">
+                    <input type="text" name="allergens" class="form-input" placeholder="Örn: Gluten, Süt, Yumurta" value="{{ old('allergens') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">İçerikler (virgül ile ayırın)</label>
-                    <input type="text" name="ingredients" class="form-input" placeholder="Örn: Domates, Mozzarella, Fesleğen">
+                    <input type="text" name="ingredients" class="form-input" placeholder="Örn: Domates, Mozzarella, Fesleğen" value="{{ old('ingredients') }}">
                 </div>
                 <div class="form-group">
                     <div class="form-checkbox">
-                        <input type="checkbox" name="is_available" value="1" checked>
+                        <input type="checkbox" name="is_available" value="1" {{ old('is_available', true) ? 'checked' : '' }}>
                         <label>Müsait</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-checkbox">
-                        <input type="checkbox" name="is_recommended" value="1">
+                        <input type="checkbox" name="is_recommended" value="1" {{ old('is_recommended') ? 'checked' : '' }}>
                         <label>Önerilen ürün</label>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sıralama</label>
+                    <input type="number" name="order" class="form-input" min="0" value="{{ old('order', 0) }}">
+                    <small class="form-text">Ürünün kategorideki sıralaması (0 = en üstte)</small>
                 </div>
                 <button type="submit" class="btn btn-success">
                     <i class="fas fa-save"></i>

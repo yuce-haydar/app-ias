@@ -18,6 +18,39 @@
             --dark-gray: #6c757d;
         }
 
+        /* Alert Styles */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -550,42 +583,65 @@
             </div>
             <form method="POST" action="{{ route('qr-menu.categories.store', $qrMenu->url_slug) }}">
                 @csrf
+                
+                <!-- Hata Mesajları -->
+                @if($errors->any() || session('error'))
+                    <div class="alert alert-danger mb-3">
+                        @if(session('error'))
+                            <div class="mb-2"><strong>{{ session('error') }}</strong></div>
+                        @endif
+                        @if($errors->any())
+                            <ul class="mb-0" style="padding-left: 20px;">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                @endif
+                
+                <!-- Başarı Mesajları -->
+                @if(session('success'))
+                    <div class="alert alert-success mb-3">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="form-group">
                     <label class="form-label">Ana Kategori</label>
                     <select name="parent_id" class="form-select">
                         <option value="">📂 Ana Kategori (Alt kategori değil)</option>
                         @foreach($categories->whereNull('parent_id') as $parentCategory)
-                            <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }} (Alt kategori olarak)</option>
+                            <option value="{{ $parentCategory->id }}" {{ old('parent_id') == $parentCategory->id ? 'selected' : '' }}>{{ $parentCategory->name }} (Alt kategori olarak)</option>
                         @endforeach
                     </select>
                     <small style="color: #666; font-size: 0.85rem;">Alt kategori oluşturmak için bir ana kategori seçin</small>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Kategori Adı</label>
-                    <input type="text" name="name" class="form-input" required>
+                    <input type="text" name="name" class="form-input" value="{{ old('name') }}" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Açıklama</label>
-                    <textarea name="description" class="form-input form-textarea" rows="3"></textarea>
+                    <textarea name="description" class="form-input form-textarea" rows="3">{{ old('description') }}</textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">İkon</label>
                     <select name="icon" class="form-select">
-                        <option value="fas fa-utensils">🍽️ Yemek</option>
-                        <option value="fas fa-coffee">☕ Kahve</option>
-                        <option value="fas fa-glass-cheers">🍷 İçecek</option>
-                        <option value="fas fa-birthday-cake">🎂 Tatlı</option>
-                        <option value="fas fa-hamburger">🍔 Fast Food</option>
-                        <option value="fas fa-pizza-slice">🍕 Pizza</option>
-                        <option value="fas fa-ice-cream">🍨 Dondurma</option>
-                        <option value="fas fa-cookie-bite">🍪 Atıştırmalık</option>
-                        <option value="fas fa-seedling">🌱 Vegan</option>
-                        <option value="fas fa-fish">🐟 Deniz Ürünleri</option>
+                        <option value="fas fa-utensils" {{ old('icon') == 'fas fa-utensils' ? 'selected' : '' }}>🍽️ Yemek</option>
+                        <option value="fas fa-coffee" {{ old('icon') == 'fas fa-coffee' ? 'selected' : '' }}>☕ Kahve</option>
+                        <option value="fas fa-glass-cheers" {{ old('icon') == 'fas fa-glass-cheers' ? 'selected' : '' }}>🍷 İçecek</option>
+                        <option value="fas fa-birthday-cake" {{ old('icon') == 'fas fa-birthday-cake' ? 'selected' : '' }}>🎂 Tatlı</option>
+                        <option value="fas fa-hamburger" {{ old('icon') == 'fas fa-hamburger' ? 'selected' : '' }}>🍔 Fast Food</option>
+                        <option value="fas fa-pizza-slice" {{ old('icon') == 'fas fa-pizza-slice' ? 'selected' : '' }}>🍕 Pizza</option>
+                        <option value="fas fa-ice-cream" {{ old('icon') == 'fas fa-ice-cream' ? 'selected' : '' }}>🍨 Dondurma</option>
+                        <option value="fas fa-cookie-bite" {{ old('icon') == 'fas fa-cookie-bite' ? 'selected' : '' }}>🍪 Atıştırmalık</option>
+                        <option value="fas fa-seedling" {{ old('icon') == 'fas fa-seedling' ? 'selected' : '' }}>🌱 Vegan</option>
+                        <option value="fas fa-fish" {{ old('icon') == 'fas fa-fish' ? 'selected' : '' }}>🐟 Deniz Ürünleri</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Sıra</label>
-                    <input type="number" name="order" class="form-input" value="{{ $categories->count() + 1 }}" min="1">
+                    <input type="number" name="order" class="form-input" value="{{ old('order', $categories->count() + 1) }}" min="1">
                 </div>
                 <button type="submit" class="btn btn-success">
                     <i class="fas fa-save"></i>
