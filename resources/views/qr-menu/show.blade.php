@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, shrink-to-fit=no">
     <title>{{ $qrMenu->name }}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -23,6 +23,13 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        html {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            max-width: 100vw !important;
         }
 
         body {
@@ -30,9 +37,12 @@
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
-            overflow-x: hidden;
-            width: 100%;
-            max-width: 100vw;
+            overflow-x: hidden !important;
+            width: 100% !important;
+            max-width: 100vw !important;
+            position: relative;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
         /* Header Styles */
@@ -41,7 +51,7 @@
             background-size: 400% 400%;
             animation: gradientShift 8s ease-in-out infinite;
             color: white;
-            padding: 1.5rem 1rem;
+            padding: 1.5rem 0.5rem;
             text-align: center;
             position: sticky;
             top: 0;
@@ -50,6 +60,9 @@
             background-repeat: no-repeat;
             position: relative;
             overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
+            box-sizing: border-box;
         }
 
         .header::before {
@@ -280,6 +293,10 @@
             justify-content: space-between;
             box-shadow: 0 2px 20px rgba(0,0,0,0.1);
             margin: 0;
+            height: 70px;
+            min-height: 70px;
+            max-height: 70px;
+            overflow: hidden;
         }
 
         .categories-scroll {
@@ -289,6 +306,9 @@
             flex: 1;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            padding: 0 0.25rem;
+            width: calc(100% - 0.5rem);
+            box-sizing: border-box;
         }
 
         .search-toggle-btn {
@@ -653,11 +673,13 @@
             position: relative;
             border-radius: 12px;
             overflow: hidden;
-            margin: 1rem;
+            margin: 0.75rem;
             margin-bottom: 1rem;
             height: 180px; /* Küçültülmüş yükseklik */
             background: var(--light-gray);
             cursor: pointer;
+            width: calc(100% - 1.5rem);
+            box-sizing: border-box;
         }
 
         .item-image img {
@@ -690,8 +712,10 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin: 0 1rem 1rem 1rem;
+            margin: 0 0.75rem 1rem 0.75rem;
             gap: 1rem;
+            width: calc(100% - 1.5rem);
+            box-sizing: border-box;
         }
 
         .item-name {
@@ -746,7 +770,9 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin: 1rem;
+            margin: 0 0.75rem 1rem 0.75rem;
+            width: calc(100% - 1.5rem);
+            box-sizing: border-box;
         }
 
         .meta-tag {
@@ -1282,6 +1308,9 @@
                 overflow: hidden;
                 margin: 0;
                 z-index: 101;
+                width: 100vw;
+                max-width: 100vw;
+                box-sizing: border-box;
             }
 
             .header h1 {
@@ -1309,8 +1338,14 @@
                 top: 80px;
                 padding: 0.5rem 0.25rem;
                 margin: 0;
-                width: 100%;
+                width: 100vw;
+                max-width: 100vw;
                 z-index: 100;
+                height: 60px;
+                min-height: 60px;
+                max-height: 60px;
+                overflow: hidden;
+                box-sizing: border-box;
             }
 
             .categories-scroll {
@@ -2276,6 +2311,9 @@
                     btn.classList.remove('active');
                     if (btn.getAttribute('href') === `#${current}`) {
                         btn.classList.add('active');
+                        
+                        // Aktif buton gizli alandaysa scroll yap
+                        scrollActiveButtonIntoView(btn);
                     }
                 });
                 
@@ -2283,10 +2321,28 @@
             }
         }
 
+        // Aktif butonun görünür alanda olmasını sağla
+        function scrollActiveButtonIntoView(activeButton) {
+            const categoriesScroll = document.querySelector('.categories-scroll');
+            if (!categoriesScroll || !activeButton) return;
+            
+            const containerRect = categoriesScroll.getBoundingClientRect();
+            const buttonRect = activeButton.getBoundingClientRect();
+            
+            // Buton container'ın dışındaysa scroll yap
+            if (buttonRect.left < containerRect.left) {
+                // Sol tarafta gizli
+                categoriesScroll.scrollLeft -= (containerRect.left - buttonRect.left + 20);
+            } else if (buttonRect.right > containerRect.right) {
+                // Sağ tarafta gizli
+                categoriesScroll.scrollLeft += (buttonRect.right - containerRect.right + 20);
+            }
+        }
+
         // Scroll event - throttle kaldırıldı, anlık güncelleme
         window.addEventListener('scroll', updateActiveCategory);
 
-        // Prevent zoom on double tap
+        // Prevent zoom on double tap and pinch
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function(event) {
             const now = (new Date()).getTime();
@@ -2295,6 +2351,26 @@
             }
             lastTouchEnd = now;
         }, false);
+
+        // Prevent pinch to zoom
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('gesturechange', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('gestureend', function(e) {
+            e.preventDefault();
+        });
+
+        // Prevent zoom with wheel + ctrl
+        document.addEventListener('wheel', function(e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         // Scroll to category
         function scrollToCategory(categoryId) {
