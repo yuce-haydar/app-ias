@@ -823,6 +823,7 @@
             </div>
             <form method="POST" action="{{ route('qr-menu.items.store', $qrMenu->url_slug) }}" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="price_type" id="priceType" value="{{ old('price_type', 'single') }}">
                 
                 <!-- Hata Mesajları -->
                 @if($errors->any() || session('error'))
@@ -866,11 +867,11 @@
                 <div class="form-group">
                     <label class="form-label">Fiyat Türü</label>
                     <div class="form-checkbox">
-                        <input type="radio" name="price_type" value="single" id="singlePrice" checked onchange="togglePriceType()">
+                        <input type="radio" name="price_type_radio" value="single" id="singlePrice" {{ old('price_type', 'single') == 'single' ? 'checked' : '' }} onchange="togglePriceType()">
                         <label for="singlePrice">Tek Fiyat</label>
                     </div>
                     <div class="form-checkbox">
-                        <input type="radio" name="price_type" value="multiple" id="multiplePrice" onchange="togglePriceType()">
+                        <input type="radio" name="price_type_radio" value="multiple" id="multiplePrice" {{ old('price_type') == 'multiple' ? 'checked' : '' }} onchange="togglePriceType()">
                         <label for="multiplePrice">Boylar ile Farklı Fiyatlar</label>
                     </div>
                 </div>
@@ -1215,13 +1216,16 @@
             const singlePrice = document.getElementById('singlePrice').checked;
             const singlePriceGroup = document.getElementById('singlePriceGroup');
             const sizesGroup = document.getElementById('sizesGroup');
+            const priceTypeInput = document.getElementById('priceType');
             
             if (singlePrice) {
                 singlePriceGroup.style.display = 'block';
                 sizesGroup.style.display = 'none';
+                priceTypeInput.value = 'single';
             } else {
                 singlePriceGroup.style.display = 'none';
                 sizesGroup.style.display = 'block';
+                priceTypeInput.value = 'multiple';
             }
         }
 
@@ -1335,6 +1339,11 @@
             qrMenuImageOptimizer.attachToImageInputs('input[type="file"][accept*="image"]');
             
             console.log('QR Menü Image Optimizer başlatıldı!');
+        });
+
+        // Initialize price type state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            togglePriceType();
         });
     </script>
 </body>

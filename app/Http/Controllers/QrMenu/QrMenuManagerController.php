@@ -271,14 +271,12 @@ class QrMenuManagerController extends Controller
         $this->preprocessItemData($request);
 
         try {
-            $request->validate([
+            // Dinamik validation kuralları
+            $rules = [
                 'menu_category_id' => 'required|exists:menu_categories,id',
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'price' => 'nullable|numeric|min:0',
-                'sizes' => 'nullable|array',
-                'sizes.*.name' => 'required_with:sizes|string|max:255',
-                'sizes.*.price' => 'required_with:sizes|numeric|min:0',
+                'price_type' => 'required|in:single,multiple',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
                 'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
                 'allergens' => 'nullable|string',
@@ -287,11 +285,25 @@ class QrMenuManagerController extends Controller
                 'order' => 'nullable|integer|min:0',
                 'is_available' => 'nullable|boolean',
                 'is_recommended' => 'nullable|boolean',
-            ], [
+            ];
+
+            // Price type'a göre validation kuralları ekle
+            if ($request->input('price_type') === 'single') {
+                $rules['price'] = 'required|numeric|min:0';
+            } else {
+                $rules['sizes'] = 'required|array|min:1';
+                $rules['sizes.*.name'] = 'required|string|max:255';
+                $rules['sizes.*.price'] = 'required|numeric|min:0';
+            }
+
+            $messages = [
                 'menu_category_id.required' => 'Kategori seçimi zorunludur.',
                 'menu_category_id.exists' => 'Seçilen kategori geçersiz.',
                 'name.required' => 'Ürün adı zorunludur.',
                 'name.max' => 'Ürün adı en fazla 255 karakter olabilir.',
+                'price_type.required' => 'Fiyat türü seçimi zorunludur.',
+                'price_type.in' => 'Geçersiz fiyat türü seçimi.',
+                'price.required' => 'Tek fiyat seçeneği için fiyat zorunludur.',
                 'price.numeric' => 'Fiyat sayısal bir değer olmalıdır.',
                 'price.min' => 'Fiyat sıfırdan küçük olamaz.',
                 'image.image' => 'Ana görsel geçerli bir resim dosyası olmalıdır.',
@@ -300,16 +312,20 @@ class QrMenuManagerController extends Controller
                 'gallery.*.image' => 'Galeri görselleri geçerli resim formatında olmalıdır.',
                 'gallery.*.mimes' => 'Galeri görselleri jpeg, png, jpg, gif veya webp formatında olmalıdır.',
                 'gallery.*.max' => 'Galeri görselleri maksimum 10MB olabilir.',
-                'sizes.array' => 'Boy seçenekleri array formatında olmalıdır.',
-                'sizes.*.name.required_with' => 'Boy adı gereklidir.',
+                'sizes.required' => 'Çoklu fiyat seçeneği için en az bir boy tanımlamalısınız.',
+                'sizes.array' => 'Boy seçenekleri geçerli format olmalıdır.',
+                'sizes.min' => 'En az bir boy tanımlamalısınız.',
+                'sizes.*.name.required' => 'Boy adı zorunludur.',
                 'sizes.*.name.max' => 'Boy adı en fazla 255 karakter olabilir.',
-                'sizes.*.price.required_with' => 'Boy fiyatı gereklidir.',
+                'sizes.*.price.required' => 'Boy fiyatı zorunludur.',
                 'sizes.*.price.numeric' => 'Boy fiyatı sayısal olmalıdır.',
                 'sizes.*.price.min' => 'Boy fiyatı sıfırdan küçük olamaz.',
                 'preparation_time.max' => 'Hazırlanma süresi en fazla 255 karakter olabilir.',
                 'order.integer' => 'Sıralama değeri sayısal olmalıdır.',
                 'order.min' => 'Sıralama değeri sıfırdan küçük olamaz.',
-            ]);
+            ];
+
+            $request->validate($rules, $messages);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->errors())->withInput()
                 ->with('error', 'Ürün eklenirken hata oluştu. Lütfen form verilerini kontrol edin.');
@@ -432,14 +448,12 @@ class QrMenuManagerController extends Controller
         $this->preprocessItemData($request);
 
         try {
-            $request->validate([
+            // Dinamik validation kuralları
+            $rules = [
                 'menu_category_id' => 'required|exists:menu_categories,id',
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'price' => 'nullable|numeric|min:0',
-                'sizes' => 'nullable|array',
-                'sizes.*.name' => 'required_with:sizes|string|max:255',
-                'sizes.*.price' => 'required_with:sizes|numeric|min:0',
+                'price_type' => 'required|in:single,multiple',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
                 'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
                 'allergens' => 'nullable|string',
@@ -448,29 +462,47 @@ class QrMenuManagerController extends Controller
                 'order' => 'nullable|integer|min:0',
                 'is_available' => 'nullable|boolean',
                 'is_recommended' => 'nullable|boolean',
-            ], [
+            ];
+
+            // Price type'a göre validation kuralları ekle
+            if ($request->input('price_type') === 'single') {
+                $rules['price'] = 'required|numeric|min:0';
+            } else {
+                $rules['sizes'] = 'required|array|min:1';
+                $rules['sizes.*.name'] = 'required|string|max:255';
+                $rules['sizes.*.price'] = 'required|numeric|min:0';
+            }
+
+            $messages = [
                 'menu_category_id.required' => 'Kategori seçimi zorunludur.',
                 'menu_category_id.exists' => 'Seçilen kategori geçersiz.',
                 'name.required' => 'Ürün adı zorunludur.',
                 'name.max' => 'Ürün adı en fazla 255 karakter olabilir.',
                 'price.numeric' => 'Fiyat sayısal bir değer olmalıdır.',
                 'price.min' => 'Fiyat sıfırdan küçük olamaz.',
+                'price_type.required' => 'Fiyat türü seçimi zorunludur.',
+                'price_type.in' => 'Geçersiz fiyat türü seçimi.',
+                'price.required' => 'Tek fiyat seçeneği için fiyat zorunludur.',
                 'image.image' => 'Ana görsel geçerli bir resim dosyası olmalıdır.',
                 'image.mimes' => 'Ana görsel jpeg, png, jpg, gif veya webp formatında olmalıdır.',
                 'image.max' => 'Ana görsel maksimum 10MB olabilir.',
                 'gallery.*.image' => 'Galeri görselleri geçerli resim formatında olmalıdır.',
                 'gallery.*.mimes' => 'Galeri görselleri jpeg, png, jpg, gif veya webp formatında olmalıdır.',
                 'gallery.*.max' => 'Galeri görselleri maksimum 10MB olabilir.',
-                'sizes.array' => 'Boy seçenekleri array formatında olmalıdır.',
-                'sizes.*.name.required_with' => 'Boy adı gereklidir.',
+                'sizes.required' => 'Çoklu fiyat seçeneği için en az bir boy tanımlamalısınız.',
+                'sizes.array' => 'Boy seçenekleri geçerli format olmalıdır.',
+                'sizes.min' => 'En az bir boy tanımlamalısınız.',
+                'sizes.*.name.required' => 'Boy adı zorunludur.',
                 'sizes.*.name.max' => 'Boy adı en fazla 255 karakter olabilir.',
-                'sizes.*.price.required_with' => 'Boy fiyatı gereklidir.',
+                'sizes.*.price.required' => 'Boy fiyatı zorunludur.',
                 'sizes.*.price.numeric' => 'Boy fiyatı sayısal olmalıdır.',
                 'sizes.*.price.min' => 'Boy fiyatı sıfırdan küçük olamaz.',
                 'preparation_time.max' => 'Hazırlanma süresi en fazla 255 karakter olabilir.',
                 'order.integer' => 'Sıralama değeri sayısal olmalıdır.',
                 'order.min' => 'Sıralama değeri sıfırdan küçük olamaz.',
-            ]);
+            ];
+
+            $request->validate($rules, $messages);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->errors())->withInput()
                 ->with('error', 'Ürün güncellenirken hata oluştu. Lütfen form verilerini kontrol edin.');
@@ -756,6 +788,16 @@ class QrMenuManagerController extends Controller
         // Order değeri yoksa 0 yap
         if (!$request->has('order') || $request->input('order') === null) {
             $request->merge(['order' => 0]);
+        }
+
+        // Price type kontrolü - tek fiyat seçildiyse sizes array'ini temizle
+        if ($request->input('price_type') === 'single') {
+            $request->merge(['sizes' => null]);
+        }
+
+        // Çoklu fiyat seçildiyse tek fiyat alanını temizle
+        if ($request->input('price_type') === 'multiple') {
+            $request->merge(['price' => null]);
         }
 
         // Allergens ve ingredients string'den array'e çevirme işlemini validation sonrasına bırak
