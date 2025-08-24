@@ -1000,6 +1000,8 @@
                 inset 0 1px 0 rgba(255,255,255,0.8);
             animation: modalSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             border: 1px solid rgba(255,255,255,0.3);
+            pointer-events: all;
+            touch-action: pan-y;
         }
 
         /* Mobilde modal biraz küçült */
@@ -1087,6 +1089,9 @@
 
         .modal-info {
             padding: 1.5rem;
+            touch-action: pan-y;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .modal-section {
@@ -1264,9 +1269,11 @@
 
             .header {
                 padding: 1rem 0.25rem;
-                position: relative;
+                position: sticky;
+                top: 0;
                 overflow: hidden;
                 margin: 0;
+                z-index: 101;
             }
 
             .header h1 {
@@ -1290,11 +1297,12 @@
             }
 
             .categories-nav {
-                position: relative;
-                top: 0;
+                position: sticky;
+                top: 80px;
                 padding: 0.5rem 0.25rem;
                 margin: 0;
                 width: 100%;
+                z-index: 100;
             }
 
             .categories-scroll {
@@ -2071,6 +2079,8 @@
             // Show modal
             document.getElementById('imageModal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
         }
 
         // Change modal image
@@ -2086,6 +2096,8 @@
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
             document.body.style.overflow = 'auto';
+            document.body.style.position = 'static';
+            document.body.style.width = 'auto';
         }
 
         // Close modal when clicking outside
@@ -2093,6 +2105,24 @@
             if (e.target === this) {
                 closeModal();
             }
+        });
+
+        // Prevent modal close when clicking inside modal content
+        document.querySelector('.modal-content').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Prevent modal close on touch/scroll events inside modal
+        document.querySelector('.modal-content').addEventListener('touchstart', function(e) {
+            e.stopPropagation();
+        });
+
+        document.querySelector('.modal-content').addEventListener('touchmove', function(e) {
+            e.stopPropagation();
+        });
+
+        document.querySelector('.modal-content').addEventListener('touchend', function(e) {
+            e.stopPropagation();
         });
 
         // Fullscreen image functions
