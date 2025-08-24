@@ -59,20 +59,38 @@ class QrMenuManagerController extends Controller
     {
         $qrMenu = $this->getQrMenu($slug);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'url_slug' => 'nullable|string|max:255|unique:qr_menus,url_slug,' . $qrMenu->id,
-            'status' => 'nullable|in:active,inactive,maintenance',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
-            'header_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            'primary_color' => 'nullable|string|max:7',
-            'secondary_color' => 'nullable|string|max:7',
-            'background_color' => 'nullable|string|max:7',
-            'text_color' => 'nullable|string|max:7',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string|max:1000',
+                'url_slug' => 'nullable|string|max:255|unique:qr_menus,url_slug,' . $qrMenu->id,
+                'status' => 'nullable|in:active,inactive,maintenance',
+                'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+                'header_background' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+                'primary_color' => 'nullable|string|max:7',
+                'secondary_color' => 'nullable|string|max:7',
+                'background_color' => 'nullable|string|max:7',
+                'text_color' => 'nullable|string|max:7',
+            ], [
+                'name.required' => 'Menü adı zorunludur.',
+                'name.max' => 'Menü adı en fazla 255 karakter olabilir.',
+                'description.max' => 'Açıklama en fazla 1000 karakter olabilir.',
+                'url_slug.unique' => 'Bu URL slug başka bir menü tarafından kullanılıyor.',
+                'url_slug.max' => 'URL slug en fazla 255 karakter olabilir.',
+                'status.in' => 'Geçersiz menü durumu.',
+                'logo.image' => 'Logo dosyası geçerli bir resim formatında olmalıdır.',
+                'logo.mimes' => 'Logo dosyası jpeg, png, jpg, gif veya webp formatında olmalıdır.',
+                'logo.max' => 'Logo dosyası en fazla 5MB olabilir.',
+                'header_background.image' => 'Header arka plan dosyası geçerli bir resim formatında olmalıdır.',
+                'header_background.mimes' => 'Header arka plan dosyası jpeg, png, jpg, gif veya webp formatında olmalıdır.',
+                'header_background.max' => 'Header arka plan dosyası en fazla 10MB olabilir.',
+                'primary_color.max' => 'Ana renk kodu geçersiz.',
+                'secondary_color.max' => 'İkinci renk kodu geçersiz.',
+                'background_color.max' => 'Arka plan renk kodu geçersiz.',
+                'text_color.max' => 'Metin renk kodu geçersiz.',
+            ]);
 
-        $data = $request->only(['name', 'description', 'url_slug', 'status']);
+            $data = $request->only(['name', 'description', 'url_slug', 'status']);
 
         // Renk ayarları
         if ($request->has(['primary_color', 'secondary_color', 'background_color', 'text_color'])) {
@@ -84,44 +102,71 @@ class QrMenuManagerController extends Controller
             ];
         }
 
-        // Logo işlemleri
-        if ($request->hasFile('logo')) {
-            // Eski logoyu sil
-            if ($qrMenu->logo) {
-                Storage::disk('public')->delete($qrMenu->logo);
+            // Logo işlemleri
+            if ($request->hasFile('logo')) {
+                try {
+                    // Eski logoyu sil
+                    if ($qrMenu->logo) {
+                        Storage::disk('public')->delete($qrMenu->logo);
+                    }
+                    $data['logo'] = $request->file('logo')->store('qr-menu-logos', 'public');
+                } catch (\Exception $e) {
+                    throw new \Exception('Logo yüklenirken hata oluştu: ' . $e->getMessage());
+                }
             }
-            $data['logo'] = $request->file('logo')->store('qr-menu-logos', 'public');
-        }
 
-        // Header background işlemleri
-        if ($request->hasFile('header_background')) {
-            // Eski header background'u sil
-            if ($qrMenu->header_background) {
-                Storage::disk('public')->delete($qrMenu->header_background);
+            // Header background işlemleri
+            if ($request->hasFile('header_background')) {
+                try {
+                    // Eski header background'u sil
+                    if ($qrMenu->header_background) {
+                        Storage::disk('public')->delete($qrMenu->header_background);
+                    }
+                    $data['header_background'] = $request->file('header_background')->store('qr-menu-headers', 'public');
+                } catch (\Exception $e) {
+                    throw new \Exception('Header arka plan resmi yüklenirken hata oluştu: ' . $e->getMessage());
+                }
             }
-            $data['header_background'] = $request->file('header_background')->store('qr-menu-headers', 'public');
-        }
 
-        // Logo silme işlemi
-        if ($request->has('delete_logo')) {
-            if ($qrMenu->logo) {
-                Storage::disk('public')->delete($qrMenu->logo);
-                $data['logo'] = null;
+            // Logo silme işlemi
+            if ($request->has('delete_logo')) {
+                try {
+                    if ($qrMenu->logo) {
+                        Storage::disk('public')->delete($qrMenu->logo);
+                        $data['logo'] = null;
+                    }
+                } catch (\Exception $e) {
+                    throw new \Exception('Logo silinirken hata oluştu: ' . $e->getMessage());
+                }
             }
-        }
 
-        // Header background silme işlemi
-        if ($request->has('delete_header_background')) {
-            if ($qrMenu->header_background) {
-                Storage::disk('public')->delete($qrMenu->header_background);
-                $data['header_background'] = null;
+            // Header background silme işlemi
+            if ($request->has('delete_header_background')) {
+                try {
+                    if ($qrMenu->header_background) {
+                        Storage::disk('public')->delete($qrMenu->header_background);
+                        $data['header_background'] = null;
+                    }
+                } catch (\Exception $e) {
+                    throw new \Exception('Header arka plan resmi silinirken hata oluştu: ' . $e->getMessage());
+                }
             }
+
+            $qrMenu->update($data);
+
+            return redirect()->route('qr-menu.settings', $slug)
+                ->with('success', 'Menü ayarları başarıyla güncellendi.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->route('qr-menu.settings', $slug)
+                ->withErrors($e->validator)
+                ->withInput();
+        } catch (\Exception $e) {
+            \Log::error('QR Menu Settings Update Error: ' . $e->getMessage());
+            return redirect()->route('qr-menu.settings', $slug)
+                ->with('error', 'Ayarlar güncellenirken bir hata oluştu: ' . $e->getMessage())
+                ->withInput();
         }
-
-        $qrMenu->update($data);
-
-        return redirect()->route('qr-menu.settings', $slug)
-            ->with('success', 'Menü ayarları başarıyla güncellendi.');
     }
 
     /**

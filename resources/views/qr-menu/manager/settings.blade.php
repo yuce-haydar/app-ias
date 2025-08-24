@@ -400,6 +400,18 @@
             </div>
         @endif
 
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>
+                <strong>Hatalar:</strong>
+                <ul style="margin: 0.5rem 0 0 1rem;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="settings-grid">
             <!-- Genel Ayarlar -->
             <div class="settings-card">
