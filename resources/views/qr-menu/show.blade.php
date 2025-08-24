@@ -760,21 +760,21 @@
         .modal-image-container {
             position: relative;
             width: 100%;
-            height: 300px; /* Sabit yükseklik */
+            height: 400px; /* Daha yüksek */
             overflow: hidden;
             border-radius: 15px 15px 0 0;
-            padding: 1.5rem;
+            padding: 0; /* Padding'i kaldırıyoruz */
             box-sizing: border-box;
         }
 
         /* Mobilde resim tam ekran */
         @media (max-width: 768px) {
             .modal-image-container {
-                width: 100vw;
-                height: 50vh; /* Ekran yüksekliğinin yarısı */
-                margin-left: calc(-50vw + 50%);
-                border-radius: 0;
-                padding: 1rem;
+                width: 100%;
+                height: 60vh; /* Daha yüksek */
+                margin-left: 0;
+                border-radius: 15px 15px 0 0;
+                padding: 0;
             }
         }
 
@@ -787,6 +787,61 @@
 
         .modal-info {
             padding: 1.5rem;
+        }
+
+        .modal-section {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .modal-section h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .preparation-time {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .ingredients-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .ingredient-tag {
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .allergens-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .allergen-tag {
+            background: var(--danger-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         /* Mobilde modal info padding'i azalt */
@@ -1504,10 +1559,28 @@
                 <div class="modal-info">
                     <h3 id="modalTitle"></h3>
                     <p id="modalDescription"></p>
+                    
+                    <!-- Hazırlanma Süresi -->
+                    <div class="modal-section" id="preparationTimeSection" style="display: none;">
+                        <h4><i class="fas fa-clock"></i> Hazırlanma Süresi</h4>
+                        <span id="modalPreparationTime" class="preparation-time"></span>
+                    </div>
+                    
+                    <!-- İçerikler -->
+                    <div class="modal-section" id="ingredientsSection" style="display: none;">
+                        <h4><i class="fas fa-list"></i> İçerikler</h4>
+                        <div id="modalIngredients" class="ingredients-list"></div>
+                    </div>
+                    
+                    <!-- Alerjenler -->
+                    <div class="modal-section" id="allergensSection" style="display: none;">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Alerjenler</h4>
+                        <div id="modalAllergens" class="allergens-list"></div>
+                    </div>
+                    
                     <div class="modal-gallery" id="modalGallery">
                         <!-- Gallery thumbnails will be populated here -->
                     </div>
-                    <div id="modalMeta"></div>
                 </div>
             </div>
         </div>
@@ -1552,22 +1625,43 @@
             modalImage.src = item.main_image_url || '{{ asset('assets/images/demo.png') }}';
             modalImage.style.display = 'block';
 
-            // Set meta information
-            let metaHTML = '';
+            // Set preparation time
+            const preparationTimeSection = document.getElementById('preparationTimeSection');
+            const modalPreparationTime = document.getElementById('modalPreparationTime');
             if (item.preparation_time) {
-                metaHTML += `<span class="meta-tag time"><i class="fas fa-clock"></i> ${item.preparation_time}</span>`;
+                modalPreparationTime.textContent = item.preparation_time;
+                preparationTimeSection.style.display = 'block';
+            } else {
+                preparationTimeSection.style.display = 'none';
             }
-            if (item.allergens && item.allergens.length > 0) {
-                item.allergens.forEach(allergen => {
-                    metaHTML += `<span class="meta-tag allergen"><i class="fas fa-exclamation-triangle"></i> ${allergen}</span>`;
-                });
-            }
+
+            // Set ingredients
+            const ingredientsSection = document.getElementById('ingredientsSection');
+            const modalIngredients = document.getElementById('modalIngredients');
             if (item.ingredients && item.ingredients.length > 0) {
+                let ingredientsHTML = '';
                 item.ingredients.forEach(ingredient => {
-                    metaHTML += `<span class="meta-tag">${ingredient}</span>`;
+                    ingredientsHTML += `<span class="ingredient-tag">${ingredient}</span>`;
                 });
+                modalIngredients.innerHTML = ingredientsHTML;
+                ingredientsSection.style.display = 'block';
+            } else {
+                ingredientsSection.style.display = 'none';
             }
-            document.getElementById('modalMeta').innerHTML = metaHTML;
+
+            // Set allergens
+            const allergensSection = document.getElementById('allergensSection');
+            const modalAllergens = document.getElementById('modalAllergens');
+            if (item.allergens && item.allergens.length > 0) {
+                let allergensHTML = '';
+                item.allergens.forEach(allergen => {
+                    allergensHTML += `<span class="allergen-tag">${allergen}</span>`;
+                });
+                modalAllergens.innerHTML = allergensHTML;
+                allergensSection.style.display = 'block';
+            } else {
+                allergensSection.style.display = 'none';
+            }
 
             // Set gallery
             const modalGallery = document.getElementById('modalGallery');

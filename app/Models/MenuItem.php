@@ -63,13 +63,21 @@ class MenuItem extends Model
         return [];
     }
 
-    // Ana resim (galerinin ilki veya image)
+    // Ana resim (önce image, sonra galerinin ilki)
     public function getMainImageUrlAttribute()
     {
+        // Önce ana resmi kontrol et
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+        
+        // Ana resim yoksa galerinin ilkini kullan
         if ($this->gallery && is_array($this->gallery) && count($this->gallery) > 0) {
             return asset('storage/' . $this->gallery[0]);
         }
-        return $this->image_url;
+        
+        // Hiçbiri yoksa null döndür
+        return null;
     }
 
     // Formatlanmış fiyat
