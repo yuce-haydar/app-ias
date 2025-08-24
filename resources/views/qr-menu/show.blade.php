@@ -1320,7 +1320,7 @@
                 max-width: 100vw;
                 width: 100vw;
                 margin: 0;
-                margin-top: 60px; /* Fixed categories nav için space */
+                margin-top: 149px; /* Header (89px) + Categories (60px) = 149px */
                 position: relative;
                 overflow: visible !important;
             }
@@ -1363,7 +1363,7 @@
 
             .categories-nav {
                 position: fixed !important;
-                top: 80px !important;
+                top: 89px !important; /* Header tam altında: padding(16) + logo(50) + padding(16) + gap(7) */
                 left: 0 !important;
                 right: 0 !important;
                 padding: 0.5rem 0.25rem;
