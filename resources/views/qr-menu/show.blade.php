@@ -36,17 +36,41 @@
         /* Header Styles */
         .header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease-in-out infinite;
             color: white;
             padding: 1.5rem 1rem;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            background-size: cover;
-            background-position: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
             background-repeat: no-repeat;
             position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
+            z-index: 1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .header.has-background::before {
@@ -77,8 +101,21 @@
         .header-logo {
             height: 80px;
             width: auto;
-            border-radius: 8px;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+            border-radius: 12px;
+            filter: drop-shadow(0 4px 16px rgba(0,0,0,0.3));
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255,255,255,0.5);
+        }
+
+        @keyframes logoGlow {
+            from { box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+            to { box-shadow: 0 0 30px rgba(255,255,255,0.4); }
         }
 
         .header h1 {
@@ -224,21 +261,75 @@
 
         /* Categories Navigation */
         .categories-nav {
-            background: white;
-            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 75px;
             z-index: 99;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
         }
 
         .categories-scroll {
             display: flex;
             gap: 0.75rem;
             overflow-x: auto;
-            padding: 0 1rem;
+            flex: 1;
             scrollbar-width: none;
             -ms-overflow-style: none;
+        }
+
+        .search-toggle-btn {
+            background: linear-gradient(135deg, var(--primary-color), #e6b800);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(207, 159, 56, 0.3);
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+
+        .search-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(207, 159, 56, 0.4);
+        }
+
+        .search-toggle-btn.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        /* Search animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
         }
 
         .categories-scroll::-webkit-scrollbar {
@@ -246,28 +337,56 @@
         }
 
         .category-btn {
-            background: var(--light-gray);
-            border: 2px solid transparent;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-color);
             padding: 0.75rem 1.25rem;
-            border-radius: 25px;
+            border-radius: 30px;
             text-decoration: none;
             white-space: nowrap;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 0.5rem;
             min-width: fit-content;
             font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .category-btn:hover::before {
+            left: 100%;
         }
 
         .category-btn:hover,
         .category-btn.active {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), #e6b800);
             color: white;
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(207, 159, 56, 0.3);
+        }
+
+        .category-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .category-btn:hover i {
+            transform: rotateY(360deg);
         }
 
         /* Floating Category Menu */
@@ -459,23 +578,54 @@
 
         /* Item Card */
         .item-card {
-            background: var(--light-gray);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             padding: 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.08),
+                0 4px 16px rgba(0,0,0,0.04),
+                inset 0 1px 0 rgba(255,255,255,0.6);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255,255,255,0.2);
             position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent, 
+                rgba(207, 159, 56, 0.1), 
+                transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1;
         }
 
         .item-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-8px) rotateX(2deg) rotateY(2deg);
+            box-shadow: 
+                0 25px 50px rgba(207, 159, 56, 0.2),
+                0 15px 35px rgba(0,0,0,0.1),
+                0 5px 15px rgba(0,0,0,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.8);
             cursor: pointer;
         }
 
+        .item-card:hover::before {
+            opacity: 1;
+            transform: rotate(45deg);
+        }
+
         .item-card:active {
-            transform: translateY(-1px);
+            transform: translateY(-4px) rotateX(1deg) rotateY(1deg);
         }
 
         /* Item Image */
@@ -601,15 +751,62 @@
         /* Recommended Badge */
         .recommended-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger-color);
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
             color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-size: 0.75rem;
+            font-weight: 700;
             z-index: 10;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Scroll Reveal Animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-left.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-right.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .stagger-item {
+            transition-delay: calc(var(--index) * 0.1s);
         }
 
         .item-card.recommended {
@@ -681,11 +878,26 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, 
+                rgba(0,0,0,0.7), 
+                rgba(44, 62, 80, 0.8),
+                rgba(207, 159, 56, 0.3));
+            backdrop-filter: blur(20px);
             justify-content: center;
             align-items: center;
             padding: 1rem;
+            animation: modalBackdropIn 0.4s ease;
+        }
+
+        @keyframes modalBackdropIn {
+            from {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+            to {
+                opacity: 1;
+                backdrop-filter: blur(20px);
+            }
         }
 
         /* Mobilde modal padding'i azalt */
@@ -696,15 +908,20 @@
         }
 
         .modal-content {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             padding: 0;
-            border-radius: 15px;
+            border-radius: 25px;
             max-width: 90%;
             max-height: 90%;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: modalOpen 0.3s ease;
+            box-shadow: 
+                0 25px 60px rgba(0,0,0,0.3),
+                0 15px 40px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            animation: modalSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         /* Mobilde modal biraz küçült */
@@ -718,14 +935,18 @@
             }
         }
 
-        @keyframes modalOpen {
-            from {
+        @keyframes modalSlideIn {
+            0% {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: scale(0.7) translateY(50px) rotateX(10deg);
             }
-            to {
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02) translateY(-10px) rotateX(5deg);
+            }
+            100% {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) translateY(0) rotateX(0deg);
             }
         }
 
@@ -760,7 +981,7 @@
         .modal-image-container {
             position: relative;
             width: 100%;
-            height: 400px; /* Daha yüksek */
+           
             overflow: hidden;
             border-radius: 15px 15px 0 0;
             padding: 0; /* Padding'i kaldırıyoruz */
@@ -1216,11 +1437,14 @@
                 @endforeach
             @endforeach
         </div>
+        <button class="search-toggle-btn" id="searchToggleBtn" onclick="toggleSearch()">
+            <i class="fas fa-search"></i>
+        </button>
     </div>
     @endif
 
-    <!-- Search Box -->
-    <div class="search-container">
+    <!-- Collapsible Search Box -->
+    <div class="search-container" id="searchContainer" style="display: none;">
         <div class="search-box">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="searchInput" placeholder="Ürün ara..." autocomplete="off">
@@ -2023,6 +2247,29 @@
         }
 
         // Close side menu
+        // Toggle search functionality
+        function toggleSearch() {
+            const searchContainer = document.getElementById('searchContainer');
+            const searchToggleBtn = document.getElementById('searchToggleBtn');
+            const searchInput = document.getElementById('searchInput');
+            
+            if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
+                searchContainer.style.display = 'block';
+                searchContainer.style.animation = 'slideDown 0.3s ease';
+                searchToggleBtn.classList.add('active');
+                searchToggleBtn.innerHTML = '<i class="fas fa-times"></i>';
+                setTimeout(() => searchInput.focus(), 300);
+            } else {
+                searchContainer.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => {
+                    searchContainer.style.display = 'none';
+                    clearSearch();
+                }, 300);
+                searchToggleBtn.classList.remove('active');
+                searchToggleBtn.innerHTML = '<i class="fas fa-search"></i>';
+            }
+        }
+
         function closeSideMenu() {
             const sideMenuOverlay = document.getElementById('sideMenuOverlay');
             const sideMenu = document.getElementById('sideMenu');
@@ -2030,6 +2277,47 @@
             sideMenu.classList.remove('active');
             updateFloatingButton();
         }
+
+        // Scroll Reveal Functionality
+        function initScrollReveal() {
+            const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+            
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+        }
+
+        // Initialize scroll reveal when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            // Add reveal classes to elements
+            document.querySelectorAll('.category-section').forEach((section, index) => {
+                section.classList.add(index % 2 === 0 ? 'scroll-reveal-left' : 'scroll-reveal-right');
+            });
+
+            document.querySelectorAll('.item-card').forEach((card, index) => {
+                card.classList.add('scroll-reveal');
+                card.style.setProperty('--index', index % 6);
+                card.classList.add('stagger-item');
+            });
+
+            document.querySelectorAll('.category-title').forEach(title => {
+                title.classList.add('scroll-reveal');
+            });
+
+            // Initialize the scroll reveal
+            initScrollReveal();
+        });
     </script>
 </body>
 </html> 
