@@ -2196,9 +2196,15 @@
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                    const offset = window.innerWidth <= 768 ? 50 : 200;
+                    // Header ve categories nav yüksekliğini hesapla
+                    const header = document.querySelector('.header');
+                    const categoriesNav = document.querySelector('.categories-nav');
+                    const headerHeight = header ? header.offsetHeight : 80;
+                    const categoriesHeight = categoriesNav ? categoriesNav.offsetHeight : 60;
+                    const totalOffset = headerHeight + categoriesHeight + 10;
+                    
                     const elementPosition = targetElement.offsetTop;
-                    const offsetPosition = elementPosition - offset;
+                    const offsetPosition = elementPosition - totalOffset;
 
                     window.scrollTo({
                         top: offsetPosition,
@@ -2206,46 +2212,63 @@
                     });
                 }
 
+                // Manuel aktif durumu ayarla
+                const categoryId = targetId.replace('#', '');
+                lastActiveCategory = categoryId;
+                
                 // Update active button
                 document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
             });
         });
 
-        // Auto-update active category on scroll with throttling
-        let scrollTimeout;
+        // Auto-update active category on scroll - REAL TIME
         let lastActiveCategory = '';
         
         function updateActiveCategory() {
             const categories = document.querySelectorAll('.category-section');
             const buttons = document.querySelectorAll('.category-btn');
             
-            // Sticky categories nav yüksekliğini hesapla
+            // Header ve categories nav yüksekliğini hesapla
+            const header = document.querySelector('.header');
             const categoriesNav = document.querySelector('.categories-nav');
-            const offset = categoriesNav ? categoriesNav.offsetHeight + 100 : 200;
+            const headerHeight = header ? header.offsetHeight : 80;
+            const categoriesHeight = categoriesNav ? categoriesNav.offsetHeight : 60;
+            const offset = headerHeight + categoriesHeight + 20; // 20px buffer
             
             let current = '';
-            let bestMatch = null;
-            let closestDistance = Infinity;
             
+            // Hangi kategori şu anda görünür alanda en üstte
             categories.forEach(category => {
                 const rect = category.getBoundingClientRect();
-                const distance = Math.abs(rect.top - offset);
                 
-                // Eğer kategori görünür alandaysa ve en yakın mesafedeyse
-                if (rect.top <= offset && rect.bottom >= 0) {
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        bestMatch = category;
-                    }
+                // Kategori viewport'un üst kısmında görünüyorsa
+                if (rect.top <= offset && rect.bottom > offset) {
+                    current = category.getAttribute('id');
                 }
             });
             
-            if (bestMatch) {
-                current = bestMatch.getAttribute('id');
+            // Eğer hiçbir kategori bulunamadıysa, en yakın olanı bul
+            if (!current) {
+                let closestCategory = null;
+                let closestDistance = Infinity;
+                
+                categories.forEach(category => {
+                    const rect = category.getBoundingClientRect();
+                    const distance = Math.abs(rect.top - offset);
+                    
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestCategory = category;
+                    }
+                });
+                
+                if (closestCategory) {
+                    current = closestCategory.getAttribute('id');
+                }
             }
             
-            // Sadece kategori değiştiyse güncelle
+            // Her zaman güncelle (throttle kaldırıldı)
             if (current && current !== lastActiveCategory) {
                 lastActiveCategory = current;
                 
@@ -2255,13 +2278,13 @@
                         btn.classList.add('active');
                     }
                 });
+                
+                console.log('Active category:', current); // Debug için
             }
         }
 
-        window.addEventListener('scroll', function() {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(updateActiveCategory, 50); // 50ms throttle
-        });
+        // Scroll event - throttle kaldırıldı, anlık güncelleme
+        window.addEventListener('scroll', updateActiveCategory);
 
         // Prevent zoom on double tap
         let lastTouchEnd = 0;
