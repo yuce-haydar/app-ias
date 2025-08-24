@@ -380,13 +380,21 @@
             left: 100%;
         }
 
-        .category-btn:hover,
-        .category-btn.active {
+        .category-btn:hover {
             background: linear-gradient(135deg, var(--primary-color), #e6b800);
             color: white;
             border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(207, 159, 56, 0.3);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(207, 159, 56, 0.2);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), #e6b800);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(207, 159, 56, 0.4);
+            animation: none; /* Aktif durumda animasyonu durdur */
         }
 
         .category-btn i {
@@ -2204,25 +2212,55 @@
             });
         });
 
-        // Auto-update active category on scroll
-        window.addEventListener('scroll', function() {
+        // Auto-update active category on scroll with throttling
+        let scrollTimeout;
+        let lastActiveCategory = '';
+        
+        function updateActiveCategory() {
             const categories = document.querySelectorAll('.category-section');
             const buttons = document.querySelectorAll('.category-btn');
             
+            // Sticky categories nav yüksekliğini hesapla
+            const categoriesNav = document.querySelector('.categories-nav');
+            const offset = categoriesNav ? categoriesNav.offsetHeight + 100 : 200;
+            
             let current = '';
+            let bestMatch = null;
+            let closestDistance = Infinity;
+            
             categories.forEach(category => {
                 const rect = category.getBoundingClientRect();
-                if (rect.top <= 250) {
-                    current = category.getAttribute('id');
+                const distance = Math.abs(rect.top - offset);
+                
+                // Eğer kategori görünür alandaysa ve en yakın mesafedeyse
+                if (rect.top <= offset && rect.bottom >= 0) {
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        bestMatch = category;
+                    }
                 }
             });
+            
+            if (bestMatch) {
+                current = bestMatch.getAttribute('id');
+            }
+            
+            // Sadece kategori değiştiyse güncelle
+            if (current && current !== lastActiveCategory) {
+                lastActiveCategory = current;
+                
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('href') === `#${current}`) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+        }
 
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('href') === `#${current}`) {
-                    btn.classList.add('active');
-                }
-            });
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateActiveCategory, 50); // 50ms throttle
         });
 
         // Prevent zoom on double tap
@@ -2610,6 +2648,11 @@
 
             // Initialize the scroll reveal
             initScrollReveal();
+            
+            // İlk kategoriyi aktif yap
+            setTimeout(() => {
+                updateActiveCategory();
+            }, 100);
         });
     </script>
 </body>
