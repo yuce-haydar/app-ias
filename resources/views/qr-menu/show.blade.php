@@ -287,7 +287,7 @@
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 75px;
-            z-index: 99;
+            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -297,6 +297,9 @@
             min-height: 70px;
             max-height: 70px;
             overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
+            box-sizing: border-box;
         }
 
         .categories-scroll {
