@@ -1670,7 +1670,7 @@
         <div class="header-content">
             <!-- Logo ve Başlık -->
             <div class="header-top">
-                <img src="{{ $qrMenu->logo_url }}" alt="{{ $qrMenu->name }} Logo" class="header-logo">
+                <img src="{{ $qrMenu->logo_url }}" alt="{{ $qrMenu->name }} Logo" class="header-logo bg-white">
                 <h1>{{ $qrMenu->name }}</h1>
             </div>
             
