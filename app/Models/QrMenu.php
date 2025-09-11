@@ -73,7 +73,7 @@ class QrMenu extends Model
             return asset('storage/' . $this->logo);
         }
         // Default logo olarak hh.png kullan
-        return asset('assets/images/hh.png');
+        return asset('assets/images/logo/combined-logo.png');
     }
 
     // Header Background URL'si
