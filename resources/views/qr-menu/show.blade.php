@@ -59,9 +59,8 @@
             color: white;
             padding: 1.5rem 0.5rem;
             text-align: center;
-            position: sticky !important;
-            top: 0 !important;
-            z-index: 101 !important;
+            position: static; /* Normal scroll - sticky değil */
+            z-index: 50;
             box-shadow: 0 8px 32px rgba(0,0,0,0.15);
             background-repeat: no-repeat;
             overflow: hidden;
@@ -157,7 +156,7 @@
         /* Search Box Styles */
         .search-container {
             position: sticky;
-            top: 180px; /* Header sticky(110px) + Categories(70px) = 180px */
+            top: 70px; /* Categories(70px) altında */
             z-index: 999;
             margin: 0 auto;
             max-width: 500px;
@@ -300,7 +299,7 @@
             padding: 0.75rem 0.5rem;
             border-bottom: 1px solid var(--border-color);
             position: sticky !important;
-            top: 110px !important; /* Header sticky olunca daha yüksek: padding(24) + logo/text(60) + padding(24) + gap(2) */
+            top: 0 !important; /* Header normal scroll olduğu için top: 0 */
             z-index: 1000 !important;
             display: flex;
             align-items: center;
@@ -1326,7 +1325,7 @@
                 max-width: 100vw;
                 width: 100vw;
                 margin: 0;
-                margin-top: 204px; /* Header(89px) + Categories(60px) + Search(55px) = 204px */
+                margin-top: 0; /* Header normal scroll olduğu için margin gerek yok */
                 position: static;
                 overflow: visible !important;
                 transform: translateZ(0); /* GPU optimizasyon */
@@ -1334,20 +1333,16 @@
 
             .header {
                 padding: 1rem 0.25rem;
-                position: -webkit-sticky !important;
-                position: sticky !important;
-                top: 0 !important;
+                position: static !important; /* Normal scroll - sticky değil */
                 overflow: hidden;
                 margin: 0;
-                z-index: 1001 !important; /* Categories'den yüksek */
+                z-index: 50 !important; /* Categories'den düşük */
                 width: 100vw;
                 max-width: 100vw;
                 box-sizing: border-box;
                 left: 0;
                 right: 0;
                 background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
-                -webkit-transform: translateZ(0); /* iOS için force GPU */
-                transform: translateZ(0);
             }
 
             .header h1 {
@@ -1371,8 +1366,8 @@
             }
 
             .categories-nav {
-                position: fixed !important;
-                top: 89px !important; /* Header tam altında: padding(16) + logo(50) + padding(16) + gap(7) */
+                position: sticky !important; /* Sticky kategoriler */
+                top: 0 !important; /* Header kaybolunca üstte kalır */
                 left: 0 !important;
                 right: 0 !important;
                 padding: 0.5rem 0.25rem;
@@ -1443,8 +1438,8 @@
             }
 
             .search-container {
-                position: fixed !important;
-                top: 149px !important; /* Header(89px) + Categories(60px) = 149px */
+                position: sticky !important; /* Search da sticky */
+                top: 60px !important; /* Categories altında: categories(60px) */
                 left: 0 !important;
                 right: 0 !important;
                 padding: 0.5rem 0.25rem;
