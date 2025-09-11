@@ -1318,7 +1318,7 @@
                 overflow-y: auto !important;
                 height: auto;
                 min-height: 100vh;
-                position: relative;
+                position: static !important; /* Sticky için static olmalı */
             }
 
             .container {
@@ -1326,9 +1326,10 @@
                 max-width: 100vw;
                 width: 100vw;
                 margin: 0;
-                margin-top: 100px; /* Header(89px) + Categories(60px) + Search(55px) = 204px */
-                position: relative;
+                margin-top: 204px; /* Header(89px) + Categories(60px) + Search(55px) = 204px */
+                position: static;
                 overflow: visible !important;
+                transform: translateZ(0); /* GPU optimizasyon */
             }
 
             .header {
@@ -1338,13 +1339,15 @@
                 top: 0 !important;
                 overflow: hidden;
                 margin: 0;
-                z-index: 101 !important;
+                z-index: 1001 !important; /* Categories'den yüksek */
                 width: 100vw;
                 max-width: 100vw;
                 box-sizing: border-box;
                 left: 0;
                 right: 0;
                 background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+                -webkit-transform: translateZ(0); /* iOS için force GPU */
+                transform: translateZ(0);
             }
 
             .header h1 {
