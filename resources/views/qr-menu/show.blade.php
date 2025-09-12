@@ -2040,7 +2040,7 @@
     </div>
 
     <div class="footer">
-        <p>&copy; 2024 {{ $qrMenu->name }} - Dijital Menü</p>
+        <p>&copy; {{ date('Y') }} {{ $qrMenu->name }} - Dijital Menü</p>
         <p><small>Hatay İmar Sanayi A.Ş. tarafından desteklenmektedir.</small></p>
     </div>
 
