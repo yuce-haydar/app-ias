@@ -656,35 +656,47 @@ class QrMenuManagerController extends Controller
     /**
      * Ürün durumu toggle
      */
-    public function toggleItemStatus($slug, MenuItem $item)
+    public function toggleItemStatus(Request $request, $slug, MenuItem $item)
     {
         $qrMenu = $this->getQrMenu($slug);
         $this->checkItemOwnership($item, $qrMenu);
 
         $item->update(['is_available' => !$item->is_available]);
 
-        return response()->json([
-            'success' => true,
-            'is_available' => $item->is_available,
-            'message' => $item->is_available ? 'Ürün aktif edildi.' : 'Ürün pasif edildi.'
-        ]);
+        $message = $item->is_available ? 'Ürün aktif edildi.' : 'Ürün pasif edildi.';
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_available' => $item->is_available,
+                'message' => $message
+            ]);
+        }
+
+        return back()->with('success', $message);
     }
 
     /**
      * Ürün önerilme durumu toggle
      */
-    public function toggleItemRecommended($slug, MenuItem $item)
+    public function toggleItemRecommended(Request $request, $slug, MenuItem $item)
     {
         $qrMenu = $this->getQrMenu($slug);
         $this->checkItemOwnership($item, $qrMenu);
 
         $item->update(['is_recommended' => !$item->is_recommended]);
 
-        return response()->json([
-            'success' => true,
-            'is_recommended' => $item->is_recommended,
-            'message' => $item->is_recommended ? 'Ürün önerilenlere eklendi.' : 'Ürün önerilen listesinden çıkarıldı.'
-        ]);
+        $message = $item->is_recommended ? 'Ürün önerilenlere eklendi.' : 'Ürün önerilen listesinden çıkarıldı.';
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_recommended' => $item->is_recommended,
+                'message' => $message
+            ]);
+        }
+
+        return back()->with('success', $message);
     }
 
     /**
