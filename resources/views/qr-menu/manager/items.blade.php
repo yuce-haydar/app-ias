@@ -1229,6 +1229,7 @@
             form.action = `/qr-menu/{{ $qrMenu->url_slug }}/yonetici/urunler/${itemId}/toggle-availability`;
             form.innerHTML = `
                 @csrf
+                <input type="hidden" name="_method" value="PATCH">
                 <input type="hidden" name="is_available" value="${isAvailable}">
             `;
             document.body.appendChild(form);
@@ -1241,6 +1242,7 @@
             form.action = `/qr-menu/{{ $qrMenu->url_slug }}/yonetici/urunler/${itemId}/toggle-recommended`;
             form.innerHTML = `
                 @csrf
+                <input type="hidden" name="_method" value="PATCH">
                 <input type="hidden" name="is_recommended" value="${isRecommended}">
             `;
             document.body.appendChild(form);
