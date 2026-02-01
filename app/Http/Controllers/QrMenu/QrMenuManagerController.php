@@ -292,15 +292,42 @@ class QrMenuManagerController extends Controller
     /**
      * Menü öğeleri
      */
-    public function items($slug)
+    public function items(Request $request, $slug)
     {
         $qrMenu = $this->getQrMenu($slug);
         $categories = $qrMenu->menuCategories()->ordered()->get();
         
-        $items = MenuItem::whereIn('menu_category_id', $qrMenu->menuCategories()->pluck('id'))
+        $itemsQuery = MenuItem::whereIn('menu_category_id', $qrMenu->menuCategories()->pluck('id'))
             ->with('category')
-            ->ordered()
-            ->paginate(20);
+            ->ordered();
+
+        // Kategori filtresi
+        if ($request->filled('category')) {
+            $itemsQuery->where('menu_category_id', $request->input('category'));
+        }
+
+        // Durum filtresi
+        if ($request->filled('status')) {
+            switch ($request->input('status')) {
+                case 'available':
+                    $itemsQuery->where('is_available', true);
+                    break;
+                case 'unavailable':
+                    $itemsQuery->where('is_available', false);
+                    break;
+                case 'recommended':
+                    $itemsQuery->where('is_recommended', true);
+                    break;
+            }
+        }
+
+        // İsim filtresi
+        if ($request->filled('name')) {
+            $name = $request->input('name');
+            $itemsQuery->where('name', 'like', '%' . $name . '%');
+        }
+
+        $items = $itemsQuery->paginate(20)->appends($request->query());
 
         return view('qr-menu.manager.items', compact('qrMenu', 'categories', 'items'));
     }

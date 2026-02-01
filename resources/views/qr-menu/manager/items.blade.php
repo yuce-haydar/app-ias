@@ -254,6 +254,15 @@
             background: white;
         }
 
+        .filter-input {
+            padding: 0.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: white;
+            min-width: 200px;
+        }
+
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -763,6 +772,10 @@
                     </select>
                 </div>
                 <div class="filter-item">
+                    <label class="filter-label">İsim</label>
+                    <input type="text" class="filter-input" id="nameFilter" placeholder="Ürün adı..." value="{{ request('name') }}">
+                </div>
+                <div class="filter-item">
                     <label class="filter-label">&nbsp;</label>
                     <button class="btn btn-info btn-sm" onclick="applyFilters()">
                         <i class="fas fa-filter"></i>
@@ -1135,11 +1148,15 @@
         function applyFilters() {
             const category = document.getElementById('categoryFilter').value;
             const status = document.getElementById('statusFilter').value;
-            
-            let url = window.location.pathname + '?';
-            if (category) url += 'category=' + category + '&';
-            if (status) url += 'status=' + status + '&';
-            
+            const name = document.getElementById('nameFilter').value;
+
+            const params = new URLSearchParams();
+            if (category) params.set('category', category);
+            if (status) params.set('status', status);
+            if (name) params.set('name', name);
+
+            const query = params.toString();
+            const url = query ? `${window.location.pathname}?${query}` : window.location.pathname;
             window.location.href = url;
         }
 
