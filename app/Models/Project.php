@@ -121,4 +121,80 @@ class Project extends Model
     {
         return $this->hasOne(ProjectLocation::class)->ordered();
     }
+
+    /**
+     * Galeriyi gruplu forma normalize eder.
+     * Eski format: ["path1","path2"] → tek grup "Galeri".
+     * Yeni format: [["title" => "...", "images" => ["path"]], ...]
+     *
+     * @return array<int, array{title: string, images: array<int, string>}>
+     */
+    public function galleryGroupsNormalized(): array
+    {
+        $g = $this->gallery;
+        if (! $g || ! is_array($g)) {
+            return [];
+        }
+
+        $first = reset($g);
+        if (is_string($first)) {
+            $paths = array_values(array_filter($g, 'is_string'));
+
+            return $paths === [] ? [] : [['title' => 'Galeri', 'images' => $paths]];
+        }
+
+        $out = [];
+        foreach ($g as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+            $images = isset($row['images']) && is_array($row['images'])
+                ? array_values(array_filter($row['images'], 'is_string'))
+                : [];
+            if ($images === []) {
+                continue;
+            }
+            $title = isset($row['title']) ? trim((string) $row['title']) : '';
+            $out[] = [
+                'title' => $title !== '' ? $title : 'Galeri',
+                'images' => $images,
+            ];
+        }
+
+        return $out;
+    }
+
+    /**
+     * Galeri JSON'undan tüm storage path'lerini toplar (silme için).
+     *
+     * @return array<int, string>
+     */
+    public static function collectGalleryStoragePaths(?array $gallery): array
+    {
+        if (! $gallery) {
+            return [];
+        }
+
+        $first = reset($gallery);
+        if ($first === false) {
+            return [];
+        }
+
+        if (is_string($first)) {
+            return array_values(array_filter($gallery, 'is_string'));
+        }
+
+        $paths = [];
+        foreach ($gallery as $row) {
+            if (is_array($row) && isset($row['images']) && is_array($row['images'])) {
+                foreach ($row['images'] as $img) {
+                    if (is_string($img)) {
+                        $paths[] = $img;
+                    }
+                }
+            }
+        }
+
+        return $paths;
+    }
 }

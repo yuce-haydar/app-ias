@@ -60,10 +60,26 @@ class ProjectController extends Controller
         // Image path'i düzelt
         $project->image_url = \App\Helpers\ImageHelper::getImageUrl($project->image);
         
-        // Gallery path'lerini düzelt
-        if ($project->gallery && is_array($project->gallery)) {
-            $project->gallery_urls = \App\Helpers\ImageHelper::getGalleryUrls($project->gallery);
-        }
+        // Galeri grupları + düz URL listesi (lightbox için)
+        $groups = $project->galleryGroupsNormalized();
+        $project->gallery_grouped_urls = collect($groups)
+            ->map(function (array $g) {
+                return [
+                    'title' => $g['title'],
+                    'urls' => array_map(
+                        fn (string $path) => \App\Helpers\ImageHelper::getImageUrl($path),
+                        $g['images']
+                    ),
+                ];
+            })
+            ->values()
+            ->all();
+
+        $project->gallery_urls = collect($project->gallery_grouped_urls)
+            ->pluck('urls')
+            ->flatten()
+            ->values()
+            ->all();
         
         // Timeline'ı features'tan al
         $project->timeline = [];

@@ -176,20 +176,27 @@ Proje Detay Bölümü
                         </div>
                         @endif
 
-                        <!-- Proje Resimleri Galerisi -->
-                        @if($project->gallery_urls && count($project->gallery_urls) > 0)
+                        <!-- Proje Resimleri Galerisi (gruplu) -->
+                        @if(!empty($project->gallery_grouped_urls))
                         <h3>Proje Galerisi</h3>
-                        <div class="project-gallery">
-                            <div class="row g-3">
-                                @foreach($project->gallery_urls as $index => $image)
-                                <div class="col-md-6">
-                                    <div class="gallery-item">
-                                        <img src="{{ $image }}" alt="{{ $project->title }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px; cursor: pointer;" onclick="openImageModal('{{ $image }}', {{ $index + 1 }}, {{ json_encode(array_merge([$project->image_url], $project->gallery_urls)) }})">
+                        @php $flatGalleryIndex = 0; @endphp
+                        @foreach($project->gallery_grouped_urls as $block)
+                            @if(count($block['urls'] ?? []) > 0)
+                            <h4 class="h5 mt-4 mb-3 fw-semibold">{{ $block['title'] }}</h4>
+                            <div class="project-gallery mb-4">
+                                <div class="row g-3">
+                                    @foreach($block['urls'] as $image)
+                                    <div class="col-md-6">
+                                        <div class="gallery-item">
+                                            <img src="{{ $image }}" alt="{{ $project->title }} — {{ $block['title'] }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px; cursor: pointer;" onclick="openImageModal('{{ $image }}', {{ $flatGalleryIndex + 1 }}, {{ json_encode(array_merge([$project->image_url], $project->gallery_urls ?? [])) }})">
+                                        </div>
                                     </div>
+                                    @php $flatGalleryIndex++; @endphp
+                                    @endforeach
                                 </div>
-                                @endforeach
                             </div>
-                        </div>
+                            @endif
+                        @endforeach
                         @endif
 
                         <!-- Proje İframe Bölümü -->

@@ -345,41 +345,12 @@
                                     <div id="imagePreview" class="mt-2"></div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="gallery" class="form-label">Galeri Görselleri</label>
-                                    
-                                    @if($project->gallery && count($project->gallery) > 0)
-                                        <div class="current-gallery mb-3">
-                                            <p class="text-muted mb-2">{{ count($project->gallery) }} adet mevcut galeri görseli:</p>
-                                            <div class="row g-2" id="galleryContainer">
-                                                @foreach($project->gallery as $index => $image)
-                                                    <div class="col-md-4" id="gallery-item-{{ $index }}">
-                                                        <div class="gallery-item p-2 border rounded bg-light">
-                                                            <img src="{{ asset('storage/' . $image) }}" class="img-thumbnail w-100 mb-2" style="height: 100px; object-fit: cover;">
-                                                            <div class="btn-group btn-group-sm w-100">
-                                                                <button type="button" class="btn btn-danger btn-sm" onclick="removeGalleryImage({{ $index }})">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                                <a href="{{ asset('storage/' . $image) }}" target="_blank" class="btn btn-info btn-sm">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            <input type="hidden" name="removed_gallery_images" id="removed_gallery_images" value="">
-                                        </div>
-                                    @endif
-                                    
-                                    <input type="file" class="form-control @error('gallery.*') is-invalid @enderror" 
-                                           id="gallery" name="gallery[]" multiple accept="image/*">
-                                    <small class="text-muted">Birden fazla görsel seçebilirsiniz. Mevcut görseller korunacaktır.</small>
-                                    @error('gallery.*')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <div id="galleryPreview" class="mt-2"></div>
-                                </div>
+                                @include('admin.projects.partials.gallery-groups-form', [
+                                    'galleryGroups' => $project->galleryGroupsNormalized(),
+                                ])
+                                @error('gallery_groups.*')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
 
                                 <div class="mb-3">
                                     <label for="project_type" class="form-label">Proje Tipi <span class="text-danger">*</span></label>
@@ -536,15 +507,6 @@ function removeCurrentImage() {
     }
 }
 
-let removedGalleryImages = [];
-function removeGalleryImage(index) {
-    if (confirm('Bu galeri görselini kaldırmak istediğinize emin misiniz?')) {
-        document.getElementById('gallery-item-' + index).style.display = 'none';
-        removedGalleryImages.push(index);
-        document.getElementById('removed_gallery_images').value = JSON.stringify(removedGalleryImages);
-    }
-}
-
 document.getElementById('image').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -557,29 +519,6 @@ document.getElementById('image').addEventListener('change', function(e) {
                 '</div>';
         }
         reader.readAsDataURL(file);
-    }
-});
-
-document.getElementById('gallery').addEventListener('change', function(e) {
-    const files = Array.from(e.target.files);
-    const previewContainer = document.getElementById('galleryPreview');
-    
-    if (files.length > 0) {
-        previewContainer.innerHTML = '<div class="mt-2"><p class="text-success mb-2"><i class="fas fa-check"></i> ' + files.length + ' yeni görsel seçildi:</p><div class="row g-2" id="newGalleryPreviews"></div></div>';
-        
-        files.forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('newGalleryPreviews').innerHTML += 
-                    '<div class="col-md-3">' +
-                    '<div class="p-2 border rounded bg-light">' +
-                    '<img src="' + e.target.result + '" class="img-thumbnail w-100" style="height: 80px; object-fit: cover;">' +
-                    '<small class="d-block text-center text-muted mt-1">' + file.name + '</small>' +
-                    '</div>' +
-                    '</div>';
-            }
-            reader.readAsDataURL(file);
-        });
     }
 });
 

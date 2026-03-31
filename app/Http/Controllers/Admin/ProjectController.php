@@ -8,8 +8,8 @@ use App\Models\Project;
 use App\Models\ProjectLocation;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ProjectController extends Controller
 {
@@ -64,7 +64,12 @@ class ProjectController extends Controller
                 'sort_order' => 'nullable|integer',
                 'is_featured' => 'boolean',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+                'gallery_groups' => 'nullable|array',
+                'gallery_groups.*.title' => 'nullable|string|max:255',
+                'gallery_groups.*.existing' => 'nullable|array',
+                'gallery_groups.*.existing.*' => 'nullable|string|max:500',
+                'gallery_groups.*.new' => 'nullable|array',
+                'gallery_groups.*.new.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
                 'iframe_codes' => 'nullable|array',
                 'iframe_codes.*.title' => 'nullable|string|max:255',
                 'iframe_codes.*.code' => 'nullable|string',
@@ -108,23 +113,7 @@ class ProjectController extends Controller
                 $validated['image'] = ImageHelper::compressAndStore($imageFile, 'projeler');
             }
 
-            // Handle gallery upload with compression
-            if ($request->hasFile('gallery')) {
-                $gallery = [];
-                foreach ($request->file('gallery') as $file) {
-                    // Dosya boyutu ve türü kontrolü
-                    if (!ImageHelper::checkFileSize($file, 15)) {
-                        return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
-                    }
-                    
-                    if (!ImageHelper::isValidImageType($file)) {
-                        return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
-                    }
-                    
-                    $gallery[] = ImageHelper::compressAndStore($file, 'projeler/gallery');
-                }
-                $validated['gallery'] = $gallery;
-            }
+            $validated['gallery'] = $this->processGalleryGroupsFromRequest($request);
 
             // iframe_codes verilerini işle
             if (isset($validated['iframe_codes']) && is_array($validated['iframe_codes'])) {
@@ -213,7 +202,12 @@ class ProjectController extends Controller
                 'sort_order' => 'nullable|integer',
                 'is_featured' => 'boolean',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-                'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+                'gallery_groups' => 'nullable|array',
+                'gallery_groups.*.title' => 'nullable|string|max:255',
+                'gallery_groups.*.existing' => 'nullable|array',
+                'gallery_groups.*.existing.*' => 'nullable|string|max:500',
+                'gallery_groups.*.new' => 'nullable|array',
+                'gallery_groups.*.new.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
                 'iframe_codes' => 'nullable|array',
                 'iframe_codes.*.title' => 'nullable|string|max:255',
                 'iframe_codes.*.code' => 'nullable|string',
@@ -270,38 +264,9 @@ class ProjectController extends Controller
                 $validated['image'] = ImageHelper::compressAndStore($imageFile, 'projeler');
             }
 
-            // Handle gallery image removals
-            $gallery = $project->gallery ?? [];
-            if ($request->input('removed_gallery_images')) {
-                $removedIndices = json_decode($request->input('removed_gallery_images'), true);
-                if (is_array($removedIndices)) {
-                    foreach ($removedIndices as $index) {
-                        if (isset($gallery[$index])) {
-                            ImageHelper::deleteImage($gallery[$index]);
-                            unset($gallery[$index]);
-                        }
-                    }
-                    $gallery = array_values($gallery); // Reindex array
-                }
-            }
-
-            // Handle new gallery uploads with compression
-            if ($request->hasFile('gallery')) {
-                foreach ($request->file('gallery') as $file) {
-                    // Dosya boyutu ve türü kontrolü
-                    if (!ImageHelper::checkFileSize($file, 15)) {
-                        return back()->withErrors(['gallery' => 'Galeri görsellerinden biri 15MB\'dan büyük.']);
-                    }
-                    
-                    if (!ImageHelper::isValidImageType($file)) {
-                        return back()->withErrors(['gallery' => 'Galeri görselleri için geçersiz format.']);
-                    }
-                    
-                    $gallery[] = ImageHelper::compressAndStore($file, 'projeler/gallery');
-                }
-            }
-            
-            $validated['gallery'] = $gallery;
+            $newGallery = $this->processGalleryGroupsFromRequest($request);
+            $this->deleteRemovedGalleryImages($project->gallery, $newGallery);
+            $validated['gallery'] = $newGallery;
 
             // iframe_codes verilerini işle
             if (isset($validated['iframe_codes']) && is_array($validated['iframe_codes'])) {
@@ -380,16 +345,96 @@ class ProjectController extends Controller
                 ImageHelper::deleteImage($project->image);
             }
             
-            // Delete gallery images
-            if ($project->gallery) {
-                foreach ($project->gallery as $image) {
-                    ImageHelper::deleteImage($image);
-                }
+            foreach (Project::collectGalleryStoragePaths($project->gallery) as $image) {
+                ImageHelper::deleteImage($image);
             }
             
             $project->delete();
 
             return true;
         }, $request, 'Proje başarıyla silindi', 'Proje silinirken bir hata oluştu', 'admin.projects.index');
+    }
+
+    /**
+     * @return array<int, array{title: string, images: array<int, string>}>
+     */
+    private function processGalleryGroupsFromRequest(Request $request): array
+    {
+        $groupsInput = $request->input('gallery_groups', []);
+        if (! is_array($groupsInput)) {
+            return [];
+        }
+
+        $groups = [];
+
+        foreach ($groupsInput as $index => $group) {
+            if (! is_array($group)) {
+                continue;
+            }
+
+            $title = isset($group['title']) ? trim((string) $group['title']) : '';
+            $images = [];
+
+            $existing = $group['existing'] ?? [];
+            if (is_array($existing)) {
+                foreach ($existing as $path) {
+                    if (is_string($path) && $this->isAllowedProjectGalleryPath($path)) {
+                        $images[] = $path;
+                    }
+                }
+            }
+
+            $newFiles = $request->file('gallery_groups.'.$index.'.new', []);
+            if ($newFiles instanceof \Illuminate\Http\UploadedFile) {
+                $newFiles = [$newFiles];
+            }
+            if (! is_array($newFiles)) {
+                $newFiles = [];
+            }
+
+            foreach ($newFiles as $file) {
+                if (! $file || ! $file->isValid()) {
+                    continue;
+                }
+                if (! ImageHelper::checkFileSize($file, 15)) {
+                    throw ValidationException::withMessages([
+                        "gallery_groups.$index.new" => 'Galeri görsellerinden biri 15MB\'dan büyük.',
+                    ]);
+                }
+                if (! ImageHelper::isValidImageType($file)) {
+                    throw ValidationException::withMessages([
+                        "gallery_groups.$index.new" => 'Galeri için geçersiz görsel formatı.',
+                    ]);
+                }
+                $images[] = ImageHelper::compressAndStore($file, 'projeler/gallery');
+            }
+
+            if (count($images) > 0) {
+                $groups[] = [
+                    'title' => $title !== '' ? $title : 'Galeri',
+                    'images' => $images,
+                ];
+            }
+        }
+
+        return $groups;
+    }
+
+    private function isAllowedProjectGalleryPath(string $path): bool
+    {
+        $path = trim($path);
+
+        return $path !== ''
+            && str_starts_with($path, 'projeler/')
+            && ! str_contains($path, '..');
+    }
+
+    private function deleteRemovedGalleryImages(?array $oldGallery, array $newGallery): void
+    {
+        $oldPaths = Project::collectGalleryStoragePaths($oldGallery);
+        $newPaths = Project::collectGalleryStoragePaths($newGallery);
+        foreach (array_diff($oldPaths, $newPaths) as $path) {
+            ImageHelper::deleteImage($path);
+        }
     }
 }
