@@ -1,22 +1,22 @@
+{{-- Tüm kategoriler düz liste: önce her ana kategori, hemen altında kendi alt kategorileri; kalanlar sonda --}}
 @php
-    $roots = $categories->whereNull('parent_id')->sortBy('order');
-    $renderedIds = collect();
     $sel = $selectedId ?? null;
+    $ordered = collect();
+    $roots = $categories->whereNull('parent_id')->sortBy('order');
+    foreach ($roots as $root) {
+        $ordered->push($root);
+        foreach ($root->children->sortBy('order') as $sub) {
+            $ordered->push($sub);
+        }
+    }
+    $rest = $categories->whereNotIn('id', $ordered->pluck('id')->all())->sortBy('order');
+    $ordered = $ordered->merge($rest);
 @endphp
-@foreach($roots as $root)
-    @php $renderedIds->push($root->id); @endphp
-    @if($root->children->isEmpty())
-        <option value="{{ $root->id }}" @if((string)$sel === (string)$root->id) selected @endif>{{ $root->name }}</option>
-    @else
-        <optgroup label="{{ $root->name }}">
-            <option value="{{ $root->id }}" @if((string)$sel === (string)$root->id) selected @endif>{{ $root->name }}</option>
-            @foreach($root->children->sortBy('order') as $sub)
-                @php $renderedIds->push($sub->id); @endphp
-                <option value="{{ $sub->id }}" @if((string)$sel === (string)$sub->id) selected @endif>{{ $sub->name }}</option>
-            @endforeach
-        </optgroup>
-    @endif
-@endforeach
-@foreach($categories->whereNotIn('id', $renderedIds->unique()->all()) as $cat)
-    <option value="{{ $cat->id }}" @if((string)$sel === (string)$cat->id) selected @endif>{{ $cat->parent ? $cat->parent->name . ' › ' : '' }}{{ $cat->name }}</option>
+@foreach($ordered as $cat)
+    <option value="{{ $cat->id }}" @if((string)$sel === (string)$cat->id) selected @endif>
+        @if($cat->parent_id)
+            {{ $cat->parent ? $cat->parent->name . ' › ' : '' }}
+        @endif
+        {{ $cat->name }}
+    </option>
 @endforeach

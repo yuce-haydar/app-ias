@@ -8,6 +8,7 @@ use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Exists;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -179,9 +180,22 @@ class QrMenuManagerController extends Controller
     public function categories($slug)
     {
         $qrMenu = $this->getQrMenu($slug);
-        $categories = $qrMenu->menuCategories()->ordered()->with('parent')->get();
-        
-        return view('qr-menu.manager.categories', compact('qrMenu', 'categories'));
+        $categories = $qrMenu->menuCategories()->ordered()->with(['parent', 'menuItems'])->get();
+
+        $categoryRoots = $categories->whereNull('parent_id')->sortBy('order')->values();
+        $this->nestCategoryChildren($categoryRoots, $categories);
+
+        $orphanCategories = $categories->filter(function (MenuCategory $c) use ($categories) {
+            if ($c->parent_id === null) {
+                return false;
+            }
+
+            return ! $categories->contains('id', $c->parent_id);
+        })->sortBy('order')->values();
+
+        $this->nestCategoryChildren($orphanCategories, $categories);
+
+        return view('qr-menu.manager.categories', compact('qrMenu', 'categories', 'categoryRoots', 'orphanCategories'));
     }
 
     /**
@@ -299,17 +313,13 @@ class QrMenuManagerController extends Controller
         $qrMenu = $this->getQrMenu($slug);
         $this->checkCategoryOwnership($category, $qrMenu);
 
-        // Kategori resimlerini sil
-        foreach ($category->menuItems as $item) {
-            if ($item->image) {
-                Storage::disk('public')->delete($item->image);
-            }
-        }
+        $category->load(['menuItems', 'children']);
+        $this->purgeCategoryTreeMedia($category);
 
         $category->delete();
 
         return redirect()->route('qr-menu.categories', $slug)
-            ->with('success', 'Kategori başarıyla silindi.');
+            ->with('success', 'Kategori, alt kategorileri ve bağlı ürün görselleri silindi.');
     }
 
     /**
@@ -914,6 +924,45 @@ class QrMenuManagerController extends Controller
     private function menuCategoryIdRule(QrMenu $qrMenu): Exists
     {
         return Rule::exists('menu_categories', 'id')->where('qr_menu_id', $qrMenu->id);
+    }
+
+    /**
+     * Düz listeden hiyerarşik children ağacı kur (sınırsız derinlik).
+     */
+    private function nestCategoryChildren(Collection $categories, Collection $flat): void
+    {
+        foreach ($categories as $category) {
+            $children = $flat->where('parent_id', $category->id)->sortBy('order')->values();
+            $category->setRelation('children', $children);
+            if ($children->isNotEmpty()) {
+                $this->nestCategoryChildren($children, $flat);
+            }
+        }
+    }
+
+    /**
+     * Kategori ağacındaki tüm ürün görsellerini sil (DB cascade model olaylarını tetiklemediği için).
+     */
+    private function purgeCategoryTreeMedia(MenuCategory $category): void
+    {
+        $category->loadMissing(['menuItems', 'children']);
+
+        foreach ($category->menuItems as $item) {
+            if ($item->image) {
+                Storage::disk('public')->delete($item->image);
+            }
+            if (is_array($item->gallery)) {
+                foreach ($item->gallery as $path) {
+                    if ($path) {
+                        Storage::disk('public')->delete($path);
+                    }
+                }
+            }
+        }
+
+        foreach ($category->children as $child) {
+            $this->purgeCategoryTreeMedia($child);
+        }
     }
 
     private function checkCategoryOwnership(MenuCategory $category, QrMenu $qrMenu)

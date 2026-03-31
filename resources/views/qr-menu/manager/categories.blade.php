@@ -550,87 +550,27 @@
 
         @if($categories->count() > 0)
             <div class="categories-grid">
-                {{-- Ana kategoriler --}}
-                @foreach($categories->whereNull('parent_id')->sortBy('order') as $category)
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="{{ $category->icon ?: 'fas fa-utensils' }}"></i>
-                        </div>
-                        <h3 class="category-title">
-                            📂 {{ $category->name }}
-                            @if($category->children->count() > 0)
-                                <small style="color: #cf9f38; font-size: 0.8rem;">({{ $category->children->count() }} alt kategori)</small>
-                            @endif
-                        </h3>
-                        @if($category->description)
-                            <p class="category-description">{!! $category->description !!}</p>
-                        @endif
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <i class="fas fa-utensils"></i>
-                                {{ $category->menuItems->count() }} Ürün
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-sort-numeric-up"></i>
-                                Sıra: {{ $category->order }}
-                            </div>
-                        </div>
-                        <div class="category-actions">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory({{ $category->id }})">
-                                <i class="fas fa-edit"></i>
-                                Düzenle
-                            </button>
-                            <a href="{{ route('qr-menu.items', $qrMenu->url_slug) }}?category={{ $category->id }}" class="btn btn-success btn-sm">
-                                <i class="fas fa-eye"></i>
-                                Ürünleri Gör
-                            </a>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory({{ $category->id }}, '{{ $category->name }}')">
-                                <i class="fas fa-trash"></i>
-                                Sil
-                            </button>
-                        </div>
-                    </div>
-
-                    {{-- Bu ana kategorinin alt kategorileri --}}
-                    @foreach($category->children->sortBy('order') as $subCategory)
-                        <div class="category-card" style="margin-left: 20px; border-left: 4px solid var(--primary-color); opacity: 0.9; transform: scale(0.95);">
-                            <div class="category-icon" style="background: var(--secondary-color);">
-                                <i class="{{ $subCategory->icon ?: 'fas fa-folder' }}"></i>
-                            </div>
-                            <h3 class="category-title" style="font-size: 1.1rem;">
-                                📁 {{ $subCategory->name }}
-                                <small style="color: #666; font-size: 0.7rem; display: block;">{{ $category->name }} altında</small>
-                            </h3>
-                            @if($subCategory->description)
-                                <p class="category-description">{!! $subCategory->description !!}</p>
-                            @endif
-                            <div class="category-stats">
-                                <div class="stat-item">
-                                    <i class="fas fa-utensils"></i>
-                                    {{ $subCategory->menuItems->count() }} Ürün
-                                </div>
-                                <div class="stat-item">
-                                    <i class="fas fa-sort-numeric-up"></i>
-                                    Sıra: {{ $subCategory->order }}
-                                </div>
-                            </div>
-                            <div class="category-actions">
-                                <button class="btn btn-warning btn-sm" onclick="editCategory({{ $subCategory->id }})">
-                                    <i class="fas fa-edit"></i>
-                                    Düzenle
-                                </button>
-                                <a href="{{ route('qr-menu.items', $qrMenu->url_slug) }}?category={{ $subCategory->id }}" class="btn btn-success btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                    Ürünleri Gör
-                                </a>
-                                <button class="btn btn-danger btn-sm" onclick="deleteCategory({{ $subCategory->id }}, '{{ $subCategory->name }}')">
-                                    <i class="fas fa-trash"></i>
-                                    Sil
-                                </button>
-                            </div>
-                        </div>
-                    @endforeach
+                @foreach($categoryRoots as $category)
+                    @include('qr-menu.manager.partials.category-manager-node', [
+                        'category' => $category,
+                        'qrMenu' => $qrMenu,
+                        'depth' => 0,
+                    ])
                 @endforeach
+
+                @if(isset($orphanCategories) && $orphanCategories->isNotEmpty())
+                    <div class="alert alert-warning" style="grid-column: 1 / -1;">
+                        <strong>Üst kategorisi bulunamayan kayıtlar:</strong> Veritabanında parent_id tanımlı ama üst satır yok. Düzenleyerek bağlayın veya silin.
+                    </div>
+                    @foreach($orphanCategories as $category)
+                        @include('qr-menu.manager.partials.category-manager-node', [
+                            'category' => $category,
+                            'qrMenu' => $qrMenu,
+                            'depth' => 0,
+                            'orphan' => true,
+                        ])
+                    @endforeach
+                @endif
             </div>
         @else
             <div class="empty-state">
@@ -806,7 +746,7 @@
         }
 
         function deleteCategory(categoryId, categoryName) {
-            if (confirm(`"${categoryName}" kategorisini silmek istediğinizden emin misiniz?\n\nBu kategoriye ait tüm ürünler de silinecektir.`)) {
+            if (confirm(`"${categoryName}" kategorisini silmek istediğinizden emin misiniz?\n\nAlt kategoriler, bu kategorideki tüm ürünler ve ürün görselleri de kalıcı olarak silinir.`)) {
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = `/qr-menu/{{ $qrMenu->url_slug }}/yonetici/kategoriler/${categoryId}`;
