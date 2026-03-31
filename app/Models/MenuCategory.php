@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 
 class MenuCategory extends Model
 {
     use HasFactory;
+
+    private const PARENT_CHAIN_MAX_STEPS = 500;
 
     protected $fillable = [
         'qr_menu_id',
@@ -22,6 +25,63 @@ class MenuCategory extends Model
     protected $casts = [
         'is_active' => 'boolean'
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (MenuCategory $category) {
+            if ($category->parent_id === null || $category->parent_id === '') {
+                return;
+            }
+
+            $parentId = (int) $category->parent_id;
+            $selfId = $category->exists ? (int) $category->getKey() : null;
+
+            if ($selfId !== null && $parentId === $selfId) {
+                throw ValidationException::withMessages([
+                    'parent_id' => 'Kategori kendi üst kategorisi olamaz.',
+                ]);
+            }
+
+            $parent = static::query()->whereKey($parentId)->first(['id', 'parent_id', 'qr_menu_id']);
+            if (! $parent) {
+                throw ValidationException::withMessages([
+                    'parent_id' => 'Üst kategori bulunamadı.',
+                ]);
+            }
+
+            if ((int) $parent->qr_menu_id !== (int) $category->qr_menu_id) {
+                throw ValidationException::withMessages([
+                    'parent_id' => 'Üst kategori bu QR menüye ait olmalıdır (başka tesisten seçilemez).',
+                ]);
+            }
+
+            if ($selfId === null) {
+                return;
+            }
+
+            $walker = $parentId;
+            $steps = 0;
+            while ($walker && $steps < self::PARENT_CHAIN_MAX_STEPS) {
+                if ((int) $walker === $selfId) {
+                    throw ValidationException::withMessages([
+                        'parent_id' => 'Bu üst kategori seçimi döngü oluşturur (alt kategoriyi üst yapamazsınız).',
+                    ]);
+                }
+                $row = static::query()->whereKey($walker)->first(['id', 'parent_id']);
+                if (! $row || $row->parent_id === null) {
+                    break;
+                }
+                $walker = (int) $row->parent_id;
+                $steps++;
+            }
+
+            if ($steps >= self::PARENT_CHAIN_MAX_STEPS) {
+                throw ValidationException::withMessages([
+                    'parent_id' => 'Kategori zinciri çok derin veya döngülü. Lütfen hiyerarşiyi sadeleştirin.',
+                ]);
+            }
+        });
+    }
 
     // İlişkiler
     public function qrMenu()
