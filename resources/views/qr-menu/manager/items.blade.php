@@ -748,6 +748,13 @@
             </button>
         </div>
 
+        @if(isset($categoryOrphans) && $categoryOrphans->isNotEmpty())
+            <div class="alert alert-warning" style="margin-bottom: 1rem; padding: 12px 16px; border-radius: 8px; background: #fff3cd; color: #856404; border: 1px solid #ffeaa7;">
+                <strong>Bağlantısı bozuk {{ $categoryOrphans->count() }} kategori</strong> bu menü ağacına bağlı değil (üst kayıt yok veya başka QR menüye ait). Aynı isimle birden fazla satır görmenizin tipik nedeni budur.
+                <a href="{{ route('qr-menu.categories', $qrMenu->url_slug) }}" style="color: #533f03; font-weight: 600; text-decoration: underline;">Kategori yönetiminde</a> sarı uyarıdaki kartlardan düzeltin veya silin.
+            </div>
+        @endif
+
         <!-- Filters -->
         <div class="filters">
             <div class="filters-row">
@@ -755,9 +762,9 @@
                     <label class="filter-label">Kategori</label>
                     <select class="filter-select" id="categoryFilter">
                         <option value="">Tüm Kategoriler</option>
-                        @foreach($categories as $category)
+                        @foreach($categoriesFlatOrdered as $category)
                             <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                {{ $category->parent ? $category->parent->name . ' › ' : '' }}{{ $category->name }}
+                                {{ $categorySelectLabels[$category->id] ?? $category->name }}
                             </option>
                         @endforeach
                     </select>
@@ -936,7 +943,8 @@
                     <select name="menu_category_id" class="form-select" required>
                         <option value="">Kategori Seçin</option>
                         @include('qr-menu.manager.partials.category-select-options', [
-                            'categories' => $categories,
+                            'categoriesFlatOrdered' => $categoriesFlatOrdered,
+                            'categorySelectLabels' => $categorySelectLabels,
                             'selectedId' => old('menu_category_id'),
                         ])
                     </select>
@@ -1049,7 +1057,8 @@
                     <label class="form-label">Kategori</label>
                     <select name="menu_category_id" class="form-select" id="editCategory" required>
                         @include('qr-menu.manager.partials.category-select-options', [
-                            'categories' => $categories,
+                            'categoriesFlatOrdered' => $categoriesFlatOrdered,
+                            'categorySelectLabels' => $categorySelectLabels,
                             'selectedId' => null,
                         ])
                     </select>

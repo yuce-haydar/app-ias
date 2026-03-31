@@ -180,20 +180,7 @@ class QrMenuManagerController extends Controller
     public function categories($slug)
     {
         $qrMenu = $this->getQrMenu($slug);
-        $categories = $qrMenu->menuCategories()->ordered()->with(['parent', 'menuItems'])->get();
-
-        $categoryRoots = $categories->whereNull('parent_id')->sortBy('order')->values();
-        $this->nestCategoryChildren($categoryRoots, $categories);
-
-        $orphanCategories = $categories->filter(function (MenuCategory $c) use ($categories) {
-            if ($c->parent_id === null) {
-                return false;
-            }
-
-            return ! $categories->contains('id', $c->parent_id);
-        })->sortBy('order')->values();
-
-        $this->nestCategoryChildren($orphanCategories, $categories);
+        [$categories, $categoryRoots, , $orphanCategories] = $this->loadManagerCategoryCollections($qrMenu);
 
         return view('qr-menu.manager.categories', compact('qrMenu', 'categories', 'categoryRoots', 'orphanCategories'));
     }
@@ -328,8 +315,11 @@ class QrMenuManagerController extends Controller
     public function items(Request $request, $slug)
     {
         $qrMenu = $this->getQrMenu($slug);
-        $categories = $qrMenu->menuCategories()->ordered()->with(['parent', 'children'])->get();
-        
+        [$categories, , $categoriesOrdered, $categoryOrphans] = $this->loadManagerCategoryCollections($qrMenu);
+
+        $categoriesFlatOrdered = $categoriesOrdered->concat($categoryOrphans);
+        $categorySelectLabels = $this->buildCategorySelectLabels($categoriesFlatOrdered, $categories, $qrMenu);
+
         $itemsQuery = MenuItem::whereIn('menu_category_id', $qrMenu->menuCategories()->pluck('id'))
             ->with('category')
             ->ordered();
@@ -362,7 +352,14 @@ class QrMenuManagerController extends Controller
 
         $items = $itemsQuery->paginate(20)->appends($request->query());
 
-        return view('qr-menu.manager.items', compact('qrMenu', 'categories', 'items'));
+        return view('qr-menu.manager.items', compact(
+            'qrMenu',
+            'categories',
+            'categoryOrphans',
+            'categoriesFlatOrdered',
+            'categorySelectLabels',
+            'items'
+        ));
     }
 
     /**
@@ -938,6 +935,85 @@ class QrMenuManagerController extends Controller
                 $this->nestCategoryChildren($children, $flat);
             }
         }
+    }
+
+    /**
+     * @return array{0: Collection<int, MenuCategory>, 1: Collection<int, MenuCategory>, 2: Collection<int, MenuCategory>, 3: Collection<int, MenuCategory>}
+     */
+    private function loadManagerCategoryCollections(QrMenu $qrMenu): array
+    {
+        $categories = $qrMenu->menuCategories()->ordered()->with(['parent', 'children', 'menuItems'])->get();
+        $categoryRoots = $categories->whereNull('parent_id')->sortBy('order')->values();
+        $this->nestCategoryChildren($categoryRoots, $categories);
+
+        $visited = [];
+        $categoriesOrdered = $this->flattenCategoryTreeDfs($categoryRoots, $visited);
+        $categoryOrphans = $categories
+            ->filter(static fn (MenuCategory $c) => ! isset($visited[$c->id]))
+            ->sortBy('order')
+            ->values();
+        $this->nestCategoryChildren($categoryOrphans, $categories);
+
+        return [$categories, $categoryRoots, $categoriesOrdered, $categoryOrphans];
+    }
+
+    private function flattenCategoryTreeDfs(Collection $nodes, array &$visited): Collection
+    {
+        $out = collect();
+        foreach ($nodes as $node) {
+            if (isset($visited[$node->id])) {
+                continue;
+            }
+            $visited[$node->id] = true;
+            $out->push($node);
+            if ($node->children->isNotEmpty()) {
+                $out = $out->merge($this->flattenCategoryTreeDfs(
+                    $node->children->sortBy('order')->values(),
+                    $visited
+                ));
+            }
+        }
+
+        return $out;
+    }
+
+    private function categorySelectBaseLabel(MenuCategory $cat, Collection $byId, QrMenu $qrMenu): string
+    {
+        if (! $cat->parent_id) {
+            return (string) $cat->name;
+        }
+        $parent = $byId->get($cat->parent_id);
+        if (! $parent || (int) $parent->qr_menu_id !== (int) $qrMenu->id) {
+            return (string) $cat->name . ' [ID ' . $cat->id . ' — üst bu QR menüde değil]';
+        }
+
+        return (string) $parent->name . ' › ' . (string) $cat->name;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function buildCategorySelectLabels(Collection $orderedList, Collection $allCategories, QrMenu $qrMenu): array
+    {
+        $byId = $allCategories->keyBy('id');
+        $rows = [];
+        foreach ($orderedList as $cat) {
+            $rows[] = [
+                'id' => $cat->id,
+                'base' => $this->categorySelectBaseLabel($cat, $byId, $qrMenu),
+            ];
+        }
+        $counts = collect($rows)->countBy('base');
+        $out = [];
+        foreach ($rows as $row) {
+            $final = $row['base'];
+            if (($counts[$row['base']] ?? 0) > 1) {
+                $final = $row['base'] . ' · #' . $row['id'];
+            }
+            $out[$row['id']] = $final;
+        }
+
+        return $out;
     }
 
     /**
