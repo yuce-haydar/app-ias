@@ -514,8 +514,19 @@
                 </div>
                 <div class="stat-value">{{ $stats['categories'] }}</div>
                 <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i>
-                    Aktif kategoriler
+                    <i class="fas fa-layer-group"></i>
+                    @if($stats['categories'] === 0)
+                        Henüz kategori yok
+                    @elseif($stats['categories_active'] < $stats['categories'])
+                        {{ $stats['categories_active'] }} aktif · {{ $stats['categories'] }} toplam kayıt
+                    @else
+                        @php $subCats = $stats['categories'] - $stats['categories_main']; @endphp
+                        @if($subCats > 0)
+                            {{ $stats['categories_main'] }} ana · {{ $subCats }} alt kategori
+                        @else
+                            {{ $stats['categories_main'] }} ana kategori
+                        @endif
+                    @endif
                 </div>
             </div>
 

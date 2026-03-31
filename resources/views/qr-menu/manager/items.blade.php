@@ -757,7 +757,7 @@
                         <option value="">Tüm Kategoriler</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
+                                {{ $category->parent ? $category->parent->name . ' › ' : '' }}{{ $category->name }}
                             </option>
                         @endforeach
                     </select>
@@ -935,9 +935,10 @@
                     <label class="form-label">Kategori</label>
                     <select name="menu_category_id" class="form-select" required>
                         <option value="">Kategori Seçin</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('menu_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                        @endforeach
+                        @include('qr-menu.manager.partials.category-select-options', [
+                            'categories' => $categories,
+                            'selectedId' => old('menu_category_id'),
+                        ])
                     </select>
                 </div>
                 <div class="form-group">
@@ -1047,9 +1048,10 @@
                 <div class="form-group">
                     <label class="form-label">Kategori</label>
                     <select name="menu_category_id" class="form-select" id="editCategory" required>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
+                        @include('qr-menu.manager.partials.category-select-options', [
+                            'categories' => $categories,
+                            'selectedId' => null,
+                        ])
                     </select>
                 </div>
                 <div class="form-group">

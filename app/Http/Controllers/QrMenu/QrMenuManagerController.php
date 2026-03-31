@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\{QrMenu, MenuCategory, MenuItem, QrMenuUser};
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Exists;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -28,6 +30,8 @@ class QrMenuManagerController extends Controller
         
         $stats = [
             'categories' => $qrMenu->menuCategories()->count(),
+            'categories_main' => $qrMenu->menuCategories()->whereNull('parent_id')->count(),
+            'categories_active' => $qrMenu->menuCategories()->active()->count(),
             'items' => $totalItems,
             'recommended' => $recommendedItems,
             'out_of_stock' => $totalItems - $availableItems,
@@ -175,7 +179,7 @@ class QrMenuManagerController extends Controller
     public function categories($slug)
     {
         $qrMenu = $this->getQrMenu($slug);
-        $categories = $qrMenu->menuCategories()->ordered()->get();
+        $categories = $qrMenu->menuCategories()->ordered()->with('parent')->get();
         
         return view('qr-menu.manager.categories', compact('qrMenu', 'categories'));
     }
@@ -198,15 +202,24 @@ class QrMenuManagerController extends Controller
                 'description' => 'nullable|string',
                 'icon' => 'nullable|string|max:255',
                 'order' => 'nullable|integer|min:0',
+                'parent_id' => [
+                    'nullable',
+                    Rule::exists('menu_categories', 'id')
+                        ->where('qr_menu_id', $qrMenu->id)
+                        ->whereNull('parent_id'),
+                ],
             ], [
                 'name.required' => 'Kategori adı zorunludur.',
                 'name.max' => 'Kategori adı en fazla 255 karakter olabilir.',
                 'icon.max' => 'İkon adı en fazla 255 karakter olabilir.',
                 'order.integer' => 'Sıralama değeri sayısal olmalıdır.',
                 'order.min' => 'Sıralama değeri sıfırdan küçük olamaz.',
+                'parent_id.exists' => 'Seçilen üst kategori bu menüye ait değil.',
             ]);
 
-            $qrMenu->menuCategories()->create($request->all());
+            $qrMenu->menuCategories()->create($request->only([
+                'name', 'description', 'icon', 'order', 'parent_id',
+            ]));
 
             return redirect()->route('qr-menu.categories', $slug)
                 ->with('success', 'Kategori başarıyla eklendi.');
@@ -237,15 +250,25 @@ class QrMenuManagerController extends Controller
                 'description' => 'nullable|string',
                 'icon' => 'nullable|string|max:255',
                 'order' => 'nullable|integer|min:0',
+                'parent_id' => [
+                    'nullable',
+                    Rule::notIn([$category->id]),
+                    Rule::exists('menu_categories', 'id')
+                        ->where('qr_menu_id', $qrMenu->id)
+                        ->whereNull('parent_id'),
+                ],
             ], [
                 'name.required' => 'Kategori adı zorunludur.',
                 'name.max' => 'Kategori adı en fazla 255 karakter olabilir.',
                 'icon.max' => 'İkon adı en fazla 255 karakter olabilir.',
                 'order.integer' => 'Sıralama değeri sayısal olmalıdır.',
                 'order.min' => 'Sıralama değeri sıfırdan küçük olamaz.',
+                'parent_id.exists' => 'Seçilen üst kategori bu menüye ait değil.',
             ]);
 
-            $category->update($request->all());
+            $category->update($request->only([
+                'name', 'description', 'icon', 'order', 'parent_id',
+            ]));
 
             return redirect()->route('qr-menu.categories', $slug)
                 ->with('success', 'Kategori başarıyla güncellendi.');
@@ -295,7 +318,7 @@ class QrMenuManagerController extends Controller
     public function items(Request $request, $slug)
     {
         $qrMenu = $this->getQrMenu($slug);
-        $categories = $qrMenu->menuCategories()->ordered()->get();
+        $categories = $qrMenu->menuCategories()->ordered()->with(['parent', 'children'])->get();
         
         $itemsQuery = MenuItem::whereIn('menu_category_id', $qrMenu->menuCategories()->pluck('id'))
             ->with('category')
@@ -345,7 +368,7 @@ class QrMenuManagerController extends Controller
         try {
             // Dinamik validation kuralları
             $rules = [
-                'menu_category_id' => 'required|exists:menu_categories,id',
+                'menu_category_id' => ['required', $this->menuCategoryIdRule($qrMenu)],
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'price_type' => 'required|in:single,multiple',
@@ -370,7 +393,7 @@ class QrMenuManagerController extends Controller
 
             $messages = [
                 'menu_category_id.required' => 'Kategori seçimi zorunludur.',
-                'menu_category_id.exists' => 'Seçilen kategori geçersiz.',
+                'menu_category_id.exists' => 'Seçilen kategori bu menüye ait değil.',
                 'name.required' => 'Ürün adı zorunludur.',
                 'name.max' => 'Ürün adı en fazla 255 karakter olabilir.',
                 'price_type.required' => 'Fiyat türü seçimi zorunludur.',
@@ -522,7 +545,7 @@ class QrMenuManagerController extends Controller
         try {
             // Dinamik validation kuralları
             $rules = [
-                'menu_category_id' => 'required|exists:menu_categories,id',
+                'menu_category_id' => ['required', $this->menuCategoryIdRule($qrMenu)],
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'price_type' => 'required|in:single,multiple',
@@ -547,7 +570,7 @@ class QrMenuManagerController extends Controller
 
             $messages = [
                 'menu_category_id.required' => 'Kategori seçimi zorunludur.',
-                'menu_category_id.exists' => 'Seçilen kategori geçersiz.',
+                'menu_category_id.exists' => 'Seçilen kategori bu menüye ait değil.',
                 'name.required' => 'Ürün adı zorunludur.',
                 'name.max' => 'Ürün adı en fazla 255 karakter olabilir.',
                 'price.numeric' => 'Fiyat sayısal bir değer olmalıdır.',
@@ -886,6 +909,11 @@ class QrMenuManagerController extends Controller
 
         // Allergens ve ingredients string'den array'e çevirme işlemini validation sonrasına bırak
         // Şimdilik string olarak bırak
+    }
+
+    private function menuCategoryIdRule(QrMenu $qrMenu): Exists
+    {
+        return Rule::exists('menu_categories', 'id')->where('qr_menu_id', $qrMenu->id);
     }
 
     private function checkCategoryOwnership(MenuCategory $category, QrMenu $qrMenu)
