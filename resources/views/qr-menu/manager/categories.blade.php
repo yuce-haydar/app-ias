@@ -555,6 +555,7 @@
                         'category' => $category,
                         'qrMenu' => $qrMenu,
                         'depth' => 0,
+                        'ancestorIds' => [],
                     ])
                 @endforeach
 
@@ -567,6 +568,7 @@
                             'category' => $category,
                             'qrMenu' => $qrMenu,
                             'depth' => 0,
+                            'ancestorIds' => [],
                             'orphan' => true,
                         ])
                     @endforeach

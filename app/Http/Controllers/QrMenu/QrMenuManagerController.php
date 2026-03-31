@@ -180,7 +180,10 @@ class QrMenuManagerController extends Controller
     public function categories($slug)
     {
         $qrMenu = $this->getQrMenu($slug);
-        [$categories, $categoryRoots, , $orphanCategories] = $this->loadManagerCategoryCollections($qrMenu);
+        $loaded = $this->loadManagerCategoryCollections($qrMenu);
+        $categories = $loaded[0];
+        $categoryRoots = $loaded[1];
+        $orphanCategories = $loaded[3];
 
         return view('qr-menu.manager.categories', compact('qrMenu', 'categories', 'categoryRoots', 'orphanCategories'));
     }
@@ -315,7 +318,10 @@ class QrMenuManagerController extends Controller
     public function items(Request $request, $slug)
     {
         $qrMenu = $this->getQrMenu($slug);
-        [$categories, , $categoriesOrdered, $categoryOrphans] = $this->loadManagerCategoryCollections($qrMenu);
+        $loaded = $this->loadManagerCategoryCollections($qrMenu);
+        $categories = $loaded[0];
+        $categoriesOrdered = $loaded[2];
+        $categoryOrphans = $loaded[3];
 
         $categoriesFlatOrdered = $categoriesOrdered->concat($categoryOrphans);
         $categorySelectLabels = $this->buildCategorySelectLabels($categoriesFlatOrdered, $categories, $qrMenu);

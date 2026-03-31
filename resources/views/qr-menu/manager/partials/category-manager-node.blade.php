@@ -1,8 +1,17 @@
 @php
     $isRoot = ($depth ?? 0) === 0;
-    $d = $depth ?? 0;
+    $d = (int) ($depth ?? 0);
+    $ancestors = $ancestorIds ?? [];
+    $cycleHere = in_array($category->id, $ancestors, true);
     $scale = max(0.86, 1 - $d * 0.035);
 @endphp
+@if($cycleHere || $d > 40)
+    <div class="category-card" style="margin-left: {{ 12 + $d * 18 }}px; border: 2px dashed #e74c3c; background: #fdecea;">
+        <p style="margin: 0; color: #c0392b; font-size: 0.9rem;">
+            <strong>Döngü veya derinlik sınırı:</strong> #{{ $category->id }} {{ $category->name }} — parent_id zincirini düzeltin.
+        </p>
+    </div>
+@else
 <div class="category-card" style="@unless($isRoot)margin-left: {{ 12 + $d * 18 }}px; border-left: 4px solid var(--primary-color); opacity: 0.95; transform: scale({{ $scale }});@endunless">
     <div class="category-icon" @unless($isRoot) style="background: var(--secondary-color);" @endunless>
         <i class="{{ $category->icon ?: ($isRoot ? 'fas fa-utensils' : 'fas fa-folder') }}"></i>
@@ -46,6 +55,17 @@
         </button>
     </div>
 </div>
+@php $nextAncestors = array_merge($ancestors, [$category->id]); @endphp
 @foreach($category->children->sortBy('order') as $child)
-    @include('qr-menu.manager.partials.category-manager-node', ['category' => $child, 'qrMenu' => $qrMenu, 'depth' => $d + 1])
+    @if(in_array($child->id, $nextAncestors, true))
+        @continue
+    @endif
+    @include('qr-menu.manager.partials.category-manager-node', [
+        'category' => $child,
+        'qrMenu' => $qrMenu,
+        'depth' => $d + 1,
+        'ancestorIds' => $nextAncestors,
+        'orphan' => false,
+    ])
 @endforeach
+@endif
