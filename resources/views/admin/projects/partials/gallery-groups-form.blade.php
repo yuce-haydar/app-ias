@@ -32,13 +32,23 @@
                             </div>
                         @endforeach
                     </div>
-                    <label class="form-label small">Bu gruba yeni görsel ekle</label>
-                    <input type="file" class="form-control form-control-sm" name="gallery_groups[{{ $gi }}][new][]" accept="image/*" multiple>
+                    <label class="form-label small mb-1">Bu gruba yeni görsel ekle</label>
+                    <p class="text-muted small mb-2">İsterseniz bir satırda birden fazla dosya seçebilirsiniz; daha sonra tekrar seçmek için &quot;Başka görsel ekle&quot;ye basın.</p>
+                    <div class="gallery-new-uploads border rounded p-2 bg-light" data-group-index="{{ $gi }}">
+                        <div class="gallery-new-file-rows">
+                            <div class="d-flex align-items-stretch gap-2 mb-2 gallery-new-file-row">
+                                <input type="file" class="form-control form-control-sm flex-grow-1" name="gallery_groups[{{ $gi }}][new][]" accept="image/*" multiple>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary add-gallery-new-file-row">
+                            <i class="fas fa-plus"></i> Başka görsel ekle
+                        </button>
+                    </div>
                 </div>
             </div>
         @endforeach
     </div>
-    <button type="button" class="btn btn-outline-primary btn-sm" id="add-gallery-group-btn">
+    <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="add-gallery-group-btn">
         <i class="fas fa-plus"></i> Yeni grup ekle
     </button>
 </div>
@@ -64,8 +74,18 @@
             <div class="card-body">
                 <p class="small text-muted mb-2">Mevcut görseller</p>
                 <div class="row g-2 mb-3 gallery-group-existing"></div>
-                <label class="form-label small">Bu gruba yeni görsel ekle</label>
-                <input type="file" class="form-control form-control-sm" name="gallery_groups[${index}][new][]" accept="image/*" multiple>
+                <label class="form-label small mb-1">Bu gruba yeni görsel ekle</label>
+                <p class="text-muted small mb-2">İsterseniz bir satırda birden fazla dosya seçebilirsiniz; daha sonra tekrar seçmek için &quot;Başka görsel ekle&quot;ye basın.</p>
+                <div class="gallery-new-uploads border rounded p-2 bg-light" data-group-index="${index}">
+                    <div class="gallery-new-file-rows">
+                        <div class="d-flex align-items-stretch gap-2 mb-2 gallery-new-file-row">
+                            <input type="file" class="form-control form-control-sm flex-grow-1" name="gallery_groups[${index}][new][]" accept="image/*" multiple>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary add-gallery-new-file-row">
+                        <i class="fas fa-plus"></i> Başka görsel ekle
+                    </button>
+                </div>
             </div>
         </div>`;
     }
@@ -75,7 +95,32 @@
         container.insertAdjacentHTML('beforeend', cardHtml(i));
     });
 
+    function appendNewFileRow(wrap) {
+        const idx = wrap.getAttribute('data-group-index');
+        const rows = wrap.querySelector('.gallery-new-file-rows');
+        if (!rows || idx === null) return;
+        const div = document.createElement('div');
+        div.className = 'd-flex align-items-stretch gap-2 mb-2 gallery-new-file-row';
+        div.innerHTML =
+            '<input type="file" class="form-control form-control-sm flex-grow-1" name="gallery_groups[' + idx + '][new][]" accept="image/*" multiple>' +
+            '<button type="button" class="btn btn-sm btn-outline-danger remove-gallery-new-file-row flex-shrink-0" title="Bu satırı kaldır"><i class="fas fa-times"></i></button>';
+        rows.appendChild(div);
+    }
+
     container.addEventListener('click', function(e) {
+        if (e.target.closest('.add-gallery-new-file-row')) {
+            e.preventDefault();
+            const wrap = e.target.closest('.gallery-new-uploads');
+            if (wrap) appendNewFileRow(wrap);
+        }
+        if (e.target.closest('.remove-gallery-new-file-row')) {
+            e.preventDefault();
+            const row = e.target.closest('.gallery-new-file-row');
+            const rowsEl = row && row.parentElement;
+            if (!row || !rowsEl) return;
+            const all = rowsEl.querySelectorAll('.gallery-new-file-row');
+            if (all.length > 1) row.remove();
+        }
         if (e.target.closest('.remove-existing-gallery-img')) {
             e.preventDefault();
             const item = e.target.closest('.gallery-existing-item');
